@@ -282,7 +282,7 @@
             bindings = <
                 &none  &none &msc SCRL_LEFT  &mmv MOVE_UP    &msc SCRL_RIGHT  &msc SCRL_UP       &none  &none     &none      &none     &none      &none
                 &none  &none &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_DOWN     &none  &sk LGUI  &sk LALT   &sk LCTRL &sk LSHFT  &none
-                &none  &none &none           &none           &none            &none              &none  &none     &none      &none     &none      &none
+                &none  &none &none           &none           &mkp MB5         &mkp MB4           &none  &none     &none      &none     &none      &none
                                              &mkp LCLK       &mkp MCLK        &mkp RCLK          &none  &none     &none
             >;
         };

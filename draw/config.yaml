@@ -57,6 +57,8 @@ parse_config:
     '&mkp LCLK': {t: LClick}
     '&mkp RCLK': {t: RClick}
     '&mkp MCLK': {t: MClick}
+    '&mkp MB4': {t: Mouse4}
+    '&mkp MB5': {t: Mouse5}
     '&kp LC(LEFT)': {t: Word ←}
     '&kp LC(RIGHT)': {t: Word →}
     '&kp LC(Y)': {t: Redo}
