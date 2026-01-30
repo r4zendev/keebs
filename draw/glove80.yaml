@@ -186,9 +186,9 @@ layers:
   - ''
   - ''
   - ''
-  - ⌃Y
+  - Redo
   - ''
-  - ⌃F
+  - Find
   - ''
   - ''
   - PG UP
@@ -202,7 +202,7 @@ layers:
   - {t: LCTRL, h: sticky}
   - {t: LALT, h: sticky}
   - {t: LGUI, h: sticky}
-  - ' SAVE'
+  - Save
   - PG DN
   - LEFT
   - DOWN
@@ -226,7 +226,7 @@ layers:
   - Word →
   - HOME
   - END
-  - Last Space
+  - Last ␣
   - ''
   - ''
   - ''
@@ -277,14 +277,14 @@ layers:
   - F8
   - F9
   - F12
-  - Lock
+  - 🔒
   - ''
   - {t: LSHFT, h: sticky}
   - {t: LCTRL, h: sticky}
   - {t: LALT, h: sticky}
   - {t: LGUI, h: sticky}
   - ''
-  - Vol -
+  - Vol −
   - F4
   - F5
   - F6
@@ -301,7 +301,7 @@ layers:
   - ''
   - ''
   - ''
-  - Play/Pause
+  - ⏯
   - Mute
   - F1
   - F2
@@ -317,8 +317,8 @@ layers:
   - ''
   - ''
   - ''
-  - Prev
-  - Next
+  - ⏮
+  - ⏭
   - ''
   - ''
   - ''
@@ -348,10 +348,10 @@ layers:
   - ''
   - ''
   - ''
-  - Scroll ←
-  - Mouse ↑
-  - Scroll →
-  - Scroll ↑
+  - Scrl ←
+  - ↑
+  - Scrl →
+  - Scrl ↑
   - ''
   - ''
   - ''
@@ -360,10 +360,10 @@ layers:
   - ''
   - ''
   - ''
-  - Mouse ←
-  - Mouse ↓
-  - Mouse →
-  - Scroll ↓
+  - ←
+  - ↓
+  - →
+  - Scrl ↓
   - ''
   - ''
   - {t: LGUI, h: sticky}
@@ -394,9 +394,9 @@ layers:
   - ''
   - ''
   - ''
-  - Left Click
-  - Mid Click
-  - Right Click
+  - LClick
+  - MClick
+  - RClick
   - ''
   - ''
   - ''
@@ -516,12 +516,12 @@ layers:
   - ''
   - ''
   - ''
-  - Lock
+  - 🔒
   - POWER
   - Sleep
   - ''
   - BT CLR
-  - Bootloader
+  - Boot
   - RGB EFR
   - RGB BRD
   - RGB BRI
@@ -532,7 +532,7 @@ layers:
   - '&bt_1'
   - '&bt_2'
   - '&bt_3'
-  - Bootloader
+  - Boot
   - Reset
   - RGB SPD
   - RGB SAD
@@ -571,15 +571,15 @@ combos:
 - p: [39, 40]
   k: {t: CapsWord, s: CapsLock}
   l: [Graphite, QWERTY]
-- p: [38, 39]
+- p: [34, 35]
   k: LGUI
   l: [Graphite, QWERTY]
-- p: [50, 51]
+- p: [46, 47]
   k: LALT
   l: [Graphite, QWERTY]
-- p: [40, 41]
+- p: [44, 45]
   k: LGUI
   l: [Graphite, QWERTY]
-- p: [58, 59]
+- p: [62, 63]
   k: LALT
   l: [Graphite, QWERTY]

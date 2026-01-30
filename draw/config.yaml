@@ -46,19 +46,21 @@ parse_config:
     '&dot_dqt': {t: '.', s: '"'}
     '&fslh_bslh': {t: /, s: \}
     '&w_caps': {t: CapsWord, s: CapsLock}
-    '&msc SCRL_UP': {t: Scroll ↑}
-    '&msc SCRL_DOWN': {t: Scroll ↓}
-    '&msc SCRL_LEFT': {t: Scroll ←}
-    '&msc SCRL_RIGHT': {t: Scroll →}
-    '&mmv MOVE_UP': {t: Mouse ↑}
-    '&mmv MOVE_DOWN': {t: Mouse ↓}
-    '&mmv MOVE_LEFT': {t: Mouse ←}
-    '&mmv MOVE_RIGHT': {t: Mouse →}
-    '&mkp LCLK': {t: Left Click}
-    '&mkp RCLK': {t: Right Click}
-    '&mkp MCLK': {t: Mid Click}
+    '&msc SCRL_UP': {t: Scrl ↑}
+    '&msc SCRL_DOWN': {t: Scrl ↓}
+    '&msc SCRL_LEFT': {t: Scrl ←}
+    '&msc SCRL_RIGHT': {t: Scrl →}
+    '&mmv MOVE_UP': {t: ↑}
+    '&mmv MOVE_DOWN': {t: ↓}
+    '&mmv MOVE_LEFT': {t: ←}
+    '&mmv MOVE_RIGHT': {t: →}
+    '&mkp LCLK': {t: LClick}
+    '&mkp RCLK': {t: RClick}
+    '&mkp MCLK': {t: MClick}
     '&kp LC(LEFT)': {t: Word ←}
     '&kp LC(RIGHT)': {t: Word →}
+    '&kp LC(Y)': {t: Redo}
+    '&kp LC(F)': {t: Find}
     '&kp LG(LS(LBKT))': {t: Tab ←}
     '&kp LG(LS(RBKT))': {t: Tab →}
     '&kp LG(Z)': {t: Undo}
@@ -72,16 +74,16 @@ parse_config:
     '&kp LG(RIGHT)': {t: End}
     '&kp LA(LEFT)': {t: Word ←}
     '&kp LA(RIGHT)': {t: Word →}
-    '&kp LG(TAB)': {t: Last Space}
+    '&kp LG(TAB)': {t: Last ␣}
     '&kp LC(SPACE)': {t: Spotlight}
-    '&kp LG(LC(Q))': {t: Lock}
+    '&kp LG(LC(Q))': {t: 🔒}
     '&kp C_VOL_UP': {t: Vol +}
-    '&kp C_VOL_DN': {t: Vol -}
+    '&kp C_VOL_DN': {t: Vol −}
     '&kp C_MUTE': {t: Mute}
-    '&kp C_PP': {t: Play/Pause}
-    '&kp C_PREV': {t: Prev}
-    '&kp C_NEXT': {t: Next}
-    '&kp K_POWER': {t: Power}
+    '&kp C_PP': {t: ⏯}
+    '&kp C_PREV': {t: ⏮}
+    '&kp C_NEXT': {t: ⏭}
+    '&kp K_POWER': {t: ⏻}
     '&kp C_SLEEP': {t: Sleep}
     '&kp LC(Z)': {t: Undo}
     '&kp LC(X)': {t: Cut}
@@ -90,8 +92,8 @@ parse_config:
     '&kp LC(A)': {t: Sel All}
     '&kp LC(S)': {t: Save}
     '&kp LC(BSPC)': {t: Word ⌫}
-    '&kp K_LOCK': {t: Lock}
-    '&bootloader': {t: Bootloader}
+    '&kp K_LOCK': {t: 🔒}
+    '&bootloader': {t: Boot}
     '&sys_reset': {t: Reset}
     '&lang_en': {t: EN}
     '&lang_ru': {t: RU}
@@ -123,19 +125,48 @@ parse_config:
   qmk_keycode_map:
     XXXXXXX: ''
     'NO': ''
+    # Modifiers
+    LSFT: ⇧
+    RSFT: ⇧
+    LCTL: ⌃
+    RCTL: ⌃
+    LALT: ⌥
+    RALT: ⌥
+    LGUI: ❖
+    RGUI: ❖
+    # Navigation
+    LEFT: ←
+    DOWN: ↓
+    UP: ↑
+    RGHT: →
+    PGUP: PgUp
+    PGDN: PgDn
+    HOME: Home
+    END: End
+    BSPC: ⌫
+    DEL: ⌦
+    ENT: ↵
+    TAB: ⇥
+    ESC: Esc
+    INS: Ins
+    SPC: ␣
+    # Custom
     LANG_EN: EN
     LANG_RU: RU
     LANG_UA: UA
     CW_TOGG: CapsWord
     QK_BOOT: Boot
     QK_RBT: Reset
+    F13: ⎄
+    # Layer activators
     'MO(SYMBOL)': {t: Symbol, type: layer-activator}
     'MO(NAV)': {t: Nav, type: layer-activator}
     'LT(FUNCTION,ESC)': {t: Esc, h: Function, type: layer-activator}
-    'LT(MOUSE,ENT)': {t: Enter, h: Mouse, type: layer-activator}
+    'LT(MOUSE,ENT)': {t: ↵, h: Mouse, type: layer-activator}
     'TG(QWERTY)': {t: QWERTY, type: layer-activator}
-    'G(KC_L)': Lock
-    'G(KC_TAB)': Last Space
+    # Shortcuts
+    'G(KC_L)': 🔒
+    'G(KC_TAB)': Last ␣
     'C(KC_Z)': Undo
     'C(KC_X)': Cut
     'C(KC_C)': Copy
@@ -147,24 +178,26 @@ parse_config:
     'C(KC_BSPC)': Word ⌫
     'C(KC_LEFT)': Word ←
     'C(KC_RGHT)': Word →
-    MS_UP: Mouse ↑
-    MS_DOWN: Mouse ↓
-    MS_LEFT: Mouse ←
-    MS_RGHT: Mouse →
-    MS_WHLU: Scroll ↑
-    MS_WHLD: Scroll ↓
-    MS_WHLL: Scroll ←
-    MS_WHLR: Scroll →
-    MS_BTN1: Left Click
-    MS_BTN2: Right Click
-    MS_BTN3: Mid Click
+    # Mouse
+    MS_UP: ↑
+    MS_DOWN: ↓
+    MS_LEFT: ←
+    MS_RGHT: →
+    MS_WHLU: Scrl ↑
+    MS_WHLD: Scrl ↓
+    MS_WHLL: Scrl ←
+    MS_WHLR: Scrl →
+    MS_BTN1: LClick
+    MS_BTN2: RClick
+    MS_BTN3: MClick
+    # Media
     'KC_VOLU': Vol +
-    'KC_VOLD': Vol -
+    'KC_VOLD': Vol −
     'KC_MUTE': Mute
-    'KC_MPLY': Play/Pause
-    'KC_MPRV': Prev
-    'KC_MNXT': Next
-    'KC_PWR': Power
+    'KC_MPLY': ⏯
+    'KC_MPRV': ⏮
+    'KC_MNXT': ⏭
+    'KC_PWR': ⏻
     'KC_SLEP': Sleep
     MINUS: '-'
     MINS: '-'

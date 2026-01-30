@@ -44,7 +44,7 @@ qmk-flash: qmk-sync
 
 # Piantor draw pipeline: c2json → parse → inject held → draw with combos
 $(QMK_JSON): piantor/qmk/keymap.c qmk-sync
-	cd $(QMK_HOME) && qmk c2json -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP) -o $(CURDIR)/$@
+	cd $(QMK_HOME) && qmk c2json --no-cpp -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP) -o $(CURDIR)/$@
 
 $(PIANTOR_YAML): $(QMK_JSON) $(CONF) draw/inject_held.py
 	keymap -c $(CONF) parse -q $< -l $(PIANTOR_LAYERS) | python3 draw/inject_held.py > $@

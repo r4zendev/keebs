@@ -1,7 +1,7 @@
 layout: {qmk_keyboard: beekeeb/piantor_pro, layout_name: LAYOUT_split_3x6_3}
 layers:
   Graphite:
-  - F13
+  - ⎄
   - B
   - L
   - D
@@ -13,7 +13,7 @@ layers:
   - U
   - '-'
   - /
-  - TAB
+  - ⇥
   - N
   - R
   - T
@@ -24,8 +24,8 @@ layers:
   - A
   - E
   - I
-  - DEL
-  - LSFT
+  - ⌦
+  - ⇧
   - X
   - Q
   - M
@@ -36,12 +36,12 @@ layers:
   - ''''
   - ','
   - .
-  - LCTL
+  - ⌃
   - {t: Nav, type: layer-activator}
-  - SPC
+  - ␣
   - {t: Esc, h: Function, type: layer-activator}
-  - {t: Enter, h: Mouse, type: layer-activator}
-  - BSPC
+  - {t: ↵, h: Mouse, type: layer-activator}
+  - ⌫
   - {t: Symbol, type: layer-activator}
   Symbol:
   - '@'
@@ -63,10 +63,10 @@ layers:
   - '}'
   - _
   - '='
-  - {t: LGUI, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LCTL, h: sticky}
-  - {t: LSFT, h: sticky}
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⇧, h: sticky}
   - ^
   - '`'
   - <
@@ -93,24 +93,24 @@ layers:
   - Find
   - ''
   - ''
-  - PGUP
-  - HOME
-  - UP
-  - END
-  - DEL
-  - INS
+  - PgUp
+  - Home
+  - ↑
+  - End
+  - ⌦
+  - Ins
   - ''
-  - {t: LSFT, h: sticky}
-  - {t: LCTL, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LGUI, h: sticky}
+  - {t: ⇧, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - Save
-  - PGDN
-  - LEFT
-  - DOWN
-  - RGHT
-  - BSPC
-  - ENT
+  - PgDn
+  - ←
+  - ↓
+  - →
+  - ⌫
+  - ↵
   - ''
   - Undo
   - Cut
@@ -120,9 +120,9 @@ layers:
   - Word ⌫
   - Word ←
   - Word →
-  - HOME
-  - END
-  - Last Space
+  - Home
+  - End
+  - Last ␣
   - {type: held}
   - ''
   - ''
@@ -141,19 +141,19 @@ layers:
   - F8
   - F9
   - F12
-  - Lock
+  - 🔒
   - ''
-  - {t: LSFT, h: sticky}
-  - {t: LCTL, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LGUI, h: sticky}
+  - {t: ⇧, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - ''
-  - Vol -
+  - Vol −
   - F4
   - F5
   - F6
   - F11
-  - Power
+  - ⏻
   - Reset
   - ''
   - ''
@@ -169,16 +169,16 @@ layers:
   - ''
   - ''
   - {type: held}
-  - Prev
-  - Play/Pause
-  - Next
+  - ⏮
+  - ⏯
+  - ⏭
   Mouse:
   - ''
   - ''
-  - Scroll ←
-  - Mouse ↑
-  - Scroll →
-  - Scroll ↑
+  - Scrl ←
+  - ↑
+  - Scrl →
+  - Scrl ↑
   - ''
   - ''
   - ''
@@ -187,17 +187,15 @@ layers:
   - ''
   - ''
   - ''
-  - Mouse ←
-  - Mouse ↓
-  - Mouse →
-  - Scroll ↓
+  - ←
+  - ↓
+  - →
+  - Scrl ↓
   - ''
-  - {t: LGUI, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LCTL, h: sticky}
-  - {t: LSFT, h: sticky}
-  - ''
-  - ''
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⇧, h: sticky}
   - ''
   - ''
   - ''
@@ -209,14 +207,16 @@ layers:
   - ''
   - ''
   - ''
-  - Left Click
-  - Mid Click
-  - Right Click
+  - ''
+  - ''
+  - LClick
+  - MClick
+  - RClick
   - {type: held}
   - ''
   - ''
   QWERTY:
-  - F13
+  - ⎄
   - Q
   - W
   - E
@@ -228,7 +228,7 @@ layers:
   - O
   - P
   - \
-  - TAB
+  - ⇥
   - A
   - S
   - D
@@ -239,8 +239,8 @@ layers:
   - K
   - L
   - ;
-  - DEL
-  - LSFT
+  - ⌦
+  - ⇧
   - Z
   - X
   - C
@@ -251,10 +251,10 @@ layers:
   - ','
   - .
   - /
-  - LCTL
+  - ⌃
   - {t: Nav, type: layer-activator}
-  - SPC
+  - ␣
   - {t: Esc, h: Function, type: layer-activator}
-  - {t: Enter, h: Mouse, type: layer-activator}
-  - BSPC
+  - {t: ↵, h: Mouse, type: layer-activator}
+  - ⌫
   - {t: Symbol, type: layer-activator}

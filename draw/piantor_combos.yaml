@@ -2,15 +2,15 @@ combos:
 - p: [17, 18]
   k: {t: CapsWord}
   l: [Graphite, QWERTY]
-- p: [16, 17]
+- p: [12, 13]
   k: GUI
   l: [Graphite, QWERTY]
-- p: [28, 29]
+- p: [24, 25]
   k: Alt
   l: [Graphite, QWERTY]
-- p: [18, 19]
+- p: [22, 23]
   k: GUI
   l: [Graphite, QWERTY]
-- p: [30, 31]
+- p: [34, 35]
   k: Alt
   l: [Graphite, QWERTY]

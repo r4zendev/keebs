@@ -61,6 +61,7 @@
 #define _CUT        _C(X)
 #define _COPY       _C(C)
 #define _PASTE      _C(V)
+#define _SAVE       _C(S)
 #define _FIND       _C(F)
 #define _FIND_NEXT  _C(G)
 #define _FIND_PREV  _C(LS(G))
@@ -273,30 +274,34 @@
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
+        // GUI: left pinky home row
         combo_gui {
             bindings = <&kp LGUI>;
-            key-positions = <38 39>;
+            key-positions = <34 35>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
+        // ALT: left pinky bottom row
         combo_alt {
             bindings = <&kp LALT>;
-            key-positions = <50 51>;
+            key-positions = <46 47>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
+        // GUI: right pinky home row
         combo_rgui {
             bindings = <&kp LGUI>;
-            key-positions = <40 41>;
+            key-positions = <44 45>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
+        // ALT: right pinky bottom row
         combo_ralt {
             bindings = <&kp LALT>;
-            key-positions = <58 59>;
+            key-positions = <62 63>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
@@ -331,7 +336,7 @@
             bindings = <
      &none      &none      &none      &none      &none                                                                                           &none         &none          &none      &none      &none
      &none      &none      &none      &none      &none      &none                                                                      &none     &none         &none          &none      &none      &none
-     &none      &kp _C(Y)  &none      &kp _C(F)  &none      &none                                                                  &kp PG_UP  &kp HOME        &kp UP        &kp END    &kp DEL    &kp INS
+     &none      &kp _REDO  &none      &kp _FIND  &none      &none                                                                  &kp PG_UP  &kp HOME        &kp UP        &kp END    &kp DEL    &kp INS
      &none  &sk LSHFT  &sk LCTRL   &sk LALT   &sk LGUI      &kp _SAVE                                                              &kp PG_DN  &kp LEFT      &kp DOWN      &kp RIGHT   &kp BSPC    &kp RET
      &none  &kp _UNDO    &kp _CUT  &kp _COPY  &kp _PASTE  &kp _SEL_ALL   &none   &none   &none   &none         &none         &none  &kp _W(BSPC)  &kp _W(LEFT)  &kp _W(RIGHT)  &kp HOME    &kp END  &kp LG(TAB)
      &none      &none      &none      &none      &none              &none   &none   &none   &none       &none       &none                   &none         &none          &none      &none      &none

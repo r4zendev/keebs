@@ -206,34 +206,34 @@
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // GUI: S+G (left inner home row)
+        // GUI: TAB+N (left pinky home row)
         combo_gui {
             bindings = <&kp LGUI>;
-            key-positions = <16 17>;
+            key-positions = <12 13>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // ALT: C+V (left inner bottom row)
+        // ALT: LSFT+X (left pinky bottom row)
         combo_alt {
             bindings = <&kp LALT>;
-            key-positions = <28 29>;
+            key-positions = <24 25>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // GUI: Y+H (right inner home row)
+        // GUI: I+DEL (right pinky home row)
         combo_rgui {
             bindings = <&kp LGUI>;
-            key-positions = <18 19>;
+            key-positions = <22 23>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // ALT: K+P (right inner bottom row)
+        // ALT: .+LCTL (right pinky bottom row)
         combo_ralt {
             bindings = <&kp LALT>;
-            key-positions = <30 31>;
+            key-positions = <34 35>;
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
