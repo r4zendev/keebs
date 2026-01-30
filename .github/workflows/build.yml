@@ -3,15 +3,15 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   glove80:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    uses: moergo-sc/zmk/.github/workflows/build-user-config.yml@main
     with:
       build_matrix_path: glove80/build.yaml
       config_path: glove80
-      archive_name: glove80-firmware
+      artifact_name: glove80-firmware
 
   glove80-34k:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    uses: moergo-sc/zmk/.github/workflows/build-user-config.yml@main
     with:
       build_matrix_path: glove80_34k/build.yaml
       config_path: glove80_34k
-      archive_name: glove80-34k-firmware
+      artifact_name: glove80-34k-firmware
