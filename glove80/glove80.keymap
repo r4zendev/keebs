@@ -1,0 +1,386 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ * Copyright (c) 2023 Innaworks Development Limited, trading as MoErgo
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/rgb.h>
+
+#define LAYER_Graphite 0
+#define LAYER_Symbol 1
+#define LAYER_Cursor 2
+#define LAYER_Function 3
+#define LAYER_Mouse 4
+#define LAYER_QWERTY 5
+#define LAYER_Magic 6
+
+#ifndef OPERATING_SYSTEM
+#define OPERATING_SYSTEM 1 // linux
+/* #define OPERATING_SYSTEM 2 // macos */
+/* #define OPERATING_SYSTEM 3 // windows */
+#endif
+
+#if OPERATING_SYSTEM == 2
+    #define _C      LG
+    #define _REDO   _C(LS(Z))
+    #define _POWER  K_POWER
+    #define _W      LA
+    #define _HOME   _C(LEFT)
+    #define _END    _C(RIGHT)
+    #define SPC_P   LC(LEFT)
+    #define SPC_N   LC(RIGHT)
+    #define TAB_P   _C(LS(LBKT))
+    #define TAB_N   _C(LS(RBKT))
+    #define _LOCK   _C(LC(Q))
+#elif OPERATING_SYSTEM == 1
+    #define _C      LC
+    #define _REDO   _C(Y)
+    #define _POWER  C_POWER
+    #define _W      _C
+    #define _HOME   HOME
+    #define _END    END
+    #define _LOCK   K_LOCK
+#elif OPERATING_SYSTEM == 3
+    #define _C      LC
+    #define _REDO   _C(Y)
+    #define _POWER  C_POWER
+    #define _W      _C
+    #define _HOME   HOME
+    #define _END    END
+    #define _LOCK   LG(L)
+#endif
+
+#define _SLEEP      C_SLEEP
+#define _SEL_ALL    _C(A)
+#define _UNDO       _C(Z)
+#define _CUT        _C(X)
+#define _COPY       _C(C)
+#define _PASTE      _C(V)
+#define _FIND       _C(F)
+#define _FIND_NEXT  _C(G)
+#define _FIND_PREV  _C(LS(G))
+
+// Symbol overrides for en-US
+#ifndef KEYMAP_DRAWER
+#undef  AMPS
+#define AMPS  LS(N7)
+#undef  AT
+#define AT    LS(N2)
+#undef  CARET
+#define CARET LS(N6)
+#undef  COLON
+#define COLON LS(SEMI)
+#undef  DLLR
+#define DLLR  LS(N4)
+#undef  DQT
+#define DQT   LS(SQT)
+#undef  EXCL
+#define EXCL  LS(N1)
+#undef  GT
+#define GT    LS(DOT)
+#undef  HASH
+#define HASH  LS(N3)
+#undef  LBRC
+#define LBRC  LS(LBKT)
+#undef  LPAR
+#define LPAR  LS(N9)
+#undef  LT
+#define LT    LS(COMMA)
+#undef  PIPE
+#define PIPE  LS(BSLH)
+#undef  PLUS
+#define PLUS  LS(EQUAL)
+#undef  PRCNT
+#define PRCNT LS(N5)
+#undef  QMARK
+#define QMARK LS(FSLH)
+#undef  RBRC
+#define RBRC  LS(RBKT)
+#undef  RPAR
+#define RPAR  LS(N0)
+#undef  STAR
+#define STAR  LS(N8)
+#undef  TILDE
+#define TILDE LS(GRAVE)
+#undef  UNDER
+#define UNDER LS(MINUS)
+#endif
+
+#define ALPHA_LAYERS LAYER_Graphite LAYER_QWERTY
+#define COMBO_TIMEOUT_MS 75
+
+// Mouse configuration
+#define ZMK_MOUSE_DEFAULT_MOVE_VAL 1600
+#define ZMK_MOUSE_DEFAULT_SCRL_VAL 20
+#include <dt-bindings/zmk/mouse.h>
+
+&mmv {
+    delay-ms = <0>;
+    acceleration-exponent = <1>;
+    time-to-max-speed-ms = <400>;
+};
+
+&msc {
+    delay-ms = <0>;
+    acceleration-exponent = <0>;
+    time-to-max-speed-ms = <200>;
+};
+
+/ {
+    macros {
+        rgb_ug_status_macro: rgb_ug_status_macro {
+            label = "RGB_UG_STATUS";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_STATUS>;
+        };
+
+        lang_en: lang_en {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to LAYER_Graphite>, <&kp LC(LS(LG(N1)))>;
+        };
+
+        lang_ru: lang_ru {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to LAYER_QWERTY>, <&kp LC(LS(LG(N2)))>;
+        };
+
+        lang_ua: lang_ua {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to LAYER_QWERTY>, <&kp LC(LS(LG(N3)))>;
+        };
+
+        bt_0: bt_0 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;
+        };
+
+        bt_1: bt_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;
+        };
+
+        bt_2: bt_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE>, <&bt BT_SEL 2>;
+        };
+
+        bt_3: bt_3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;
+        };
+    };
+
+    behaviors {
+        magic: magic {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MAGIC_HOLD_TAP";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&mo>, <&rgb_ug_status_macro>;
+        };
+
+        w_caps: capsword_and_capslock {
+            compatible = "zmk,behavior-mod-morph";
+            label = "CAPSWORD_AND_CAPSLOCK";
+            #binding-cells = <0>;
+            bindings = <&caps_word>, <&kp CAPS>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        quote_under: quote_and_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            label = "QUOTE_AND_UNDERSCORE";
+            #binding-cells = <0>;
+            bindings = <&kp SQT>, <&kp UNDER>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        hyphen_qmark: hyphen_and_question {
+            compatible = "zmk,behavior-mod-morph";
+            label = "HYPHEN_AND_QUESTION";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp QMARK>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        comma_excl: comma_and_excl {
+            compatible = "zmk,behavior-mod-morph";
+            label = "COMMA_AND_EXCL";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&kp EXCL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        dot_dqt: dot_and_dqt {
+            compatible = "zmk,behavior-mod-morph";
+            label = "DOT_AND_DQT";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp DQT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        fslh_bslh: fslh_and_bslh {
+            compatible = "zmk,behavior-mod-morph";
+            label = "FSLH_AND_BSLH";
+            #binding-cells = <0>;
+            bindings = <&kp FSLH>, <&kp BSLH>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        behavior_caps_word {
+            continue-list = <
+                UNDERSCORE MINUS
+                BACKSPACE DELETE
+                N1 N2 N3 N4 N5 N6 N7 N8 N9 N0
+            >;
+        };
+    };
+
+/*                    Keys
+╭──────────────────────╮ ╭──────────────────────╮
+│x  x  x  x  x         │ │         x  x  x  x  x│
+│xx xx xx xx xx xx     │ │     xx xx xx xx xx xx│
+│22 23 24 25 26 27     │ │     28 29 30 31 32 33│
+│34 35 36 37 38 39     │ │     40 41 42 43 44 45│
+│46 47 48 49 50 51     │ │     58 59 60 61 62 63│
+│xx xx xx xx xx        │ │        xx xx xx xx xx│
+│               69 52  │ │  57 74               │
+│                70 xx │ │ xx 73                │
+╰───────────────╮ xx xx│ │xx xx ╭───────────────╯
+                ╰──────╯ ╰──────╯              */
+
+    combos {
+        compatible = "zmk,combos";
+
+        combo_caps {
+            bindings = <&w_caps>;
+            key-positions = <39 40>;
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_gui {
+            bindings = <&kp LGUI>;
+            key-positions = <38 39>;
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_alt {
+            bindings = <&kp LALT>;
+            key-positions = <50 51>;
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_rgui {
+            bindings = <&kp LGUI>;
+            key-positions = <40 41>;
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_ralt {
+            bindings = <&kp LALT>;
+            key-positions = <58 59>;
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        layer_Graphite {
+            bindings = <
+                &none   &none   &none   &none   &none                                                                               &none         &none          &none        &none                 &none
+                &none   &none   &none   &none   &none   &none                                                               &none   &none         &none          &none        &none                 &none
+              &kp F13   &kp B   &kp L   &kp D   &kp W   &kp Z                                                               &kp J   &kp F         &kp O          &kp U  &hyphen_qmark            &fslh_bslh
+              &kp TAB   &kp N   &kp R   &kp T   &kp S   &kp G                                                               &kp Y   &kp H         &kp A          &kp E        &kp I              &kp DEL
+            &kp LSHFT   &kp X   &kp Q   &kp M   &kp C   &kp V  &lt LAYER_Function ESC      &none   &none   &none      &none  &lt LAYER_Mouse RET   &kp K   &kp P  &quote_under  &comma_excl     &dot_dqt             &kp LCTRL
+ &magic LAYER_Magic 0   &none   &none   &none   &none              &mo LAYER_Cursor  &kp SPACE   &none   &none  &kp BSPC      &mo LAYER_Symbol           &none         &none          &none        &none  &magic LAYER_Magic 0
+            >;
+        };
+
+        layer_Symbol {
+            bindings = <
+     &none     &none     &none     &none     &none                                                                                &none      &none      &none      &none      &none
+     &none     &none     &none     &none     &none      &none                                                           &none     &none      &none      &none      &none      &none
+    &kp AT    &kp N1    &kp N2    &kp N3    &kp N4     &kp N5                                                          &kp N6    &kp N7     &kp N8     &kp N9     &kp N0   &kp HASH
+ &kp TILDE  &kp LPAR  &kp RPAR  &kp LBRC  &kp RBRC  &kp UNDER                                                        &kp EQUAL &sk LGUI   &sk LALT  &sk LCTRL  &sk LSHFT  &kp CARET
+ &kp GRAVE    &kp LT    &kp GT  &kp LBKT  &kp RBKT   &kp AMPS   &kp SEMI      &none   &none   &none   &none   &none  &kp PIPE  &kp PLUS  &kp MINUS   &kp STAR   &kp FSLH   &kp DLLR
+     &none     &none     &none     &none     &none             &kp PRCNT  &kp COLON   &none   &none   &none   &none               &none      &none      &none      &none      &none
+            >;
+        };
+
+        layer_Cursor {
+            bindings = <
+     &none      &none      &none      &none      &none                                                                                           &none         &none          &none      &none      &none
+     &none      &none      &none      &none      &none      &none                                                                      &none     &none         &none          &none      &none      &none
+     &none      &kp _C(Y)  &none      &kp _C(F)  &none      &none                                                                  &kp PG_UP  &kp HOME        &kp UP        &kp END    &kp DEL    &kp INS
+     &none  &sk LSHFT  &sk LCTRL   &sk LALT   &sk LGUI      &kp _SAVE                                                              &kp PG_DN  &kp LEFT      &kp DOWN      &kp RIGHT   &kp BSPC    &kp RET
+     &none  &kp _UNDO    &kp _CUT  &kp _COPY  &kp _PASTE  &kp _SEL_ALL   &none   &none   &none   &none         &none         &none  &kp _W(BSPC)  &kp _W(LEFT)  &kp _W(RIGHT)  &kp HOME    &kp END  &kp LG(TAB)
+     &none      &none      &none      &none      &none              &none   &none   &none   &none       &none       &none                   &none         &none          &none      &none      &none
+            >;
+        };
+
+        layer_Function {
+            bindings = <
+  &none      &none      &none     &none     &none                                                                                    &none   &none   &none    &none    &none
+  &none      &none      &none     &none     &none   &none                                                                    &none   &none   &none   &none    &none    &none
+  &none  &lang_en   &lang_ru  &lang_ua  &tog LAYER_QWERTY   &none                                                    &kp C_VOL_UP  &kp F7  &kp F8  &kp F9  &kp F12  &kp _LOCK
+  &none  &sk LSHFT  &sk LCTRL  &sk LALT  &sk LGUI   &none                                                            &kp C_VOL_DN  &kp F4  &kp F5  &kp F6  &kp F11  &kp _POWER
+  &none      &none      &none     &none     &none   &none   &none   &none   &none   &none       &none    &kp C_PP      &kp C_MUTE  &kp F1  &kp F2  &kp F3  &kp F10  &kp _SLEEP
+  &none      &none      &none     &none     &none           &none   &none   &none   &none  &kp C_PREV  &kp C_NEXT                   &none   &none   &none    &none    &none
+            >;
+        };
+
+        layer_Mouse {
+            bindings = <
+  &none   &none           &none           &none            &none                                                                                   &none     &none      &none      &none      &none
+  &none   &none           &none           &none            &none           &none                                                         &none     &none     &none      &none      &none      &none
+  &none   &msc SCRL_LEFT  &mmv MOVE_UP    &msc SCRL_RIGHT  &msc SCRL_UP    &none                                                         &none     &none     &none      &none      &none      &none
+  &none   &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_DOWN  &none                                                         &none  &sk LGUI  &sk LALT  &sk LCTRL  &sk LSHFT      &none
+  &none   &none           &none           &none            &none           &none  &none      &none   &none   &none   &none   &none   &none     &none     &none      &none      &none      &none
+  &none   &none           &none           &none            &none                  &mkp LCLK  &mkp MCLK  &mkp RCLK   &none   &none   &none             &none     &none      &none      &none      &none
+            >;
+        };
+
+        layer_QWERTY {
+            bindings = <
+                &none   &none   &none   &none   &none                                                                               &none      &none    &none     &none                 &none
+                &none   &none   &none   &none   &none   &none                                                               &none   &none      &none    &none     &none                 &none
+              &kp F13   &kp Q   &kp W   &kp E   &kp R   &kp T                                                               &kp Y   &kp U      &kp I    &kp O     &kp P              &kp BSLH
+              &kp TAB   &kp A   &kp S   &kp D   &kp F   &kp G                                                               &kp H   &kp J      &kp K    &kp L  &kp SEMI              &kp DEL
+            &kp LSHFT   &kp Z   &kp X   &kp C   &kp V   &kp B  &lt LAYER_Function ESC      &none   &none   &none      &none  &lt LAYER_Mouse RET   &kp N   &kp M  &kp COMMA  &kp DOT  &kp FSLH            &kp LCTRL
+ &magic LAYER_Magic 0   &none   &none   &none   &none              &mo LAYER_Cursor  &kp SPACE   &none   &none  &kp BSPC      &mo LAYER_Symbol           &none      &none    &none     &none  &magic LAYER_Magic 0
+            >;
+        };
+
+        layer_Magic {
+            bindings = <
+          &none            &none            &none            &none            &none                                                                                  &none       &none       &none         &none        &none
+          &none            &none            &none            &none            &none            &none                                                      &none      &none       &none       &none         &none        &none
+ &bt BT_CLR_ALL            &none  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI            &none            &none                                                      &none  &kp _LOCK  &kp _POWER  &kp _SLEEP         &none   &bt BT_CLR
+    &bootloader  &rgb_ug RGB_EFR  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_EFF  &rgb_ug RGB_TOG                                                      &none      &bt_0       &bt_1       &bt_2         &bt_3  &bootloader
+     &sys_reset  &rgb_ug RGB_SPD  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_SPI            &none   &none   &none   &none   &none   &none   &none      &none      &none       &none       &none  &out OUT_TOG   &sys_reset
+          &none            &none            &none            &none            &none                    &none   &none   &none   &none   &none   &none                  &none       &none       &none         &none        &none
+            >;
+        };
+
+    };
+};

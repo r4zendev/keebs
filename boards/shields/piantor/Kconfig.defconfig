@@ -1,0 +1,16 @@
+if SHIELD_PIANTOR_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Piantor"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_PIANTOR_LEFT || SHIELD_PIANTOR_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

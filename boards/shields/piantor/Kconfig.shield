@@ -1,0 +1,5 @@
+config SHIELD_PIANTOR_LEFT
+    def_bool $(shields_list_contains,piantor_left)
+
+config SHIELD_PIANTOR_RIGHT
+    def_bool $(shields_list_contains,piantor_right)

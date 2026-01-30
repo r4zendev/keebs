@@ -1,0 +1,301 @@
+draw_config:
+  key_w: 60.0
+  key_h: 56.0
+  split_gap: 30.0
+  combo_w: 28.0
+  combo_h: 26.0
+  key_rx: 6.0
+  key_ry: 6.0
+  dark_mode: false
+  n_columns: 1
+  separate_combo_diagrams: false
+  combo_diagrams_scale: 2
+  inner_pad_w: 2.0
+  inner_pad_h: 2.0
+  outer_pad_w: 30.0
+  outer_pad_h: 56.0
+  line_spacing: 1.2
+  arc_radius: 6.0
+  append_colon_to_layer_header: true
+  small_pad: 2.0
+  legend_rel_x: 0.0
+  legend_rel_y: 0.0
+  draw_key_sides: false
+  key_side_pars:
+    rel_x: 0
+    rel_y: 4
+    rel_w: 12
+    rel_h: 12
+    rx: 4
+    ry: 4
+  svg_extra_style: ''
+  footer_text: ''
+  shrink_wide_legends: 7
+  style_layer_activators: true
+  glyph_tap_size: 14
+  glyph_hold_size: 12
+  glyph_shifted_size: 10
+  glyphs: {}
+parse_config:
+  preprocess: true
+  skip_binding_parsing: false
+  raw_binding_map:
+    '&comma_excl': {t: ',', s: '!'}
+    '&quote_under': {t: '''', s: _}
+    '&hyphen_qmark': {t: '-', s: '?'}
+    '&dot_dqt': {t: '.', s: '"'}
+    '&fslh_bslh': {t: /, s: \}
+    '&w_caps': {t: CapsWord, s: CapsLock}
+    '&msc SCRL_UP': {t: Scroll ↑}
+    '&msc SCRL_DOWN': {t: Scroll ↓}
+    '&msc SCRL_LEFT': {t: Scroll ←}
+    '&msc SCRL_RIGHT': {t: Scroll →}
+    '&mmv MOVE_UP': {t: Mouse ↑}
+    '&mmv MOVE_DOWN': {t: Mouse ↓}
+    '&mmv MOVE_LEFT': {t: Mouse ←}
+    '&mmv MOVE_RIGHT': {t: Mouse →}
+    '&mkp LCLK': {t: Left Click}
+    '&mkp RCLK': {t: Right Click}
+    '&mkp MCLK': {t: Mid Click}
+    '&kp LC(LEFT)': {t: Word ←}
+    '&kp LC(RIGHT)': {t: Word →}
+    '&kp LG(LS(LBKT))': {t: Tab ←}
+    '&kp LG(LS(RBKT))': {t: Tab →}
+    '&kp LG(Z)': {t: Undo}
+    '&kp LG(X)': {t: Cut}
+    '&kp LG(C)': {t: Copy}
+    '&kp LG(V)': {t: Paste}
+    '&kp LG(A)': {t: Sel All}
+    '&kp LG(S)': {t: Save}
+    '&kp LA(BSPC)': {t: Word ⌫}
+    '&kp LG(LEFT)': {t: Home}
+    '&kp LG(RIGHT)': {t: End}
+    '&kp LA(LEFT)': {t: Word ←}
+    '&kp LA(RIGHT)': {t: Word →}
+    '&kp LG(TAB)': {t: Last Space}
+    '&kp LC(SPACE)': {t: Spotlight}
+    '&kp LG(LC(Q))': {t: Lock}
+    '&kp C_VOL_UP': {t: Vol +}
+    '&kp C_VOL_DN': {t: Vol -}
+    '&kp C_MUTE': {t: Mute}
+    '&kp C_PP': {t: Play/Pause}
+    '&kp C_PREV': {t: Prev}
+    '&kp C_NEXT': {t: Next}
+    '&kp K_POWER': {t: Power}
+    '&kp C_SLEEP': {t: Sleep}
+    '&kp LC(Z)': {t: Undo}
+    '&kp LC(X)': {t: Cut}
+    '&kp LC(C)': {t: Copy}
+    '&kp LC(V)': {t: Paste}
+    '&kp LC(A)': {t: Sel All}
+    '&kp LC(S)': {t: Save}
+    '&kp LC(BSPC)': {t: Word ⌫}
+    '&kp K_LOCK': {t: Lock}
+    '&bootloader': {t: Bootloader}
+    '&sys_reset': {t: Reset}
+    '&lang_en': {t: EN}
+    '&lang_ru': {t: RU}
+    '&lang_ua': {t: UA}
+  sticky_label: sticky
+  toggle_label: toggle
+  tap_toggle_label: tap-toggle
+  trans_legend:
+    t: ▽
+    type: trans
+  layer_legend_map: {}
+  mark_alternate_layer_activators: false
+  modifier_fn_map:
+    left_ctrl: ⌃
+    right_ctrl: ⌃
+    left_shift: ⇧
+    right_shift: ⇧
+    left_alt: ⌥
+    right_alt: ⌥
+    left_gui: ❖
+    right_gui: ❖
+    keycode_combiner: '{mods}{key}'
+    mod_combiner: '{mod_1}{mod_2}'
+    special_combinations:
+      left_ctrl+left_alt+left_gui+left_shift: Hyper
+      left_ctrl+left_alt+left_shift: Meh
+  qmk_remove_keycode_prefix:
+  - KC_
+  qmk_keycode_map:
+    XXXXXXX: ''
+    'NO': ''
+    LANG_EN: EN
+    LANG_RU: RU
+    LANG_UA: UA
+    CW_TOGG: CapsWord
+    QK_BOOT: Boot
+    QK_RBT: Reset
+    'MO(SYMBOL)': {t: Symbol, type: layer-activator}
+    'MO(NAV)': {t: Nav, type: layer-activator}
+    'LT(FUNCTION,ESC)': {t: Esc, h: Function, type: layer-activator}
+    'LT(MOUSE,ENT)': {t: Enter, h: Mouse, type: layer-activator}
+    'TG(QWERTY)': {t: QWERTY, type: layer-activator}
+    'G(KC_L)': Lock
+    'G(KC_TAB)': Last Space
+    'C(KC_Z)': Undo
+    'C(KC_X)': Cut
+    'C(KC_C)': Copy
+    'C(KC_V)': Paste
+    'C(KC_A)': Sel All
+    'C(KC_S)': Save
+    'C(KC_Y)': Redo
+    'C(KC_F)': Find
+    'C(KC_BSPC)': Word ⌫
+    'C(KC_LEFT)': Word ←
+    'C(KC_RGHT)': Word →
+    MS_UP: Mouse ↑
+    MS_DOWN: Mouse ↓
+    MS_LEFT: Mouse ←
+    MS_RGHT: Mouse →
+    MS_WHLU: Scroll ↑
+    MS_WHLD: Scroll ↓
+    MS_WHLL: Scroll ←
+    MS_WHLR: Scroll →
+    MS_BTN1: Left Click
+    MS_BTN2: Right Click
+    MS_BTN3: Mid Click
+    'KC_VOLU': Vol +
+    'KC_VOLD': Vol -
+    'KC_MUTE': Mute
+    'KC_MPLY': Play/Pause
+    'KC_MPRV': Prev
+    'KC_MNXT': Next
+    'KC_PWR': Power
+    'KC_SLEP': Sleep
+    MINUS: '-'
+    MINS: '-'
+    EQUAL: '='
+    EQL: '='
+    LEFT_BRACKET: '['
+    LBRC: '['
+    RIGHT_BRACKET: ']'
+    RBRC: ']'
+    BACKSLASH: \
+    BSLS: \
+    NONUS_HASH: '#'
+    NUHS: '#'
+    SEMICOLON: ;
+    SCLN: ;
+    QUOTE: ''''
+    QUOT: ''''
+    GRAVE: '`'
+    GRV: '`'
+    COMMA: ','
+    COMM: ','
+    DOT: .
+    SLASH: /
+    SLSH: /
+    TILDE: '~'
+    TILD: '~'
+    EXCLAIM: '!'
+    EXLM: '!'
+    AT: '@'
+    HASH: '#'
+    DOLLAR: $
+    DLR: $
+    PERCENT: '%'
+    PERC: '%'
+    CIRCUMFLEX: ^
+    CIRC: ^
+    AMPERSAND: '&'
+    AMPR: '&'
+    ASTERISK: '*'
+    ASTR: '*'
+    LEFT_PAREN: (
+    LPRN: (
+    RIGHT_PAREN: )
+    RPRN: )
+    UNDERSCORE: _
+    UNDS: _
+    PLUS: +
+    LEFT_CURLY_BRACE: '{'
+    LCBR: '{'
+    RIGHT_CURLY_BRACE: '}'
+    RCBR: '}'
+    PIPE: '|'
+    COLON: ':'
+    COLN: ':'
+    DOUBLE_QUOTE: '"'
+    DQUO: '"'
+    DQT: '"'
+    LEFT_ANGLE_BRACKET: <
+    LABK: <
+    LT: <
+    RIGHT_ANGLE_BRACKET: '>'
+    RABK: '>'
+    GT: '>'
+    QUESTION: '?'
+    QUES: '?'
+  zmk_remove_keycode_prefix: []
+  zmk_keycode_map:
+    EXCLAMATION: '!'
+    EXCL: '!'
+    AT_SIGN: '@'
+    AT: '@'
+    HASH: '#'
+    POUND: '#'
+    DOLLAR: $
+    DLLR: $
+    PERCENT: '%'
+    PRCNT: '%'
+    CARET: ^
+    AMPERSAND: '&'
+    AMPS: '&'
+    ASTERISK: '*'
+    ASTRK: '*'
+    STAR: '*'
+    LEFT_PARENTHESIS: (
+    LPAR: (
+    RIGHT_PARENTHESIS: )
+    RPAR: )
+    EQUAL: '='
+    PLUS: +
+    MINUS: '-'
+    UNDERSCORE: _
+    UNDER: _
+    SLASH: /
+    FSLH: /
+    QUESTION: '?'
+    QMARK: '?'
+    BACKSLASH: \
+    BSLH: \
+    PIPE: '|'
+    NON_US_BACKSLASH: \
+    PIPE2: '|'
+    NON_US_BSLH: '|'
+    SEMICOLON: ;
+    SEMI: ;
+    COLON: ':'
+    SINGLE_QUOTE: ''''
+    SQT: ''''
+    APOSTROPHE: ''''
+    APOS: ''''
+    DOUBLE_QUOTES: '"'
+    DQT: '"'
+    COMMA: ','
+    LESS_THAN: <
+    LT: <
+    PERIOD: .
+    DOT: .
+    GREATER_THAN: '>'
+    GT: '>'
+    LEFT_BRACKET: '['
+    LBKT: '['
+    LEFT_BRACE: '{'
+    LBRC: '{'
+    RIGHT_BRACKET: ']'
+    RBKT: ']'
+    RIGHT_BRACE: '}'
+    RBRC: '}'
+    GRAVE: '`'
+    TILDE: '~'
+    NON_US_HASH: '#'
+    NUHS: '#'
+    TILDE2: '~'
+  zmk_combos: {}
+  zmk_preamble: '#define KEYMAP_DRAWER'
+  zmk_additional_includes: []

@@ -1,0 +1,16 @@
+combos:
+- p: [17, 18]
+  k: {t: CapsWord}
+  l: [Graphite, QWERTY]
+- p: [16, 17]
+  k: GUI
+  l: [Graphite, QWERTY]
+- p: [28, 29]
+  k: Alt
+  l: [Graphite, QWERTY]
+- p: [18, 19]
+  k: GUI
+  l: [Graphite, QWERTY]
+- p: [30, 31]
+  k: Alt
+  l: [Graphite, QWERTY]
