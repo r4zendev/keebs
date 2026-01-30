@@ -490,9 +490,6 @@ combos:
 - p: [39, 40]
   k: CapsWord
   l: [Graphite, QWERTY]
-- p: [25, 26]
-  k: $$mdi:keyboard-esc$$
-  l: [Graphite, QWERTY]
 - p: [50, 51]
   k: $$mdi:keyboard-tab$$
   l: [Graphite, QWERTY]
@@ -505,10 +502,16 @@ combos:
 - p: [47, 48]
   k: ⌥
   l: [Graphite, QWERTY]
+- p: [48, 49]
+  k: F13
+  l: [Graphite, QWERTY]
 - p: [58, 59]
   k: $$mdi:keyboard-return$$
   l: [Graphite, QWERTY]
-- p: [31, 32]
+- p: [59, 60]
+  k: $$mdi:keyboard-esc$$
+  l: [Graphite, QWERTY]
+- p: [60, 61]
   k: $$mdi:backspace$$
   l: [Graphite, QWERTY]
 - p: [43, 44]
@@ -519,7 +522,4 @@ combos:
   l: [Graphite, QWERTY]
 - p: [61, 62]
   k: ⌥
-  l: [Graphite, QWERTY]
-- p: [60, 61]
-  k: F13
   l: [Graphite, QWERTY]

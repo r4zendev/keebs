@@ -1,8 +1,8 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
- * Copyright (c) 2023 Innaworks Development Limited, trading as MoErgo
- *
  * SPDX-License-Identifier: MIT
+ *
+ * 34-key Graphite layout for Glove80
+ * Callum-style: no mod-tap, hold combos for mods, tri-layer NUM (SYM+NAV)
  */
 
 #include <behaviors.dtsi>
@@ -11,6 +11,7 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/rgb.h>
 
+// Layers
 #define LAYER_Graphite 0
 #define LAYER_Symbol 1
 #define LAYER_Nav 2
@@ -18,50 +19,34 @@
 #define LAYER_QWERTY 4
 #define LAYER_Magic 5
 
+// OS-specific shortcuts
 #ifndef OPERATING_SYSTEM
-#define OPERATING_SYSTEM 1 // linux
-/* #define OPERATING_SYSTEM 2 // macos */
-/* #define OPERATING_SYSTEM 3 // windows */
+#define OPERATING_SYSTEM 1 // 1=linux, 2=macos, 3=windows
 #endif
 
 #if OPERATING_SYSTEM == 2
     #define _C      LG
-    #define _REDO   _C(LS(Z))
     #define _POWER  K_POWER
-    #define _W      LA
     #define _HOME   _C(LEFT)
     #define _END    _C(RIGHT)
     #define _LOCK   _C(LC(Q))
 #elif OPERATING_SYSTEM == 1
     #define _C      LC
-    #define _REDO   _C(Y)
     #define _POWER  C_POWER
-    #define _W      _C
     #define _HOME   HOME
     #define _END    END
     #define _LOCK   K_LOCK
 #elif OPERATING_SYSTEM == 3
     #define _C      LC
-    #define _REDO   _C(Y)
     #define _POWER  C_POWER
-    #define _W      _C
     #define _HOME   HOME
     #define _END    END
     #define _LOCK   LG(L)
 #endif
 
-#define _SLEEP      C_SLEEP
-#define _SEL_ALL    _C(A)
-#define _UNDO       _C(Z)
-#define _CUT        _C(X)
-#define _COPY       _C(C)
-#define _PASTE      _C(V)
-#define _SAVE       _C(S)
-#define _FIND       _C(F)
-#define _FIND_NEXT  _C(G)
-#define _FIND_PREV  _C(LS(G))
+#define _SLEEP C_SLEEP
 
-// Symbol overrides for en-US
+// Symbol overrides for en-US keyboard
 #ifndef KEYMAP_DRAWER
 #undef  AMPS
 #define AMPS  LS(N7)
@@ -110,7 +95,7 @@
 #define ALPHA_LAYERS LAYER_Graphite LAYER_QWERTY
 #define COMBO_TIMEOUT_MS 75
 
-// Mouse configuration
+// Mouse
 #define ZMK_MOUSE_DEFAULT_MOVE_VAL 1600
 #define ZMK_MOUSE_DEFAULT_SCRL_VAL 20
 #include <dt-bindings/zmk/mouse.h>
@@ -177,7 +162,6 @@
             #binding-cells = <0>;
             bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;
         };
-
     };
 
     behaviors {
@@ -247,116 +231,105 @@
         };
     };
 
-/*                    34-key layout on Glove80
- *          Outer columns, top 2 rows, and extra thumbs are all &none.
+/*  ╭─────────────────╮ ╭─────────────────╮
+ *  │ 23 24 25 26 27  │ │  28 29 30 31 32 │
+ *  │ 35 36 37 38 39  │ │  40 41 42 43 44 │
+ *  │ 47 48 49 50 51  │ │  58 59 60 61 62 │
+ *  ╰────────╮ 69 70  │ │  73 74 ╭────────╯
+ *           ╰────────╯ ╰────────╯
  *
- *          ╭─────────────────╮ ╭─────────────────╮
- *          │ 23 24 25 26 27  │ │  28 29 30 31 32 │
- *          │ 35 36 37 38 39  │ │  40 41 42 43 44 │
- *          │ 47 48 49 50 51  │ │  58 59 60 61 62 │
- *          ╰────────╮ 69 70  │ │  73 74 ╭────────╯
- *                   ╰────────╯ ╰────────╯
- *
- *  Graphite alpha:
- *          ╭─────────────────╮ ╭─────────────────╮
- *          │  B  L  D  W  Z  │ │  J  F  O  U  -  │
- *          │  N  R  T  S  G  │ │  Y  H  A  E  I  │
- *          │  X  Q  M  C  V  │ │  K  P  '  ,  .  │
- *          ╰────────╮NAV SFT │ │SPC SYM╭─────────╯
- *                   ╰────────╯ ╰───────╯
- *
- *  Callum-style: no mod-tap, oneshot mods (&sk) on SYM/NAV layers,
- *  tri-layer NUM when SYM+NAV held simultaneously.
- */
+ *  ╭─────────────────╮ ╭─────────────────╮
+ *  │  B  L  D  W  Z  │ │  J  F  O  U  -? │
+ *  │  N  R  T  S  G  │ │  Y  H  A  E  I  │
+ *  │  X  Q  M  C  V  │ │  K  P  '_ ,! ." │
+ *  ╰────────╮NAV SFT │ │SPC SYM╭─────────╯
+ *           ╰────────╯ ╰───────╯          */
 
     combos {
         compatible = "zmk,combos";
 
-        // Caps word: inner home row keys (S + Y)
+        // Left hand
         combo_caps {
             bindings = <&w_caps>;
-            key-positions = <39 40>;
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        // Left-hand essential combos
-        combo_esc {
-            bindings = <&kp ESC>;
-            key-positions = <25 26>; // D + W
+            key-positions = <39 40>; // S+Y
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
         combo_tab {
             bindings = <&kp TAB>;
-            key-positions = <50 51>; // C + V (bottom inner)
+            key-positions = <50 51>; // C+V
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // Left-hand modifier combos (hold + press with right hand)
         combo_ctrl {
             bindings = <&kp LCTRL>;
-            key-positions = <35 36>; // N + R (home outer)
+            key-positions = <35 36>; // N+R
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
         combo_gui {
             bindings = <&kp LGUI>;
-            key-positions = <38 39>; // S + G (home inner)
+            key-positions = <38 39>; // S+G
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
         combo_alt {
             bindings = <&kp LALT>;
-            key-positions = <47 48>; // X + Q (bottom outer)
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        // Right-hand essential combos
-        combo_ret {
-            bindings = <&kp RET>;
-            key-positions = <58 59>; // K + P (bottom inner)
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_bspc {
-            bindings = <&kp BSPC>;
-            key-positions = <31 32>; // U + -
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        // Right-hand modifier combos (hold + press with left hand)
-        combo_r_ctrl {
-            bindings = <&kp LCTRL>;
-            key-positions = <43 44>; // E + I (home outer, mirrors N + R)
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_r_gui {
-            bindings = <&kp LGUI>;
-            key-positions = <40 41>; // Y + H (home inner, mirrors S + G)
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_r_alt {
-            bindings = <&kp LALT>;
-            key-positions = <61 62>; // , + . (bottom outer, mirrors X + Q)
+            key-positions = <47 48>; // X+Q
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
         combo_f13 {
             bindings = <&kp F13>;
-            key-positions = <60 61>; // ' + ,
+            key-positions = <48 49>; // Q+M
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        // Right hand
+        combo_ret {
+            bindings = <&kp RET>;
+            key-positions = <58 59>; // K+P
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_esc {
+            bindings = <&kp ESC>;
+            key-positions = <59 60>; // P+'
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_bspc {
+            bindings = <&kp BSPC>;
+            key-positions = <60 61>; // '+,
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_r_ctrl {
+            bindings = <&kp LCTRL>;
+            key-positions = <43 44>; // E+I
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_r_gui {
+            bindings = <&kp LGUI>;
+            key-positions = <40 41>; // Y+H
+            layers = <ALPHA_LAYERS>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_r_alt {
+            bindings = <&kp LALT>;
+            key-positions = <61 62>; // ,+.
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
@@ -364,11 +337,7 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-
-        tri_layer {
-            if-layers = <LAYER_Symbol LAYER_Nav>;
-            then-layer = <LAYER_Num>;
-        };
+        tri_layer { if-layers = <LAYER_Symbol LAYER_Nav>; then-layer = <LAYER_Num>; };
     };
 
     keymap {
