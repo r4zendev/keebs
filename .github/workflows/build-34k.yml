@@ -1,9 +1,0 @@
-name: Build Glove80 34k firmware
-on: [push, pull_request, workflow_dispatch]
-
-jobs:
-  glove80-34k:
-    uses: moergo-sc/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      build_matrix_path: glove80_34k/build.yaml
-      config_path: glove80_34k

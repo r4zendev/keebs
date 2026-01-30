@@ -1,6 +1,0 @@
----
-include:
-  - board: rpi_pico
-    shield: piantor_left
-  - board: rpi_pico
-    shield: piantor_right

@@ -1,6 +1,6 @@
 CONF := draw/config.yaml
 
-# ─── QMK Piantor ─────────────────────────────────────────────────────
+# ─── Piantor (QMK) ───────────────────────────────────────────────────
 QMK_HOME     := $(HOME)/src/qmk_firmware
 QMK_KEYBOARD := beekeeb/piantor_pro
 QMK_KEYMAP   := razen
@@ -20,27 +20,20 @@ GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
 
-# ─── Draw: Glove80 34k ─────────────────────────────────────────────
-GLOVE80_34K_KEYMAP   := glove80_34k/glove80.keymap
-GLOVE80_34K_YAML     := draw/glove80_34k.yaml
-GLOVE80_34K_SVG      := draw/glove80_34k.svg
-GLOVE80_34K_KEYBOARD := glove80
-
 # ─── Targets ─────────────────────────────────────────────────────────
-.PHONY: all draw piantor glove80 glove80-34k qmk qmk-sync qmk-flash clean
+.PHONY: all draw piantor glove80 qmk qmk-sync qmk-flash clean
 
 all: draw
 
-draw: $(PIANTOR_SVG) $(GLOVE80_SVG) $(GLOVE80_34K_SVG)
+draw: $(PIANTOR_SVG) $(GLOVE80_SVG)
 
 piantor: $(PIANTOR_SVG)
 glove80: $(GLOVE80_SVG)
-glove80-34k: $(GLOVE80_34K_SVG)
 
 # QMK build
 qmk-sync:
 	mkdir -p $(QMK_SRC)
-	cp piantor/qmk/* $(QMK_SRC)/
+	cp piantor/* $(QMK_SRC)/
 
 qmk: qmk-sync
 	qmk compile -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP)
@@ -50,7 +43,7 @@ qmk-flash: qmk-sync
 	qmk flash -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP)
 
 # Piantor draw pipeline: c2json → parse → inject held → draw with combos
-$(QMK_JSON): piantor/qmk/keymap.c qmk-sync
+$(QMK_JSON): piantor/keymap.c qmk-sync
 	cd $(QMK_HOME) && qmk c2json --no-cpp -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP) -o $(CURDIR)/$@
 
 $(PIANTOR_YAML): $(QMK_JSON) $(CONF) draw/inject_held.py
@@ -66,13 +59,6 @@ $(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(CONF)
 $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(GLOVE80_KEYBOARD) > $@
 
-# Glove80 34k draw pipeline: ZMK keymap → parse → draw
-$(GLOVE80_34K_YAML): $(GLOVE80_34K_KEYMAP) $(CONF)
-	keymap -c $(CONF) parse -z $< > $@
-
-$(GLOVE80_34K_SVG): $(GLOVE80_34K_YAML) $(CONF)
-	keymap -c $(CONF) draw $< -z $(GLOVE80_34K_KEYBOARD) > $@
-
 # Clean all generated files
 clean:
-	rm -f $(QMK_JSON) $(PIANTOR_YAML) $(PIANTOR_SVG) $(GLOVE80_YAML) $(GLOVE80_SVG) $(GLOVE80_34K_YAML) $(GLOVE80_34K_SVG) *.uf2
+	rm -f $(QMK_JSON) $(PIANTOR_YAML) $(PIANTOR_SVG) $(GLOVE80_YAML) $(GLOVE80_SVG) *.uf2
