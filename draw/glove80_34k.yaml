@@ -23,7 +23,7 @@ layers:
   - ''
   - ''
   - ''
-  - F13
+  - ''
   - B
   - L
   - D
@@ -34,8 +34,8 @@ layers:
   - O
   - U
   - {t: '-', s: '?'}
-  - {t: /, s: \}
-  - TAB
+  - ''
+  - ''
   - N
   - R
   - T
@@ -46,35 +46,35 @@ layers:
   - A
   - E
   - I
-  - DEL
-  - LSHFT
+  - ''
+  - ''
   - X
   - Q
   - M
   - C
   - V
-  - {t: ESC, h: Function}
   - ''
   - ''
   - ''
   - ''
-  - {t: RET, h: Mouse}
+  - ''
+  - ''
   - K
   - P
   - {t: '''', s: _}
   - {t: ',', s: '!'}
   - {t: ., s: '"'}
-  - LCTRL
+  - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
-  - Cursor
-  - SPACE
+  - Nav
+  - $$mdi:arrow-up-bold$$
   - ''
   - ''
-  - BSPC
+  - $$mdi:keyboard-space$$
   - Symbol
   - ''
   - ''
@@ -104,65 +104,65 @@ layers:
   - ''
   - ''
   - ''
-  - '@'
-  - '1'
-  - '2'
-  - '3'
-  - '4'
-  - '5'
-  - '6'
-  - '7'
-  - '8'
-  - '9'
-  - '0'
-  - '#'
-  - '~'
-  - (
-  - )
+  - ''
+  - $$mdi:keyboard-esc$$
+  - '['
   - '{'
-  - '}'
-  - _
-  - '='
-  - {t: LGUI, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LCTRL, h: sticky}
-  - {t: LSHFT, h: sticky}
-  - ^
-  - '`'
+  - (
   - <
   - '>'
-  - '['
+  - )
+  - '}'
   - ']'
-  - '&'
-  - ;
+  - '`'
   - ''
   - ''
-  - ''
-  - ''
-  - ''
-  - '|'
-  - +
   - '-'
   - '*'
-  - /
+  - '='
+  - _
   - $
+  - '#'
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ''
+  - ''
+  - +
+  - '|'
+  - '@'
+  - /
+  - '~'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ^
+  - \
+  - '&'
+  - '?'
+  - '!'
+  - ''
   - ''
   - ''
   - ''
   - ''
   - ''
   - '%'
-  - ':'
+  - {t: ;, s: ':'}
   - ''
   - ''
-  - ''
+  - {t: ▽, type: trans}
   - {type: held}
   - ''
   - ''
   - ''
   - ''
   - ''
-  Cursor:
+  Nav:
   - ''
   - ''
   - ''
@@ -186,220 +186,139 @@ layers:
   - ''
   - ''
   - ''
-  - Redo
+  - {t: M3, h: mouse}
+  - {t: M1, h: mouse}
+  - {t: '$$mdi:arrow-up$$', h: mouse}
+  - {t: M2, h: mouse}
+  - {t: '$$mdi:arrow-up$$', h: scroll}
+  - $$mdi:backspace-reverse$$
+  - $$mdi:arrow-collapse-left$$
+  - $$mdi:arrow-up$$
+  - $$mdi:arrow-collapse-right$$
+  - PgUp
   - ''
-  - Find
   - ''
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
+  - {t: '$$mdi:arrow-down$$', h: scroll}
+  - $$mdi:keyboard-tab$$
+  - $$mdi:arrow-left$$
+  - $$mdi:arrow-down$$
+  - $$mdi:arrow-right$$
+  - PgDn
   - ''
-  - PG UP
-  - HOME
-  - UP
-  - END
-  - DEL
-  - INS
   - ''
-  - {t: LSHFT, h: sticky}
-  - {t: LCTRL, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LGUI, h: sticky}
-  - Save
-  - PG DN
-  - LEFT
-  - DOWN
-  - RIGHT
-  - BSPC
-  - RET
+  - {t: '$$mdi:arrow-left$$', h: scroll}
+  - {t: '$$mdi:arrow-left$$', h: mouse}
+  - {t: '$$mdi:arrow-down$$', h: mouse}
+  - {t: '$$mdi:arrow-right$$', h: mouse}
+  - {t: '$$mdi:arrow-right$$', h: scroll}
   - ''
-  - Undo
-  - Cut
-  - Copy
-  - Paste
-  - Sel All
   - ''
   - ''
   - ''
   - ''
   - ''
-  - ''
-  - Word ⌫
-  - Word ←
-  - Word →
-  - HOME
-  - END
-  - Last ␣
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - {type: held}
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  Function:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
+  - {t: M4, h: mouse}
+  - {t: M5, h: mouse}
   - EN
   - RU
   - UA
-  - {t: QWERTY, h: toggle}
   - ''
-  - Vol +
-  - F7
-  - F8
-  - F9
-  - F12
-  - 🔒
   - ''
-  - {t: LSHFT, h: sticky}
-  - {t: LCTRL, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LGUI, h: sticky}
   - ''
-  - Vol −
-  - F4
-  - F5
-  - F6
+  - ''
+  - ''
+  - ''
+  - {type: held}
+  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - $$mdi:backspace$$
+  - $$mdi:keyboard-return$$
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  Num:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '7'
+  - '5'
+  - '3'
+  - '1'
+  - '9'
+  - '8'
+  - '0'
+  - '2'
+  - '4'
+  - '6'
+  - ''
+  - ''
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - F11
-  - POWER
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - {type: held}
-  - ''
-  - ''
-  - ''
-  - ''
-  - ⏯
-  - Mute
-  - F1
-  - F2
-  - F3
   - F10
-  - Sleep
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ''
+  - ''
+  - F7
+  - F5
+  - F3
+  - F1
+  - F9
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
+  - F8
+  - F12
+  - F2
+  - F4
+  - F6
   - ''
-  - ''
-  - ''
-  - ⏮
-  - ⏭
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  Mouse:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Scrl ←
-  - ↑
-  - Scrl →
-  - Scrl ↑
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ←
-  - ↓
-  - →
-  - Scrl ↓
-  - ''
-  - ''
-  - {t: LGUI, h: sticky}
-  - {t: LALT, h: sticky}
-  - {t: LCTRL, h: sticky}
-  - {t: LSHFT, h: sticky}
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Mouse4
-  - Mouse5
   - ''
   - ''
   - ''
   - ''
   - ''
   - {type: held}
+  - {t: ▽, type: trans}
   - ''
   - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - LClick
-  - MClick
-  - RClick
-  - ''
-  - ''
-  - ''
+  - {t: ▽, type: trans}
+  - {type: held}
   - ''
   - ''
   - ''
@@ -428,7 +347,7 @@ layers:
   - ''
   - ''
   - ''
-  - F13
+  - ''
   - Q
   - W
   - E
@@ -439,8 +358,8 @@ layers:
   - I
   - O
   - P
-  - \
-  - TAB
+  - ''
+  - ''
   - A
   - S
   - D
@@ -451,35 +370,35 @@ layers:
   - K
   - L
   - ;
-  - DEL
-  - LSHFT
+  - ''
+  - ''
   - Z
   - X
   - C
   - V
   - B
-  - {t: ESC, h: Function}
   - ''
   - ''
   - ''
   - ''
-  - {t: RET, h: Mouse}
+  - ''
+  - ''
   - N
   - M
   - ','
   - .
   - /
-  - LCTRL
+  - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
-  - Cursor
-  - SPACE
+  - Nav
+  - $$mdi:arrow-up-bold$$
   - ''
   - ''
-  - BSPC
+  - $$mdi:keyboard-space$$
   - Symbol
   - ''
   - ''
@@ -516,12 +435,12 @@ layers:
   - ''
   - ''
   - ''
-  - 🔒
-  - POWER
-  - Sleep
+  - $$mdi:lock$$
+  - $$mdi:power$$
+  - $$mdi:sleep$$
   - ''
   - BT CLR
-  - Boot
+  - {t: '$$mdi:progress-download$$', s: Boot}
   - RGB EFR
   - RGB BRD
   - RGB BRI
@@ -532,8 +451,8 @@ layers:
   - '&bt_1'
   - '&bt_2'
   - '&bt_3'
-  - Boot
-  - Reset
+  - {t: '$$mdi:progress-download$$', s: Boot}
+  - {t: '$$mdi:restart$$', s: Reset}
   - RGB SPD
   - RGB SAD
   - RGB SAI
@@ -550,7 +469,7 @@ layers:
   - ''
   - ''
   - OUT TOG
-  - Reset
+  - {t: '$$mdi:restart$$', s: Reset}
   - {type: held}
   - ''
   - ''
@@ -569,17 +488,38 @@ layers:
   - ''
 combos:
 - p: [39, 40]
-  k: {t: CapsWord, s: CapsLock}
+  k: CapsWord
   l: [Graphite, QWERTY]
-- p: [34, 35]
-  k: LGUI
+- p: [25, 26]
+  k: $$mdi:keyboard-esc$$
   l: [Graphite, QWERTY]
-- p: [46, 47]
-  k: LALT
+- p: [50, 51]
+  k: $$mdi:keyboard-tab$$
   l: [Graphite, QWERTY]
-- p: [44, 45]
-  k: LGUI
+- p: [35, 36]
+  k: ⌃
   l: [Graphite, QWERTY]
-- p: [62, 63]
-  k: LALT
+- p: [38, 39]
+  k: ❖
+  l: [Graphite, QWERTY]
+- p: [47, 48]
+  k: ⌥
+  l: [Graphite, QWERTY]
+- p: [58, 59]
+  k: $$mdi:keyboard-return$$
+  l: [Graphite, QWERTY]
+- p: [31, 32]
+  k: $$mdi:backspace$$
+  l: [Graphite, QWERTY]
+- p: [43, 44]
+  k: ⌃
+  l: [Graphite, QWERTY]
+- p: [40, 41]
+  k: ❖
+  l: [Graphite, QWERTY]
+- p: [61, 62]
+  k: ⌥
+  l: [Graphite, QWERTY]
+- p: [60, 61]
+  k: F13
   l: [Graphite, QWERTY]

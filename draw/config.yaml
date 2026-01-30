@@ -36,6 +36,9 @@ draw_config:
   glyph_hold_size: 12
   glyph_shifted_size: 10
   glyphs: {}
+  glyph_urls:
+    mdi: https://raw.githubusercontent.com/Templarian/MaterialDesign-SVG/master/svg/{}.svg
+    tabler: https://raw.githubusercontent.com/tabler/tabler-icons/master/icons/outline/{}.svg
 parse_config:
   preprocess: true
   skip_binding_parsing: false
@@ -45,20 +48,24 @@ parse_config:
     '&hyphen_qmark': {t: '-', s: '?'}
     '&dot_dqt': {t: '.', s: '"'}
     '&fslh_bslh': {t: /, s: \}
-    '&w_caps': {t: CapsWord, s: CapsLock}
-    '&msc SCRL_UP': {t: Scrl ↑}
-    '&msc SCRL_DOWN': {t: Scrl ↓}
-    '&msc SCRL_LEFT': {t: Scrl ←}
-    '&msc SCRL_RIGHT': {t: Scrl →}
-    '&mmv MOVE_UP': {t: ↑}
-    '&mmv MOVE_DOWN': {t: ↓}
-    '&mmv MOVE_LEFT': {t: ←}
-    '&mmv MOVE_RIGHT': {t: →}
-    '&mkp LCLK': {t: LClick}
-    '&mkp RCLK': {t: RClick}
-    '&mkp MCLK': {t: MClick}
-    '&mkp MB4': {t: Mouse4}
-    '&mkp MB5': {t: Mouse5}
+    '&w_caps': {t: CapsWord}
+    '&msc SCRL_UP': {t: '$$mdi:arrow-up$$', h: scroll}
+    '&msc SCRL_DOWN': {t: '$$mdi:arrow-down$$', h: scroll}
+    '&msc SCRL_LEFT': {t: '$$mdi:arrow-left$$', h: scroll}
+    '&msc SCRL_RIGHT': {t: '$$mdi:arrow-right$$', h: scroll}
+    '&mmv MOVE_UP': {t: '$$mdi:arrow-up$$', h: mouse}
+    '&mmv MOVE_DOWN': {t: '$$mdi:arrow-down$$', h: mouse}
+    '&mmv MOVE_LEFT': {t: '$$mdi:arrow-left$$', h: mouse}
+    '&mmv MOVE_RIGHT': {t: '$$mdi:arrow-right$$', h: mouse}
+    '&mkp LCLK': {t: M1, h: mouse}
+    '&mkp RCLK': {t: M2, h: mouse}
+    '&mkp MCLK': {t: M3, h: mouse}
+    '&semi_colon': {t: ';', s: ':'}
+    '&kp LC(LA(LEFT))': {t: '$$mdi:arrow-left-bold$$', s: WS}
+    '&kp LC(LA(RIGHT))': {t: '$$mdi:arrow-right-bold$$', s: WS}
+    '&kp C_POWER': {t: '$$mdi:power$$'}
+    '&mkp MB4': {t: M4, h: mouse}
+    '&mkp MB5': {t: M5, h: mouse}
     '&kp LC(LEFT)': {t: Word ←}
     '&kp LC(RIGHT)': {t: Word →}
     '&kp LC(Y)': {t: Redo}
@@ -78,15 +85,15 @@ parse_config:
     '&kp LA(RIGHT)': {t: Word →}
     '&kp LG(TAB)': {t: Last ␣}
     '&kp LC(SPACE)': {t: Spotlight}
-    '&kp LG(LC(Q))': {t: 🔒}
-    '&kp C_VOL_UP': {t: Vol +}
-    '&kp C_VOL_DN': {t: Vol −}
-    '&kp C_MUTE': {t: Mute}
-    '&kp C_PP': {t: ⏯}
-    '&kp C_PREV': {t: ⏮}
-    '&kp C_NEXT': {t: ⏭}
-    '&kp K_POWER': {t: ⏻}
-    '&kp C_SLEEP': {t: Sleep}
+    '&kp LG(LC(Q))': {t: '$$mdi:lock$$'}
+    '&kp C_VOL_UP': {t: '$$mdi:volume-plus$$'}
+    '&kp C_VOL_DN': {t: '$$mdi:volume-minus$$'}
+    '&kp C_MUTE': {t: '$$mdi:volume-mute$$'}
+    '&kp C_PP': {t: '$$mdi:play-pause$$'}
+    '&kp C_PREV': {t: '$$mdi:skip-previous$$'}
+    '&kp C_NEXT': {t: '$$mdi:skip-next$$'}
+    '&kp K_POWER': {t: '$$mdi:power$$'}
+    '&kp C_SLEEP': {t: '$$mdi:sleep$$'}
     '&kp LC(Z)': {t: Undo}
     '&kp LC(X)': {t: Cut}
     '&kp LC(C)': {t: Copy}
@@ -94,9 +101,9 @@ parse_config:
     '&kp LC(A)': {t: Sel All}
     '&kp LC(S)': {t: Save}
     '&kp LC(BSPC)': {t: Word ⌫}
-    '&kp K_LOCK': {t: 🔒}
-    '&bootloader': {t: Boot}
-    '&sys_reset': {t: Reset}
+    '&kp K_LOCK': {t: '$$mdi:lock$$'}
+    '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
+    '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
     '&lang_en': {t: EN}
     '&lang_ru': {t: RU}
     '&lang_ua': {t: UA}
@@ -111,8 +118,8 @@ parse_config:
   modifier_fn_map:
     left_ctrl: ⌃
     right_ctrl: ⌃
-    left_shift: ⇧
-    right_shift: ⇧
+    left_shift: '$$mdi:arrow-up-bold$$'
+    right_shift: '$$mdi:arrow-up-bold$$'
     left_alt: ⌥
     right_alt: ⌥
     left_gui: ❖
@@ -331,6 +338,42 @@ parse_config:
     NON_US_HASH: '#'
     NUHS: '#'
     TILDE2: '~'
+    # Navigation
+    BACKSPACE: '$$mdi:backspace$$'
+    BSPC: '$$mdi:backspace$$'
+    DELETE: '$$mdi:backspace-reverse$$'
+    DEL: '$$mdi:backspace-reverse$$'
+    TAB: '$$mdi:keyboard-tab$$'
+    RETURN: '$$mdi:keyboard-return$$'
+    RET: '$$mdi:keyboard-return$$'
+    ENTER: '$$mdi:keyboard-return$$'
+    ESCAPE: '$$mdi:keyboard-esc$$'
+    ESC: '$$mdi:keyboard-esc$$'
+    SPACE: '$$mdi:keyboard-space$$'
+    SPC: '$$mdi:keyboard-space$$'
+    UP: '$$mdi:arrow-up$$'
+    DOWN: '$$mdi:arrow-down$$'
+    LEFT: '$$mdi:arrow-left$$'
+    RIGHT: '$$mdi:arrow-right$$'
+    HOME: '$$mdi:arrow-collapse-left$$'
+    END: '$$mdi:arrow-collapse-right$$'
+    PAGE_UP: PgUp
+    PG_UP: PgUp
+    PAGE_DOWN: PgDn
+    PG_DN: PgDn
+    # Modifiers
+    LSHIFT: '$$mdi:arrow-up-bold$$'
+    LSHFT: '$$mdi:arrow-up-bold$$'
+    RSHIFT: '$$mdi:arrow-up-bold$$'
+    RSHFT: '$$mdi:arrow-up-bold$$'
+    LCTRL: ⌃
+    LALT: ⌥
+    LGUI: ❖
+    RCTRL: ⌃
+    RALT: ⌥
+    RGUI: ❖
+    CAPSLOCK: Caps
+    CAPS: Caps
   zmk_combos: {}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes: []
