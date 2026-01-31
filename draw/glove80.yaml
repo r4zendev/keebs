@@ -524,11 +524,11 @@ combos:
   k: ⌥
   l: [Graphite, Vestnik]
 - p: [31, 32]
-  k: ']'
+  k: O
   l: [Vestnik]
 - p: [32, 44]
   k: '`'
   l: [Vestnik]
 - p: [44, 62]
-  k: O
+  k: ']'
   l: [Vestnik]

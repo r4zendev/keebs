@@ -335,8 +335,8 @@
         };
 
         // Cyrillic extras (Vestnik only): Ъ/Ї, Ё/Ґ, Щ
-        combo_hard_sign {
-            bindings = <&kp RBKT>;
+        combo_shcha {
+            bindings = <&kp O>;
             key-positions = <31 32>; // Я+Э
             layers = <LAYER_Vestnik>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
@@ -349,8 +349,8 @@
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        combo_shcha {
-            bindings = <&kp O>;
+        combo_hard_sign {
+            bindings = <&kp RBKT>;
             key-positions = <44 62>; // И+Ю
             layers = <LAYER_Vestnik>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
