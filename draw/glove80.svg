@@ -2025,6 +2025,18 @@ path.combo {
 <rect rx="6" ry="6" x="882" y="253" width="28" height="26" class="combo"/>
 <text x="896" y="266" class="combo tap">⌥</text>
 </g>
+<g class="combo combopos-12">
+<rect rx="6" ry="6" x="882" y="141" width="28" height="26" class="combo"/>
+<text x="896" y="154" class="combo tap">[</text>
+</g>
+<g class="combo combopos-13">
+<rect rx="6" ry="6" x="910" y="183" width="28" height="26" class="combo"/>
+<text x="924" y="196" class="combo tap">&#x27;</text>
+</g>
+<g class="combo combopos-14">
+<rect rx="6" ry="6" x="910" y="239" width="28" height="26" class="combo"/>
+<text x="924" y="252" class="combo tap">]</text>
+</g>
 </g>
 </g>
 </svg>

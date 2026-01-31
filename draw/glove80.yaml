@@ -523,3 +523,12 @@ combos:
 - p: [61, 62]
   k: ⌥
   l: [Graphite, QWERTY]
+- p: [31, 32]
+  k: '['
+  l: [QWERTY]
+- p: [32, 44]
+  k: ''''
+  l: [QWERTY]
+- p: [44, 62]
+  k: ']'
+  l: [QWERTY]

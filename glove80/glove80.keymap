@@ -333,6 +333,28 @@
             layers = <ALPHA_LAYERS>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
+
+        // Cyrillic extras (QWERTY only): Х/Х, Ъ/Ї, Э/Є
+        combo_lbkt {
+            bindings = <&kp LBKT>;
+            key-positions = <31 32>; // O+P
+            layers = <LAYER_QWERTY>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_sqt {
+            bindings = <&kp SQT>;
+            key-positions = <32 44>; // P+;
+            layers = <LAYER_QWERTY>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_rbkt {
+            bindings = <&kp RBKT>;
+            key-positions = <44 62>; // ;+/
+            layers = <LAYER_QWERTY>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
     };
 
     conditional_layers {
