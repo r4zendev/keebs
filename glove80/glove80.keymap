@@ -11,12 +11,12 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/rgb.h>
 
-// Layers
+// Layers — QWERTY must be below Nav/Symbol/Num so those layers can override it
 #define LAYER_Graphite 0
-#define LAYER_Symbol 1
-#define LAYER_Nav 2
-#define LAYER_Num 3
-#define LAYER_QWERTY 4
+#define LAYER_QWERTY 1
+#define LAYER_Symbol 2
+#define LAYER_Nav 3
+#define LAYER_Num 4
 #define LAYER_Magic 5
 
 // OS-specific shortcuts
@@ -96,14 +96,14 @@
 #define COMBO_TIMEOUT_MS 75
 
 // Mouse
-#define ZMK_MOUSE_DEFAULT_MOVE_VAL 1600
+#define ZMK_MOUSE_DEFAULT_MOVE_VAL 2400
 #define ZMK_MOUSE_DEFAULT_SCRL_VAL 20
 #include <dt-bindings/zmk/mouse.h>
 
 &mmv {
     delay-ms = <0>;
     acceleration-exponent = <1>;
-    time-to-max-speed-ms = <400>;
+    time-to-max-speed-ms = <300>;
 };
 
 &msc {
@@ -354,6 +354,17 @@
             >;
         };
 
+        layer_QWERTY {
+            bindings = <
+     &none   &none   &none   &none   &none                                                                                     &none      &none    &none      &none      &none
+     &none   &none   &none   &none   &none   &none                                                                     &none   &none      &none    &none      &none      &none
+     &none   &kp Q   &kp W   &kp E   &kp R   &kp T                                                                     &kp Y   &kp U      &kp I    &kp O      &kp P      &none
+     &none   &kp A   &kp S   &kp D   &kp F   &kp G                                                                     &kp H   &kp J      &kp K    &kp L   &kp SEMI      &none
+     &none   &kp Z   &kp X   &kp C   &kp V   &kp B   &none   &none   &none   &none       &none   &none   &kp N   &kp M  &kp COMMA  &kp DOT   &kp FSLH      &none
+     &magic LAYER_Magic 0   &none   &none   &none   &none    &mo LAYER_Nav  &kp LSHFT   &none   &none  &kp SPC  &mo LAYER_Symbol   &none      &none    &none      &none  &magic LAYER_Magic 0
+            >;
+        };
+
         layer_Symbol {
             bindings = <
      &none      &none      &none      &none      &none                                                                                   &none      &none      &none      &none      &none
@@ -384,17 +395,6 @@
      &none   &sk LSHFT  &sk LCTRL    &sk LALT       &sk LGUI  &kp F11                                                        &kp F10   &sk LGUI  &sk LALT   &sk LCTRL   &sk LSHFT     &none
      &none    &kp F7     &kp F5     &kp F3     &kp F1     &kp F9   &none   &none   &none   &none   &none   &none    &kp F8   &kp F12    &kp F2     &kp F4      &kp F6       &none
      &none       &none       &none      &none      &none           &trans   &trans   &none   &none   &trans   &trans             &none      &none      &none       &none       &none
-            >;
-        };
-
-        layer_QWERTY {
-            bindings = <
-     &none   &none   &none   &none   &none                                                                                     &none      &none    &none      &none      &none
-     &none   &none   &none   &none   &none   &none                                                                     &none   &none      &none    &none      &none      &none
-     &none   &kp Q   &kp W   &kp E   &kp R   &kp T                                                                     &kp Y   &kp U      &kp I    &kp O      &kp P      &none
-     &none   &kp A   &kp S   &kp D   &kp F   &kp G                                                                     &kp H   &kp J      &kp K    &kp L   &kp SEMI      &none
-     &none   &kp Z   &kp X   &kp C   &kp V   &kp B   &none   &none   &none   &none       &none   &none   &kp N   &kp M  &kp COMMA  &kp DOT   &kp FSLH      &none
-     &magic LAYER_Magic 0   &none   &none   &none   &none    &mo LAYER_Nav  &kp LSHFT   &none   &none  &kp SPC  &mo LAYER_Symbol   &none      &none    &none      &none  &magic LAYER_Magic 0
             >;
         };
 

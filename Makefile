@@ -55,6 +55,7 @@ $(PIANTOR_SVG): $(PIANTOR_YAML) $(PIANTOR_COMBOS) $(CONF)
 # Glove80 draw pipeline: ZMK keymap → parse → draw
 $(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(CONF)
 	keymap -c $(CONF) parse -z $< > $@
+	python3 draw/reorder_layers.py $@ Graphite Symbol Nav Num Magic QWERTY
 
 $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(GLOVE80_KEYBOARD) > $@
