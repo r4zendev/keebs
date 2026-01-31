@@ -11,9 +11,9 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/rgb.h>
 
-// Layers — QWERTY must be below Nav/Symbol/Num so those layers can override it
+// Layers — Vestnik must be below Nav/Symbol/Num so those layers can override it
 #define LAYER_Graphite 0
-#define LAYER_QWERTY 1
+#define LAYER_Vestnik 1
 #define LAYER_Symbol 2
 #define LAYER_Nav 3
 #define LAYER_Num 4
@@ -92,7 +92,7 @@
 #define UNDER LS(MINUS)
 #endif
 
-#define ALPHA_LAYERS LAYER_Graphite LAYER_QWERTY
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik
 #define COMBO_TIMEOUT_MS 75
 
 // Mouse
@@ -130,13 +130,13 @@
         lang_ru: lang_ru {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&to LAYER_QWERTY>, <&kp LC(LS(LG(N2)))>;
+            bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N2)))>;
         };
 
         lang_ua: lang_ua {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&to LAYER_QWERTY>, <&kp LC(LS(LG(N3)))>;
+            bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N3)))>;
         };
 
         bt_0: bt_0 {
@@ -334,25 +334,25 @@
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
 
-        // Cyrillic extras (QWERTY only): Х/Х, Ъ/Ї, Э/Є
-        combo_lbkt {
-            bindings = <&kp LBKT>;
-            key-positions = <31 32>; // O+P
-            layers = <LAYER_QWERTY>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_sqt {
-            bindings = <&kp SQT>;
-            key-positions = <32 44>; // P+;
-            layers = <LAYER_QWERTY>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_rbkt {
+        // Cyrillic extras (Vestnik only): Ъ/Ї, Ё/Ґ, Щ
+        combo_hard_sign {
             bindings = <&kp RBKT>;
-            key-positions = <44 62>; // ;+/
-            layers = <LAYER_QWERTY>;
+            key-positions = <31 32>; // Я+Э
+            layers = <LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_yo {
+            bindings = <&kp GRAVE>;
+            key-positions = <32 44>; // Э+И
+            layers = <LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+
+        combo_shcha {
+            bindings = <&kp O>;
+            key-positions = <44 62>; // И+Ю
+            layers = <LAYER_Vestnik>;
             timeout-ms = <COMBO_TIMEOUT_MS>;
         };
     };
@@ -376,14 +376,21 @@
             >;
         };
 
-        layer_QWERTY {
+/*  Herald-Vestnik Cyrillic (via ЙЦУКЕН keycodes)
+ *  ╭─────────────────╮ ╭─────────────────╮
+ *  │  Ц  Д  Р  Г  Х  │ │  Ф  П  А  Я  Э │
+ *  │  С  Т  Н  К  Б  │ │  Ь  В  О  Е  И │
+ *  │  Ш  З  Л  М  Ч  │ │  Ж  Й  Ы  У  Ю │
+ *  ╰────────╮NAV SFT │ │SPC SYM╭─────────╯
+ *           ╰────────╯ ╰───────╯          */
+        layer_Vestnik {
             bindings = <
-     &none   &none   &none   &none   &none                                                                                     &none      &none    &none      &none      &none
-     &none   &none   &none   &none   &none   &none                                                                     &none   &none      &none    &none      &none      &none
-     &none   &kp Q   &kp W   &kp E   &kp R   &kp T                                                                     &kp Y   &kp U      &kp I    &kp O      &kp P      &none
-     &none   &kp A   &kp S   &kp D   &kp F   &kp G                                                                     &kp H   &kp J      &kp K    &kp L   &kp SEMI      &none
-     &none   &kp Z   &kp X   &kp C   &kp V   &kp B   &none   &none   &none   &none       &none   &none   &kp N   &kp M  &kp COMMA  &kp DOT   &kp FSLH      &none
-     &magic LAYER_Magic 0   &none   &none   &none   &none    &mo LAYER_Nav  &kp LSHFT   &none   &none  &kp SPC  &mo LAYER_Symbol   &none      &none    &none      &none  &magic LAYER_Magic 0
+     &none     &none     &none     &none      &none                                                                                      &none     &none     &none     &none      &none
+     &none     &none     &none     &none      &none     &none                                                                    &none   &none     &none     &none     &none      &none
+     &none     &kp W     &kp L     &kp H      &kp U  &kp LBKT                                                                   &kp A   &kp G     &kp F     &kp Z   &kp SQT      &none
+     &none     &kp C     &kp N     &kp Y      &kp R &kp COMMA                                                                   &kp M   &kp D     &kp J     &kp T     &kp B      &none
+     &none     &kp I     &kp P     &kp K      &kp V     &kp X   &none   &none   &none   &none       &none   &none  &kp SEMI   &kp Q     &kp S     &kp E   &kp DOT      &none
+     &magic LAYER_Magic 0   &none   &none   &none   &none    &mo LAYER_Nav  &kp LSHFT   &none   &none  &kp SPC  &mo LAYER_Symbol   &none     &none     &none     &none  &magic LAYER_Magic 0
             >;
         };
 

@@ -405,7 +405,7 @@ layers:
   - ''
   - ''
   - ''
-  QWERTY:
+  Vestnik:
   - ''
   - ''
   - ''
@@ -429,46 +429,46 @@ layers:
   - ''
   - ''
   - ''
-  - Q
-  - W
-  - E
-  - R
-  - T
-  - Y
-  - U
-  - I
-  - O
-  - P
+  - Ц
+  - Д
+  - Р
+  - Г
+  - Х
+  - Ф
+  - П
+  - А
+  - Я
+  - Э
   - ''
   - ''
-  - A
-  - S
-  - D
-  - F
-  - G
-  - H
-  - J
-  - K
-  - L
-  - ;
+  - С
+  - Т
+  - Н
+  - К
+  - Б
+  - Ь
+  - В
+  - О
+  - Е
+  - И
   - ''
   - ''
-  - Z
-  - X
-  - C
-  - V
-  - B
-  - ''
-  - ''
-  - ''
+  - Ш
+  - З
+  - Л
+  - М
+  - Ч
   - ''
   - ''
   - ''
-  - N
-  - M
-  - ','
-  - .
-  - /
+  - ''
+  - ''
+  - ''
+  - Ж
+  - Й
+  - Ы
+  - У
+  - Ю
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -489,46 +489,46 @@ layers:
 combos:
 - p: [39, 40]
   k: CapsWord
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [50, 51]
   k: $$mdi:keyboard-tab$$
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [35, 36]
   k: ⌃
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [38, 39]
   k: ❖
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [47, 48]
   k: ⌥
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [48, 49]
   k: F13
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [58, 59]
   k: $$mdi:keyboard-return$$
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [59, 60]
   k: $$mdi:keyboard-esc$$
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [60, 61]
   k: $$mdi:backspace$$
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [43, 44]
   k: ⌃
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [40, 41]
   k: ❖
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [61, 62]
   k: ⌥
-  l: [Graphite, QWERTY]
+  l: [Graphite, Vestnik]
 - p: [31, 32]
-  k: '['
-  l: [QWERTY]
-- p: [32, 44]
-  k: ''''
-  l: [QWERTY]
-- p: [44, 62]
   k: ']'
-  l: [QWERTY]
+  l: [Vestnik]
+- p: [32, 44]
+  k: '`'
+  l: [Vestnik]
+- p: [44, 62]
+  k: O
+  l: [Vestnik]
