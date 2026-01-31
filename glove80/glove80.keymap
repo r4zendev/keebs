@@ -361,7 +361,7 @@
      &none   &kp ESC  &kp LBKT  &kp LBRC  &kp LPAR     &kp LT                                                               &kp GT  &kp RPAR  &kp RBRC  &kp RBKT  &kp GRAVE      &none
      &none &kp MINUS  &kp STAR &kp EQUAL &kp UNDER   &kp DLLR                                                             &kp HASH  &sk LGUI  &sk LALT &sk LCTRL &sk LSHFT      &none
      &none  &kp PLUS  &kp PIPE    &kp AT  &kp FSLH  &kp TILDE   &none   &none   &none   &none   &none   &none  &kp CARET  &kp BSLH  &kp AMPS  &kp QMARK   &kp EXCL      &none
-     &none      &none      &none     &none     &none        &kp PRCNT  &semi_colon   &none   &none   &trans   &trans              &none      &none      &none      &none      &none
+     &none      &none      &none     &none     &none        &lt LAYER_Nav PRCNT  &semi_colon   &none   &none   &trans   &trans              &none      &none      &none      &none      &none
             >;
         };
 
@@ -372,7 +372,7 @@
      &none      &mkp MCLK      &mkp LCLK    &mmv MOVE_UP      &mkp RCLK  &msc SCRL_UP                                                                &kp DEL  &kp _HOME     &kp UP   &kp _END    &kp PG_UP       &none
      &none      &sk LSHFT      &sk LCTRL       &sk LALT        &sk LGUI  &msc SCRL_DOWN                                                              &kp TAB  &kp LEFT   &kp DOWN  &kp RIGHT    &kp PG_DN       &none
      &none  &msc SCRL_LEFT  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &msc SCRL_RIGHT   &none   &none   &none   &none   &none   &none  &mkp MB4  &mkp MB5   &lang_en   &lang_ru    &lang_ua       &none
-     &none          &none          &none           &none           &none               &trans   &trans   &none   &none  &kp BSPC   &kp RET                &none      &none      &none       &none       &none
+     &none          &none          &none           &none           &none               &trans   &trans   &none   &none  &kp BSPC   &lt LAYER_Symbol RET                &none      &none      &none       &none       &none
             >;
         };
 

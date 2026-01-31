@@ -151,7 +151,7 @@ layers:
   - ''
   - ''
   - ''
-  - '%'
+  - {t: '%', h: Nav}
   - {t: ;, s: ':'}
   - ''
   - ''
@@ -237,7 +237,7 @@ layers:
   - ''
   - ''
   - $$mdi:backspace$$
-  - $$mdi:keyboard-return$$
+  - {t: '$$mdi:keyboard-return$$', h: Symbol}
   - ''
   - ''
   - ''
