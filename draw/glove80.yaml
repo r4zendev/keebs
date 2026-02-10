@@ -29,7 +29,7 @@ layers:
   - D
   - W
   - Z
-  - {t: ★", type: adaptive}
+  - {t: '''', s: _}
   - F
   - O
   - U
@@ -61,8 +61,8 @@ layers:
   - ''
   - K
   - P
-  - {t: '''', s: '-'}
-  - {t: ',', s: '!'}
+  - {t: '-', s: '"'}
+  - {t: ',', s: ;}
   - {t: ., s: '?'}
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
@@ -71,7 +71,7 @@ layers:
   - ''
   - ''
   - Nav
-  - $$mdi:arrow-up-bold$$
+  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
   - $$mdi:keyboard-space$$
@@ -283,8 +283,8 @@ layers:
   - {t: F3, h: ⌥}
   - {t: F2, h: ⌃}
   - {t: F1, h: '$$mdi:arrow-up-bold$$'}
-  - $$mdi:keyboard-return$$
-  - ','
+  - {t: '$$mdi:keyboard-return$$', h: F13}
+  - {t: ',', h: F13}
   - {t: '1', h: '$$mdi:arrow-up-bold$$'}
   - {t: '2', h: ⌃}
   - {t: '3', h: ⌥}

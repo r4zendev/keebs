@@ -1,122 +1,21 @@
-/* SPDX-License-Identifier: MIT
+/* Graphite + Vestnik — ZMK keymap. See README.md for full docs.
  *
- * Graphite layout for MoErgo Glove80 — ZMK keymap
+ * Layers: Graphite(0) Vestnik(1) Symbol(2) Nav(3) Num(4) Magic(5)
+ * HRM: GACS — GUI(pinky) ALT(ring) CTL(mid) SFT(index) F13(inner)
+ * Mod-morphs: '→_  -→"  ,→;  .→?
  *
- * ┌─────────────────────────────────────────────────────────────────────┐
- * │ LAYOUT OVERVIEW                                                    │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │                                                                    │
- * │  Layers            Activation          Hand                        │
- * │  ──────            ──────────          ────                        │
- * │  0 Graphite        default             both  (EN alpha)            │
- * │  1 Vestnik         lang_ru / lang_ua   both  (RU/UA alpha)        │
- * │  2 Symbol          hold right thumb    both  (all symbols)        │
- * │  3 Nav             hold left thumb     L=edit R=navigate          │
- * │  4 Num             from Sym or Nav     L=F-keys R=numpad          │
- * │  5 Magic           hold corner key     system/BT/RGB              │
- * │                                                                    │
- * │  Key positions (34-key subset of Glove80):                        │
- * │  ╭───────────────────╮ ╭───────────────────╮                      │
- * │  │ 23  24  25  26  27│ │28  29  30  31  32 │                      │
- * │  │ 35  36  37  38  39│ │40  41  42  43  44 │                      │
- * │  │ 47  48  49  50  51│ │58  59  60  61  62 │                      │
- * │  ╰──────────╮ 69  70 │ │ 73  74 ╭──────────╯                     │
- * │             ╰────────╯ ╰────────╯                                 │
- * │                                                                    │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │ FEATURES                                                           │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │                                                                    │
- * │  Home Row Mods (urob's "timeless" pattern)                        │
- * │  ─────────────────────────────────────────                        │
- * │  GACS order: GUI(pinky) ALT(ring) CTL(middle) SFT(index) F13.    │
- * │  Three anti-misfire mechanisms:                                    │
- * │    • balanced flavor    — hold resolves on key press+release       │
- * │    • idle cooldown      — fast typing (<150ms) always taps        │
- * │    • bilateral filter   — hold only from opposite-hand keys       │
- * │  Trade-off: bilateral prevents same-hand mod chording. Use nav    │
- * │  sticky mods to stack modifiers instead (see below).              │
- * │                                                                    │
- * │  Sticky Modifiers (Nav layer, left home row)                      │
- * │  ───────────────────────────────────────────                      │
- * │  Tap sk⇧/sk❖/sk⌥/sk⌃ then release Nav, press any key.           │
- * │  Stack multiple: sk⌃ → sk⇧ → key = Ctrl+Shift+key.              │
- * │  Enabled by ignore-modifiers on &sk config.                       │
- * │                                                                    │
- * │  Adaptive Key (position 28, Graphite layer)                       │
- * │  ──────────────────────────────────────────                       │
- * │  Outputs " by default. Changes output based on previous key        │
- * │  (within 300ms) to avoid SFBs and emit common digraphs.          │
- * │  Current triggers: Q→U, Y→O, P→H, T→H, S→H, C→K                │
- * │  See EXTENDING ADAPTIVE KEY below.                                │
- * │                                                                    │
- * │  Mod-Morphs (base layer punctuation)                              │
- * │  ───────────────────────────────────                              │
- * │  Tap for primary, hold Shift for secondary:                       │
- * │    '  → -     ,  → !     .  → ?                                   │
- * │                                                                    │
- * │  Combos (alpha layers only, 75ms timeout)                         │
- * │  ────────────────────────────────────────                         │
- * │    48+49 → ESC    49+50 → TAB                                     │
- * │    59+60 → ENTER  60+61 → BSPC/DEL                               │
- * │  Cyrillic (Vestnik only):                                         │
- * │    31+32 → Щ    32+44 → Ё/Ґ    44+62 → Ъ/Ї                      │
- * │                                                                    │
- * │  CapsWord (Nav inner home, position 39)                           │
- * │  ──────────────────────────────────────                           │
- * │  Tap → CapsWord. Shift+tap → CapsLock.                           │
- * │  Continues through: underscore, minus, backspace, delete, 0-9.   │
- * │                                                                    │
- * │  Language Switching (Nav right column)                             │
- * │  ────────────────────────────────────                             │
- * │  EN/RU/UA macros: switch layer + send Ctrl+Shift+Super+N shortcut│
- * │  to OS input method switcher.                                     │
- * │                                                                    │
- * │  OS Abstraction                                                    │
- * │  ──────────────                                                   │
- * │  Set OPERATING_SYSTEM to 1 (Linux), 2 (macOS), or 3 (Windows).   │
- * │  Affects: Ctrl vs Cmd, Home/End keys, Lock shortcut.             │
- * │                                                                    │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │ CONFIGURATION                                                      │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │                                                                    │
- * │  Bilateral hold-tap (opt-in, enabled by default below):           │
- * │    #define BILATERAL                                               │
- * │  Remove to disable positional filtering. Keeps balanced flavor    │
- * │  and idle cooldown. Allows same-hand mod chording but risks       │
- * │  misfires on same-hand rolls.                                     │
- * │                                                                    │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │ EXTENDING ADAPTIVE KEY                                             │
- * ├─────────────────────────────────────────────────────────────────────┤
- * │                                                                    │
- * │  Add a single-key trigger (child node in adaptive_key):           │
- * │    ak_w { trigger-keys = <W>; bindings = <&kp H>; };             │
- * │                                                                    │
- * │  Multiple triggers, one output:                                    │
- * │    ak_psc { trigger-keys = <P S C>; bindings = <&kp H>; };       │
- * │                                                                    │
- * │  Timing window (only fire if trigger was recent):                 │
- * │    ak_q { trigger-keys = <Q>; bindings = <&kp U>;                │
- * │           max-prior-idle-ms = <300>; };                           │
- * │                                                                    │
- * │  Multi-key output via macro (trigger key is already typed):       │
- * │    1. Define in macros block:                                      │
- * │       macro_tion: macro_tion {                                     │
- * │           compatible = "zmk,behavior-macro";                       │
- * │           #binding-cells = <0>;                                    │
- * │           bindings = <&kp I>, <&kp O>, <&kp N>;                  │
- * │       };                                                           │
- * │    2. Reference in adaptive_key:                                   │
- * │       ak_t { trigger-keys = <T>; bindings = <&macro_tion>; };    │
- * │       // T then ★ → "tion"                                        │
- * │                                                                    │
- * └─────────────────────────────────────────────────────────────────────┘
+ * Config:
+ *   #define BILATERAL         — positional hold-tap (opt-in)
+ *   #define OPERATING_SYSTEM  — 1=linux 2=macos 3=windows
+ *
+ * Adaptive key (★) — left thumb (tap=★, hold=⇧), 300ms window, default: "
+ *   SFBs:    R→L  G→S  U→E  E→U  S→C  H→Y  P→H  O→A  W→S  Y→H
+ *   Suffixes: A→TION C→TION D→ITION F→Y I→ON J→UST L→ATION
+ *             M→ENT N→ION Q→UEN T→MENT V→ER B→LE Z→ATION
+ *   Other:   SPC→THE  .→./  /→/* */  #→#include
  */
 
 #include <behaviors.dtsi>
-#include <behaviors/adaptive_key.dtsi>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
@@ -245,6 +144,97 @@
             bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N3)))>;
         };
 
+        macro_tion: macro_tion {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp T>, <&kp I>, <&kp O>, <&kp N>;
+        };
+
+        macro_ition: macro_ition {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp I>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;
+        };
+
+        macro_ation: macro_ation {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp A>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;
+        };
+
+        macro_on: macro_on {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp O>, <&kp N>;
+        };
+
+        macro_ion: macro_ion {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp I>, <&kp O>, <&kp N>;
+        };
+
+        macro_ent: macro_ent {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp E>, <&kp N>, <&kp T>;
+        };
+
+        macro_ment: macro_ment {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp M>, <&kp E>, <&kp N>, <&kp T>;
+        };
+
+        macro_le: macro_le {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp L>, <&kp E>;
+        };
+
+        macro_ust: macro_ust {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp U>, <&kp S>, <&kp T>;
+        };
+
+        macro_uen: macro_uen {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp U>, <&kp E>, <&kp N>;
+        };
+
+        macro_er: macro_er {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp E>, <&kp R>;
+        };
+
+        macro_the: macro_the {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp T>, <&kp H>, <&kp E>;
+        };
+
+        macro_dotslash: macro_dotslash {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp FSLH>;
+        };
+
+        macro_include: macro_include {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp I>, <&kp N>, <&kp C>, <&kp L>, <&kp U>, <&kp D>, <&kp E>, <&kp SPC>;
+        };
+
+        macro_block_comment: macro_block_comment {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>;
+        };
+
+
         bt_0: bt_0 {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -275,12 +265,46 @@
             compatible = "zmk,behavior-adaptive-key";
             #binding-cells = <0>;
             bindings = <&kp DQT>;
-            ak_q { trigger-keys = <Q>; max-prior-idle-ms = <300>; bindings = <&kp U>; };
-            ak_y { trigger-keys = <Y>; max-prior-idle-ms = <300>; bindings = <&kp O>; };
-            ak_p { trigger-keys = <P>; max-prior-idle-ms = <300>; bindings = <&kp H>; };
-            ak_t { trigger-keys = <T>; max-prior-idle-ms = <300>; bindings = <&kp H>; };
-            ak_s { trigger-keys = <S>; max-prior-idle-ms = <300>; bindings = <&kp H>; };
-            ak_c { trigger-keys = <C>; max-prior-idle-ms = <300>; bindings = <&kp K>; };
+            // SFB fixes
+            ak_r { trigger-keys = <R>; max-prior-idle-ms = <300>; bindings = <&kp L>; };      // rl 0.114%
+            ak_e { trigger-keys = <E>; max-prior-idle-ms = <300>; bindings = <&kp U>; };      // eu
+            ak_u { trigger-keys = <U>; max-prior-idle-ms = <300>; bindings = <&kp E>; };      // ue 0.090%
+            ak_g { trigger-keys = <G>; max-prior-idle-ms = <300>; bindings = <&kp S>; };      // gs 0.102%
+            ak_s { trigger-keys = <S>; max-prior-idle-ms = <300>; bindings = <&kp C>; };      // sc 0.087%
+            ak_h { trigger-keys = <H>; max-prior-idle-ms = <300>; bindings = <&kp Y>; };      // hy 0.051%
+            ak_p { trigger-keys = <P>; max-prior-idle-ms = <300>; bindings = <&kp H>; };      // ph
+            ak_f { trigger-keys = <F>; max-prior-idle-ms = <300>; bindings = <&kp Y>; };      // fy
+            ak_o { trigger-keys = <O>; max-prior-idle-ms = <300>; bindings = <&kp A>; };      // oa 0.042%
+            ak_w { trigger-keys = <W>; max-prior-idle-ms = <300>; bindings = <&kp S>; };      // ws 0.042%
+            ak_y { trigger-keys = <Y>; max-prior-idle-ms = <300>; bindings = <&kp H>; };      // yh reverse
+            // Completions
+            ak_a { trigger-keys = <A>; max-prior-idle-ms = <300>; bindings = <&macro_tion>; };  // ation
+            ak_c { trigger-keys = <C>; max-prior-idle-ms = <300>; bindings = <&macro_tion>; };  // ction
+            ak_d { trigger-keys = <D>; max-prior-idle-ms = <300>; bindings = <&macro_ition>; }; // dition
+            ak_i { trigger-keys = <I>; max-prior-idle-ms = <300>; bindings = <&macro_on>; };    // ion
+            ak_j { trigger-keys = <J>; max-prior-idle-ms = <300>; bindings = <&macro_ust>; };   // just
+            ak_l { trigger-keys = <L>; max-prior-idle-ms = <300>; bindings = <&macro_ation>; }; // lation
+            ak_m { trigger-keys = <M>; max-prior-idle-ms = <300>; bindings = <&macro_ent>; };   // ment
+            ak_n { trigger-keys = <N>; max-prior-idle-ms = <300>; bindings = <&macro_ion>; };   // nion
+            ak_q { trigger-keys = <Q>; max-prior-idle-ms = <300>; bindings = <&macro_uen>; };   // quen
+            ak_t { trigger-keys = <T>; max-prior-idle-ms = <300>; bindings = <&macro_ment>; };  // tment
+            ak_v { trigger-keys = <V>; max-prior-idle-ms = <300>; bindings = <&macro_er>; };    // ver
+            ak_b { trigger-keys = <B>; max-prior-idle-ms = <300>; bindings = <&macro_le>; };    // ble
+            ak_z { trigger-keys = <Z>; max-prior-idle-ms = <300>; bindings = <&macro_ation>; }; // zation
+            ak_spc { trigger-keys = <SPACE>; max-prior-idle-ms = <300>; bindings = <&macro_the>; };
+            ak_dot { trigger-keys = <DOT>; max-prior-idle-ms = <300>; bindings = <&macro_dotslash>; };
+            // Programming
+            ak_fslh { trigger-keys = <FSLH>; max-prior-idle-ms = <300>; bindings = <&macro_block_comment>; }; // /★ → /* | */
+            ak_hash { trigger-keys = <HASH>; max-prior-idle-ms = <300>; bindings = <&macro_include>; };        // #★ → #include
+        };
+
+        adaptive_shift: adaptive_shift {
+            compatible = "zmk,behavior-hold-tap";
+            label = "ADAPTIVE_SHIFT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&kp>, <&adaptive_key>;
         };
 
         magic: magic {
@@ -330,19 +354,27 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        quote_hyphen: quote_and_hyphen {
+        sqt_under: sqt_and_under {
             compatible = "zmk,behavior-mod-morph";
-            label = "QUOTE_AND_HYPHEN";
+            label = "SQT_AND_UNDER";
             #binding-cells = <0>;
-            bindings = <&kp SQT>, <&kp MINUS>;
+            bindings = <&kp SQT>, <&kp UNDER>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        comma_excl: comma_and_excl {
+        minus_dqt: minus_and_dqt {
             compatible = "zmk,behavior-mod-morph";
-            label = "COMMA_AND_EXCL";
+            label = "MINUS_AND_DQT";
             #binding-cells = <0>;
-            bindings = <&kp COMMA>, <&kp EXCL>;
+            bindings = <&kp MINUS>, <&kp DQT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        comma_semi: comma_and_semi {
+            compatible = "zmk,behavior-mod-morph";
+            label = "COMMA_AND_SEMI";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&kp SEMI>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -430,22 +462,22 @@
     keymap {
         compatible = "zmk,keymap";
 
-/*  Graphite — adaptive key (★) + home row mods (GACS inward)
+/*  Graphite — home row mods (GACS) + magic thumb (★/⇧)
  *  ╭────────────────────╮ ╭────────────────────╮
- *  │  B   L   D   W   Z │ │ ★   F   O   U   J  │
+ *  │  B   L   D   W   Z │ │ '_  F   O   U   J  │
  *  │  N   R   T   S   G │ │ Y   H   A   E   I  │
  *  │    GUI ALT CTL SFT F13  F13 SFT CTL ALT GUI │
- *  │  X   Q   M   C   V │ │ K   P   '-  ,!  .? │
- *  ╰──────────╮NAV SFT  │ │ SPC SYM╭───────────╯
+ *  │  X   Q   M   C   V │ │ K   P   -"  ,!  .? │
+ *  ╰──────────╮NAV ★/⇧  │ │ SPC SYM╭───────────╯
  *             ╰──────────╯ ╰────────╯            */
         layer_Graphite {
             bindings = <
      &none   &none   &none   &none          &none                                                                                           &none          &none          &none          &none          &none
      &none   &none   &none   &none          &none          &none                                                                    &none   &none          &none          &none          &none          &none
-     &none   &kp B   &kp L   &kp D          &kp W          &kp Z                                                       &adaptive_key   &kp F          &kp O          &kp U          &kp J          &none
+     &none   &kp B   &kp L   &kp D          &kp W          &kp Z                                                       &sqt_under   &kp F          &kp O          &kp U          &kp J          &none
      &none   &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &hml F13 G                                         &hmr F13 Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I   &none
-     &none   &kp X   &kp Q   &kp M          &kp C          &kp V   &none   &none   &none   &none   &none   &none   &kp K   &kp P  &quote_hyphen   &comma_excl        &dot_qmark          &none
-     &magic LAYER_Magic 0   &none   &none   &none   &none   &mo LAYER_Nav   &kp LSHFT   &none   &none   &kp SPC   &mo LAYER_Symbol   &none   &none   &none   &none   &magic LAYER_Magic 0
+     &none   &kp X   &kp Q   &kp M          &kp C          &kp V   &none   &none   &none   &none   &none   &none   &kp K   &kp P    &minus_dqt   &comma_semi        &dot_qmark          &none
+     &magic LAYER_Magic 0   &none   &none   &none   &none   &mo LAYER_Nav   &adaptive_shift LSHFT 0   &none   &none   &kp SPC   &mo LAYER_Symbol   &none   &none   &none   &none   &magic LAYER_Magic 0
             >;
         };
 
@@ -516,7 +548,7 @@
      &none      &none      &none      &none      &none                                                                                             &none       &none       &none      &none      &none
      &none      &none      &none      &none      &none      &none                                                                          &none   &none       &none       &none      &none      &none
      &none    &kp F12     &kp F9     &kp F8     &kp F7  &kp EQUAL                                                                       &kp PLUS    &kp N7      &kp N8     &kp N9   &kp FSLH      &none
-     &none  &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &kp RET                                              &kp COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR      &none
+     &none  &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &hml F13 RET                                       &hmr F13 COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR      &none
      &none    &kp F11     &kp F6     &kp F5     &kp F4    &kp DOT   &none   &none   &none   &none   &none   &none     &kp N0     &kp N4      &kp N5     &kp N6  &kp MINUS      &none
      &none      &none      &none      &none      &none      &trans      &trans   &none   &none      &trans      &trans       &none      &none      &none      &none      &none
             >;

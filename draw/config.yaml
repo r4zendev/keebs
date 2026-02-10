@@ -43,9 +43,11 @@ parse_config:
   preprocess: true
   skip_binding_parsing: false
   raw_binding_map:
-    '&comma_excl': {t: ',', s: '!'}
-    '&quote_hyphen': {t: '''', s: '-'}
-    '&adaptive_key': {t: '★"', type: adaptive}
+    '&comma_semi': {t: ',', s: ';'}
+    '&sqt_under': {t: '''', s: '_'}
+    '&minus_dqt': {t: '-', s: '"'}
+    '&adaptive_key': {t: '★', type: adaptive}
+    '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&dot_qmark': {t: '.', s: '?'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
     '&w_caps': {t: CapsWord}
