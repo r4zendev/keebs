@@ -1,0 +1,17 @@
+name: Build Sweep
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  left:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: cradio.west.yml
+      board: nice_nano_v2
+      shield: cradio_left
+  right:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: cradio.west.yml
+      board: nice_nano_v2
+      shield: cradio_right

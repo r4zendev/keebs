@@ -1,9 +1,0 @@
-name: Build Glove80
-on: [push, pull_request, workflow_dispatch]
-
-jobs:
-  build:
-    uses: moergo-sc/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      build_matrix_path: config/glove80.build.yaml
-      config_path: config

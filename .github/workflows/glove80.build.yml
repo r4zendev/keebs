@@ -1,0 +1,15 @@
+name: Build Glove80
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  left:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: glove80.west.yml
+      board: glove80_lh
+  right:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: glove80.west.yml
+      board: glove80_rh

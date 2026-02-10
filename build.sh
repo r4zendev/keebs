@@ -44,12 +44,9 @@ setup_workspace() {
         echo "No $KEYBOARD.west.yml in config/"
         exit 1
     fi
-    rm -f "$WORKSPACE/config/west.yml"
-    cp "$CONFIG_DIR/$KEYBOARD.west.yml" "$WORKSPACE/config/west.yml"
-
     cd "$WORKSPACE"
     [[ -d .west ]] && rm -rf .west
-    west init -l config/
+    west init -l config/ --mf "$KEYBOARD.west.yml"
     west update
     pip install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
     echo "Done. Workspace ready at $WORKSPACE"

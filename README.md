@@ -179,8 +179,8 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 
 Separate workflows per board — push to GitHub builds automatically:
 
-- `.github/workflows/build.yml` — Glove80 (moergo-sc/zmk)
-- `.github/workflows/build-cradio.yml` — Sweep (zmkfirmware/zmk)
+- `.github/workflows/glove80.build.yml` — Glove80 (moergo-sc/zmk)
+- `.github/workflows/cradio.build.yml` — Sweep (zmkfirmware/zmk)
 
 ### Local
 

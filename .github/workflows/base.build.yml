@@ -1,0 +1,31 @@
+name: Build ZMK Firmware
+
+on:
+  workflow_call:
+    inputs:
+      manifest:
+        required: true
+        type: string
+      board:
+        required: true
+        type: string
+      shield:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+      - run: west init -l config --mf ${{ inputs.manifest }}
+      - run: west update
+      - run: west zephyr-export
+      - run: >
+          west build -s zmk/app -b ${{ inputs.board }}
+          ${{ inputs.shield && format('-- -DSHIELD={0} -DZMK_CONFIG={1}/config', inputs.shield, github.workspace) || format('-- -DZMK_CONFIG={0}/config', github.workspace) }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.shield || inputs.board }}
+          path: build/zephyr/zmk.uf2
