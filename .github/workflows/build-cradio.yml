@@ -5,5 +5,5 @@ jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
     with:
-      build_matrix_path: config/sweep.build.yaml
+      build_matrix_path: config/cradio.build.yaml
       config_path: config

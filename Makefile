@@ -6,11 +6,11 @@ GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
 
-# ─── Draw: Sweep (Cradio) ───────────────────────────────────────────
-SWEEP_KEYMAP   := config/cradio.keymap
-SWEEP_YAML     := draw/sweep.yaml
-SWEEP_SVG      := draw/sweep.svg
-SWEEP_KEYBOARD := cradio
+# ─── Draw: Cradio ───────────────────────────────────────────────────
+CRADIO_KEYMAP   := config/cradio.keymap
+CRADIO_YAML     := draw/cradio.yaml
+CRADIO_SVG      := draw/cradio.svg
+CRADIO_KEYBOARD := cradio
 
 # ─── Cache: zmk-helpers headers for keymap-drawer ─────────────────
 ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
@@ -19,14 +19,14 @@ GLOVE80_LABELS   := .cache/zmk-helpers/key-labels/glove80.h
 LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Targets ─────────────────────────────────────────────────────────
-.PHONY: all draw glove80 sweep clean
+.PHONY: all draw glove80 cradio clean
 
 all: draw
 
-draw: $(GLOVE80_SVG) $(SWEEP_SVG)
+draw: $(GLOVE80_SVG) $(CRADIO_SVG)
 
 glove80: $(GLOVE80_SVG)
-sweep: $(SWEEP_SVG)
+cradio: $(CRADIO_SVG)
 
 $(ZMK_HELPERS_H):
 	mkdir -p $(dir $@)
@@ -48,14 +48,14 @@ $(GLOVE80_YAML): $(GLOVE80_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $
 $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(GLOVE80_KEYBOARD) > $@
 
-# Sweep draw pipeline
-$(SWEEP_YAML): $(SWEEP_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
+# Cradio draw pipeline
+$(CRADIO_YAML): $(CRADIO_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ Graphite Symbol Nav Num System Vestnik
 
-$(SWEEP_SVG): $(SWEEP_YAML) $(CONF)
-	keymap -c $(CONF) draw $< -z $(SWEEP_KEYBOARD) > $@
+$(CRADIO_SVG): $(CRADIO_YAML) $(CONF)
+	keymap -c $(CONF) draw $< -z $(CRADIO_KEYBOARD) > $@
 
 clean:
-	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(SWEEP_YAML) $(SWEEP_SVG)
+	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(CRADIO_YAML) $(CRADIO_SVG)
 	rm -rf .cache

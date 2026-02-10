@@ -20,9 +20,8 @@ config/
   glove80.west.yml     # moergo-sc/zmk fork
   cradio.keymap        # Sweep wrapper: 34-key matrix, System layer
   cradio.conf
-  sweep.build.yaml
-  sweep.west.yml       # zmkfirmware/zmk upstream
-  west.yml             # default manifest
+  cradio.build.yaml
+  cradio.west.yml      # zmkfirmware/zmk upstream
 draw/                  # keymap-drawer config and generated SVGs
 build.sh               # local build script
 Makefile               # keymap-drawer pipeline
@@ -179,7 +178,7 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 
 Separate workflows per board — push to GitHub builds automatically:
 - `.github/workflows/build.yml` — Glove80 (moergo-sc/zmk)
-- `.github/workflows/build-sweep.yml` — Sweep (zmkfirmware/zmk)
+- `.github/workflows/build-cradio.yml` — Sweep (zmkfirmware/zmk)
 
 ### Local
 
@@ -189,7 +188,7 @@ One-time workspace setup per keyboard (west workspaces live at `~/.local/share/z
 
 ```bash
 ./build.sh glove80 setup
-./build.sh sweep setup
+./build.sh cradio setup
 ```
 
 Then build:
@@ -211,7 +210,7 @@ Regenerate layout SVGs (auto-fetches zmk-helpers headers to `.cache/`):
 ```bash
 make              # both boards
 make glove80      # Glove80 only
-make sweep        # Sweep only
+make cradio       # Sweep only
 ```
 
 ### Modules
@@ -227,4 +226,4 @@ make sweep        # Sweep only
 
 ### Sweep
 
-![Sweep](draw/sweep.svg)
+![Sweep](draw/cradio.svg)

@@ -13,8 +13,7 @@ export PATH="$SDK/hosttools/sysroots/x86_64-pokysdk-linux/usr/bin:$PATH"
 usage() {
     echo "Usage: $0 <keyboard> [left|right|both|clean|setup]"
     echo ""
-    echo "Keyboards are defined by build entries in config/build.yaml."
-    echo "Use keyboard name matching the keymap file (e.g. glove80, sweep)."
+    echo "Keyboards: glove80, cradio"
     echo ""
     echo "Examples:"
     echo "  $0 glove80          # build both halves"
@@ -31,11 +30,7 @@ KEYBOARD="$1"
 ACTION="${2:-both}"
 WORKSPACE="$WORKSPACE_BASE/$KEYBOARD"
 
-# Map keyboard names to ZMK shield/config filenames
-declare -A SHIELD_MAP=([sweep]=cradio)
-CONFIG_NAME="${SHIELD_MAP[$KEYBOARD]:-$KEYBOARD}"
-
-[[ ! -f "$CONFIG_DIR/$CONFIG_NAME.keymap" ]] && echo "No $CONFIG_NAME.keymap in config/" && exit 1
+[[ ! -f "$CONFIG_DIR/$KEYBOARD.keymap" ]] && echo "No $KEYBOARD.keymap in config/" && exit 1
 
 setup_workspace() {
     echo "Setting up west workspace for $KEYBOARD at $WORKSPACE ..."
@@ -45,11 +40,12 @@ setup_workspace() {
         ln -sf "$f" "$WORKSPACE/config/"
     done
 
-    # Use board-specific west.yml if available (e.g. glove80.west.yml for moergo fork)
-    if [[ -f "$CONFIG_DIR/$KEYBOARD.west.yml" ]]; then
-        cp "$CONFIG_DIR/$KEYBOARD.west.yml" "$WORKSPACE/config/west.yml"
-        echo "Using $KEYBOARD.west.yml"
+    if [[ ! -f "$CONFIG_DIR/$KEYBOARD.west.yml" ]]; then
+        echo "No $KEYBOARD.west.yml in config/"
+        exit 1
     fi
+    rm -f "$WORKSPACE/config/west.yml"
+    cp "$CONFIG_DIR/$KEYBOARD.west.yml" "$WORKSPACE/config/west.yml"
 
     cd "$WORKSPACE"
     [[ -d .west ]] && rm -rf .west
@@ -73,11 +69,6 @@ export ZEPHYR_BASE="$WORKSPACE/zephyr"
 export CMAKE_PREFIX_PATH="$WORKSPACE/zephyr/share/zephyr-package/cmake"
 cd "$WORKSPACE"
 
-# Parse build.yaml entries for this keyboard.
-# Each entry has board: and optionally shield:. We match entries by:
-#   - board name contains the keyboard name (e.g. glove80_lh matches glove80)
-#   - OR shield name contains the keyboard name mapped through aliases
-# Returns lines like "board=glove80_lh shield=" or "board=nice_nano_v2 shield=cradio_left"
 get_build_entries() {
     local build_yaml="$WORKSPACE/config/$KEYBOARD.build.yaml"
     if [[ ! -f "$build_yaml" ]]; then
@@ -89,17 +80,12 @@ import yaml, sys
 with open('$build_yaml') as f:
     data = yaml.safe_load(f)
 
-# Map keyboard names to shield prefixes
-SHIELD_MAP = {'sweep': 'cradio'}
-
 keyboard = '$KEYBOARD'
-shield_prefix = SHIELD_MAP.get(keyboard, keyboard)
-
 for entry in data.get('include', []):
     board = entry.get('board', '')
     shield = entry.get('shield', '')
     if shield:
-        if shield.startswith(shield_prefix):
+        if shield.startswith(keyboard):
             print(f'{board} {shield}')
     else:
         if keyboard in board:
@@ -135,7 +121,7 @@ fi
 
 mapfile -t entries < <(get_build_entries)
 if [[ ${#entries[@]} -eq 0 ]]; then
-    echo "No build entries found for '$KEYBOARD' in build.yaml"
+    echo "No build entries found for '$KEYBOARD'"
     exit 1
 fi
 

@@ -1,5 +1,5 @@
 .zmk/
 .west/
 *.uf2
-/build/
-/.cache/
+build/
+.cache/
