@@ -7,11 +7,11 @@ jobs:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: cradio.west.yml
-      board: nice_nano_v2
+      board: nice_nano
       shield: cradio_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: cradio.west.yml
-      board: nice_nano_v2
+      board: nice_nano
       shield: cradio_right
