@@ -352,6 +352,57 @@ ZMK_COMBO(shcha,     &kp O,     31 32, LAYER_Vestnik)
 ZMK_COMBO(yo,        &kp GRAVE, 32 44, LAYER_Vestnik)
 ZMK_COMBO(hard_sign, &kp RBKT,  44 62, LAYER_Vestnik)
 
+#else
+
+// Combos for keymap-drawer (mirrors ZMK_COMBO definitions above)
+/ {
+    combos {
+        compatible = "zmk,combos";
+        combo_esc {
+            key-positions = <48 49>;
+            bindings = <&kp ESC>;
+            layers = <LAYER_Graphite LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_tab {
+            key-positions = <49 50>;
+            bindings = <&kp TAB>;
+            layers = <LAYER_Graphite LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_enter {
+            key-positions = <59 60>;
+            bindings = <&kp RET>;
+            layers = <LAYER_Graphite LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_bspc {
+            key-positions = <60 61>;
+            bindings = <&bspc_del>;
+            layers = <LAYER_Graphite LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_shcha {
+            key-positions = <31 32>;
+            bindings = <&kp O>;
+            layers = <LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_yo {
+            key-positions = <32 44>;
+            bindings = <&kp GRAVE>;
+            layers = <LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+        combo_hard_sign {
+            key-positions = <44 62>;
+            bindings = <&kp RBKT>;
+            layers = <LAYER_Vestnik>;
+            timeout-ms = <COMBO_TIMEOUT_MS>;
+        };
+    };
+};
+
 #endif
 
 / {

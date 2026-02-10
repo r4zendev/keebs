@@ -486,3 +486,25 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
+combos:
+- p: [48, 49]
+  k: $$mdi:keyboard-esc$$
+  l: [Graphite, Vestnik]
+- p: [49, 50]
+  k: $$mdi:keyboard-tab$$
+  l: [Graphite, Vestnik]
+- p: [59, 60]
+  k: $$mdi:keyboard-return$$
+  l: [Graphite, Vestnik]
+- p: [60, 61]
+  k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  l: [Graphite, Vestnik]
+- p: [31, 32]
+  k: Щ
+  l: [Vestnik]
+- p: [32, 44]
+  k: Ё
+  l: [Vestnik]
+- p: [44, 62]
+  k: Ъ
+  l: [Vestnik]

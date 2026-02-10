@@ -1,4 +1,5 @@
 .zmk/
 .west/
 *.uf2
+/build/
 draw/piantor_qmk.json

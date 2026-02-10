@@ -56,69 +56,71 @@ The module tracks HID keycodes, so macro output chains into the next ★ press: 
 
 ### Mappings
 
-**SFB fixes** (from [cmini](https://github.com/grassfedreeve/cmini) frequency analysis):
+**SFB fixes:**
 
-| Trigger | Output | SFB |
-|---------|--------|-----|
-| R★ | L | rl 0.114% |
-| G★ | S | gs 0.102% |
-| U★ | E | ue 0.090% |
-| E★ | U | eu |
-| S★ | C | sc 0.087% |
-| H★ | Y | hy 0.051% |
-| P★ | H | ph |
-| O★ | A | oa 0.042% |
-| W★ | S | ws 0.042% |
-| Y★ | H | yh |
+| Trigger | Output | SFB       |
+| ------- | ------ | --------- |
+| R★      | L      | rl 0.114% |
+| G★      | S      | gs 0.102% |
+| U★      | E      | ue 0.090% |
+| E★      | U      | eu        |
+| S★      | C      | sc 0.087% |
+| H★      | Y      | hy 0.051% |
+| P★      | H      | ph        |
+| O★      | A      | oa 0.042% |
+| W★      | S      | ws 0.042% |
+| Y★      | H      | yh        |
 
 **Suffix completions:**
 
-| Trigger | Result | Example |
-|---------|--------|---------|
-| A★ | ation | nation, education |
-| B★ | ble | possible, table |
-| C★ | ction | action, function |
-| D★ | dition | addition, condition |
-| F★ | fy | modify, satisfy |
-| I★ | ion | opinion, session |
-| J★ | just | adjust, just |
-| L★ | lation | relation, translation |
-| M★ | ment | moment, element |
-| N★ | nion | union, opinion |
-| Q★ | quen | frequency, sequence |
-| T★ | tment | treatment, apartment |
-| V★ | ver | never, every, over |
-| Z★ | zation | organization |
-| SPC★ | the | most common word |
-| .★ | ./ | terminal paths |
+| Trigger | Result | Example               |
+| ------- | ------ | --------------------- |
+| A★      | ation  | nation, education     |
+| B★      | ble    | possible, table       |
+| C★      | ction  | action, function      |
+| D★      | dition | addition, condition   |
+| F★      | fy     | modify, satisfy       |
+| I★      | ion    | opinion, session      |
+| J★      | just   | adjust, just          |
+| L★      | lation | relation, translation |
+| M★      | ment   | moment, element       |
+| N★      | nion   | union, opinion        |
+| Q★      | quen   | frequency, sequence   |
+| T★      | tment  | treatment, apartment  |
+| V★      | ver    | never, every, over    |
+| Z★      | zation | organization          |
+| SPC★    | the    | most common word      |
+| .★      | ./     | terminal paths        |
 
-**Programming** (experimental — modified keycodes may not trigger):
+**Programming:**
 
-| Trigger | Result |
-|---------|--------|
-| /★ | `/* \| */` (block comment, cursor inside) |
-| #★ | `#include ` |
+| Trigger | Result                                    |
+| ------- | ----------------------------------------- |
+| /★      | `/* \| */` (block comment, cursor inside) |
+| #★      | `#include `                               |
 
 ### Cyrillic (Vestnik)
 
-Separate `adaptive_key_ru` behavior on the Vestnik layer. Triggers use QWERTY keycodes (the module tracks HID keycodes, OS input method converts to Cyrillic).
+Separate `adaptive_key_ru` behavior on the Vestnik layer.
 
-| Trigger | Output | SFB |
-|---------|--------|-----|
-| Р★ | Н | рн 0.155% |
-| Н★ | Р | нр (reverse) |
-| З★ | Д | зд 0.115% |
-| Ч★ | К | чк 0.072% |
-| Л★ | Н | лн 0.054% |
+| Trigger | Output | SFB          |
+| ------- | ------ | ------------ |
+| Р★      | Н      | рн 0.155%    |
+| Н★      | Р      | нр (reverse) |
+| З★      | Д      | зд 0.115%    |
+| Ч★      | К      | чк 0.072%    |
+| Л★      | Н      | лн 0.054%    |
 
 ### Extending
 
 Single key output:
+
 ```dts
 ak_x { trigger-keys = <X>; max-prior-idle-ms = <300>; bindings = <&kp Z>; };
 ```
 
 Multi-key output (define a macro, then reference it):
+
 ```dts
 macro_tion: macro_tion {
     compatible = "zmk,behavior-macro";
@@ -182,9 +184,39 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 
 ## Building
 
-Requires [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) module in `west.yml`. The module provides the adaptive key behavior through the ZMK build system (no `#include` needed).
+### CI (GitHub Actions)
+
+Push to GitHub — the workflow builds both halves automatically using `build.yaml`.
+
+### Local
+
+Prerequisites: `west`, `cmake`, `ninja`, and [Zephyr SDK](https://github.com/zephyrproject-rtos/sdk-ng/releases) (minimal + ARM toolchain + host tools) at `~/.local/zephyr-sdk-0.17.0`.
+
+One-time workspace setup per keyboard (west workspaces live at `~/.local/share/zmk-workspaces/<keyboard>/`, keeping deps out of the repo):
+
+```bash
+./build.sh glove80 setup
+```
+
+Then build:
+
+```bash
+./build.sh glove80          # both halves
+./build.sh glove80 left     # left hand only
+./build.sh glove80 right    # right hand only
+./build.sh glove80 clean    # remove build artifacts
+CLEAN=1 ./build.sh glove80  # full rebuild
+```
+
+UF2 files are copied to `build/<keyboard>/`.
+
+### Modules
+
+- [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) — adaptive key behavior
+- [urob/zmk-helpers](https://github.com/urob/zmk-helpers) — helper macros for `#binding-cells` handling
 
 Required Kconfig settings in `.conf`:
+
 ```
 CONFIG_ZMK_ADAPTIVE_KEY_MAX_TRIGGER_CONDITIONS=64
 CONFIG_ZMK_ADAPTIVE_KEY_MAX_BINDINGS=10
