@@ -1,28 +1,49 @@
-# ZMK Configuration
+# keebs
 
-Split keyboard layout based on [Graphite](https://github.com/rdavison/graphite-layout) with [Vestnik](https://github.com/nxtk/vestnik-layout) for Cyrillic.
+Split keyboard firmware based on [Graphite](https://github.com/rdavison/graphite-layout) with [Vestnik](https://github.com/nxtk/vestnik-layout) for Cyrillic. Shared base config across multiple boards.
+
+## Boards
+
+| Board | Controller | ZMK Remote | Config |
+|---|---|---|---|
+| [MoErgo Glove80](https://www.moergo.com/collections/glove80-702702) | integrated nRF52840 | moergo-sc/zmk | `glove80.keymap` |
+| [Ferris Sweep](https://github.com/davidphilipbarr/Sweep) | nice!nano v2 | zmkfirmware/zmk | `cradio.keymap` |
+
+## Repo Structure
+
+```
+config/
+  base.keymap          # shared: behaviors, macros, combos (abstract key names)
+  glove80.keymap       # Glove80 wrapper: 80-key matrix, RGB, Magic layer
+  glove80.conf
+  glove80.build.yaml
+  glove80.west.yml     # moergo-sc/zmk fork
+  cradio.keymap        # Sweep wrapper: 34-key matrix, System layer
+  cradio.conf
+  sweep.build.yaml
+  sweep.west.yml       # zmkfirmware/zmk upstream
+  west.yml             # default manifest
+draw/                  # keymap-drawer config and generated SVGs
+build.sh               # local build script
+Makefile               # keymap-drawer pipeline
+```
+
+Board wrappers include `base.keymap` and add board-specific layers/behaviors. Key positions use abstract names (`LT0`, `LM3`, `RB4`, etc.) from [zmk-helpers key-labels](https://github.com/urob/zmk-helpers/blob/main/docs/key_labels.md).
 
 ## Layers
 
-| #   | Layer    | Activation   | Description              |
-| --- | -------- | ------------ | ------------------------ |
-| 0   | Graphite | default      | English alphas           |
-| 1   | Vestnik  | lang macro   | Russian/Ukrainian alphas |
-| 2   | Symbol   | hold R thumb | Full symbol set          |
-| 3   | Nav      | hold L thumb | L=editing, R=navigation  |
-| 4   | Num      | from Sym/Nav | L=F-keys, R=numpad       |
-| 5   | Magic    | hold corner  | System/BT/RGB            |
+| # | Layer | Activation | Description |
+|---|---|---|---|
+| 0 | Graphite | default | English alphas |
+| 1 | Vestnik | lang macro | Russian/Ukrainian alphas |
+| 2 | Symbol | hold R thumb | Full symbol set |
+| 3 | Nav | hold L thumb | L=editing, R=navigation |
+| 4 | Num | from Sym/Nav | L=F-keys, R=numpad |
+| 5 | Magic/System | board-specific | System/BT (+ RGB on Glove80) |
 
-Key positions (34-key core):
-
-```
-╭───────────────────╮ ╭───────────────────╮
-│ 23  24  25  26  27│ │28  29  30  31  32 │
-│ 35  36  37  38  39│ │40  41  42  43  44 │
-│ 47  48  49  50  51│ │58  59  60  61  62 │
-╰──────────╮ 69  70 │ │ 73  74 ╭──────────╯
-           ╰────────╯ ╰────────╯
-```
+Magic layer access:
+- **Glove80**: hold corner keys (positions 64/79)
+- **Sweep**: from Num layer, combo both outer bottom pinkies (LB4+RB4) → toggle-locks System layer; left thumb exits
 
 ## Home Row Mods
 
@@ -38,100 +59,94 @@ Three anti-misfire mechanisms:
 - **Idle cooldown** (`require-prior-idle-ms = <150>`) — fast typing always taps
 - **Bilateral filter** (`hold-trigger-key-positions`) — hold only triggers from opposite hand
 
-The same mod positions are used consistently: HRM on alpha/num, sticky mods on nav.
-
-### Bilateral Hold-Tap
-
-Opt-in via `#define BILATERAL`. When enabled, HRM only activates from opposite-hand keypresses. This eliminates same-hand misfire on fast rolls but **prevents same-hand mod chording**. Use nav layer sticky mods to stack modifiers instead.
-
-When disabled, balanced flavor + idle cooldown still prevent most misfires.
+Opt-in via `#define BILATERAL`. When disabled, balanced flavor + idle cooldown still prevent most misfires.
 
 ## Adaptive Key (★)
 
-Uses [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key). Left inner thumb — tap for magic, hold for shift. Changes output based on the previously pressed key (within 300ms). Default output: `"`. Inspired by [joa/graphite](https://github.com/joa/graphite).
+Uses [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key). Left inner thumb — tap for ★, hold for shift. Changes output based on the previously pressed key (within 300ms). Default: key repeat.
 
-Thumb placement means zero same-finger conflicts with any key.
-
-The module tracks HID keycodes, so macro output chains into the next ★ press: `adj★m★` → "adjustment", `m★i★` → "mention".
+Thumb placement means zero same-finger conflicts with any key. Macro output chains into the next ★ press: `adj★m★` → "adjustment".
 
 ### Mappings
 
 **SFB fixes:**
 
-| Trigger | Output | SFB       |
-| ------- | ------ | --------- |
-| R★      | L      | rl 0.114% |
-| G★      | S      | gs 0.102% |
-| U★      | E      | ue 0.090% |
-| E★      | U      | eu        |
-| S★      | C      | sc 0.087% |
-| H★      | Y      | hy 0.051% |
-| P★      | H      | ph        |
-| O★      | A      | oa 0.042% |
-| W★      | S      | ws 0.042% |
-| Y★      | H      | yh        |
+| Trigger | Output | SFB |
+|---|---|---|
+| R★ | L | rl 0.114% |
+| G★ | S | gs 0.102% |
+| U★ | E | ue 0.090% |
+| E★ | U | eu |
+| S★ | C | sc 0.087% |
+| H★ | Y | hy 0.051% |
+| P★ | H | ph |
+| O★ | A | oa 0.042% |
+| W★ | S | ws 0.042% |
+| Y★ | H | yh |
 
 **Suffix completions:**
 
-| Trigger | Result | Example               |
-| ------- | ------ | --------------------- |
-| A★      | ation  | nation, education     |
-| B★      | ble    | possible, table       |
-| C★      | ction  | action, function      |
-| D★      | dition | addition, condition   |
-| F★      | fy     | modify, satisfy       |
-| I★      | ion    | opinion, session      |
-| J★      | just   | adjust, just          |
-| L★      | lation | relation, translation |
-| M★      | ment   | moment, element       |
-| N★      | nion   | union, opinion        |
-| Q★      | quen   | frequency, sequence   |
-| T★      | tment  | treatment, apartment  |
-| V★      | ver    | never, every, over    |
-| Z★      | zation | organization          |
-| SPC★    | the    | most common word      |
-| .★      | ./     | terminal paths        |
+| Trigger | Result | Example |
+|---|---|---|
+| A★ | ation | nation, education |
+| B★ | ble | possible, table |
+| C★ | ction | action, function |
+| D★ | dition | addition, condition |
+| F★ | fy | modify, satisfy |
+| I★ | ion | opinion, session |
+| J★ | just | adjust, just |
+| L★ | lation | relation, translation |
+| M★ | ment | moment, element |
+| N★ | nion | union, opinion |
+| Q★ | quen | frequency, sequence |
+| T★ | tment | treatment, apartment |
+| V★ | ver | never, every, over |
+| Z★ | zation | organization |
+| SPC★ | the | most common word |
+| .★ | ./ | terminal paths |
 
 **Programming:**
 
-| Trigger | Result                                    |
-| ------- | ----------------------------------------- |
-| /★      | `/* \| */` (block comment, cursor inside) |
-| #★      | `#include `                               |
+| Trigger | Result |
+|---|---|
+| /★ | `/* \| */` (block comment, cursor inside) |
+| #★ | `#include ` |
 
 ### Cyrillic (Vestnik)
 
 Separate `adaptive_key_ru` behavior on the Vestnik layer.
 
-| Trigger | Output | SFB          |
-| ------- | ------ | ------------ |
-| Р★      | Н      | рн 0.155%    |
-| Н★      | Р      | нр (reverse) |
-| З★      | Д      | зд 0.115%    |
-| Ч★      | К      | чк 0.072%    |
-| Л★      | Н      | лн 0.054%    |
+| Trigger | Output | SFB |
+|---|---|---|
+| Р★ | Н | рн 0.155% |
+| Н★ | Р | нр (reverse) |
+| З★ | Д | зд 0.115% |
+| Ч★ | К | чк 0.072% |
+| Л★ | Н | лн 0.054% |
 
-### Extending
+## Combos
 
-Single key output:
+Alpha layers only, 75ms timeout:
 
-```dts
-ak_x { trigger-keys = <X>; max-prior-idle-ms = <300>; bindings = <&kp Z>; };
-```
+| Keys | Output |
+|---|---|
+| LB3+LB2 | ESC |
+| LB2+LB1 | TAB |
+| RB1+RB2 | ENTER |
+| RB2+RB3 | BSPC/DEL |
 
-Multi-key output (define a macro, then reference it):
+Cyrillic (Vestnik only): RT3+RT4 → Щ, RT4+RM4 → Ё, RM4+RB4 → Ъ
 
-```dts
-macro_tion: macro_tion {
-    compatible = "zmk,behavior-macro";
-    #binding-cells = <0>;
-    bindings = <&kp T>, <&kp I>, <&kp O>, <&kp N>;
-};
-// in adaptive_key:
-ak_a { trigger-keys = <A>; max-prior-idle-ms = <300>; bindings = <&macro_tion>; };
-```
+## Mod-Morphs
 
-`max-prior-idle-ms = <300>` — trigger must have been pressed within 300ms.
+Base layer punctuation with shift variants:
+
+| Tap | Shift |
+|---|---|
+| `'` | `_` |
+| `-` | `"` |
+| `,` | `;` |
+| `.` | `?` |
 
 ## Sticky Modifiers
 
@@ -139,33 +154,9 @@ Nav layer left home row: `sk GUI`, `sk ALT`, `sk CTL`, `sk SFT`, `CapsWord`.
 
 Tap one or more sticky mods, release nav, press any key. Mods stack thanks to `ignore-modifiers` on `&sk`. Example: `sk CTL → sk SFT → key` = Ctrl+Shift+key.
 
-## Mod-Morphs
-
-Base layer punctuation with shift variants:
-
-| Tap | Shift |
-| --- | ----- |
-| `'` | `_`   |
-| `-` | `"`   |
-| `,` | `;`   |
-| `.` | `?`   |
-
-## Combos
-
-Alpha layers only, 75ms timeout:
-
-| Keys  | Output   |
-| ----- | -------- |
-| 48+49 | ESC      |
-| 49+50 | TAB      |
-| 59+60 | ENTER    |
-| 60+61 | BSPC/DEL |
-
-Cyrillic (Vestnik only): 31+32 → Щ, 32+44 → Ё/Ґ, 44+62 → Ъ/Ї
-
 ## CapsWord
 
-Nav layer position 39 (left inner home). Tap for CapsWord, Shift+tap for CapsLock. Continues through: underscore, minus, backspace, delete, digits.
+Nav layer left inner home (LM0). Tap for CapsWord, Shift+tap for CapsLock. Continues through: underscore, minus, backspace, delete, digits.
 
 ## Language Switching
 
@@ -177,16 +168,18 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 
 ## Configuration
 
-| Define             | Effect                        | Default     |
-| ------------------ | ----------------------------- | ----------- |
-| `BILATERAL`        | Positional hold-tap filtering | disabled    |
-| `OPERATING_SYSTEM` | OS-specific key mappings      | `1` (Linux) |
+| Define | Effect | Default |
+|---|---|---|
+| `BILATERAL` | Positional hold-tap filtering | disabled |
+| `OPERATING_SYSTEM` | OS-specific key mappings | `1` (Linux) |
 
 ## Building
 
 ### CI (GitHub Actions)
 
-Push to GitHub — the workflow builds both halves automatically using `build.yaml`.
+Separate workflows per board — push to GitHub builds automatically:
+- `.github/workflows/build.yml` — Glove80 (moergo-sc/zmk)
+- `.github/workflows/build-sweep.yml` — Sweep (zmkfirmware/zmk)
 
 ### Local
 
@@ -196,6 +189,7 @@ One-time workspace setup per keyboard (west workspaces live at `~/.local/share/z
 
 ```bash
 ./build.sh glove80 setup
+./build.sh sweep setup
 ```
 
 Then build:
@@ -210,18 +204,27 @@ CLEAN=1 ./build.sh glove80  # full rebuild
 
 UF2 files are copied to `build/<keyboard>/`.
 
+### Drawing
+
+Regenerate layout SVGs (auto-fetches zmk-helpers headers to `.cache/`):
+
+```bash
+make              # both boards
+make glove80      # Glove80 only
+make sweep        # Sweep only
+```
+
 ### Modules
 
 - [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) — adaptive key behavior
-- [urob/zmk-helpers](https://github.com/urob/zmk-helpers) — helper macros for `#binding-cells` handling
+- [urob/zmk-helpers](https://github.com/urob/zmk-helpers) — helper macros and key-labels
 
-Required Kconfig settings in `.conf`:
+## Layout
 
-```
-CONFIG_ZMK_ADAPTIVE_KEY_MAX_TRIGGER_CONDITIONS=64
-CONFIG_ZMK_ADAPTIVE_KEY_MAX_BINDINGS=10
-```
+### Glove80
 
-## Map visualization
+![Glove80](draw/glove80.svg)
 
-![Layout](draw/glove80.svg)
+### Sweep
+
+![Sweep](draw/sweep.svg)
