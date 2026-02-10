@@ -375,4 +375,5 @@ parse_config:
     combo_yo: {key: {t: Ё}}
     combo_hard_sign: {key: {t: Ъ}}
   zmk_preamble: '#define KEYMAP_DRAWER'
-  zmk_additional_includes: []
+  zmk_additional_includes:
+    - .cache

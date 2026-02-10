@@ -19,6 +19,8 @@ GLOVE80_KEYMAP   := glove80/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
+ZMK_HELPERS_URL  := https://raw.githubusercontent.com/urob/zmk-helpers/main/include/zmk-helpers/helper.h
+ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h
 
 # ─── Targets ─────────────────────────────────────────────────────────
 .PHONY: all draw piantor glove80 qmk qmk-sync qmk-flash clean
@@ -52,8 +54,13 @@ $(PIANTOR_YAML): $(QMK_JSON) $(CONF) draw/inject_held.py
 $(PIANTOR_SVG): $(PIANTOR_YAML) $(PIANTOR_COMBOS) $(CONF)
 	keymap -c $(CONF) draw $< $(PIANTOR_COMBOS) -k $(QMK_KEYBOARD) > $@
 
+# Fetch zmk-helpers header for keymap-drawer preprocessing
+$(ZMK_HELPERS_H):
+	mkdir -p $(dir $@)
+	curl -sL $(ZMK_HELPERS_URL) -o $@
+
 # Glove80 draw pipeline: ZMK keymap → parse → draw
-$(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(CONF)
+$(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(CONF) $(ZMK_HELPERS_H)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ Graphite Symbol Nav Num Magic Vestnik
 
@@ -63,3 +70,4 @@ $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 # Clean all generated files
 clean:
 	rm -f $(QMK_JSON) $(PIANTOR_YAML) $(PIANTOR_SVG) $(GLOVE80_YAML) $(GLOVE80_SVG) *.uf2
+	rm -rf .cache
