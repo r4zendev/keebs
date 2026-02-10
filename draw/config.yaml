@@ -44,28 +44,20 @@ parse_config:
   skip_binding_parsing: false
   raw_binding_map:
     '&comma_excl': {t: ',', s: '!'}
-    '&quote_under': {t: '''', s: _}
-    '&hyphen_qmark': {t: '-', s: '?'}
-    '&dot_dqt': {t: '.', s: '"'}
-    '&fslh_bslh': {t: /, s: \}
+    '&quote_hyphen': {t: '''', s: '-'}
+    '&adaptive_key': {t: '★"', type: adaptive}
+    '&dot_qmark': {t: '.', s: '?'}
+    '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
     '&w_caps': {t: CapsWord}
-    '&msc SCRL_UP': {t: '$$mdi:arrow-up$$', h: scroll}
-    '&msc SCRL_DOWN': {t: '$$mdi:arrow-down$$', h: scroll}
-    '&msc SCRL_LEFT': {t: '$$mdi:arrow-left$$', h: scroll}
-    '&msc SCRL_RIGHT': {t: '$$mdi:arrow-right$$', h: scroll}
-    '&mmv MOVE_UP': {t: '$$mdi:arrow-up$$', h: mouse}
-    '&mmv MOVE_DOWN': {t: '$$mdi:arrow-down$$', h: mouse}
-    '&mmv MOVE_LEFT': {t: '$$mdi:arrow-left$$', h: mouse}
-    '&mmv MOVE_RIGHT': {t: '$$mdi:arrow-right$$', h: mouse}
-    '&mkp LCLK': {t: M1, h: mouse}
-    '&mkp RCLK': {t: M2, h: mouse}
-    '&mkp MCLK': {t: M3, h: mouse}
-    '&semi_colon': {t: ';', s: ':'}
+    '&mkp LCLK': {t: M1}
+    '&mkp RCLK': {t: M2}
+    '&kp LA(LEFT)': {t: B ←}
+    '&kp LA(RIGHT)': {t: B →}
+    '&kp LC(LS(Z))': {t: Redo}
+    '&kp LC(A)': {t: Sel All}
     '&kp LC(LA(LEFT))': {t: '$$mdi:arrow-left-bold$$', s: WS}
     '&kp LC(LA(RIGHT))': {t: '$$mdi:arrow-right-bold$$', s: WS}
     '&kp C_POWER': {t: '$$mdi:power$$'}
-    '&mkp MB4': {t: M4, h: mouse}
-    '&mkp MB5': {t: M5, h: mouse}
     '&kp LC(LEFT)': {t: Word ←}
     '&kp LC(RIGHT)': {t: Word →}
     '&kp LC(Y)': {t: Redo}
@@ -78,11 +70,6 @@ parse_config:
     '&kp LG(V)': {t: Paste}
     '&kp LG(A)': {t: Sel All}
     '&kp LG(S)': {t: Save}
-    '&kp LA(BSPC)': {t: Word ⌫}
-    '&kp LG(LEFT)': {t: Home}
-    '&kp LG(RIGHT)': {t: End}
-    '&kp LA(LEFT)': {t: Word ←}
-    '&kp LA(RIGHT)': {t: Word →}
     '&kp LG(TAB)': {t: Last ␣}
     '&kp LC(SPACE)': {t: Spotlight}
     '&kp LG(LC(Q))': {t: '$$mdi:lock$$'}
@@ -101,12 +88,18 @@ parse_config:
     '&kp LC(A)': {t: Sel All}
     '&kp LC(S)': {t: Save}
     '&kp LC(BSPC)': {t: Word ⌫}
+    '&kp LC(DEL)': {t: Word ⌦}
+    '&kp LG(DEL)': {t: Word ⌦}
     '&kp K_LOCK': {t: '$$mdi:lock$$'}
     '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
     '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
     '&lang_en': {t: EN}
     '&lang_ru': {t: RU}
     '&lang_ua': {t: UA}
+    '&kp LG(COMMA)': {t: W ←}
+    '&kp LG(DOT)': {t: W →}
+    '&kp LC(LS(TAB))': {t: Tab ←}
+    '&kp LC(TAB)': {t: Tab →}
   sticky_label: sticky
   toggle_label: toggle
   tap_toggle_label: tap-toggle
@@ -374,6 +367,9 @@ parse_config:
     RGUI: ❖
     CAPSLOCK: Caps
     CAPS: Caps
-  zmk_combos: {}
+  zmk_combos:
+    combo_shcha: {key: {t: Щ}}
+    combo_yo: {key: {t: Ё}}
+    combo_hard_sign: {key: {t: Ъ}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes: []

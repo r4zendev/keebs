@@ -11,15 +11,33 @@ VESTNIK_MAP = {
     ";": "Ж", "Q": "Й", "S": "Ы", "E": "У", ".": "Ю",
 }
 
+
+def translate_vestnik_key(k):
+    if isinstance(k, str):
+        return VESTNIK_MAP.get(k, k)
+    if isinstance(k, dict) and "t" in k:
+        k = dict(k)
+        k["t"] = VESTNIK_MAP.get(k["t"], k["t"])
+    return k
+
+
 path, *order = sys.argv[1:]
 with open(path) as f:
     data = yaml.safe_load(f)
 
 layers = data["layers"]
 if "Vestnik" in layers:
-    layers["Vestnik"] = [VESTNIK_MAP.get(k, k) if isinstance(k, str) else k for k in layers["Vestnik"]]
+    layers["Vestnik"] = [translate_vestnik_key(k) for k in layers["Vestnik"]]
 
 data["layers"] = {name: layers[name] for name in order if name in layers}
+
+HELD_POSITIONS = {
+    "Num": [69, 74],
+}
+for layer_name, positions in HELD_POSITIONS.items():
+    if layer_name in data["layers"]:
+        for pos in positions:
+            data["layers"][layer_name][pos] = {"type": "held"}
 
 with open(path, "w") as f:
     yaml.dump(data, f, default_flow_style=None, allow_unicode=True, sort_keys=False)
