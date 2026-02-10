@@ -53,7 +53,7 @@ ZMK_COMBO(system, &tog LAYER_Magic, LB4 RB4, LAYER_Num)
      &kp F12     &kp F9     &kp F8     &kp F7  &kp EQUAL          &kp PLUS    &kp N7      &kp N8     &kp N9   &kp FSLH
      &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &hml F13 RET     &hmr F13 COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR
      &kp F11     &kp F6     &kp F5     &kp F4    &kp DOT          &kp N0     &kp N4      &kp N5     &kp N6  &kp MINUS
-                              &trans      &trans                    &trans      &trans
+                              &trans      &none                    &none      &trans
             >;
         };
 

@@ -137,8 +137,8 @@ layers:
   - '6'
   - '-'
   - {type: held}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - ''
+  - ''
   - {type: held}
   System:
   - {t: '$$mdi:progress-download$$', s: Boot}
