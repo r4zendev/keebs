@@ -109,10 +109,14 @@
 #define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik
 #define COMBO_TIMEOUT_MS 75
 
+// Workaround: #binding-cells inside function-like macros triggers
+// the C preprocessor stringify operator. Define it via object-like macro.
+#define ZBC #binding-cells
+
 #define FAST_MACRO(name, ...) name: name { \
     compatible = "zmk,behavior-macro"; \
     wait-ms = <0>; tap-ms = <0>; \
-    #binding-cells = <0>; \
+    ZBC = <0>; \
     bindings = __VA_ARGS__; \
 };
 
@@ -129,7 +133,7 @@
 
 #define BT_MACRO(name, n) name: name { \
     compatible = "zmk,behavior-macro"; \
-    #binding-cells = <0>; \
+    ZBC = <0>; \
     bindings = <&out OUT_BLE>, <&bt BT_SEL n>; \
 };
 
