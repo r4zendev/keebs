@@ -124,14 +124,14 @@
     bindings = <&out OUT_BLE>, <&bt BT_SEL n>; \
 };
 
-#define AK(name, trigger, binding) \
-    name { trigger-keys = <trigger>; max-prior-idle-ms = <300>; bindings = <binding>; };
+#define AK(name, k, b) \
+    name { trigger-keys = <k>; max-prior-idle-ms = <300>; bindings = <b>; };
 
-#define COMBO(name, binding, pos, layer) name { \
+#define COMBO(name, b, pos, l) name { \
     compatible = "zmk,combo"; \
-    bindings = <binding>; \
+    bindings = <b>; \
     key-positions = <pos>; \
-    layers = <layer>; \
+    layers = <l>; \
     timeout-ms = <COMBO_TIMEOUT_MS>; \
 };
 
