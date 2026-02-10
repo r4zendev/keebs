@@ -4,6 +4,7 @@ manifest:
       url-base: https://github.com/moergo-sc
     - name: urob
       url-base: https://github.com/urob
+
   projects:
     - name: zmk
       remote: moergo-sc
@@ -15,5 +16,6 @@ manifest:
     - name: zmk-helpers
       remote: urob
       revision: main
+
   self:
-    path: glove80
+    path: config

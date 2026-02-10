@@ -1,73 +1,61 @@
 CONF := draw/config.yaml
 
-# ─── Piantor (QMK) ───────────────────────────────────────────────────
-QMK_HOME     := $(HOME)/src/qmk_firmware
-QMK_KEYBOARD := beekeeb/piantor_pro
-QMK_KEYMAP   := razen
-QMK_SRC      := $(QMK_HOME)/keyboards/$(QMK_KEYBOARD)/keymaps/$(QMK_KEYMAP)
-QMK_UF2      := $(subst /,_,$(QMK_KEYBOARD))_$(QMK_KEYMAP).uf2
-
-# ─── Draw: Piantor ───────────────────────────────────────────────────
-QMK_JSON       := draw/piantor_qmk.json
-PIANTOR_YAML   := draw/piantor.yaml
-PIANTOR_SVG    := draw/piantor.svg
-PIANTOR_COMBOS := draw/piantor_combos.yaml
-PIANTOR_LAYERS := Graphite Symbol Nav Function Mouse QWERTY
-
 # ─── Draw: Glove80 ──────────────────────────────────────────────────
-GLOVE80_KEYMAP   := glove80/glove80.keymap
+GLOVE80_KEYMAP   := config/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
-ZMK_HELPERS_URL  := https://raw.githubusercontent.com/urob/zmk-helpers/main/include/zmk-helpers/helper.h
+
+# ─── Draw: Sweep (Cradio) ───────────────────────────────────────────
+SWEEP_KEYMAP   := config/cradio.keymap
+SWEEP_YAML     := draw/sweep.yaml
+SWEEP_SVG      := draw/sweep.svg
+SWEEP_KEYBOARD := cradio
+
+# ─── Cache: zmk-helpers headers for keymap-drawer ─────────────────
+ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
 ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h
+GLOVE80_LABELS   := .cache/zmk-helpers/key-labels/glove80.h
+LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Targets ─────────────────────────────────────────────────────────
-.PHONY: all draw piantor glove80 qmk qmk-sync qmk-flash clean
+.PHONY: all draw glove80 sweep clean
 
 all: draw
 
-draw: $(PIANTOR_SVG) $(GLOVE80_SVG)
+draw: $(GLOVE80_SVG) $(SWEEP_SVG)
 
-piantor: $(PIANTOR_SVG)
 glove80: $(GLOVE80_SVG)
+sweep: $(SWEEP_SVG)
 
-# QMK build
-qmk-sync:
-	mkdir -p $(QMK_SRC)
-	cp piantor/* $(QMK_SRC)/
-
-qmk: qmk-sync
-	qmk compile -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP)
-	cp $(QMK_HOME)/$(QMK_UF2) .
-
-qmk-flash: qmk-sync
-	qmk flash -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP)
-
-# Piantor draw pipeline: c2json → parse → inject held → draw with combos
-$(QMK_JSON): piantor/keymap.c qmk-sync
-	cd $(QMK_HOME) && qmk c2json --no-cpp -kb $(QMK_KEYBOARD) -km $(QMK_KEYMAP) -o $(CURDIR)/$@
-
-$(PIANTOR_YAML): $(QMK_JSON) $(CONF) draw/inject_held.py
-	keymap -c $(CONF) parse -q $< -l $(PIANTOR_LAYERS) | python3 draw/inject_held.py > $@
-
-$(PIANTOR_SVG): $(PIANTOR_YAML) $(PIANTOR_COMBOS) $(CONF)
-	keymap -c $(CONF) draw $< $(PIANTOR_COMBOS) -k $(QMK_KEYBOARD) > $@
-
-# Fetch zmk-helpers header for keymap-drawer preprocessing
 $(ZMK_HELPERS_H):
 	mkdir -p $(dir $@)
-	curl -sL $(ZMK_HELPERS_URL) -o $@
+	curl -sL $(ZMK_HELPERS_BASE)/zmk-helpers/helper.h -o $@
 
-# Glove80 draw pipeline: ZMK keymap → parse → draw
-$(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(CONF) $(ZMK_HELPERS_H)
+$(GLOVE80_LABELS):
+	mkdir -p $(dir $@)
+	curl -sL $(ZMK_HELPERS_BASE)/zmk-helpers/key-labels/glove80.h -o $@
+
+$(LABELS_36):
+	mkdir -p $(dir $@)
+	curl -sL $(ZMK_HELPERS_BASE)/zmk-helpers/key-labels/36.h -o $@
+
+# Glove80 draw pipeline
+$(GLOVE80_YAML): $(GLOVE80_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(GLOVE80_LABELS)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ Graphite Symbol Nav Num Magic Vestnik
 
 $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(GLOVE80_KEYBOARD) > $@
 
-# Clean all generated files
+# Sweep draw pipeline
+$(SWEEP_YAML): $(SWEEP_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
+	keymap -c $(CONF) parse -z $< > $@
+	python3 draw/reorder_layers.py $@ Graphite Symbol Nav Num System Vestnik
+
+$(SWEEP_SVG): $(SWEEP_YAML) $(CONF)
+	keymap -c $(CONF) draw $< -z $(SWEEP_KEYBOARD) > $@
+
 clean:
-	rm -f $(QMK_JSON) $(PIANTOR_YAML) $(PIANTOR_SVG) $(GLOVE80_YAML) $(GLOVE80_SVG) *.uf2
+	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(SWEEP_YAML) $(SWEEP_SVG)
 	rm -rf .cache

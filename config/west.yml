@@ -1,0 +1,21 @@
+manifest:
+  remotes:
+    - name: moergo-sc
+      url-base: https://github.com/moergo-sc
+    - name: urob
+      url-base: https://github.com/urob
+
+  projects:
+    - name: zmk
+      remote: moergo-sc
+      revision: main
+      import: app/west.yml
+    - name: zmk-adaptive-key
+      remote: urob
+      revision: main
+    - name: zmk-helpers
+      remote: urob
+      revision: main
+
+  self:
+    path: config

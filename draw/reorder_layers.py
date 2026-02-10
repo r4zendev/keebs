@@ -36,8 +36,10 @@ HELD_POSITIONS = {
 }
 for layer_name, positions in HELD_POSITIONS.items():
     if layer_name in data["layers"]:
+        layer = data["layers"][layer_name]
         for pos in positions:
-            data["layers"][layer_name][pos] = {"type": "held"}
+            if pos < len(layer):
+                layer[pos] = {"type": "held"}
 
 with open(path, "w") as f:
     yaml.dump(data, f, default_flow_style=None, allow_unicode=True, sort_keys=False)

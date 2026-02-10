@@ -1,0 +1,237 @@
+layout: {zmk_keyboard: cradio}
+layers:
+  Graphite:
+  - B
+  - L
+  - D
+  - W
+  - Z
+  - {t: '''', s: _}
+  - F
+  - O
+  - U
+  - J
+  - {t: N, h: ❖}
+  - {t: R, h: ⌥}
+  - {t: T, h: ⌃}
+  - {t: S, h: '$$mdi:arrow-up-bold$$'}
+  - {t: G, h: F13}
+  - {t: Y, h: F13}
+  - {t: H, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - X
+  - Q
+  - M
+  - C
+  - V
+  - K
+  - P
+  - {t: '-', s: '"'}
+  - {t: ',', s: ;}
+  - {t: ., s: '?'}
+  - Nav
+  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - $$mdi:keyboard-space$$
+  - Symbol
+  Symbol:
+  - '`'
+  - '~'
+  - '#'
+  - '&'
+  - '|'
+  - ^
+  - '{'
+  - '}'
+  - '['
+  - ']'
+  - '!'
+  - _
+  - ':'
+  - '='
+  - $
+  - '@'
+  - (
+  - )
+  - ''''
+  - ;
+  - '%'
+  - '?'
+  - '*'
+  - +
+  - \
+  - /
+  - '-'
+  - <
+  - '>'
+  - '"'
+  - Num
+  - {t: ▽, type: trans}
+  - ''
+  - {type: held}
+  Nav:
+  - $$mdi:keyboard-esc$$
+  - W ←
+  - W →
+  - $$mdi:backspace$$
+  - $$mdi:backspace-reverse$$
+  - PgUp
+  - $$mdi:arrow-collapse-left$$
+  - $$mdi:arrow-up$$
+  - $$mdi:arrow-collapse-right$$
+  - UA
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - CapsWord
+  - PgDn
+  - $$mdi:arrow-left$$
+  - $$mdi:arrow-down$$
+  - $$mdi:arrow-right$$
+  - RU
+  - Undo
+  - Cut
+  - Copy
+  - Paste
+  - Redo
+  - B ←
+  - B →
+  - Tab ←
+  - Tab →
+  - EN
+  - {type: held}
+  - ''
+  - M1
+  - Num
+  Num:
+  - F12
+  - F9
+  - F8
+  - F7
+  - '='
+  - +
+  - '7'
+  - '8'
+  - '9'
+  - /
+  - {t: F10, h: ❖}
+  - {t: F3, h: ⌥}
+  - {t: F2, h: ⌃}
+  - {t: F1, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:keyboard-return$$', h: F13}
+  - {t: ',', h: F13}
+  - {t: '1', h: '$$mdi:arrow-up-bold$$'}
+  - {t: '2', h: ⌃}
+  - {t: '3', h: ⌥}
+  - {t: '*', h: ❖}
+  - F11
+  - F6
+  - F5
+  - F4
+  - .
+  - '0'
+  - '4'
+  - '5'
+  - '6'
+  - '-'
+  - {type: held}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - {type: held}
+  System:
+  - {t: '$$mdi:progress-download$$', s: Boot}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:progress-download$$', s: Boot}
+  - '&bt_0'
+  - '&bt_1'
+  - '&bt_2'
+  - '&bt_3'
+  - OUT TOG
+  - ''
+  - $$mdi:lock$$
+  - $$mdi:power$$
+  - $$mdi:sleep$$
+  - BT CLR
+  - {t: '$$mdi:restart$$', s: Reset}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:restart$$', s: Reset}
+  - {t: System, h: toggle}
+  - ''
+  - ''
+  - ''
+  Vestnik:
+  - Ц
+  - Д
+  - Р
+  - Г
+  - Х
+  - Ф
+  - П
+  - А
+  - Я
+  - Э
+  - {t: С, h: ❖}
+  - {t: Т, h: ⌥}
+  - {t: Н, h: ⌃}
+  - {t: К, h: '$$mdi:arrow-up-bold$$'}
+  - {t: Б, h: F13}
+  - {t: Ь, h: F13}
+  - {t: В, h: '$$mdi:arrow-up-bold$$'}
+  - {t: О, h: ⌃}
+  - {t: Е, h: ⌥}
+  - {t: И, h: ❖}
+  - Ш
+  - З
+  - Л
+  - М
+  - Ч
+  - Ж
+  - Й
+  - Ы
+  - У
+  - Ю
+  - Nav
+  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - $$mdi:keyboard-space$$
+  - Symbol
+combos:
+- p: [21, 22]
+  k: $$mdi:keyboard-esc$$
+  l: [Graphite, Vestnik]
+- p: [22, 23]
+  k: $$mdi:keyboard-tab$$
+  l: [Graphite, Vestnik]
+- p: [26, 27]
+  k: $$mdi:keyboard-return$$
+  l: [Graphite, Vestnik]
+- p: [27, 28]
+  k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  l: [Graphite, Vestnik]
+- p: [8, 9]
+  k: Щ
+  l: [Vestnik]
+- p: [9, 19]
+  k: Ё
+  l: [Vestnik]
+- p: [19, 29]
+  k: Ъ
+  l: [Vestnik]
+- p: [20, 29]
+  k: {t: System, h: toggle}
+  l: [Num]

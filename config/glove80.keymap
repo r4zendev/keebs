@@ -1,0 +1,100 @@
+/* Glove80 — board-specific wrapper. Includes base config, adds RGB/Magic. */
+
+#include <zmk-helpers/key-labels/glove80.h>
+#include "base.keymap"
+#include <dt-bindings/zmk/rgb.h>
+
+#define ___ &none
+
+/ {
+    macros {
+        rgb_ug_status_macro: rgb_ug_status_macro {
+            label = "RGB_UG_STATUS";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_STATUS>;
+        };
+    };
+
+    behaviors {
+        magic: magic {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MAGIC_HOLD_TAP";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            bindings = <&mo>, <&rgb_ug_status_macro>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        layer_Graphite {
+            bindings = <
+     ___     ___     ___     ___            ___                                                                                                      ___            ___            ___            ___            ___
+     ___     ___     ___     ___            ___            ___                                                                               ___      ___            ___            ___            ___            ___
+     ___     &kp B   &kp L   &kp D          &kp W          &kp Z                                                              &sqt_under   &kp F          &kp O          &kp U          &kp J          ___
+     ___   &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &hml F13 G                                    &hmr F13 Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I   ___
+     ___     &kp X   &kp Q   &kp M          &kp C          &kp V   ___   ___   ___   ___   ___   ___   &kp K   &kp P    &minus_dqt   &comma_semi        &dot_qmark          ___
+     &magic LAYER_Magic 0   ___   ___   ___   ___   &mo LAYER_Nav   &adaptive_shift LSHFT 0   ___   ___   &kp SPC   &mo LAYER_Symbol   ___   ___   ___   ___   &magic LAYER_Magic 0
+            >;
+        };
+
+        layer_Vestnik {
+            bindings = <
+     ___       ___       ___       ___            ___                                                                                                         ___            ___            ___            ___            ___
+     ___       ___       ___       ___            ___            ___                                                                                  ___      ___            ___            ___            ___            ___
+     ___       &kp W     &kp L     &kp H          &kp U       &kp LBKT                                                                     &kp A   &kp G          &kp F          &kp Z        &kp SQT          ___
+     ___   &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &hml F13 COMMA                                  &hmr F13 M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B   ___
+     ___       &kp I     &kp P     &kp K          &kp V          &kp X   ___   ___   ___   ___   ___   ___   &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT          ___
+     &magic LAYER_Magic 0   ___   ___   ___   ___   &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0   ___   ___   &kp SPC   &mo LAYER_Symbol   ___   ___   ___   ___   &magic LAYER_Magic 0
+            >;
+        };
+
+        layer_Symbol {
+            bindings = <
+     ___        ___        ___        ___        ___                                                                                                ___         ___         ___        ___        ___
+     ___        ___        ___        ___        ___        ___                                                                             ___      ___         ___         ___        ___        ___
+     ___    &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE                                                                &kp CARET   &kp LBRC   &kp RBRC  &kp LBKT  &kp RBKT      ___
+     ___     &kp EXCL  &kp UNDER  &kp COLON  &kp EQUAL   &kp DLLR                                                                   &kp AT   &kp LPAR   &kp RPAR    &kp SQT   &kp SEMI      ___
+     ___    &kp PRCNT  &kp QMARK   &kp STAR   &kp PLUS   &kp BSLH   ___   ___   ___   ___   ___   ___   &kp FSLH  &kp MINUS      &kp LT     &kp GT    &kp DQT      ___
+     ___        ___        ___        ___        ___   &mo LAYER_Num      &trans   ___   ___      ___        ___   ___      ___        ___        ___        ___
+            >;
+        };
+
+        layer_Nav {
+            bindings = <
+     ___        ___        ___        ___        ___                                                                                                            ___         ___        ___         ___         ___
+     ___        ___        ___        ___        ___            ___                                                                                     ___      ___         ___        ___         ___         ___
+     ___      &kp ESC  &kp LG(COMMA)  &kp LG(DOT)  &kp BSPC    &kp DEL                                                                          &kp PG_UP   &kp _HOME    &kp UP     &kp _END    &lang_ua       ___
+     ___     &sk LGUI   &sk LALT   &sk LCTRL  &sk LSHFT   &w_caps                                                                             &kp PG_DN    &kp LEFT  &kp DOWN   &kp RIGHT    &lang_ru       ___
+     ___    &kp _C(Z)  &kp _C(X)  &kp _C(C)  &kp _C(V)  &kp _C(LS(Z))   ___   ___   ___   ___   ___   ___  &kp LA(LEFT)  &kp LA(RIGHT)  &kp LC(LS(TAB))  &kp LC(TAB)   &lang_en       ___
+     ___        ___        ___        ___        ___         &trans      ___   ___   ___   &mkp LCLK   &mo LAYER_Num   ___      ___        ___       ___         ___
+            >;
+        };
+
+        layer_Num {
+            bindings = <
+     ___        ___        ___        ___        ___                                                                                                   ___         ___         ___        ___        ___
+     ___        ___        ___        ___        ___        ___                                                                                ___      ___         ___         ___        ___        ___
+     ___      &kp F12     &kp F9     &kp F8     &kp F7  &kp EQUAL                                                                         &kp PLUS    &kp N7      &kp N8     &kp N9   &kp FSLH      ___
+     ___  &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &hml F13 RET                                          &hmr F13 COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR      ___
+     ___      &kp F11     &kp F6     &kp F5     &kp F4    &kp DOT   ___   ___   ___   ___   ___   ___     &kp N0     &kp N4      &kp N5     &kp N6  &kp MINUS      ___
+     ___        ___        ___        ___        ___        &trans      &trans   ___   ___      &trans      &trans       ___      ___        ___        ___        ___
+            >;
+        };
+
+        layer_Magic {
+            bindings = <
+          ___              ___              ___              ___              ___                                                                                        ___         ___         ___           ___          ___
+          ___              ___              ___              ___              ___              ___                                                            ___         ___         ___         ___           ___          ___
+ &bt BT_CLR_ALL            ___  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI              ___              ___                                                            ___    &kp _LOCK  &kp _POWER  &kp _SLEEP         ___   &bt BT_CLR
+    &bootloader  &rgb_ug RGB_EFR  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_EFF  &rgb_ug RGB_TOG                                                            ___        &bt_0       &bt_1       &bt_2         &bt_3  &bootloader
+     &sys_reset  &rgb_ug RGB_SPD  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_SPI              ___   ___   ___   ___   ___   ___   ___         ___         ___         ___         ___  &out OUT_TOG   &sys_reset
+          ___              ___              ___              ___              ___                        ___   ___   ___   ___   ___   ___                      ___         ___         ___           ___          ___
+            >;
+        };
+
+    };
+};
