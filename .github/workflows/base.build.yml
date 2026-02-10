@@ -19,6 +19,15 @@ jobs:
     container: zmkfirmware/zmk-build-arm:stable
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: west-${{ inputs.manifest }}-${{ hashFiles(format('config/{0}', inputs.manifest)) }}
       - run: west init -l config --mf ${{ inputs.manifest }}
       - run: west update
       - run: west zephyr-export
