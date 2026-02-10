@@ -4,10 +4,10 @@ Split keyboard firmware based on [Graphite](https://github.com/rdavison/graphite
 
 ## Boards
 
-| Board | Controller | ZMK Remote | Config |
-|---|---|---|---|
-| [MoErgo Glove80](https://www.moergo.com/collections/glove80-702702) | integrated nRF52840 | moergo-sc/zmk | `glove80.keymap` |
-| [Ferris Sweep](https://github.com/davidphilipbarr/Sweep) | nice!nano v2 | zmkfirmware/zmk | `cradio.keymap` |
+| Board                                                                                                                       | Controller          | ZMK Remote      | Config           |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------- | ---------------- |
+| [MoErgo Glove80](https://www.moergo.com/collections/glove80-keyboards/products/glove80-split-ergonomic-keyboard-revision-2) | integrated nRF52840 | moergo-sc/zmk   | `glove80.keymap` |
+| [Ferris Sweep](https://github.com/davidphilipbarr/Sweep)                                                                    | nice!nano v2        | zmkfirmware/zmk | `cradio.keymap`  |
 
 ## Repo Structure
 
@@ -31,16 +31,17 @@ Board wrappers include `base.keymap` and add board-specific layers/behaviors. Ke
 
 ## Layers
 
-| # | Layer | Activation | Description |
-|---|---|---|---|
-| 0 | Graphite | default | English alphas |
-| 1 | Vestnik | lang macro | Russian/Ukrainian alphas |
-| 2 | Symbol | hold R thumb | Full symbol set |
-| 3 | Nav | hold L thumb | L=editing, R=navigation |
-| 4 | Num | from Sym/Nav | L=F-keys, R=numpad |
-| 5 | Magic/System | board-specific | System/BT (+ RGB on Glove80) |
+| #   | Layer        | Activation     | Description                  |
+| --- | ------------ | -------------- | ---------------------------- |
+| 0   | Graphite     | default        | English alphas               |
+| 1   | Vestnik      | lang macro     | Russian/Ukrainian alphas     |
+| 2   | Symbol       | hold R thumb   | Full symbol set              |
+| 3   | Nav          | hold L thumb   | L=editing, R=navigation      |
+| 4   | Num          | from Sym/Nav   | L=F-keys, R=numpad           |
+| 5   | Magic/System | board-specific | System/BT (+ RGB on Glove80) |
 
 Magic layer access:
+
 - **Glove80**: hold corner keys (positions 64/79)
 - **Sweep**: from Num layer, combo both outer bottom pinkies (LB4+RB4) → toggle-locks System layer; left thumb exits
 
@@ -56,7 +57,7 @@ Three anti-misfire mechanisms:
 
 - **Balanced flavor** — hold resolves on next key press+release (not just press)
 - **Idle cooldown** (`require-prior-idle-ms = <150>`) — fast typing always taps
-- **Bilateral filter** (`hold-trigger-key-positions`) — hold only triggers from opposite hand
+- **Bilateral filter** (`hold-trigger-key-positions`) — hold only triggers from opposite hand (opt-in)
 
 Opt-in via `#define BILATERAL`. When disabled, balanced flavor + idle cooldown still prevent most misfires.
 
@@ -70,68 +71,68 @@ Thumb placement means zero same-finger conflicts with any key. Macro output chai
 
 **SFB fixes:**
 
-| Trigger | Output | SFB |
-|---|---|---|
-| R★ | L | rl 0.114% |
-| G★ | S | gs 0.102% |
-| U★ | E | ue 0.090% |
-| E★ | U | eu |
-| S★ | C | sc 0.087% |
-| H★ | Y | hy 0.051% |
-| P★ | H | ph |
-| O★ | A | oa 0.042% |
-| W★ | S | ws 0.042% |
-| Y★ | H | yh |
+| Trigger | Output | SFB       |
+| ------- | ------ | --------- |
+| R★      | L      | rl 0.114% |
+| G★      | S      | gs 0.102% |
+| U★      | E      | ue 0.090% |
+| E★      | U      | eu        |
+| S★      | C      | sc 0.087% |
+| H★      | Y      | hy 0.051% |
+| P★      | H      | ph        |
+| O★      | A      | oa 0.042% |
+| W★      | S      | ws 0.042% |
+| Y★      | H      | yh        |
 
 **Suffix completions:**
 
-| Trigger | Result | Example |
-|---|---|---|
-| A★ | ation | nation, education |
-| B★ | ble | possible, table |
-| C★ | ction | action, function |
-| D★ | dition | addition, condition |
-| F★ | fy | modify, satisfy |
-| I★ | ion | opinion, session |
-| J★ | just | adjust, just |
-| L★ | lation | relation, translation |
-| M★ | ment | moment, element |
-| N★ | nion | union, opinion |
-| Q★ | quen | frequency, sequence |
-| T★ | tment | treatment, apartment |
-| V★ | ver | never, every, over |
-| Z★ | zation | organization |
-| SPC★ | the | most common word |
-| .★ | ./ | terminal paths |
+| Trigger | Result | Example               |
+| ------- | ------ | --------------------- |
+| A★      | ation  | nation, education     |
+| B★      | ble    | possible, table       |
+| C★      | ction  | action, function      |
+| D★      | dition | addition, condition   |
+| F★      | fy     | modify, satisfy       |
+| I★      | ion    | opinion, session      |
+| J★      | just   | adjust, just          |
+| L★      | lation | relation, translation |
+| M★      | ment   | moment, element       |
+| N★      | nion   | union, opinion        |
+| Q★      | quen   | frequency, sequence   |
+| T★      | tment  | treatment, apartment  |
+| V★      | ver    | never, every, over    |
+| Z★      | zation | organization          |
+| SPC★    | the    | most common word      |
+| .★      | ./     | terminal paths        |
 
 **Programming:**
 
-| Trigger | Result |
-|---|---|
-| /★ | `/* \| */` (block comment, cursor inside) |
-| #★ | `#include ` |
+| Trigger | Result                                    |
+| ------- | ----------------------------------------- |
+| /★      | `/* \| */` (block comment, cursor inside) |
+| #★      | `#include `                               |
 
 ### Cyrillic (Vestnik)
 
 Separate `adaptive_key_ru` behavior on the Vestnik layer.
 
-| Trigger | Output | SFB |
-|---|---|---|
-| Р★ | Н | рн 0.155% |
-| Н★ | Р | нр (reverse) |
-| З★ | Д | зд 0.115% |
-| Ч★ | К | чк 0.072% |
-| Л★ | Н | лн 0.054% |
+| Trigger | Output | SFB          |
+| ------- | ------ | ------------ |
+| Р★      | Н      | рн 0.155%    |
+| Н★      | Р      | нр (reverse) |
+| З★      | Д      | зд 0.115%    |
+| Ч★      | К      | чк 0.072%    |
+| Л★      | Н      | лн 0.054%    |
 
 ## Combos
 
 Alpha layers only, 75ms timeout:
 
-| Keys | Output |
-|---|---|
-| LB3+LB2 | ESC |
-| LB2+LB1 | TAB |
-| RB1+RB2 | ENTER |
+| Keys    | Output   |
+| ------- | -------- |
+| LB3+LB2 | ESC      |
+| LB2+LB1 | TAB      |
+| RB1+RB2 | ENTER    |
 | RB2+RB3 | BSPC/DEL |
 
 Cyrillic (Vestnik only): RT3+RT4 → Щ, RT4+RM4 → Ё, RM4+RB4 → Ъ
@@ -141,11 +142,11 @@ Cyrillic (Vestnik only): RT3+RT4 → Щ, RT4+RM4 → Ё, RM4+RB4 → Ъ
 Base layer punctuation with shift variants:
 
 | Tap | Shift |
-|---|---|
-| `'` | `_` |
-| `-` | `"` |
-| `,` | `;` |
-| `.` | `?` |
+| --- | ----- |
+| `'` | `_`   |
+| `-` | `"`   |
+| `,` | `;`   |
+| `.` | `?`   |
 
 ## Sticky Modifiers
 
@@ -167,16 +168,17 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 
 ## Configuration
 
-| Define | Effect | Default |
-|---|---|---|
-| `BILATERAL` | Positional hold-tap filtering | disabled |
-| `OPERATING_SYSTEM` | OS-specific key mappings | `1` (Linux) |
+| Define             | Effect                        | Default     |
+| ------------------ | ----------------------------- | ----------- |
+| `BILATERAL`        | Positional hold-tap filtering | disabled    |
+| `OPERATING_SYSTEM` | OS-specific key mappings      | `1` (Linux) |
 
 ## Building
 
 ### CI (GitHub Actions)
 
 Separate workflows per board — push to GitHub builds automatically:
+
 - `.github/workflows/build.yml` — Glove80 (moergo-sc/zmk)
 - `.github/workflows/build-cradio.yml` — Sweep (zmkfirmware/zmk)
 
@@ -184,33 +186,31 @@ Separate workflows per board — push to GitHub builds automatically:
 
 Prerequisites: `west`, `cmake`, `ninja`, and [Zephyr SDK](https://github.com/zephyrproject-rtos/sdk-ng/releases) (minimal + ARM toolchain + host tools) at `~/.local/zephyr-sdk-0.17.0`.
 
-One-time workspace setup per keyboard (west workspaces live at `~/.local/share/zmk-workspaces/<keyboard>/`, keeping deps out of the repo):
+One-time workspace setup (west workspaces live at `~/.local/share/zmk-workspaces/<board>/`):
 
 ```bash
-./build.sh glove80 setup
-./build.sh cradio setup
+make setup                  # all boards
+make glove80-setup          # Glove80 only
+make cradio-setup           # Sweep only
 ```
 
-Then build:
+Build firmware + drawings:
 
 ```bash
-./build.sh glove80          # both halves
-./build.sh glove80 left     # left hand only
+make                        # all boards: firmware + drawings
+make glove80                # Glove80: firmware + drawing
+make cradio                 # Sweep: firmware + drawing
+make build                  # all firmware only
+make draw                   # all drawings only
+make glove80-draw           # Glove80 drawing only
+CLEAN=1 make glove80-build  # full firmware rebuild
+```
+
+UF2 files are copied to `build/<board>/`. For finer control (single half, etc.):
+
+```bash
+./build.sh cradio left      # left hand only
 ./build.sh glove80 right    # right hand only
-./build.sh glove80 clean    # remove build artifacts
-CLEAN=1 ./build.sh glove80  # full rebuild
-```
-
-UF2 files are copied to `build/<keyboard>/`.
-
-### Drawing
-
-Regenerate layout SVGs (auto-fetches zmk-helpers headers to `.cache/`):
-
-```bash
-make              # both boards
-make glove80      # Glove80 only
-make cradio       # Sweep only
 ```
 
 ### Modules
@@ -219,11 +219,5 @@ make cradio       # Sweep only
 - [urob/zmk-helpers](https://github.com/urob/zmk-helpers) — helper macros and key-labels
 
 ## Layout
-
-### Glove80
-
-![Glove80](draw/glove80.svg)
-
-### Sweep
 
 ![Sweep](draw/cradio.svg)
