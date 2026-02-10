@@ -476,7 +476,7 @@ layers:
   - ''
   - ''
   - Nav
-  - $$mdi:arrow-up-bold$$
+  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
   - $$mdi:keyboard-space$$

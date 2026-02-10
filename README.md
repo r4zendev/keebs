@@ -99,6 +99,18 @@ The module tracks HID keycodes, so macro output chains into the next ★ press: 
 | /★ | `/* \| */` (block comment, cursor inside) |
 | #★ | `#include ` |
 
+### Cyrillic (Vestnik)
+
+Separate `adaptive_key_ru` behavior on the Vestnik layer. Triggers use QWERTY keycodes (the module tracks HID keycodes, OS input method converts to Cyrillic).
+
+| Trigger | Output | SFB |
+|---------|--------|-----|
+| Р★ | Н | рн 0.155% |
+| Н★ | Р | нр (reverse) |
+| З★ | Д | зд 0.115% |
+| Ч★ | К | чк 0.072% |
+| Л★ | Н | лн 0.054% |
+
 ### Extending
 
 Single key output:
@@ -171,6 +183,12 @@ Set `OPERATING_SYSTEM` in the keymap: `1` = Linux (default), `2` = macOS, `3` = 
 ## Building
 
 Requires [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) module in `west.yml`. The module provides the adaptive key behavior through the ZMK build system (no `#include` needed).
+
+Required Kconfig settings in `.conf`:
+```
+CONFIG_ZMK_ADAPTIVE_KEY_MAX_TRIGGER_CONDITIONS=64
+CONFIG_ZMK_ADAPTIVE_KEY_MAX_BINDINGS=10
+```
 
 ## Map visualization
 

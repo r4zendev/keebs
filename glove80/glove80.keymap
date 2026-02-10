@@ -12,7 +12,7 @@
  *   SFBs:    R→L  G→S  U→E  E→U  S→C  H→Y  P→H  O→A  W→S  Y→H
  *   Suffixes: A→TION C→TION D→ITION F→Y I→ON J→UST L→ATION
  *             M→ENT N→ION Q→UEN T→MENT V→ER B→LE Z→ATION
- *   Other:   SPC→THE  .→./  /→/* */  #→#include
+ *   Other:   SPC→THE  .→./  /→block-comment  #→#include
  */
 
 #include <behaviors.dtsi>
@@ -234,6 +234,8 @@
             bindings = <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>;
         };
 
+        // Cyrillic macros (QWERTY keycodes → ЙЦУКЕН via OS input method)
+
 
         bt_0: bt_0 {
             compatible = "zmk,behavior-macro";
@@ -298,6 +300,18 @@
             ak_hash { trigger-keys = <HASH>; max-prior-idle-ms = <300>; bindings = <&macro_include>; };        // #★ → #include
         };
 
+        adaptive_key_ru: adaptive_key_ru {
+            compatible = "zmk,behavior-adaptive-key";
+            #binding-cells = <0>;
+            bindings = <&kp DQT>;
+            // SFB fixes (Vestnik finger conflicts)
+            ak_ru_h { trigger-keys = <H>; max-prior-idle-ms = <300>; bindings = <&kp Y>; };   // Р★ → Н (рн 0.155%)
+            ak_ru_y { trigger-keys = <Y>; max-prior-idle-ms = <300>; bindings = <&kp H>; };   // Н★ → Р (нр)
+            ak_ru_p { trigger-keys = <P>; max-prior-idle-ms = <300>; bindings = <&kp L>; };   // З★ → Д (зд 0.115%)
+            ak_ru_x { trigger-keys = <X>; max-prior-idle-ms = <300>; bindings = <&kp R>; };   // Ч★ → К (чк 0.072%)
+            ak_ru_k { trigger-keys = <K>; max-prior-idle-ms = <300>; bindings = <&kp Y>; };   // Л★ → Н (лн 0.054%)
+        };
+
         adaptive_shift: adaptive_shift {
             compatible = "zmk,behavior-hold-tap";
             label = "ADAPTIVE_SHIFT";
@@ -305,6 +319,15 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             bindings = <&kp>, <&adaptive_key>;
+        };
+
+        adaptive_shift_ru: adaptive_shift_ru {
+            compatible = "zmk,behavior-hold-tap";
+            label = "ADAPTIVE_SHIFT_RU";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&kp>, <&adaptive_key_ru>;
         };
 
         magic: magic {
@@ -481,13 +504,13 @@
             >;
         };
 
-/*  Vestnik — Cyrillic via ЙЦУКЕН keycodes + home row mods
+/*  Vestnik — Cyrillic via ЙЦУКЕН keycodes + magic thumb (★/⇧)
  *  ╭────────────────────╮ ╭────────────────────╮
  *  │  Ц   Д   Р   Г   Х │ │ Ф   П   А   Я   Э │
  *  │  С   Т   Н   К   Б │ │ Ь   В   О   Е   И │
  *  │    GUI ALT CTL SFT F13  F13 SFT CTL ALT GUI │
  *  │  Ш   З   Л   М   Ч │ │ Ж   Й   Ы   У   Ю │
- *  ╰──────────╮NAV SFT  │ │ SPC SYM╭───────────╯
+ *  ╰──────────╮NAV ★/⇧  │ │ SPC SYM╭───────────╯
  *             ╰──────────╯ ╰────────╯            */
         layer_Vestnik {
             bindings = <
@@ -496,7 +519,7 @@
      &none     &kp W     &kp L     &kp H          &kp U       &kp LBKT                                                                      &kp A   &kp G          &kp F          &kp Z        &kp SQT          &none
      &none   &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &hml F13 COMMA                                       &hmr F13 M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B   &none
      &none     &kp I     &kp P     &kp K          &kp V          &kp X   &none   &none   &none   &none   &none   &none   &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT          &none
-     &magic LAYER_Magic 0   &none   &none   &none   &none   &mo LAYER_Nav   &kp LSHFT   &none   &none   &kp SPC   &mo LAYER_Symbol   &none   &none   &none   &none   &magic LAYER_Magic 0
+     &magic LAYER_Magic 0   &none   &none   &none   &none   &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0   &none   &none   &kp SPC   &mo LAYER_Symbol   &none   &none   &none   &none   &magic LAYER_Magic 0
             >;
         };
 

@@ -48,6 +48,7 @@ parse_config:
     '&minus_dqt': {t: '-', s: '"'}
     '&adaptive_key': {t: '★', type: adaptive}
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&dot_qmark': {t: '.', s: '?'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
     '&w_caps': {t: CapsWord}
