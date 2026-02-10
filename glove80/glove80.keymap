@@ -54,49 +54,49 @@
 
 #define _SLEEP C_SLEEP
 
-// Symbol overrides for en-US keyboard
+// en-US shifted symbol overrides (skipped by keymap-drawer)
 #ifndef KEYMAP_DRAWER
-#undef  AMPS
+#undef AMPS
+#undef AT
+#undef CARET
+#undef COLON
+#undef DLLR
+#undef DQT
+#undef EXCL
+#undef GT
+#undef HASH
+#undef LBRC
+#undef LPAR
+#undef LT
+#undef PIPE
+#undef PLUS
+#undef PRCNT
+#undef QMARK
+#undef RBRC
+#undef RPAR
+#undef STAR
+#undef TILDE
+#undef UNDER
 #define AMPS  LS(N7)
-#undef  AT
 #define AT    LS(N2)
-#undef  CARET
 #define CARET LS(N6)
-#undef  COLON
 #define COLON LS(SEMI)
-#undef  DLLR
 #define DLLR  LS(N4)
-#undef  DQT
 #define DQT   LS(SQT)
-#undef  EXCL
 #define EXCL  LS(N1)
-#undef  GT
 #define GT    LS(DOT)
-#undef  HASH
 #define HASH  LS(N3)
-#undef  LBRC
 #define LBRC  LS(LBKT)
-#undef  LPAR
 #define LPAR  LS(N9)
-#undef  LT
 #define LT    LS(COMMA)
-#undef  PIPE
 #define PIPE  LS(BSLH)
-#undef  PLUS
 #define PLUS  LS(EQUAL)
-#undef  PRCNT
 #define PRCNT LS(N5)
-#undef  QMARK
 #define QMARK LS(FSLH)
-#undef  RBRC
 #define RBRC  LS(RBKT)
-#undef  RPAR
 #define RPAR  LS(N0)
-#undef  STAR
 #define STAR  LS(N8)
-#undef  TILDE
 #define TILDE LS(GRAVE)
-#undef  UNDER
 #define UNDER LS(MINUS)
 #endif
 
@@ -118,6 +118,20 @@
 
 #define AK(name, trigger, binding) \
     name { trigger-keys = <trigger>; max-prior-idle-ms = <300>; bindings = <binding>; };
+
+#define COMBO(name, binding, pos, layer) name { \
+    compatible = "zmk,combo"; \
+    bindings = <binding>; \
+    key-positions = <pos>; \
+    layers = <layer>; \
+    timeout-ms = <COMBO_TIMEOUT_MS>; \
+};
+
+#define BT_MACRO(name, n) name: name { \
+    compatible = "zmk,behavior-macro"; \
+    #binding-cells = <0>; \
+    bindings = <&out OUT_BLE>, <&bt BT_SEL n>; \
+};
 
 #include <dt-bindings/zmk/mouse.h>
 
@@ -171,29 +185,10 @@
         FAST_MACRO(macro_block_comment, <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>)
 
 
-        bt_0: bt_0 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;
-        };
-
-        bt_1: bt_1 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;
-        };
-
-        bt_2: bt_2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE>, <&bt BT_SEL 2>;
-        };
-
-        bt_3: bt_3 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;
-        };
+        BT_MACRO(bt_0, 0)
+        BT_MACRO(bt_1, 1)
+        BT_MACRO(bt_2, 2)
+        BT_MACRO(bt_3, 3)
     };
 
     behaviors {
@@ -359,61 +354,16 @@
         };
     };
 
-/*  Combos (alpha layers, 75ms):
- *    48+49 → ESC    49+50 → TAB    59+60 → RET    60+61 → BSPC/DEL   */
-
     combos {
         compatible = "zmk,combos";
-
-        combo_esc {
-            bindings = <&kp ESC>;
-            key-positions = <48 49>;
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_tab {
-            bindings = <&kp TAB>;
-            key-positions = <49 50>;
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_enter {
-            bindings = <&kp RET>;
-            key-positions = <59 60>;
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_bspc {
-            bindings = <&bspc_del>;
-            key-positions = <60 61>;
-            layers = <ALPHA_LAYERS>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
+        COMBO(combo_esc,   &kp ESC,   48 49, ALPHA_LAYERS)
+        COMBO(combo_tab,   &kp TAB,   49 50, ALPHA_LAYERS)
+        COMBO(combo_enter, &kp RET,   59 60, ALPHA_LAYERS)
+        COMBO(combo_bspc,  &bspc_del, 60 61, ALPHA_LAYERS)
         // Cyrillic extras (Vestnik only): Щ, Ё/Ґ, Ъ/Ї
-        combo_shcha {
-            bindings = <&kp O>;
-            key-positions = <31 32>;
-            layers = <LAYER_Vestnik>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_yo {
-            bindings = <&kp GRAVE>;
-            key-positions = <32 44>;
-            layers = <LAYER_Vestnik>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
-
-        combo_hard_sign {
-            bindings = <&kp RBKT>;
-            key-positions = <44 62>;
-            layers = <LAYER_Vestnik>;
-            timeout-ms = <COMBO_TIMEOUT_MS>;
-        };
+        COMBO(combo_shcha,     &kp O,     31 32, LAYER_Vestnik)
+        COMBO(combo_yo,        &kp GRAVE, 32 44, LAYER_Vestnik)
+        COMBO(combo_hard_sign, &kp RBKT,  44 62, LAYER_Vestnik)
     };
 
     keymap {
