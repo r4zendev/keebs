@@ -109,30 +109,12 @@
 #define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik
 #define COMBO_TIMEOUT_MS 75
 
-#define FAST_MACRO(name, ...) name: name { \
-    compatible = "zmk,behavior-macro"; \
-    wait-ms = <0>; tap-ms = <0>; \
-    #binding-cells = <0>; \
-    bindings = __VA_ARGS__; \
-};
-
-#define BT_MACRO(name, n) name: name { \
-    compatible = "zmk,behavior-macro"; \
-    #binding-cells = <0>; \
-    bindings = <&out OUT_BLE>, <&bt BT_SEL n>; \
-};
-
 #define AK(name, k, b) \
     name { trigger-keys = <k>; max-prior-idle-ms = <300>; bindings = <b>; };
 
-#define COMBO(name, b, pos, l) name { \
-    compatible = "zmk,combo"; \
-    bindings = <b>; \
-    key-positions = <pos>; \
-    layers = <l>; \
-    timeout-ms = <COMBO_TIMEOUT_MS>; \
-};
-
+#ifndef KEYMAP_DRAWER
+#include <zmk-helpers/helper.h>
+#endif
 #include <dt-bindings/zmk/mouse.h>
 
 &sk {
@@ -168,26 +150,6 @@
             bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N3)))>;
         };
 
-        FAST_MACRO(macro_tion,          <&kp T>, <&kp I>, <&kp O>, <&kp N>)
-        FAST_MACRO(macro_ition,         <&kp I>, <&kp T>, <&kp I>, <&kp O>, <&kp N>)
-        FAST_MACRO(macro_ation,         <&kp A>, <&kp T>, <&kp I>, <&kp O>, <&kp N>)
-        FAST_MACRO(macro_on,            <&kp O>, <&kp N>)
-        FAST_MACRO(macro_ion,           <&kp I>, <&kp O>, <&kp N>)
-        FAST_MACRO(macro_ent,           <&kp E>, <&kp N>, <&kp T>)
-        FAST_MACRO(macro_ment,          <&kp M>, <&kp E>, <&kp N>, <&kp T>)
-        FAST_MACRO(macro_le,            <&kp L>, <&kp E>)
-        FAST_MACRO(macro_ust,           <&kp U>, <&kp S>, <&kp T>)
-        FAST_MACRO(macro_uen,           <&kp U>, <&kp E>, <&kp N>)
-        FAST_MACRO(macro_er,            <&kp E>, <&kp R>)
-        FAST_MACRO(macro_the,           <&kp T>, <&kp H>, <&kp E>)
-        FAST_MACRO(macro_dotslash,      <&kp DOT>, <&kp FSLH>)
-        FAST_MACRO(macro_include,       <&kp I>, <&kp N>, <&kp C>, <&kp L>, <&kp U>, <&kp D>, <&kp E>, <&kp SPC>)
-        FAST_MACRO(macro_block_comment, <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>)
-
-        BT_MACRO(bt_0, 0)
-        BT_MACRO(bt_1, 1)
-        BT_MACRO(bt_2, 2)
-        BT_MACRO(bt_3, 3)
     };
 
     behaviors {
@@ -352,19 +314,47 @@
             >;
         };
     };
+};
 
-    combos {
-        compatible = "zmk,combos";
-        COMBO(combo_esc,   &kp ESC,   48 49, ALPHA_LAYERS)
-        COMBO(combo_tab,   &kp TAB,   49 50, ALPHA_LAYERS)
-        COMBO(combo_enter, &kp RET,   59 60, ALPHA_LAYERS)
-        COMBO(combo_bspc,  &bspc_del, 60 61, ALPHA_LAYERS)
-        // Cyrillic extras (Vestnik only): Щ, Ё/Ґ, Ъ/Ї
-        COMBO(combo_shcha,     &kp O,     31 32, LAYER_Vestnik)
-        COMBO(combo_yo,        &kp GRAVE, 32 44, LAYER_Vestnik)
-        COMBO(combo_hard_sign, &kp RBKT,  44 62, LAYER_Vestnik)
-    };
+#ifndef KEYMAP_DRAWER
 
+// Fast macros (zmk-helpers handles #binding-cells)
+ZMK_MACRO(macro_tion,          wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
+ZMK_MACRO(macro_ition,         wait-ms = <0>; tap-ms = <0>; bindings = <&kp I>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
+ZMK_MACRO(macro_ation,         wait-ms = <0>; tap-ms = <0>; bindings = <&kp A>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
+ZMK_MACRO(macro_on,            wait-ms = <0>; tap-ms = <0>; bindings = <&kp O>, <&kp N>;)
+ZMK_MACRO(macro_ion,           wait-ms = <0>; tap-ms = <0>; bindings = <&kp I>, <&kp O>, <&kp N>;)
+ZMK_MACRO(macro_ent,           wait-ms = <0>; tap-ms = <0>; bindings = <&kp E>, <&kp N>, <&kp T>;)
+ZMK_MACRO(macro_ment,          wait-ms = <0>; tap-ms = <0>; bindings = <&kp M>, <&kp E>, <&kp N>, <&kp T>;)
+ZMK_MACRO(macro_le,            wait-ms = <0>; tap-ms = <0>; bindings = <&kp L>, <&kp E>;)
+ZMK_MACRO(macro_ust,           wait-ms = <0>; tap-ms = <0>; bindings = <&kp U>, <&kp S>, <&kp T>;)
+ZMK_MACRO(macro_uen,           wait-ms = <0>; tap-ms = <0>; bindings = <&kp U>, <&kp E>, <&kp N>;)
+ZMK_MACRO(macro_er,            wait-ms = <0>; tap-ms = <0>; bindings = <&kp E>, <&kp R>;)
+ZMK_MACRO(macro_the,           wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp H>, <&kp E>;)
+ZMK_MACRO(macro_dotslash,      wait-ms = <0>; tap-ms = <0>; bindings = <&kp DOT>, <&kp FSLH>;)
+ZMK_MACRO(macro_include,       wait-ms = <0>; tap-ms = <0>; bindings = <&kp I>, <&kp N>, <&kp C>, <&kp L>, <&kp U>, <&kp D>, <&kp E>, <&kp SPC>;)
+ZMK_MACRO(macro_block_comment, wait-ms = <0>; tap-ms = <0>; bindings = <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>;)
+
+// BT macros
+ZMK_MACRO(bt_0, bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;)
+ZMK_MACRO(bt_1, bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;)
+ZMK_MACRO(bt_2, bindings = <&out OUT_BLE>, <&bt BT_SEL 2>;)
+ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
+
+// Combos
+#undef COMBO_TERM
+#define COMBO_TERM COMBO_TIMEOUT_MS
+ZMK_COMBO(esc,       &kp ESC,   48 49, ALPHA_LAYERS)
+ZMK_COMBO(tab,       &kp TAB,   49 50, ALPHA_LAYERS)
+ZMK_COMBO(enter,     &kp RET,   59 60, ALPHA_LAYERS)
+ZMK_COMBO(bspc,      &bspc_del, 60 61, ALPHA_LAYERS)
+ZMK_COMBO(shcha,     &kp O,     31 32, LAYER_Vestnik)
+ZMK_COMBO(yo,        &kp GRAVE, 32 44, LAYER_Vestnik)
+ZMK_COMBO(hard_sign, &kp RBKT,  44 62, LAYER_Vestnik)
+
+#endif
+
+/ {
     keymap {
         compatible = "zmk,keymap";
 
