@@ -266,7 +266,7 @@
         adaptive_key: adaptive_key {
             compatible = "zmk,behavior-adaptive-key";
             #binding-cells = <0>;
-            bindings = <&kp DQT>;
+            bindings = <&key_repeat>;
             // SFB fixes
             ak_r { trigger-keys = <R>; max-prior-idle-ms = <300>; bindings = <&kp L>; };      // rl 0.114%
             ak_e { trigger-keys = <E>; max-prior-idle-ms = <300>; bindings = <&kp U>; };      // eu
@@ -303,7 +303,7 @@
         adaptive_key_ru: adaptive_key_ru {
             compatible = "zmk,behavior-adaptive-key";
             #binding-cells = <0>;
-            bindings = <&kp DQT>;
+            bindings = <&key_repeat>;
             // SFB fixes (Vestnik finger conflicts)
             ak_ru_h { trigger-keys = <H>; max-prior-idle-ms = <300>; bindings = <&kp Y>; };   // Р★ → Н (рн 0.155%)
             ak_ru_y { trigger-keys = <Y>; max-prior-idle-ms = <300>; bindings = <&kp H>; };   // Н★ → Р (нр)
