@@ -74,6 +74,7 @@ Thumb placement means zero same-finger conflicts with any key. Macro output chai
 | Trigger | Output | SFB       |
 | ------- | ------ | --------- |
 | R★      | L      | rl 0.114% |
+| K★      | Y      | ky        |
 | G★      | S      | gs 0.102% |
 | U★      | E      | ue 0.090% |
 | E★      | U      | eu        |

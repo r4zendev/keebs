@@ -141,6 +141,7 @@
             #binding-cells = <0>;
             bindings = <&key_repeat>;
             AK(ak_r, R, &kp L)
+            AK(ak_k, K, &kp Y)
             AK(ak_g, G, &kp S)
             AK(ak_u, U, &kp E)
             AK(ak_e, E, &kp U)
