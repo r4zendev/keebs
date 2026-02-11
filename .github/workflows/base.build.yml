@@ -32,8 +32,9 @@ jobs:
       - run: west update
       - run: west zephyr-export
       - run: >
-          west build -s zmk/app -b ${{ inputs.board }}
-          ${{ inputs.shield && format('-- -DSHIELD={0} -DZMK_CONFIG={1}/config', inputs.shield, github.workspace) || format('-- -DZMK_CONFIG={0}/config', github.workspace) }}
+          west build -s zmk/app -b ${{ inputs.board }} --
+          ${{ inputs.shield && format('-DSHIELD={0}', inputs.shield) || '' }}
+          -DZMK_CONFIG=$PWD/config
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.shield || inputs.board }}
