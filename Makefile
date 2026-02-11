@@ -1,5 +1,5 @@
 CONF := draw/config.yaml
-BOARDS := glove80 cradio
+BOARDS := glove80 cradio splitkb_aurora_sweep
 
 # ─── Draw: Glove80 ──────────────────────────────────────────────────
 GLOVE80_KEYMAP   := config/glove80.keymap
@@ -21,19 +21,28 @@ ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h
 GLOVE80_LABELS   := .cache/zmk-helpers/key-labels/glove80.h
 LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
+# ─── Draw: Aurora Sweep ────────────────────────────────────────────
+AURORA_KEYMAP   := config/splitkb_aurora_sweep.keymap
+AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
+AURORA_SVG      := draw/splitkb_aurora_sweep.svg
+AURORA_KEYBOARD := cradio
+AURORA_LAYERS   := Graphite Symbol Nav Num System Vestnik
+
 # ─── Targets ─────────────────────────────────────────────────────────
 .PHONY: all build draw setup clean \
         glove80 glove80-build glove80-draw glove80-setup glove80-clean \
-        cradio cradio-build cradio-draw cradio-setup cradio-clean
+        cradio cradio-build cradio-draw cradio-setup cradio-clean \
+        aurora aurora-build aurora-draw aurora-setup aurora-clean
 
 all: build draw
 
-build: glove80-build cradio-build
-draw: $(GLOVE80_SVG) $(CRADIO_SVG)
-setup: glove80-setup cradio-setup
+build: glove80-build cradio-build aurora-build
+draw: $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG)
+setup: glove80-setup cradio-setup aurora-setup
 
 glove80: glove80-build $(GLOVE80_SVG)
 cradio: cradio-build $(CRADIO_SVG)
+aurora: aurora-build $(AURORA_SVG)
 
 # ─── Firmware builds (delegate to build.sh) ──────────────────────────
 glove80-build:
@@ -53,6 +62,15 @@ cradio-setup:
 
 cradio-clean:
 	./build.sh cradio clean
+
+aurora-build:
+	./build.sh splitkb_aurora_sweep
+
+aurora-setup:
+	./build.sh splitkb_aurora_sweep setup
+
+aurora-clean:
+	./build.sh splitkb_aurora_sweep clean
 
 # ─── Cache fetching ─────────────────────────────────────────────────
 $(ZMK_HELPERS_H):
@@ -87,7 +105,17 @@ $(CRADIO_SVG): $(CRADIO_YAML) $(CONF)
 
 cradio-draw: $(CRADIO_SVG)
 
+# ─── Aurora Sweep draw pipeline ───────────────────────────────────
+$(AURORA_YAML): $(AURORA_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
+	keymap -c $(CONF) parse -z $< > $@
+	python3 draw/reorder_layers.py $@ $(AURORA_LAYERS)
+
+$(AURORA_SVG): $(AURORA_YAML) $(CONF)
+	keymap -c $(CONF) draw $< -z $(AURORA_KEYBOARD) > $@
+
+aurora-draw: $(AURORA_SVG)
+
 # ─── Clean ───────────────────────────────────────────────────────────
-clean: glove80-clean cradio-clean
-	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(CRADIO_YAML) $(CRADIO_SVG)
+clean: glove80-clean cradio-clean aurora-clean
+	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(CRADIO_YAML) $(CRADIO_SVG) $(AURORA_YAML) $(AURORA_SVG)
 	rm -rf .cache

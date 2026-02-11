@@ -13,7 +13,7 @@ export PATH="$SDK/hosttools/sysroots/x86_64-pokysdk-linux/usr/bin:$PATH"
 usage() {
     echo "Usage: $0 <keyboard> [left|right|both|clean|setup]"
     echo ""
-    echo "Keyboards: glove80, cradio"
+    echo "Keyboards: glove80, cradio, splitkb_aurora_sweep"
     echo ""
     echo "Examples:"
     echo "  $0 glove80          # build both halves"
@@ -82,7 +82,7 @@ for entry in data.get('include', []):
     board = entry.get('board', '')
     shield = entry.get('shield', '')
     if shield:
-        if shield.startswith(keyboard):
+        if keyboard in shield:
             print(f'{board} {shield}')
     else:
         if keyboard in board:
