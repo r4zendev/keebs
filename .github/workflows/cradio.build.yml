@@ -15,3 +15,12 @@ jobs:
       manifest: cradio.west.yml
       board: nice_nano
       shield: cradio_right
+  merge:
+    needs: [left, right]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact/merge@v4
+        with:
+          name: sweep
+          pattern: artifact-*
+          delete-merged: true

@@ -13,3 +13,12 @@ jobs:
     with:
       manifest: glove80.west.yml
       board: glove80_rh
+  merge:
+    needs: [left, right]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact/merge@v4
+        with:
+          name: glove80
+          pattern: artifact-*
+          delete-merged: true

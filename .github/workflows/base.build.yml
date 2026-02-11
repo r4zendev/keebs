@@ -17,6 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: zmkfirmware/zmk-build-arm:stable
+    env:
+      artifact: ${{ inputs.shield && format('{0}-{1}', inputs.shield, inputs.board) || inputs.board }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
@@ -35,7 +37,8 @@ jobs:
           west build -s zmk/app -b ${{ inputs.board }} --
           ${{ inputs.shield && format('-DSHIELD={0}', inputs.shield) || '' }}
           -DZMK_CONFIG=$PWD/config
+      - run: mkdir -p artifacts && cp build/zephyr/zmk.uf2 artifacts/${{ env.artifact }}.uf2
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.shield || inputs.board }}
-          path: build/zephyr/zmk.uf2
+          name: artifact-${{ env.artifact }}
+          path: artifacts/
