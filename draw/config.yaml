@@ -43,9 +43,8 @@ parse_config:
   preprocess: true
   skip_binding_parsing: false
   raw_binding_map:
-    '&comma_semi': {t: ',', s: ';'}
-    '&sqt_under': {t: '''', s: '_'}
-    '&minus_dqt': {t: '-', s: '"'}
+    '&sqt_dqt': {t: '''', s: '"'}
+    '&colon_semi': {t: ':', s: ';'}
     '&adaptive_key': {t: '★', type: adaptive}
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
@@ -374,6 +373,17 @@ parse_config:
     combo_shcha: {key: {t: Щ}}
     combo_yo: {key: {t: Ё}}
     combo_hard_sign: {key: {t: Ъ}}
+    combo_lbkt: {key: {t: '['}}
+    combo_lpar: {key: {t: '('}}
+    combo_lbrc: {key: {t: '{'}}
+    combo_combo_lt: {key: {t: '<'}}
+    combo_rbkt: {key: {t: ']'}}
+    combo_rpar: {key: {t: ')'}}
+    combo_rbrc: {key: {t: '}'}}
+    combo_combo_gt: {key: {t: '>'}}
+    combo_vim_wq: {key: {t: ':wq'}}
+    combo_vim_q: {key: {t: ':q!'}}
+    combo_vim_w: {key: {t: ':w'}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache

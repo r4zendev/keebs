@@ -1,8 +1,8 @@
 /* Graphite + Vestnik — shared base keymap. See README.md for full docs.
  *
  * Layers: Graphite(0) Vestnik(1) Symbol(2) Nav(3) Num(4) Magic(5)
- * HRM: GACS — GUI(pinky) ALT(ring) CTL(mid) SFT(index) F13(inner)
- * Mod-morphs: ,→-  '→"  :→;  .→?
+ * HRM: GACS — GUI(pinky) ALT(ring) CTL(mid) SFT(index)
+ * Mod-morphs: '→"  :→;  .→?
  *
  * Config:
  *   #define BILATERAL         — positional hold-tap (opt-in)
@@ -236,14 +236,6 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        comma_minus: comma_and_minus {
-            compatible = "zmk,behavior-mod-morph";
-            label = "COMMA_AND_MINUS";
-            #binding-cells = <0>;
-            bindings = <&kp COMMA>, <&kp MINUS>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
         sqt_dqt: sqt_and_dqt {
             compatible = "zmk,behavior-mod-morph";
             label = "SQT_AND_DQT";
@@ -318,15 +310,75 @@ ZMK_COMBO(shcha,     &kp O,     RT3 RT4, LAYER_Vestnik)
 ZMK_COMBO(yo,        &kp GRAVE, RT4 RM4, LAYER_Vestnik)
 ZMK_COMBO(hard_sign, &kp RBKT,  RM4 RB4, LAYER_Vestnik)
 
-ZMK_COMBO(lbkt,  &kp LBKT,  LT1 LM1, ALPHA_LAYERS)
-ZMK_COMBO(lpar,  &kp LPAR,  LT2 LM2, ALPHA_LAYERS)
-ZMK_COMBO(lbrc,  &kp LBRC,  LT3 LM3, ALPHA_LAYERS)
-ZMK_COMBO(combo_lt, &kp LT,  LT4 LM4, ALPHA_LAYERS)
-ZMK_COMBO(rbkt,  &kp RBKT,  RT3 RM3, ALPHA_LAYERS)
-ZMK_COMBO(rpar,  &kp RPAR,  RT2 RM2, ALPHA_LAYERS)
-ZMK_COMBO(rbrc,  &kp RBRC,  RT1 RM1, ALPHA_LAYERS)
-ZMK_COMBO(combo_gt, &kp GT,  RT0 RM0, ALPHA_LAYERS)
+ZMK_COMBO(lbkt,     &kp LBKT, LT3 LM3, ALPHA_LAYERS)
+ZMK_COMBO(lpar,     &kp LPAR, LT2 LM2, ALPHA_LAYERS)
+ZMK_COMBO(lbrc,     &kp LBRC, LT1 LM1, ALPHA_LAYERS)
+ZMK_COMBO(combo_lt, &kp LT,   LT0 LM0, ALPHA_LAYERS)
+ZMK_COMBO(rbkt,     &kp RBKT, RT3 RM3, ALPHA_LAYERS)
+ZMK_COMBO(rpar,     &kp RPAR, RT2 RM2, ALPHA_LAYERS)
+ZMK_COMBO(rbrc,     &kp RBRC, RT1 RM1, ALPHA_LAYERS)
+ZMK_COMBO(combo_gt, &kp GT,   RT0 RM0, ALPHA_LAYERS)
 
 ZMK_COMBO(vim_wq, &macro_wq,     LB2 LB3, LAYER_Nav)
 ZMK_COMBO(vim_q,  &macro_q_bang, LB1 LB2, LAYER_Nav)
 ZMK_COMBO(vim_w,  &macro_w,      LB3 LB4, LAYER_Nav)
+
+#ifndef ZMK_BASE_LAYER
+#define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
+    ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
+#endif
+
+ZMK_BASE_LAYER(Graphite,
+    &kp B   &kp L   &kp D          &kp W          &kp Z         ,
+    &kp J   &kp F          &kp O          &kp U          &kp COMMA     ,
+    &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &kp G    ,
+    &kp Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I    ,
+    &kp Q   &kp X   &kp M          &kp C          &kp V         ,
+    &kp K   &kp P    &sqt_dqt   &colon_semi        &dot_qmark    ,
+    &mo LAYER_Nav   &adaptive_shift LSHFT 0                      ,
+    &kp SPC   &mo LAYER_Symbol
+)
+
+ZMK_BASE_LAYER(Vestnik,
+    &kp W     &kp L     &kp H          &kp U       &kp LBKT      ,
+    &kp SQT   &kp G          &kp F          &kp Z        &kp A     ,
+    &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &kp COMMA ,
+    &kp M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B    ,
+    &kp P     &kp I     &kp K          &kp V          &kp X         ,
+    &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT       ,
+    &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0                    ,
+    &kp SPC   &mo LAYER_Symbol
+)
+
+ZMK_BASE_LAYER(Symbol,
+    &kp TILDE  &kp HASH   &kp PLUS   &kp STAR   &kp GRAVE     ,
+    &kp BSLH   &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT      ,
+    &kp EXCL   &kp EQUAL  &kp FSLH   &kp UNDER  &kp DLLR      ,
+    &kp AT     &sk LSHFT  &sk LCTRL  &sk LALT   &sk LGUI       ,
+    &kp PRCNT  &kp PIPE   &kp AMPS   &kp MINUS  &kp CARET     ,
+    &kp QMARK  &kp LBRC   &kp RBRC   &kp LT     &kp GT        ,
+    &mo LAYER_Num      &trans                                     ,
+    &none      &none
+)
+
+ZMK_BASE_LAYER(Nav,
+    &kp ESC  &kp LG(COMMA)  &kp LG(DOT)  &kp BSPC    &kp DEL       ,
+    &kp PG_UP   &kp _HOME    &kp UP     &kp _END    &lang_ua      ,
+    &sk LGUI   &sk LALT   &sk LCTRL  &sk LSHFT   &w_caps           ,
+    &kp PG_DN    &kp LEFT  &kp DOWN   &kp RIGHT    &lang_ru      ,
+    &kp _C(Z)  &kp _C(X)  &kp _C(C)  &kp _C(V)  &kp _C(LS(Z)) ,
+    &kp LA(LEFT)  &kp LA(RIGHT)  &kp LC(LS(TAB))  &kp LC(TAB)   &lang_en ,
+    &trans      &none                                              ,
+    &mkp LCLK   &mo LAYER_Num
+)
+
+ZMK_BASE_LAYER(Num,
+    &kp F12     &kp F9     &kp F8     &kp F7  &kp EQUAL         ,
+    &kp PLUS    &kp N7      &kp N8     &kp N9   &kp FSLH        ,
+    &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &kp RET ,
+    &kp COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR ,
+    &kp F11     &kp F6     &kp F5     &kp F4    &kp DOT          ,
+    &kp N0     &kp N4      &kp N5     &kp N6  &kp MINUS         ,
+    &trans      &none                                              ,
+    &none      &trans
+)

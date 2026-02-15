@@ -8,37 +8,45 @@ Split keyboard firmware based on [Graphite](https://github.com/rdavison/graphite
 | --------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------- | ---------------- |
 | [MoErgo Glove80](https://www.moergo.com/collections/glove80-keyboards/products/glove80-split-ergonomic-keyboard-revision-2) | integrated nRF52840 | moergo-sc/zmk   | `glove80.keymap` |
 | [Ferris Sweep](https://github.com/davidphilipbarr/Sweep)                                                                    | nice!nano v2        | zmkfirmware/zmk | `cradio.keymap`  |
+| [Aurora Sweep](https://splitkb.com/products/aurora-sweep)                                                                    | nice!nano v2        | zmkfirmware/zmk | `splitkb_aurora_sweep.keymap` |
 
 ## Repo Structure
 
 ```
 config/
-  base.keymap          # shared: behaviors, macros, combos (abstract key names)
-  glove80.keymap       # Glove80 wrapper: 80-key matrix, RGB, Magic layer
+  base.keymap          # shared: behaviors, macros, combos, layer definitions
+  glove80.keymap       # Glove80 wrapper: redefines ZMK_BASE_LAYER for 80-key matrix, RGB, Magic layer
   glove80.conf
   glove80.build.yaml
   glove80.west.yml     # moergo-sc/zmk fork
-  cradio.keymap        # Sweep wrapper: 34-key matrix, System layer
+  cradio.keymap        # Sweep wrapper: System layer only (uses default 34-key ZMK_BASE_LAYER)
   cradio.conf
   cradio.build.yaml
   cradio.west.yml      # zmkfirmware/zmk upstream
+  splitkb_aurora_sweep.keymap  # Aurora Sweep wrapper: same as Cradio
 draw/                  # keymap-drawer config and generated SVGs
 build.sh               # local build script
 Makefile               # keymap-drawer pipeline
 ```
 
-Board wrappers include `base.keymap` and add board-specific layers/behaviors. Key positions use abstract names (`LT0`, `LM3`, `RB4`, etc.) from [zmk-helpers key-labels](https://github.com/urob/zmk-helpers/blob/main/docs/key_labels.md).
+### ZMK_BASE_LAYER pattern
+
+All shared layers (Graphite, Vestnik, Symbol, Nav, Num) are defined once in `base.keymap` using a `ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)` macro. Each parameter group represents one half-row of 5 keys (LT=left top, RM=right middle, etc.) or thumb keys (LH, RH).
+
+The default macro (for 34-key boards) simply concatenates the groups into a flat layer. Larger boards redefine the macro before including `base.keymap` to inject the 34-key core into their physical matrix with appropriate padding. See `glove80.keymap` for an example.
+
+This eliminates duplicate layer definitions across boards — edit once in `base.keymap`, all boards pick it up.
 
 ## Layers
 
-| #   | Layer        | Activation     | Description                  |
-| --- | ------------ | -------------- | ---------------------------- |
-| 0   | Graphite     | default        | English alphas               |
-| 1   | Vestnik      | lang macro     | Russian/Ukrainian alphas     |
-| 2   | Symbol       | hold R thumb   | Full symbol set              |
-| 3   | Nav          | hold L thumb   | L=editing, R=navigation      |
-| 4   | Num          | from Sym/Nav   | L=F-keys, R=numpad           |
-| 5   | Magic/System | board-specific | System/BT (+ RGB on Glove80) |
+| #   | Layer        | Activation     | Description                              |
+| --- | ------------ | -------------- | ---------------------------------------- |
+| 0   | Graphite     | default        | English alphas                           |
+| 1   | Vestnik      | lang macro     | Russian/Ukrainian alphas                 |
+| 2   | Symbol       | hold R thumb   | L=all symbols, R=brackets + sticky mods |
+| 3   | Nav          | hold L thumb   | L=editing, R=navigation                  |
+| 4   | Num          | from Sym/Nav   | L=F-keys, R=numpad                       |
+| 5   | Magic/System | board-specific | System/BT (+ RGB on Glove80)             |
 
 Magic layer access:
 
@@ -129,12 +137,29 @@ Separate `adaptive_key_ru` behavior on the Vestnik layer.
 
 Alpha layers only, 75ms timeout:
 
-| Keys    | Output   |
-| ------- | -------- |
-| LB3+LB2 | ESC      |
-| LB2+LB1 | TAB      |
-| RB1+RB2 | ENTER    |
-| RB2+RB3 | BSPC/DEL |
+| Keys     | Output   |
+| -------- | -------- |
+| LB3+LB2  | ESC      |
+| LB2+LB1  | TAB      |
+| RB1+RB2  | ENTER    |
+| RB2+RB3  | BSPC/DEL |
+
+Bracket combos (vertical column pairs, top+home):
+
+| Keys (left) | Output | Keys (right) | Output |
+| ----------- | ------ | ------------ | ------ |
+| LT1+LM1    | `[`    | RT3+RM3      | `]`    |
+| LT2+LM2    | `(`    | RT2+RM2      | `)`    |
+| LT3+LM3    | `{`    | RT1+RM1      | `}`    |
+| LT4+LM4    | `<`    | RT0+RM0      | `>`    |
+
+Vim combos (Nav layer only):
+
+| Keys     | Output |
+| -------- | ------ |
+| LB2+LB3 | `:wq↵` |
+| LB1+LB2 | `:q!↵` |
+| LB3+LB4 | `:w↵`  |
 
 Cyrillic (Vestnik only): RT3+RT4 → Щ, RT4+RM4 → Ё, RM4+RB4 → Ъ
 
@@ -144,16 +169,33 @@ Base layer punctuation with shift variants:
 
 | Tap | Shift |
 | --- | ----- |
-| `'` | `_`   |
-| `-` | `"`   |
-| `,` | `;`   |
+| `'` | `"`   |
+| `:` | `;`   |
 | `.` | `?`   |
+
+## Symbol Layer
+
+Left hand has all symbols optimized for programming bigrams, right hand has bracket rolls and sticky mods:
+
+```
+~    #    +    *    `        \    (    )    [    ]
+!    =    /    _    $        @    ⇑°   ⌃°   ⌥°   ❖°
+%    |    &    -    ^        ?    {    }    <    >
+```
+
+Design principles:
+- **Home row** for highest-frequency symbols: `=` `/` `_` `!`
+- **Strong fingers for double-tap**: `==` (ring), `//` (mid), `&&` (mid), `||` (ring), `**` (index)
+- **Common bigrams as rolls**: `!=` inward, `+=` outward, `/*` outward, `*/` inward, `~=` inward
+- **Cross-hand alternation** for `->`, `=>`, `<=`, `>=`
+- **4 bracket pairs as outward rolls**: `()` `{}` `[]` `<>` (also available as base-layer combos)
+- **Vim pairs preserved**: `_`/`$` adjacent on home row, `#`/`*` accessible, `^`/`%` on bottom
 
 ## Sticky Modifiers
 
-Nav layer left home row: `sk GUI`, `sk ALT`, `sk CTL`, `sk SFT`, `CapsWord`.
+Nav layer left home row: `sk GUI`, `sk ALT`, `sk CTL`, `sk SFT`, `CapsWord`. Symbol layer right home row (index→pinky): `sk SFT`, `sk CTL`, `sk ALT`, `sk GUI`. Inner home: `@`.
 
-Tap one or more sticky mods, release nav, press any key. Mods stack thanks to `ignore-modifiers` on `&sk`. Example: `sk CTL → sk SFT → key` = Ctrl+Shift+key.
+Tap one or more sticky mods, release the layer, press any key. Mods stack thanks to `ignore-modifiers` on `&sk`. Example: `sk CTL → sk SFT → key` = Ctrl+Shift+key.
 
 ## CapsWord
 

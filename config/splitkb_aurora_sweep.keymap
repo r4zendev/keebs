@@ -11,51 +11,6 @@ ZMK_COMBO(system, &tog LAYER_Magic, LB4 RB4, LAYER_Num)
     keymap {
         compatible = "zmk,keymap";
 
-        layer_Graphite {
-            bindings = <
-     &kp B   &kp L   &kp D          &kp W          &kp Z              &kp J   &kp F          &kp O          &kp U          &comma_minus
-     &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &hml F13 G     &hmr F13 Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I
-     &kp Q   &kp X   &kp M          &kp C          &kp V              &kp K   &kp P    &sqt_dqt   &colon_semi        &dot_qmark
-                              &mo LAYER_Nav   &adaptive_shift LSHFT 0     &kp SPC   &mo LAYER_Symbol
-            >;
-        };
-
-        layer_Vestnik {
-            bindings = <
-     &kp W     &kp L     &kp H          &kp U       &kp LBKT           &kp SQT   &kp G          &kp F          &kp Z        &kp A
-     &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &hml F13 COMMA     &hmr F13 M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B
-     &kp P     &kp I     &kp K          &kp V          &kp X              &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT
-                              &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0     &kp SPC   &mo LAYER_Symbol
-            >;
-        };
-
-        layer_Symbol {
-            bindings = <
-     &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE       &none       &kp FSLH   &kp LPAR  &kp RPAR  &none
-     &kp EXCL   &kp EQUAL   &kp UNDER  &kp AT     &kp DLLR       &none       &sk LSHFT  &sk LCTRL &sk LALT  &sk LGUI
-     &kp PRCNT  &kp CARET   &kp PLUS   &kp STAR   &kp BSLH       &none       &kp MINUS  &kp LT    &kp GT    &none
-                              &mo LAYER_Num      &trans                &none      &none
-            >;
-        };
-
-        layer_Nav {
-            bindings = <
-     &kp ESC  &kp LG(COMMA)  &kp LG(DOT)  &kp BSPC    &kp DEL        &kp PG_UP   &kp _HOME    &kp UP     &kp _END    &lang_ua
-     &sk LGUI   &sk LALT   &sk LCTRL  &sk LSHFT   &w_caps            &kp PG_DN    &kp LEFT  &kp DOWN   &kp RIGHT    &lang_ru
-     &kp _C(Z)  &kp _C(X)  &kp _C(C)  &kp _C(V)  &kp _C(LS(Z))     &kp LA(LEFT)  &kp LA(RIGHT)  &kp LC(LS(TAB))  &kp LC(TAB)   &lang_en
-                              &trans      &none                        &mkp LCLK   &mo LAYER_Num
-            >;
-        };
-
-        layer_Num {
-            bindings = <
-     &kp F12     &kp F9     &kp F8     &kp F7  &kp EQUAL          &kp PLUS    &kp N7      &kp N8     &kp N9   &kp FSLH
-     &hml LGUI F10  &hml LALT F3  &hml LCTRL F2  &hml LSHFT F1   &hml F13 RET     &hmr F13 COMMA  &hmr RSHFT N1  &hmr RCTRL N2  &hmr RALT N3  &hmr RGUI STAR
-     &kp F11     &kp F6     &kp F5     &kp F4    &kp DOT          &kp N0     &kp N4      &kp N5     &kp N6  &kp MINUS
-                              &trans      &none                    &none      &trans
-            >;
-        };
-
         layer_System {
             bindings = <
      &bootloader   &none         &none         &none         &none              &none       &none        &none        &none      &bootloader

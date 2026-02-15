@@ -6,66 +6,66 @@ layers:
   - D
   - W
   - Z
-  - {t: '''', s: _}
+  - J
   - F
   - O
   - U
-  - J
+  - ','
   - {t: N, h: ❖}
   - {t: R, h: ⌥}
   - {t: T, h: ⌃}
   - {t: S, h: '$$mdi:arrow-up-bold$$'}
-  - {t: G, h: F13}
-  - {t: Y, h: F13}
+  - G
+  - Y
   - {t: H, h: '$$mdi:arrow-up-bold$$'}
   - {t: A, h: ⌃}
   - {t: E, h: ⌥}
   - {t: I, h: ❖}
-  - X
   - Q
+  - X
   - M
   - C
   - V
   - K
   - P
-  - {t: '-', s: '"'}
-  - {t: ',', s: ;}
+  - {t: '''', s: '"'}
+  - {t: ':', s: ;}
   - {t: ., s: '?'}
   - Nav
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - $$mdi:keyboard-space$$
   - Symbol
   Symbol:
-  - '`'
   - '~'
   - '#'
-  - '&'
-  - '|'
-  - ^
-  - '{'
-  - '}'
+  - +
+  - '*'
+  - '`'
+  - \
+  - (
+  - )
   - '['
   - ']'
   - '!'
-  - _
-  - ':'
   - '='
+  - /
+  - _
   - $
   - '@'
-  - (
-  - )
-  - ''''
-  - ;
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - '%'
-  - '?'
-  - '*'
-  - +
-  - \
-  - /
+  - '|'
+  - '&'
   - '-'
+  - ^
+  - '?'
+  - '{'
+  - '}'
   - <
   - '>'
-  - '"'
   - Num
   - {t: ▽, type: trans}
   - ''
@@ -120,8 +120,8 @@ layers:
   - {t: F3, h: ⌥}
   - {t: F2, h: ⌃}
   - {t: F1, h: '$$mdi:arrow-up-bold$$'}
-  - {t: '$$mdi:keyboard-return$$', h: F13}
-  - {t: ',', h: F13}
+  - $$mdi:keyboard-return$$
+  - ','
   - {t: '1', h: '$$mdi:arrow-up-bold$$'}
   - {t: '2', h: ⌃}
   - {t: '3', h: ⌥}
@@ -181,23 +181,23 @@ layers:
   - Р
   - Г
   - Х
-  - Ф
+  - Э
   - П
   - А
   - Я
-  - Э
+  - Ф
   - {t: С, h: ❖}
   - {t: Т, h: ⌥}
   - {t: Н, h: ⌃}
   - {t: К, h: '$$mdi:arrow-up-bold$$'}
-  - {t: Б, h: F13}
-  - {t: Ь, h: F13}
+  - Б
+  - Ь
   - {t: В, h: '$$mdi:arrow-up-bold$$'}
   - {t: О, h: ⌃}
   - {t: Е, h: ⌥}
   - {t: И, h: ❖}
-  - Ш
   - З
+  - Ш
   - Л
   - М
   - Ч
@@ -232,6 +232,39 @@ combos:
 - p: [19, 29]
   k: Ъ
   l: [Vestnik]
+- p: [1, 11]
+  k: '['
+  l: [Graphite, Vestnik]
+- p: [2, 12]
+  k: (
+  l: [Graphite, Vestnik]
+- p: [3, 13]
+  k: '{'
+  l: [Graphite, Vestnik]
+- p: [4, 14]
+  k: <
+  l: [Graphite, Vestnik]
+- p: [8, 18]
+  k: ']'
+  l: [Graphite, Vestnik]
+- p: [7, 17]
+  k: )
+  l: [Graphite, Vestnik]
+- p: [6, 16]
+  k: '}'
+  l: [Graphite, Vestnik]
+- p: [5, 15]
+  k: '>'
+  l: [Graphite, Vestnik]
+- p: [22, 21]
+  k: :wq
+  l: [Nav]
+- p: [23, 22]
+  k: :q!
+  l: [Nav]
+- p: [21, 20]
+  k: :w
+  l: [Nav]
 - p: [20, 29]
   k: {t: System, h: toggle}
   l: [Num]

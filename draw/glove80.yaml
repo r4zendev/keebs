@@ -29,27 +29,27 @@ layers:
   - D
   - W
   - Z
-  - {t: '''', s: _}
+  - J
   - F
   - O
   - U
-  - J
+  - ','
   - ''
   - ''
   - {t: N, h: ❖}
   - {t: R, h: ⌥}
   - {t: T, h: ⌃}
   - {t: S, h: '$$mdi:arrow-up-bold$$'}
-  - {t: G, h: F13}
-  - {t: Y, h: F13}
+  - G
+  - Y
   - {t: H, h: '$$mdi:arrow-up-bold$$'}
   - {t: A, h: ⌃}
   - {t: E, h: ⌥}
   - {t: I, h: ❖}
   - ''
   - ''
-  - X
   - Q
+  - X
   - M
   - C
   - V
@@ -61,8 +61,8 @@ layers:
   - ''
   - K
   - P
-  - {t: '-', s: '"'}
-  - {t: ',', s: ;}
+  - {t: '''', s: '"'}
+  - {t: ':', s: ;}
   - {t: ., s: '?'}
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
@@ -105,48 +105,48 @@ layers:
   - ''
   - ''
   - ''
-  - '`'
   - '~'
   - '#'
-  - '&'
-  - '|'
-  - ^
-  - '{'
-  - '}'
+  - +
+  - '*'
+  - '`'
+  - \
+  - (
+  - )
   - '['
   - ']'
   - ''
   - ''
   - '!'
-  - _
-  - ':'
   - '='
+  - /
+  - _
   - $
   - '@'
-  - (
-  - )
-  - ''''
-  - ;
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - ''
   - ''
   - '%'
-  - '?'
-  - '*'
-  - +
-  - \
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - /
+  - '|'
+  - '&'
   - '-'
+  - ^
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '?'
+  - '{'
+  - '}'
   - <
   - '>'
-  - '"'
   - ''
-  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -161,7 +161,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Nav:
   - ''
   - ''
@@ -227,7 +227,7 @@ layers:
   - Tab →
   - EN
   - ''
-  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -242,7 +242,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Num:
   - ''
   - ''
@@ -283,8 +283,8 @@ layers:
   - {t: F3, h: ⌥}
   - {t: F2, h: ⌃}
   - {t: F1, h: '$$mdi:arrow-up-bold$$'}
-  - {t: '$$mdi:keyboard-return$$', h: F13}
-  - {t: ',', h: F13}
+  - $$mdi:keyboard-return$$
+  - ','
   - {t: '1', h: '$$mdi:arrow-up-bold$$'}
   - {t: '2', h: ⌃}
   - {t: '3', h: ⌥}
@@ -308,12 +308,7 @@ layers:
   - '6'
   - '-'
   - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - {type: held}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -323,7 +318,12 @@ layers:
   - ''
   - ''
   - ''
+  - {type: held}
   - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Magic:
   - ''
   - ''
@@ -434,27 +434,27 @@ layers:
   - Р
   - Г
   - Х
-  - Ф
+  - Э
   - П
   - А
   - Я
-  - Э
+  - Ф
   - ''
   - ''
   - {t: С, h: ❖}
   - {t: Т, h: ⌥}
   - {t: Н, h: ⌃}
   - {t: К, h: '$$mdi:arrow-up-bold$$'}
-  - {t: Б, h: F13}
-  - {t: Ь, h: F13}
+  - Б
+  - Ь
   - {t: В, h: '$$mdi:arrow-up-bold$$'}
   - {t: О, h: ⌃}
   - {t: Е, h: ⌥}
   - {t: И, h: ❖}
   - ''
   - ''
-  - Ш
   - З
+  - Ш
   - Л
   - М
   - Ч
@@ -508,3 +508,36 @@ combos:
 - p: [44, 62]
   k: Ъ
   l: [Vestnik]
+- p: [24, 36]
+  k: '['
+  l: [Graphite, Vestnik]
+- p: [25, 37]
+  k: (
+  l: [Graphite, Vestnik]
+- p: [26, 38]
+  k: '{'
+  l: [Graphite, Vestnik]
+- p: [27, 39]
+  k: <
+  l: [Graphite, Vestnik]
+- p: [31, 43]
+  k: ']'
+  l: [Graphite, Vestnik]
+- p: [30, 42]
+  k: )
+  l: [Graphite, Vestnik]
+- p: [29, 41]
+  k: '}'
+  l: [Graphite, Vestnik]
+- p: [28, 40]
+  k: '>'
+  l: [Graphite, Vestnik]
+- p: [49, 48]
+  k: :wq
+  l: [Nav]
+- p: [50, 49]
+  k: :q!
+  l: [Nav]
+- p: [48, 47]
+  k: :w
+  l: [Nav]
