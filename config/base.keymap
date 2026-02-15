@@ -369,7 +369,7 @@ ZMK_BASE_LAYER(Nav,
     &kp _C(Z)  &kp _C(X)  &kp _C(C)  &kp _C(V)  &kp _C(LS(Z)) ,
     &kp LA(LEFT)  &kp LA(RIGHT)  &kp LC(LS(TAB))  &kp LC(TAB)   &lang_en ,
     &trans      &none                                              ,
-    &mkp LCLK   &mo LAYER_Num
+    &kp _C(BSPC)   &mo LAYER_Num
 )
 
 ZMK_BASE_LAYER(Num,

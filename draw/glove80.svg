@@ -1089,7 +1089,9 @@ path.combo {
 </g>
 <g transform="translate(639, 379) rotate(-40.0)" class="key keypos-73">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">M1</text>
+<text x="0" y="0" class="key tap">
+<tspan x="0" dy="-0.6em">Word</tspan><tspan x="0" dy="1.2em">⌫</tspan>
+</text>
 </g>
 <g transform="translate(694, 347) rotate(-20.0)" class="key keypos-74">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
