@@ -27,6 +27,9 @@
 <svg id="mdi:backspace-reverse">
 <svg xmlns="http://www.w3.org/2000/svg" id="mdi-backspace-reverse" viewBox="0 0 24 24"><path d="M2,21H17C17.7,21 18.2,20.6 18.6,20.1L24,12L18.6,3.9C18.2,3.4 17.7,3 17,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21M5,8.4L6.4,7L10,10.6L13.6,7L15,8.4L11.4,12L15,15.6L13.6,17L10,13.4L6.4,17L5,15.6L8.6,12" /></svg>
 </svg>
+<svg id="mdi:crop">
+<svg xmlns="http://www.w3.org/2000/svg" id="mdi-crop" viewBox="0 0 24 24"><path d="M7,17V1H5V5H1V7H5V17A2,2 0 0,0 7,19H17V23H19V19H23V17M17,15H19V7C19,5.89 18.1,5 17,5H9V7H17V15Z" /></svg>
+</svg>
 <svg id="mdi:keyboard-esc">
 <svg xmlns="http://www.w3.org/2000/svg" id="mdi-keyboard-esc" viewBox="0 0 24 24"><path d="M1 7H7V9H3V11H7V13H3V15H7V17H1V7M11 7H15V9H11V11H13C14.11 11 15 11.9 15 13V15C15 16.11 14.11 17 13 17H9V15H13V13H11C9.9 13 9 12.11 9 11V9C9 7.9 9.9 7 11 7M19 7H21C22.11 7 23 7.9 23 9V10H21V9H19V15H21V14H23V15C23 16.11 22.11 17 21 17H19C17.9 17 17 16.11 17 15V9C17 7.9 17.9 7 19 7Z" /></svg>
 </svg>
@@ -41,6 +44,15 @@
 </svg>
 <svg id="mdi:lock">
 <svg xmlns="http://www.w3.org/2000/svg" id="mdi-lock" viewBox="0 0 24 24"><path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" /></svg>
+</svg>
+<svg id="mdi:microphone-off">
+<svg xmlns="http://www.w3.org/2000/svg" id="mdi-microphone-off" viewBox="0 0 24 24"><path d="M19,11C19,12.19 18.66,13.3 18.1,14.28L16.87,13.05C17.14,12.43 17.3,11.74 17.3,11H19M15,11.16L9,5.18V5A3,3 0 0,1 12,2A3,3 0 0,1 15,5V11L15,11.16M4.27,3L21,19.73L19.73,21L15.54,16.81C14.77,17.27 13.91,17.58 13,17.72V21H11V17.72C7.72,17.23 5,14.41 5,11H6.7C6.7,14 9.24,16.1 12,16.1C12.81,16.1 13.6,15.91 14.31,15.58L12.65,13.92L12,14A3,3 0 0,1 9,11V10.28L3,4.27L4.27,3Z" /></svg>
+</svg>
+<svg id="mdi:monitor-screenshot">
+<svg xmlns="http://www.w3.org/2000/svg" id="mdi-monitor-screenshot" viewBox="0 0 24 24"><path d="M9,6H5V10H7V8H9M19,10H17V12H15V14H19M21,16H3V4H21M21,2H3C1.89,2 1,2.89 1,4V16A2,2 0 0,0 3,18H10V20H8V22H16V20H14V18H21A2,2 0 0,0 23,16V4C23,2.89 22.1,2 21,2" /></svg>
+</svg>
+<svg id="mdi:play-pause">
+<svg xmlns="http://www.w3.org/2000/svg" id="mdi-play-pause" viewBox="0 0 24 24"><path d="M3,5V19L11,12M13,19H16V5H13M18,5V19H21V5" /></svg>
 </svg>
 <svg id="mdi:power">
 <svg xmlns="http://www.w3.org/2000/svg" id="mdi-power" viewBox="0 0 24 24"><path d="M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.36,6.88 4,9.28 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.28 18.64,6.88 16.56,5.44M13,3H11V13H13" /></svg>
@@ -383,6 +395,12 @@ path.combo {
 <rect rx="6" ry="6" x="406" y="67" width="28" height="26" class="combo"/>
 <text x="420" y="80" class="combo tap">&gt;</text>
 </g>
+<g class="combo combopos-12">
+<path d="M336,108 l-65,0" class="combo"/>
+<path d="M336,108 l65,0" class="combo"/>
+<rect rx="6" ry="6" x="322" y="95" width="28" height="26" class="combo"/>
+<text x="336" y="108" class="combo tap"><tspan style="font-size: 88%">CapsWord</tspan></text>
+</g>
 </g>
 </g>
 <g transform="translate(30, 339)" class="layer-Symbol">
@@ -534,27 +552,31 @@ path.combo {
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<use href="#mdi:keyboard-esc" xlink:href="#mdi:keyboard-esc" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-esc"/>
+<use href="#mdi:microphone-off" xlink:href="#mdi:microphone-off" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:microphone-off"/>
 </g>
 <g transform="translate(84, 46)" class="key keypos-1">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">
-<tspan x="0" dy="-0.6em">W</tspan><tspan x="0" dy="1.2em">←</tspan>
+<tspan x="0" dy="-0.6em">Space</tspan><tspan x="0" dy="1.2em">←</tspan>
 </text>
 </g>
 <g transform="translate(140, 28)" class="key keypos-2">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">
-<tspan x="0" dy="-0.6em">W</tspan><tspan x="0" dy="1.2em">→</tspan>
+<tspan x="0" dy="-0.6em">Space</tspan><tspan x="0" dy="1.2em">→</tspan>
 </text>
 </g>
 <g transform="translate(196, 44)" class="key keypos-3">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<use href="#mdi:backspace" xlink:href="#mdi:backspace" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:backspace"/>
+<text x="0" y="0" class="key tap">
+<tspan x="0" dy="-0.6em">Tab</tspan><tspan x="0" dy="1.2em">←</tspan>
+</text>
 </g>
 <g transform="translate(252, 52)" class="key keypos-4">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<use href="#mdi:backspace-reverse" xlink:href="#mdi:backspace-reverse" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:backspace-reverse"/>
+<text x="0" y="0" class="key tap">
+<tspan x="0" dy="-0.6em">Tab</tspan><tspan x="0" dy="1.2em">→</tspan>
+</text>
 </g>
 <g transform="translate(420, 52)" class="key keypos-5">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -598,7 +620,7 @@ path.combo {
 </g>
 <g transform="translate(252, 108)" class="key keypos-14">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap"><tspan style="font-size: 88%">CapsWord</tspan></text>
+<use href="#mdi:play-pause" xlink:href="#mdi:play-pause" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:play-pause"/>
 </g>
 <g transform="translate(420, 108)" class="key keypos-15">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -654,15 +676,13 @@ path.combo {
 </g>
 <g transform="translate(532, 140)" class="key keypos-27">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">
-<tspan x="0" dy="-0.6em">Tab</tspan><tspan x="0" dy="1.2em">←</tspan>
-</text>
+<use href="#mdi:crop" xlink:href="#mdi:crop" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:crop"/>
+<text x="0" y="-24" class="key shifted">Scr</text>
 </g>
 <g transform="translate(588, 158)" class="key keypos-28">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">
-<tspan x="0" dy="-0.6em">Tab</tspan><tspan x="0" dy="1.2em">→</tspan>
-</text>
+<use href="#mdi:monitor-screenshot" xlink:href="#mdi:monitor-screenshot" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:monitor-screenshot"/>
+<text x="0" y="-24" class="key shifted">Scr</text>
 </g>
 <g transform="translate(644, 193)" class="key keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -685,28 +705,6 @@ path.combo {
 <a href="#Num">
 <text x="0" y="0" class="key tap layer-activator">Num</text>
 </a></g>
-<g class="combo combopos-0">
-<rect rx="6" ry="6" x="98" y="136" width="28" height="26" class="combo"/>
-<text x="112" y="149" class="combo tap">:wq</text>
-</g>
-<g class="combo combopos-1">
-<rect rx="6" ry="6" x="154" y="135" width="28" height="26" class="combo"/>
-<text x="168" y="148" class="combo tap">:q!</text>
-</g>
-<g class="combo combopos-2">
-<rect rx="6" ry="6" x="42" y="163" width="28" height="26" class="combo"/>
-<text x="56" y="176" class="combo tap">:w</text>
-</g>
-<g class="combo combopos-3">
-<rect rx="6" ry="6" x="238" y="123" width="28" height="26" class="combo"/>
-<text x="252" y="136" class="combo tap">
-<tspan x="252" dy="-0.6em">lua</tspan><tspan x="252" dy="1.2em">p()</tspan>
-</text>
-</g>
-<g class="combo combopos-4">
-<rect rx="6" ry="6" x="210" y="147" width="28" height="26" class="combo"/>
-<text x="224" y="160" class="combo tap">:e!</text>
-</g>
 </g>
 </g>
 <g transform="translate(30, 1016)" class="layer-Num">
@@ -931,6 +929,7 @@ path.combo {
 <g transform="translate(532, 84)" class="key keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <use href="#mdi:power" xlink:href="#mdi:power" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:power"/>
+<text x="0" y="-24" class="key shifted">Shut</text>
 </g>
 <g transform="translate(588, 102)" class="key keypos-18">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -1207,6 +1206,12 @@ path.combo {
 <g class="combo combopos-15">
 <rect rx="6" ry="6" x="602" y="163" width="28" height="26" class="combo"/>
 <text x="616" y="176" class="combo tap">.</text>
+</g>
+<g class="combo combopos-16">
+<path d="M336,108 l-65,0" class="combo"/>
+<path d="M336,108 l65,0" class="combo"/>
+<rect rx="6" ry="6" x="322" y="95" width="28" height="26" class="combo"/>
+<text x="336" y="108" class="combo tap"><tspan style="font-size: 88%">CapsWord</tspan></text>
 </g>
 </g>
 </g>

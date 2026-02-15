@@ -186,11 +186,11 @@ layers:
   - ''
   - ''
   - ''
-  - $$mdi:keyboard-esc$$
-  - W ←
-  - W →
-  - $$mdi:backspace$$
-  - $$mdi:backspace-reverse$$
+  - $$mdi:microphone-off$$
+  - Space ←
+  - Space →
+  - Tab ←
+  - Tab →
   - PgUp
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
@@ -202,7 +202,7 @@ layers:
   - {t: ⌥, h: sticky}
   - {t: ⌃, h: sticky}
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - CapsWord
+  - $$mdi:play-pause$$
   - PgDn
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
@@ -223,8 +223,8 @@ layers:
   - ''
   - B ←
   - B →
-  - Tab ←
-  - Tab →
+  - {t: '$$mdi:crop$$', s: Scr}
+  - {t: '$$mdi:monitor-screenshot$$', s: Scr}
   - EN
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
@@ -553,18 +553,6 @@ combos:
 - p: [61, 62]
   k: .
   l: [Vestnik]
-- p: [49, 48]
-  k: :wq
-  l: [Nav]
-- p: [50, 49]
-  k: :q!
-  l: [Nav]
-- p: [48, 47]
-  k: :w
-  l: [Nav]
-- p: [51, 39]
-  k: lua p()
-  l: [Nav]
-- p: [50, 51]
-  k: :e!
-  l: [Nav]
+- p: [39, 40]
+  k: CapsWord
+  l: [Graphite, Vestnik]

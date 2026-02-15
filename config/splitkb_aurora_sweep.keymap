@@ -14,7 +14,7 @@ ZMK_COMBO(system, &tog LAYER_Magic, LB4 RB4, LAYER_Num)
         layer_System {
             bindings = <
      &bootloader   &none         &none         &none         &none              &none       &none        &none        &none      &bootloader
-     &bt_0         &bt_1         &bt_2         &bt_3         &out OUT_TOG       &none       &kp _LOCK    &kp _POWER   &kp _SLEEP &bt BT_CLR
+     &bt_0         &bt_1         &bt_2         &bt_3         &out OUT_TOG       &none       &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &bt BT_CLR
      &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                                         &tog LAYER_Magic     &none              &none       &none
             >;

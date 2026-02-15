@@ -58,8 +58,13 @@ parse_config:
     '&kp LA(RIGHT)': {t: B →}
     '&kp LC(LS(Z))': {t: Redo}
     '&kp LC(A)': {t: Sel All}
-    '&kp LC(LA(LEFT))': {t: '$$mdi:arrow-left-bold$$', s: WS}
-    '&kp LC(LA(RIGHT))': {t: '$$mdi:arrow-right-bold$$', s: WS}
+    '&kp LC(LA(LEFT))': {t: Space ←}
+    '&kp LC(LA(RIGHT))': {t: Space →}
+    '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
+    '&kp _SCR_FULL': {t: '$$mdi:monitor-screenshot$$', s: Scr}
+    '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
+    '&kp _SHUTDOWN': {t: '$$mdi:power$$', s: Shut}
+    '&kp _PASTE': {t: Paste}
     '&kp C_POWER': {t: '$$mdi:power$$'}
     '&kp LC(LEFT)': {t: Word ←}
     '&kp LC(RIGHT)': {t: Word →}
@@ -94,6 +99,7 @@ parse_config:
     '&kp LC(DEL)': {t: Word ⌦}
     '&kp LG(DEL)': {t: Word ⌦}
     '&kp K_LOCK': {t: '$$mdi:lock$$'}
+    '&kp _LOCK': {t: '$$mdi:lock$$'}
     '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
     '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
     '&lang_en': {t: EN}
@@ -389,11 +395,7 @@ parse_config:
     combo_rpar: {key: {t: ')'}}
     combo_rbrc: {key: {t: '}'}}
     combo_combo_gt: {key: {t: '>'}}
-    combo_vim_wq: {key: {t: ':wq'}}
-    combo_vim_q: {key: {t: ':q!'}}
-    combo_vim_w: {key: {t: ':w'}}
-    combo_vim_lua_print: {key: {t: 'lua p()'}}
-    combo_vim_e_bang: {key: {t: ':e!'}}
+    combo_capsword: {key: {t: CapsWord}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache
