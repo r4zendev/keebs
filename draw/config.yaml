@@ -63,7 +63,7 @@ parse_config:
     '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
     '&kp _SCR_FULL': {t: '$$mdi:monitor-screenshot$$', s: Scr}
     '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
-    '&kp _SHUTDOWN': {t: '$$mdi:power$$', s: Shut}
+    '&kp _SHUTDOWN': {t: '$$mdi:power$$'}
     '&kp _PASTE': {t: Paste}
     '&kp C_POWER': {t: '$$mdi:power$$'}
     '&kp LC(LEFT)': {t: Word ←}
