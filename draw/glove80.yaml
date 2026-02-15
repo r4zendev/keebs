@@ -119,8 +119,8 @@ layers:
   - ''
   - '!'
   - '='
-  - /
   - _
+  - /
   - $
   - '@'
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}

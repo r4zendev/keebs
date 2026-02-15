@@ -105,7 +105,7 @@ Left hand has all symbols optimized for programming bigrams, right hand has brac
 
 ```
 ~    #    +    *    `        \    (    )    [    ]
-!    =    /    _    $        @    ⇑°   ⌃°   ⌥°   ❖°
+!    =    _    /    $        @    ⇑°   ⌃°   ⌥°   ❖°
 %    |    &    -    ^        ?    {    }    <    >
 ```
 
@@ -113,9 +113,9 @@ Placement follows key effort grades (from [T-34 layout blogpost](https://www.jon
 
 ![Effort grid](effort.png)
 
-- **Home row (effort 0)** for highest-frequency symbols: `=` `/` `_` `!`
-- **Strong fingers for double-tap**: `==` (ring), `//` (mid), `&&` (mid), `||` (ring), `**` (index) — none on pinkies
-- **Common bigrams as rolls**: `!=` inward, `+=` outward, `/*` outward, `*/` inward, `~=` inward
+- **Home row (effort 0)** for highest-frequency symbols: `=` `_` `/` `!`
+- **Strong fingers for double-tap**: `==` (ring), `//` (index), `&&` (mid), `||` (ring), `**` (index) — none on pinkies
+- **Common bigrams as rolls**: `!=` inward, `+=` outward, `~=` inward
 - **Cross-hand alternation** for `->` `=>` `<=` `>=`
 - **4 bracket pairs as outward rolls**: `()` `{}` `[]` `<>` (also on base-layer combos)
 - **Vim pairs**: `_`/`$` adjacent on home, `#`/`*` on top row, `^`/`%` on bottom
