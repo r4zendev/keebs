@@ -7,13 +7,13 @@ jobs:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: splitkb_aurora_sweep.west.yml
-      board: nice_nano_v2
+      board: nice_nano
       shield: splitkb_aurora_sweep_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: splitkb_aurora_sweep.west.yml
-      board: nice_nano_v2
+      board: nice_nano
       shield: splitkb_aurora_sweep_right
   merge:
     needs: [left, right]
