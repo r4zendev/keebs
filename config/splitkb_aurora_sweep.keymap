@@ -13,27 +13,27 @@ ZMK_COMBO(system, &tog LAYER_Magic, LB4 RB4, LAYER_Num)
 
         layer_Graphite {
             bindings = <
-     &kp B   &kp L   &kp D          &kp W          &kp Z              &sqt_under   &kp F          &kp O          &kp U          &kp J
+     &kp B   &kp L   &kp D          &kp W          &kp Z              &kp J   &kp F          &kp O          &kp U          &comma_minus
      &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &hml F13 G     &hmr F13 Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I
-     &kp X   &kp Q   &kp M          &kp C          &kp V              &kp K   &kp P    &minus_dqt   &comma_semi        &dot_qmark
+     &kp Q   &kp X   &kp M          &kp C          &kp V              &kp K   &kp P    &sqt_dqt   &colon_semi        &dot_qmark
                               &mo LAYER_Nav   &adaptive_shift LSHFT 0     &kp SPC   &mo LAYER_Symbol
             >;
         };
 
         layer_Vestnik {
             bindings = <
-     &kp W     &kp L     &kp H          &kp U       &kp LBKT           &kp A   &kp G          &kp F          &kp Z        &kp SQT
+     &kp W     &kp L     &kp H          &kp U       &kp LBKT           &kp SQT   &kp G          &kp F          &kp Z        &kp A
      &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &hml F13 COMMA     &hmr F13 M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B
-     &kp I     &kp P     &kp K          &kp V          &kp X              &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT
+     &kp P     &kp I     &kp K          &kp V          &kp X              &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT
                               &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0     &kp SPC   &mo LAYER_Symbol
             >;
         };
 
         layer_Symbol {
             bindings = <
-     &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE       &kp CARET   &kp LBRC   &kp RBRC  &kp LBKT  &kp RBKT
-     &kp EXCL  &kp UNDER  &kp COLON  &kp EQUAL   &kp DLLR          &kp AT   &kp LPAR   &kp RPAR    &kp SQT   &kp SEMI
-     &kp PRCNT  &kp QMARK   &kp STAR   &kp PLUS   &kp BSLH       &kp FSLH  &kp MINUS      &kp LT     &kp GT    &kp DQT
+     &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE       &none       &kp FSLH   &kp LPAR  &kp RPAR  &none
+     &kp EXCL   &kp EQUAL   &kp UNDER  &kp AT     &kp DLLR       &none       &sk LSHFT  &sk LCTRL &sk LALT  &sk LGUI
+     &kp PRCNT  &kp CARET   &kp PLUS   &kp STAR   &kp BSLH       &none       &kp MINUS  &kp LT    &kp GT    &none
                               &mo LAYER_Num      &trans                &none      &none
             >;
         };

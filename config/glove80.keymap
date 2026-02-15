@@ -34,9 +34,9 @@
             bindings = <
      ___     ___     ___     ___            ___                                                                                                      ___            ___            ___            ___            ___
      ___     ___     ___     ___            ___            ___                                                                               ___      ___            ___            ___            ___            ___
-     ___     &kp B   &kp L   &kp D          &kp W          &kp Z                                                              &sqt_under   &kp F          &kp O          &kp U          &kp J          ___
+     ___     &kp B   &kp L   &kp D          &kp W          &kp Z                                                              &kp J   &kp F          &kp O          &kp U          &comma_minus          ___
      ___   &hml LGUI N   &hml LALT R   &hml LCTRL T   &hml LSHFT S   &hml F13 G                                    &hmr F13 Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I   ___
-     ___     &kp X   &kp Q   &kp M          &kp C          &kp V   ___   ___   ___   ___   ___   ___   &kp K   &kp P    &minus_dqt   &comma_semi        &dot_qmark          ___
+     ___     &kp Q   &kp X   &kp M          &kp C          &kp V   ___   ___   ___   ___   ___   ___   &kp K   &kp P    &sqt_dqt   &colon_semi        &dot_qmark          ___
      &magic LAYER_Magic 0   ___   ___   ___   ___   &mo LAYER_Nav   &adaptive_shift LSHFT 0   ___   ___   &kp SPC   &mo LAYER_Symbol   ___   ___   ___   ___   &magic LAYER_Magic 0
             >;
         };
@@ -45,9 +45,9 @@
             bindings = <
      ___       ___       ___       ___            ___                                                                                                         ___            ___            ___            ___            ___
      ___       ___       ___       ___            ___            ___                                                                                  ___      ___            ___            ___            ___            ___
-     ___       &kp W     &kp L     &kp H          &kp U       &kp LBKT                                                                     &kp A   &kp G          &kp F          &kp Z        &kp SQT          ___
+     ___       &kp W     &kp L     &kp H          &kp U       &kp LBKT                                                                     &kp SQT   &kp G          &kp F          &kp Z        &kp A          ___
      ___   &hml LGUI C   &hml LALT N   &hml LCTRL Y   &hml LSHFT R   &hml F13 COMMA                                  &hmr F13 M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B   ___
-     ___       &kp I     &kp P     &kp K          &kp V          &kp X   ___   ___   ___   ___   ___   ___   &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT          ___
+     ___       &kp P     &kp I     &kp K          &kp V          &kp X   ___   ___   ___   ___   ___   ___   &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT          ___
      &magic LAYER_Magic 0   ___   ___   ___   ___   &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0   ___   ___   &kp SPC   &mo LAYER_Symbol   ___   ___   ___   ___   &magic LAYER_Magic 0
             >;
         };
@@ -56,9 +56,9 @@
             bindings = <
      ___        ___        ___        ___        ___                                                                                                ___         ___         ___        ___        ___
      ___        ___        ___        ___        ___        ___                                                                             ___      ___         ___         ___        ___        ___
-     ___    &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE                                                                &kp CARET   &kp LBRC   &kp RBRC  &kp LBKT  &kp RBKT      ___
-     ___     &kp EXCL  &kp UNDER  &kp COLON  &kp EQUAL   &kp DLLR                                                                   &kp AT   &kp LPAR   &kp RPAR    &kp SQT   &kp SEMI      ___
-     ___    &kp PRCNT  &kp QMARK   &kp STAR   &kp PLUS   &kp BSLH   ___   ___   ___   ___   ___   ___   &kp FSLH  &kp MINUS      &kp LT     &kp GT    &kp DQT      ___
+     ___    &kp GRAVE  &kp TILDE   &kp HASH   &kp AMPS   &kp PIPE                                                                &none       &kp FSLH   &kp LPAR  &kp RPAR  &none      ___
+     ___     &kp EXCL   &kp EQUAL   &kp UNDER  &kp AT     &kp DLLR                                                                &none       &sk LSHFT  &sk LCTRL &sk LALT  &sk LGUI      ___
+     ___    &kp PRCNT  &kp CARET   &kp PLUS   &kp STAR   &kp BSLH   ___   ___   ___   ___   ___   ___   &none       &kp MINUS  &kp LT    &kp GT    &none      ___
      ___        ___        ___        ___        ___   &mo LAYER_Num      &trans   ___   ___      ___        ___   ___      ___        ___        ___        ___
             >;
         };
