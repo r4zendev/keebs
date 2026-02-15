@@ -49,6 +49,7 @@ parse_config:
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&dot_qmark': {t: '.', s: '?'}
+    '&comma_excl': {t: ',', s: '!'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
     '&w_caps': {t: CapsWord}
     '&mkp LCLK': {t: M1}
@@ -371,10 +372,17 @@ parse_config:
     CAPS: Caps
   zmk_combos:
     combo_shcha: {key: {t: Щ}}
-    combo_yo: {key: {t: Ё}}
-    combo_hard_sign: {key: {t: Ъ}}
-    combo_lbkt: {key: {t: '['}}
+    combo_hard_sign: {key: {t: Ъ/Ї}}
+    combo_yo_apos: {key: {t: Ё/'}}
+    combo_v_period: {key: {t: '.'}}
+    combo_v_comma: {key: {t: ','}}
+    combo_v_excl: {key: {t: '!'}}
+    combo_v_qmark: {key: {t: '?'}}
+    combo_v_dquote: {key: {t: '"'}}
+    combo_v_colon: {key: {t: ':'}}
+    combo_v_semi: {key: {t: ;}}
     combo_lpar: {key: {t: '('}}
+    combo_lbkt: {key: {t: '['}}
     combo_lbrc: {key: {t: '{'}}
     combo_combo_lt: {key: {t: '<'}}
     combo_rbkt: {key: {t: ']'}}
@@ -384,6 +392,8 @@ parse_config:
     combo_vim_wq: {key: {t: ':wq'}}
     combo_vim_q: {key: {t: ':q!'}}
     combo_vim_w: {key: {t: ':w'}}
+    combo_vim_lua_print: {key: {t: 'lua p()'}}
+    combo_vim_e_bang: {key: {t: ':e!'}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache

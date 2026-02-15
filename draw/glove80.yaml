@@ -33,7 +33,7 @@ layers:
   - F
   - O
   - U
-  - ','
+  - {t: ',', s: '!'}
   - ''
   - ''
   - {t: N, h: ❖}
@@ -48,8 +48,8 @@ layers:
   - {t: I, h: ❖}
   - ''
   - ''
-  - Q
   - X
+  - Q
   - M
   - C
   - V
@@ -499,39 +499,60 @@ combos:
 - p: [60, 61]
   k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
   l: [Graphite, Vestnik]
-- p: [31, 32]
-  k: Щ
-  l: [Vestnik]
-- p: [32, 44]
-  k: Ё
-  l: [Vestnik]
-- p: [44, 62]
-  k: Ъ
-  l: [Vestnik]
-- p: [24, 36]
-  k: '['
-  l: [Graphite, Vestnik]
 - p: [25, 37]
   k: (
-  l: [Graphite, Vestnik]
-- p: [26, 38]
-  k: '{'
-  l: [Graphite, Vestnik]
-- p: [27, 39]
-  k: <
-  l: [Graphite, Vestnik]
-- p: [31, 43]
-  k: ']'
   l: [Graphite, Vestnik]
 - p: [30, 42]
   k: )
   l: [Graphite, Vestnik]
+- p: [24, 36]
+  k: '['
+  l: [Graphite]
+- p: [26, 38]
+  k: '{'
+  l: [Graphite]
+- p: [27, 39]
+  k: <
+  l: [Graphite]
+- p: [31, 43]
+  k: ']'
+  l: [Graphite]
 - p: [29, 41]
   k: '}'
-  l: [Graphite, Vestnik]
+  l: [Graphite]
 - p: [28, 40]
   k: '>'
-  l: [Graphite, Vestnik]
+  l: [Graphite]
+- p: [26, 27]
+  k: '"'
+  l: [Vestnik]
+- p: [28, 29]
+  k: Ё/'
+  l: [Vestnik]
+- p: [27, 39]
+  k: ':'
+  l: [Vestnik]
+- p: [28, 40]
+  k: ;
+  l: [Vestnik]
+- p: [51, 50]
+  k: Щ
+  l: [Vestnik]
+- p: [58, 59]
+  k: Ъ/Ї
+  l: [Vestnik]
+- p: [35, 47]
+  k: '!'
+  l: [Vestnik]
+- p: [44, 62]
+  k: '?'
+  l: [Vestnik]
+- p: [48, 47]
+  k: ','
+  l: [Vestnik]
+- p: [61, 62]
+  k: .
+  l: [Vestnik]
 - p: [49, 48]
   k: :wq
   l: [Nav]
@@ -540,4 +561,10 @@ combos:
   l: [Nav]
 - p: [48, 47]
   k: :w
+  l: [Nav]
+- p: [51, 39]
+  k: lua p()
+  l: [Nav]
+- p: [50, 51]
+  k: :e!
   l: [Nav]
