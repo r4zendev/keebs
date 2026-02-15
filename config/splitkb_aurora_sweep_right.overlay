@@ -5,8 +5,7 @@
         reg = <0x2a>;
         status = "okay";
         sensitivity = "4x";
-        sleep;
-        no-taps;
+        sleep-mode-enable;
     };
 };
 
