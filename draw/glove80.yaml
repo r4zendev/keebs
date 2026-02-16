@@ -202,7 +202,7 @@ layers:
   - {t: ⌥, h: sticky}
   - {t: ⌃, h: sticky}
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - $$mdi:play-pause$$
+  - Tmux
   - PgDn
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
@@ -434,11 +434,11 @@ layers:
   - Р
   - Г
   - Х
-  - Э
+  - Ф
   - П
   - А
   - Я
-  - Ф
+  - Э
   - ''
   - ''
   - {t: С, h: ❖}
@@ -453,8 +453,8 @@ layers:
   - {t: И, h: ❖}
   - ''
   - ''
-  - З
   - Ш
+  - З
   - Л
   - М
   - Ч

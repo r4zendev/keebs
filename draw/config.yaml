@@ -57,7 +57,7 @@ parse_config:
     '&kp LA(LEFT)': {t: B ←}
     '&kp LA(RIGHT)': {t: B →}
     '&kp LC(LS(Z))': {t: Redo}
-    '&kp LC(A)': {t: Sel All}
+    '&kp LC(A)': {t: Tmux}
     '&kp LC(LA(LEFT))': {t: Space ←}
     '&kp LC(LA(RIGHT))': {t: Space →}
     '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
@@ -93,7 +93,6 @@ parse_config:
     '&kp LC(X)': {t: Cut}
     '&kp LC(C)': {t: Copy}
     '&kp LC(V)': {t: Paste}
-    '&kp LC(A)': {t: Sel All}
     '&kp LC(S)': {t: Save}
     '&kp LC(BSPC)': {t: Word ⌫}
     '&kp LC(DEL)': {t: Word ⌦}
@@ -105,8 +104,8 @@ parse_config:
     '&lang_en': {t: EN}
     '&lang_ru': {t: RU}
     '&lang_ua': {t: UA}
-    '&kp LG(COMMA)': {t: W ←}
-    '&kp LG(DOT)': {t: W →}
+    '&kp LG(COMMA)': {t: Space ←}
+    '&kp LG(DOT)': {t: Space →}
     '&kp LC(LS(TAB))': {t: Tab ←}
     '&kp LC(TAB)': {t: Tab →}
   sticky_label: sticky
