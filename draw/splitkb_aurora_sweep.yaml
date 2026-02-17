@@ -31,17 +31,17 @@ layers:
   - {t: '''', s: '"'}
   - {t: ':', s: ;}
   - {t: ., s: '?'}
-  - Nav
+  - {t: Spc, h: Num, s: Sentence}
+  - {t: Nav, type: layer-activator}
+  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - $$mdi:keyboard-space$$
-  - Symbol
   Symbol:
   - '~'
   - '#'
   - +
   - '*'
   - '`'
-  - \
+  - '@'
   - (
   - )
   - '['
@@ -51,7 +51,7 @@ layers:
   - _
   - /
   - $
-  - '@'
+  - \
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
   - {t: ⌃, h: sticky}
   - {t: ⌥, h: sticky}
@@ -66,16 +66,16 @@ layers:
   - '}'
   - <
   - '>'
-  - Num
-  - {t: ▽, type: trans}
-  - ''
+  - ./
+  - '...'
   - {type: held}
+  - ''
   Nav:
-  - $$mdi:microphone-off$$
+  - $$mdi:keyboard-esc$$
   - Space ←
   - Space →
-  - Tab ←
-  - Tab →
+  - Page ←
+  - Page →
   - PgUp
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
@@ -85,61 +85,131 @@ layers:
   - {t: ⌥, h: sticky}
   - {t: ⌃, h: sticky}
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - Tmux
+  - $$mdi:keyboard-tab$$
   - PgDn
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
   - $$mdi:arrow-right$$
   - RU
-  - Undo
-  - Cut
-  - Copy
-  - Paste
-  - Redo
-  - B ←
-  - B →
+  - Tmux
+  - Tab ←
+  - Tab →
   - {t: '$$mdi:crop$$', s: Scr}
   - {t: '$$mdi:monitor-screenshot$$', s: Scr}
+  - Pin Win
+  - STT
+  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  - $$mdi:keyboard-return$$
   - EN
-  - {type: held}
   - ''
+  - {type: held}
   - Word ⌫
-  - Num
+  - Word ⌦
   Num:
-  - F12
-  - F9
-  - F8
-  - F7
-  - '='
+  - ''
+  - ''
+  - ''
+  - ''
+  - _
   - +
   - '7'
   - '8'
   - '9'
-  - /
-  - {t: F10, h: ❖}
-  - {t: F3, h: ⌥}
-  - {t: F2, h: ⌃}
-  - {t: F1, h: '$$mdi:arrow-up-bold$$'}
-  - $$mdi:keyboard-return$$
-  - ','
-  - {t: '1', h: '$$mdi:arrow-up-bold$$'}
-  - {t: '2', h: ⌃}
-  - {t: '3', h: ⌥}
-  - {t: '*', h: ❖}
-  - F11
-  - F6
-  - F5
-  - F4
+  - '-'
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - '='
   - .
-  - '0'
+  - '1'
+  - '2'
+  - '3'
+  - ':'
+  - ''
+  - ''
+  - ''
+  - ''
+  - '%'
+  - '*'
   - '4'
   - '5'
   - '6'
-  - '-'
+  - /
   - {type: held}
   - ''
+  - '0'
+  - ','
+  Fn:
+  - F12
+  - F9
+  - F8
+  - F7
+  - $$mdi:skip-previous$$
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: F11, h: ❖}
+  - {t: F3, h: ⌥}
+  - {t: F2, h: ⌃}
+  - {t: F1, h: '$$mdi:arrow-up-bold$$'}
+  - $$mdi:play-pause$$
+  - ''
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
+  - F10
+  - F6
+  - F5
+  - F4
+  - $$mdi:skip-next$$
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - $$mdi:volume-mute$$
+  - $$mdi:microphone-off$$
+  - {type: held}
+  - {type: held}
+  Mouse:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - PgUp
+  - Scroll ←
+  - Mouse ↑
+  - Scroll →
+  - ''
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ''
+  - PgDn
+  - Mouse ←
+  - Mouse ↓
+  - Mouse →
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Left Click
+  - Middle Click
+  - Right Click
   - ''
   - {type: held}
+  - {type: held}
+  - Scroll ↑
+  - Scroll ↓
   System:
   - {t: '$$mdi:progress-download$$', s: Boot}
   - ''
@@ -151,10 +221,10 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:progress-download$$', s: Boot}
-  - '&bt_0'
-  - '&bt_1'
-  - '&bt_2'
-  - '&bt_3'
+  - BT 0
+  - BT 1
+  - BT 2
+  - BT 3
   - OUT TOG
   - Caps
   - $$mdi:lock$$
@@ -171,9 +241,9 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:restart$$', s: Reset}
-  - {t: System, h: toggle}
   - ''
-  - ''
+  - {type: held}
+  - {type: held}
   - ''
   Vestnik:
   - Ц
@@ -206,29 +276,32 @@ layers:
   - Ы
   - У
   - Ю
-  - Nav
+  - {t: Spc, h: Num, s: Sentence}
+  - {t: Nav, type: layer-activator}
+  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - $$mdi:keyboard-space$$
-  - Symbol
 combos:
-- p: [21, 22]
-  k: $$mdi:keyboard-esc$$
-  l: [Graphite, Vestnik]
-- p: [22, 23]
-  k: $$mdi:keyboard-tab$$
-  l: [Graphite, Vestnik]
 - p: [26, 27]
   k: $$mdi:keyboard-return$$
   l: [Graphite, Vestnik]
 - p: [27, 28]
   k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
   l: [Graphite, Vestnik]
+- p: [20, 21]
+  k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
+  l: [Graphite, Vestnik]
+- p: [21, 22]
+  k: $$mdi:keyboard-esc$$
+  l: [Graphite, Vestnik]
+- p: [22, 23]
+  k: $$mdi:keyboard-tab$$
+  l: [Graphite, Vestnik]
+- p: [28, 29]
+  k: $$mdi:content-copy$$
+  l: [Graphite, Vestnik]
 - p: [2, 12]
   k: (
-  l: [Graphite, Vestnik]
-- p: [7, 17]
-  k: )
-  l: [Graphite, Vestnik]
+  l: [Graphite]
 - p: [1, 11]
   k: '['
   l: [Graphite]
@@ -237,6 +310,9 @@ combos:
   l: [Graphite]
 - p: [4, 14]
   k: <
+  l: [Graphite]
+- p: [7, 17]
+  k: )
   l: [Graphite]
 - p: [8, 18]
   k: ']'
@@ -259,24 +335,24 @@ combos:
 - p: [5, 15]
   k: ;
   l: [Vestnik]
-- p: [24, 23]
+- p: [0, 1]
   k: Щ
   l: [Vestnik]
-- p: [25, 26]
+- p: [8, 9]
   k: Ъ/Ї
   l: [Vestnik]
 - p: [10, 20]
-  k: '!'
+  k: {t: ',', s: '!'}
   l: [Vestnik]
 - p: [19, 29]
-  k: '?'
+  k: {t: ., s: '?'}
   l: [Vestnik]
-- p: [21, 20]
-  k: ','
-  l: [Vestnik]
-- p: [28, 29]
-  k: .
-  l: [Vestnik]
-- p: [20, 29]
-  k: {t: System, h: toggle}
-  l: [Num]
+- p: [31, 32]
+  k: Magic
+  l: [Graphite, Vestnik]
+- p: [31, 30]
+  k: Mouse
+  l: [Graphite, Vestnik]
+- p: [32, 33]
+  k: Fn
+  l: [Graphite, Vestnik]

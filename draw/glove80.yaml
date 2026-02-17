@@ -65,22 +65,22 @@ layers:
   - {t: ':', s: ;}
   - {t: ., s: '?'}
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
   - ''
   - ''
   - ''
   - ''
-  - Nav
+  - {t: Spc, h: Num, s: Sentence}
+  - {t: Nav, type: layer-activator}
+  - ''
+  - ''
+  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
-  - $$mdi:keyboard-space$$
-  - Symbol
   - ''
   - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
   Symbol:
   - ''
   - ''
@@ -110,7 +110,7 @@ layers:
   - +
   - '*'
   - '`'
-  - \
+  - '@'
   - (
   - )
   - '['
@@ -122,7 +122,7 @@ layers:
   - _
   - /
   - $
-  - '@'
+  - \
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
   - {t: ⌃, h: sticky}
   - {t: ⌥, h: sticky}
@@ -146,14 +146,13 @@ layers:
   - <
   - '>'
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
   - ''
   - ''
   - ''
   - ''
-  - Num
-  - {t: ▽, type: trans}
-  - ''
+  - ./
+  - '...'
   - ''
   - ''
   - {type: held}
@@ -161,7 +160,8 @@ layers:
   - ''
   - ''
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - {t: Magic, type: layer-activator}
   Nav:
   - ''
   - ''
@@ -186,11 +186,11 @@ layers:
   - ''
   - ''
   - ''
-  - $$mdi:microphone-off$$
+  - $$mdi:keyboard-esc$$
   - Space ←
   - Space →
-  - Tab ←
-  - Tab →
+  - Page ←
+  - Page →
   - PgUp
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
@@ -202,7 +202,7 @@ layers:
   - {t: ⌥, h: sticky}
   - {t: ⌃, h: sticky}
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - Tmux
+  - $$mdi:keyboard-tab$$
   - PgDn
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
@@ -210,24 +210,105 @@ layers:
   - RU
   - ''
   - ''
-  - Undo
-  - Cut
-  - Copy
-  - Paste
-  - Redo
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - B ←
-  - B →
+  - Tmux
+  - Tab ←
+  - Tab →
   - {t: '$$mdi:crop$$', s: Scr}
   - {t: '$$mdi:monitor-screenshot$$', s: Scr}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Pin Win
+  - STT
+  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  - $$mdi:keyboard-return$$
   - EN
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {type: held}
+  - ''
+  - ''
+  - Word ⌫
+  - Word ⌦
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: Magic, type: layer-activator}
+  Num:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - _
+  - +
+  - '7'
+  - '8'
+  - '9'
+  - '-'
+  - ''
+  - ''
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - '='
+  - .
+  - '1'
+  - '2'
+  - '3'
+  - ':'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '%'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '*'
+  - '4'
+  - '5'
+  - '6'
+  - /
+  - ''
+  - {t: Magic, type: layer-activator}
   - ''
   - ''
   - ''
@@ -236,14 +317,14 @@ layers:
   - ''
   - ''
   - ''
-  - Word ⌫
-  - Num
+  - '0'
+  - ','
   - ''
   - ''
   - ''
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  Num:
+  - {t: Magic, type: layer-activator}
+  Fn:
   - ''
   - ''
   - ''
@@ -271,59 +352,140 @@ layers:
   - F9
   - F8
   - F7
-  - '='
-  - +
-  - '7'
-  - '8'
-  - '9'
-  - /
+  - $$mdi:skip-previous$$
   - ''
   - ''
-  - {t: F10, h: ❖}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: F11, h: ❖}
   - {t: F3, h: ⌥}
   - {t: F2, h: ⌃}
   - {t: F1, h: '$$mdi:arrow-up-bold$$'}
-  - $$mdi:keyboard-return$$
-  - ','
-  - {t: '1', h: '$$mdi:arrow-up-bold$$'}
-  - {t: '2', h: ⌃}
-  - {t: '3', h: ⌥}
-  - {t: '*', h: ❖}
+  - $$mdi:play-pause$$
+  - ''
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - ''
   - ''
-  - F11
+  - F10
   - F6
   - F5
   - F4
-  - .
+  - $$mdi:skip-next$$
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
-  - '0'
-  - '4'
-  - '5'
-  - '6'
-  - '-'
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
+  - ''
+  - ''
+  - {t: Magic, type: layer-activator}
+  - ''
+  - ''
+  - ''
+  - ''
+  - $$mdi:volume-mute$$
+  - $$mdi:microphone-off$$
+  - ''
+  - ''
+  - {type: held}
   - {type: held}
   - ''
   - ''
   - ''
   - ''
+  - {t: Magic, type: layer-activator}
+  Mouse:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - PgUp
+  - Scroll ←
+  - Mouse ↑
+  - Scroll →
+  - ''
+  - ''
+  - ''
+  - {t: ❖, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ''
+  - PgDn
+  - Mouse ←
+  - Mouse ↓
+  - Mouse →
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Left Click
+  - Middle Click
+  - Right Click
+  - ''
+  - ''
+  - {t: Magic, type: layer-activator}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {type: held}
   - {type: held}
   - ''
   - ''
+  - Scroll ↑
+  - Scroll ↓
   - ''
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - {t: Magic, type: layer-activator}
   Magic:
   - ''
   - ''
@@ -366,10 +528,10 @@ layers:
   - RGB EFF
   - RGB TOG
   - ''
-  - '&bt_0'
-  - '&bt_1'
-  - '&bt_2'
-  - '&bt_3'
+  - BT 0
+  - BT 1
+  - BT 2
+  - BT 3
   - {t: '$$mdi:progress-download$$', s: Boot}
   - {t: '$$mdi:restart$$', s: Reset}
   - RGB SPD
@@ -389,16 +551,16 @@ layers:
   - ''
   - OUT TOG
   - {t: '$$mdi:restart$$', s: Reset}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - {type: held}
   - ''
   - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
+  - {type: held}
   - ''
   - ''
   - ''
@@ -470,41 +632,44 @@ layers:
   - У
   - Ю
   - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
   - ''
   - ''
   - ''
   - ''
-  - Nav
+  - {t: Spc, h: Num, s: Sentence}
+  - {t: Nav, type: layer-activator}
+  - ''
+  - ''
+  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
-  - $$mdi:keyboard-space$$
-  - Symbol
   - ''
   - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
+  - {t: Magic, type: layer-activator}
 combos:
-- p: [48, 49]
-  k: $$mdi:keyboard-esc$$
-  l: [Graphite, Vestnik]
-- p: [49, 50]
-  k: $$mdi:keyboard-tab$$
-  l: [Graphite, Vestnik]
 - p: [59, 60]
   k: $$mdi:keyboard-return$$
   l: [Graphite, Vestnik]
 - p: [60, 61]
   k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
   l: [Graphite, Vestnik]
+- p: [47, 48]
+  k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
+  l: [Graphite, Vestnik]
+- p: [48, 49]
+  k: $$mdi:keyboard-esc$$
+  l: [Graphite, Vestnik]
+- p: [49, 50]
+  k: $$mdi:keyboard-tab$$
+  l: [Graphite, Vestnik]
+- p: [61, 62]
+  k: $$mdi:content-copy$$
+  l: [Graphite, Vestnik]
 - p: [25, 37]
   k: (
-  l: [Graphite, Vestnik]
-- p: [30, 42]
-  k: )
-  l: [Graphite, Vestnik]
+  l: [Graphite]
 - p: [24, 36]
   k: '['
   l: [Graphite]
@@ -513,6 +678,9 @@ combos:
   l: [Graphite]
 - p: [27, 39]
   k: <
+  l: [Graphite]
+- p: [30, 42]
+  k: )
   l: [Graphite]
 - p: [31, 43]
   k: ']'
@@ -535,21 +703,24 @@ combos:
 - p: [28, 40]
   k: ;
   l: [Vestnik]
-- p: [51, 50]
+- p: [23, 24]
   k: Щ
   l: [Vestnik]
-- p: [58, 59]
+- p: [31, 32]
   k: Ъ/Ї
   l: [Vestnik]
 - p: [35, 47]
-  k: '!'
+  k: {t: ',', s: '!'}
   l: [Vestnik]
 - p: [44, 62]
-  k: '?'
+  k: {t: ., s: '?'}
   l: [Vestnik]
-- p: [48, 47]
-  k: ','
-  l: [Vestnik]
-- p: [61, 62]
-  k: .
-  l: [Vestnik]
+- p: [70, 73]
+  k: Magic
+  l: [Graphite, Vestnik]
+- p: [70, 69]
+  k: Mouse
+  l: [Graphite, Vestnik]
+- p: [73, 74]
+  k: Fn
+  l: [Graphite, Vestnik]

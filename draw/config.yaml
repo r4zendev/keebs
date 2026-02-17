@@ -28,7 +28,6 @@ draw_config:
     rel_h: 12
     rx: 4
     ry: 4
-  svg_extra_style: ''
   footer_text: ''
   shrink_wide_legends: 7
   style_layer_activators: true
@@ -45,69 +44,77 @@ parse_config:
   raw_binding_map:
     '&sqt_dqt': {t: '''', s: '"'}
     '&colon_semi': {t: ':', s: ';'}
-    '&adaptive_key': {t: '★', type: adaptive}
-    '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&dot_qmark': {t: '.', s: '?'}
     '&comma_excl': {t: ',', s: '!'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
-    '&mkp LCLK': {t: M1}
-    '&mkp RCLK': {t: M2}
-    '&kp LA(LEFT)': {t: B ←}
-    '&kp LA(RIGHT)': {t: B →}
+    '&undo_redo': {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
+    '&copy_cut': {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
+    '&copy_paste': {t: '$$mdi:content-copy$$'}
+    '&v_comma_excl': {t: ',', s: '!'}
+    '&v_dot_qmark': {t: '.', s: '?'}
+    '&adaptive_key': {t: '★'}
+    '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&lt_spc LAYER_Num 0': {t: Spc, s: Sentence, h: Num}
+    '&mo LAYER_Nav': {t: Nav, type: layer-activator}
+    '&mo LAYER_Symbol': {t: Symbol, type: layer-activator}
+    '&spc_morph': {t: Spc, s: Sentence}
+    '&smart_mouse': Smart Mouse
+    '&sl LAYER_Fn': {t: Fn}
+    '&tog LAYER_Magic': {t: Magic, type: layer-activator}
+    '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
+    '&dot_spc': {t: '. ⇧'}
+    '&dot_slash': {t: ./}
+    '&triple_dot': {t: '...'}
+    '&mkp LCLK': Left Click
+    '&mkp RCLK': Right Click
+    '&mkp MCLK': Middle Click
+    '&mmv MOVE_UP': "Mouse ↑"
+    '&mmv MOVE_DOWN': "Mouse ↓"
+    '&mmv MOVE_LEFT': "Mouse ←"
+    '&mmv MOVE_RIGHT': "Mouse →"
+    '&msc SCRL_UP': "Scroll ↑"
+    '&msc SCRL_DOWN': "Scroll ↓"
+    '&msc SCRL_LEFT': "Scroll ←"
+    '&msc SCRL_RIGHT': "Scroll →"
+    '&bt_0': {t: BT 0}
+    '&bt_1': {t: BT 1}
+    '&bt_2': {t: BT 2}
+    '&bt_3': {t: BT 3}
+    '&lang_en': {t: EN}
+    '&lang_ru': {t: RU}
+    '&lang_ua': {t: UA}
+    '&kp LA(LEFT)': {t: Page ←}
+    '&kp LA(RIGHT)': {t: Page →}
+    '&kp LC(LS(TAB))': {t: Tab ←}
+    '&kp LC(TAB)': {t: Tab →}
+    '&kp LC(Z)': {t: Undo}
     '&kp LC(LS(Z))': {t: Redo}
     '&kp LC(A)': {t: Tmux}
-    '&kp LC(LA(LEFT))': {t: Space ←}
-    '&kp LC(LA(RIGHT))': {t: Space →}
+    '&kp LC(BSPC)': {t: Word ⌫}
+    '&kp LC(DEL)': {t: Word ⌦}
     '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
     '&kp _SCR_FULL': {t: '$$mdi:monitor-screenshot$$', s: Scr}
-    '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
     '&kp _SHUTDOWN': {t: '$$mdi:power$$'}
-    '&kp _PASTE': {t: Paste}
+    '&kp LG(LC(LS(Q)))': {t: '$$mdi:power$$'}
     '&kp C_POWER': {t: '$$mdi:power$$'}
-    '&kp LC(LEFT)': {t: Word ←}
-    '&kp LC(RIGHT)': {t: Word →}
-    '&kp LC(Y)': {t: Redo}
-    '&kp LC(F)': {t: Find}
-    '&kp LG(LS(LBKT))': {t: Tab ←}
-    '&kp LG(LS(RBKT))': {t: Tab →}
-    '&kp LG(Z)': {t: Undo}
-    '&kp LG(X)': {t: Cut}
-    '&kp LG(C)': {t: Copy}
-    '&kp LG(V)': {t: Paste}
-    '&kp LG(A)': {t: Sel All}
-    '&kp LG(S)': {t: Save}
-    '&kp LG(TAB)': {t: Last ␣}
-    '&kp LC(SPACE)': {t: Spotlight}
-    '&kp LG(LC(Q))': {t: '$$mdi:lock$$'}
-    '&kp C_VOL_UP': {t: '$$mdi:volume-plus$$'}
-    '&kp C_VOL_DN': {t: '$$mdi:volume-minus$$'}
+    '&kp K_POWER': {t: '$$mdi:power$$'}
+    '&kp _LOCK': {t: '$$mdi:lock$$'}
+    '&kp LG(LS(L))': {t: '$$mdi:lock$$'}
+    '&kp LG(L)': {t: '$$mdi:lock$$'}
+    '&kp C_SLEEP': {t: '$$mdi:sleep$$'}
     '&kp C_MUTE': {t: '$$mdi:volume-mute$$'}
     '&kp C_PP': {t: '$$mdi:play-pause$$'}
     '&kp C_PREV': {t: '$$mdi:skip-previous$$'}
     '&kp C_NEXT': {t: '$$mdi:skip-next$$'}
-    '&kp K_POWER': {t: '$$mdi:power$$'}
-    '&kp C_SLEEP': {t: '$$mdi:sleep$$'}
-    '&kp LC(Z)': {t: Undo}
-    '&kp LC(X)': {t: Cut}
-    '&kp LC(C)': {t: Copy}
-    '&kp LC(V)': {t: Paste}
-    '&kp LC(S)': {t: Save}
-    '&kp LC(BSPC)': {t: Word ⌫}
-    '&kp LC(DEL)': {t: Word ⌦}
-    '&kp LG(DEL)': {t: Word ⌦}
-    '&kp K_LOCK': {t: '$$mdi:lock$$'}
-    '&kp _LOCK': {t: '$$mdi:lock$$'}
-    '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
-    '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
-    '&lang_en': {t: EN}
-    '&lang_ru': {t: RU}
-    '&lang_ua': {t: UA}
+    '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
     '&kp LG(COMMA)': {t: Space ←}
     '&kp LG(DOT)': {t: Space →}
-    '&kp LC(LS(TAB))': {t: Tab ←}
-    '&kp LC(TAB)': {t: Tab →}
+    '&kp LG(LS(T))': {t: Pin Win}
+    '&kp LG(LA(S))': {t: STT}
+    '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
+    '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
   sticky_label: sticky
   toggle_label: toggle
   tap_toggle_label: tap-toggle
@@ -130,149 +137,6 @@ parse_config:
     special_combinations:
       left_ctrl+left_alt+left_gui+left_shift: Hyper
       left_ctrl+left_alt+left_shift: Meh
-  qmk_remove_keycode_prefix:
-  - KC_
-  qmk_keycode_map:
-    XXXXXXX: ''
-    'NO': ''
-    # Modifiers
-    LSFT: ⇧
-    RSFT: ⇧
-    LCTL: ⌃
-    RCTL: ⌃
-    LALT: ⌥
-    RALT: ⌥
-    LGUI: ❖
-    RGUI: ❖
-    # Navigation
-    LEFT: ←
-    DOWN: ↓
-    UP: ↑
-    RGHT: →
-    PGUP: PgUp
-    PGDN: PgDn
-    HOME: Home
-    END: End
-    BSPC: ⌫
-    DEL: ⌦
-    ENT: ↵
-    TAB: ⇥
-    ESC: Esc
-    INS: Ins
-    SPC: ␣
-    # Custom
-    LANG_EN: EN
-    LANG_RU: RU
-    LANG_UA: UA
-    CW_TOGG: CapsWord
-    QK_BOOT: Boot
-    QK_RBT: Reset
-    F13: ⎄
-    # Layer activators
-    'MO(SYMBOL)': {t: Symbol, type: layer-activator}
-    'MO(NAV)': {t: Nav, type: layer-activator}
-    'LT(FUNCTION,ESC)': {t: Esc, h: Function, type: layer-activator}
-    'LT(MOUSE,ENT)': {t: ↵, h: Mouse, type: layer-activator}
-    'TG(QWERTY)': {t: QWERTY, type: layer-activator}
-    # Shortcuts
-    'G(KC_L)': 🔒
-    'G(KC_TAB)': Last ␣
-    'C(KC_Z)': Undo
-    'C(KC_X)': Cut
-    'C(KC_C)': Copy
-    'C(KC_V)': Paste
-    'C(KC_A)': Sel All
-    'C(KC_S)': Save
-    'C(KC_Y)': Redo
-    'C(KC_F)': Find
-    'C(KC_BSPC)': Word ⌫
-    'C(KC_LEFT)': Word ←
-    'C(KC_RGHT)': Word →
-    # Mouse
-    MS_UP: ↑
-    MS_DOWN: ↓
-    MS_LEFT: ←
-    MS_RGHT: →
-    MS_WHLU: Scrl ↑
-    MS_WHLD: Scrl ↓
-    MS_WHLL: Scrl ←
-    MS_WHLR: Scrl →
-    MS_BTN1: LClick
-    MS_BTN2: RClick
-    MS_BTN3: MClick
-    # Media
-    'KC_VOLU': Vol +
-    'KC_VOLD': Vol −
-    'KC_MUTE': Mute
-    'KC_MPLY': ⏯
-    'KC_MPRV': ⏮
-    'KC_MNXT': ⏭
-    'KC_PWR': ⏻
-    'KC_SLEP': Sleep
-    MINUS: '-'
-    MINS: '-'
-    EQUAL: '='
-    EQL: '='
-    LEFT_BRACKET: '['
-    LBRC: '['
-    RIGHT_BRACKET: ']'
-    RBRC: ']'
-    BACKSLASH: \
-    BSLS: \
-    NONUS_HASH: '#'
-    NUHS: '#'
-    SEMICOLON: ;
-    SCLN: ;
-    QUOTE: ''''
-    QUOT: ''''
-    GRAVE: '`'
-    GRV: '`'
-    COMMA: ','
-    COMM: ','
-    DOT: .
-    SLASH: /
-    SLSH: /
-    TILDE: '~'
-    TILD: '~'
-    EXCLAIM: '!'
-    EXLM: '!'
-    AT: '@'
-    HASH: '#'
-    DOLLAR: $
-    DLR: $
-    PERCENT: '%'
-    PERC: '%'
-    CIRCUMFLEX: ^
-    CIRC: ^
-    AMPERSAND: '&'
-    AMPR: '&'
-    ASTERISK: '*'
-    ASTR: '*'
-    LEFT_PAREN: (
-    LPRN: (
-    RIGHT_PAREN: )
-    RPRN: )
-    UNDERSCORE: _
-    UNDS: _
-    PLUS: +
-    LEFT_CURLY_BRACE: '{'
-    LCBR: '{'
-    RIGHT_CURLY_BRACE: '}'
-    RCBR: '}'
-    PIPE: '|'
-    COLON: ':'
-    COLN: ':'
-    DOUBLE_QUOTE: '"'
-    DQUO: '"'
-    DQT: '"'
-    LEFT_ANGLE_BRACKET: <
-    LABK: <
-    LT: <
-    RIGHT_ANGLE_BRACKET: '>'
-    RABK: '>'
-    GT: '>'
-    QUESTION: '?'
-    QUES: '?'
   zmk_remove_keycode_prefix: []
   zmk_keycode_map:
     EXCLAMATION: '!'
@@ -339,7 +203,6 @@ parse_config:
     NON_US_HASH: '#'
     NUHS: '#'
     TILDE2: '~'
-    # Navigation
     BACKSPACE: '$$mdi:backspace$$'
     BSPC: '$$mdi:backspace$$'
     DELETE: '$$mdi:backspace-reverse$$'
@@ -362,7 +225,6 @@ parse_config:
     PG_UP: PgUp
     PAGE_DOWN: PgDn
     PG_DN: PgDn
-    # Modifiers
     LSHIFT: '$$mdi:arrow-up-bold$$'
     LSHFT: '$$mdi:arrow-up-bold$$'
     RSHIFT: '$$mdi:arrow-up-bold$$'
@@ -376,24 +238,31 @@ parse_config:
     CAPSLOCK: Caps
     CAPS: Caps
   zmk_combos:
-    combo_shcha: {key: {t: Щ}}
-    combo_hard_sign: {key: {t: Ъ/Ї}}
-    combo_yo_apos: {key: {t: Ё/'}}
-    combo_v_period: {key: {t: '.'}}
-    combo_v_comma: {key: {t: ','}}
-    combo_v_excl: {key: {t: '!'}}
-    combo_v_qmark: {key: {t: '?'}}
-    combo_v_dquote: {key: {t: '"'}}
-    combo_v_colon: {key: {t: ':'}}
-    combo_v_semi: {key: {t: ;}}
+    combo_esc: {key: {t: '$$mdi:keyboard-esc$$'}}
+    combo_tab: {key: {t: '$$mdi:keyboard-tab$$'}}
+    combo_enter: {key: {t: '$$mdi:keyboard-return$$'}}
+    combo_bspc: {key: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}}
+    combo_undo_redo: {key: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}}
+    combo_ccp: {key: {t: '$$mdi:content-copy$$'}}
     combo_lpar: {key: {t: '('}}
+    combo_rpar: {key: {t: ')'}}
     combo_lbkt: {key: {t: '['}}
     combo_lbrc: {key: {t: '{'}}
     combo_combo_lt: {key: {t: '<'}}
     combo_rbkt: {key: {t: ']'}}
-    combo_rpar: {key: {t: ')'}}
     combo_rbrc: {key: {t: '}'}}
     combo_combo_gt: {key: {t: '>'}}
+    combo_shcha: {key: {t: Щ}}
+    combo_hard_sign: {key: {t: Ъ/Ї}}
+    combo_yo_apos: {key: {t: Ё/'}}
+    combo_v_comma_excl: {key: {t: ',', s: '!'}}
+    combo_v_dot_qmark: {key: {t: '.', s: '?'}}
+    combo_v_dquote: {key: {t: '"'}}
+    combo_v_colon: {key: {t: ':'}}
+    combo_v_semi: {key: {t: ;}}
+    combo_system_combo: {key: {t: Magic}}
+    combo_mouse_combo: {key: {t: Mouse}}
+    combo_fn_combo: {key: {t: Fn}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache
