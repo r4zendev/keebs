@@ -51,10 +51,12 @@ Placement follows key effort grades from the [T-34 layout](https://www.jonashiet
 - **Bracket pairs as outward rolls**: `() {} [] <>`
 - **Vim pairs**: `_`/`$` on home, `#`/`*` top, `^`/`%` bottom
 
-<details>
-<summary>Smart Shift / Magic Key (★)</summary>
+### Smart Shift / Magic Key (★)
 
 Tap after alpha = repeat, tap after non-alpha = sticky shift. With `MAGIC_SEQUENCES` enabled, uses [zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) for SFB fixes and suffix completions.
+
+<details>
+<summary>Magic Sequences</summary>
 
 #### SFB fixes
 
