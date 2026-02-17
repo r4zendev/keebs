@@ -48,10 +48,10 @@ parse_config:
     '&adaptive_key': {t: '★', type: adaptive}
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&dot_qmark': {t: '.', s: '?'}
     '&comma_excl': {t: ',', s: '!'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
-    '&w_caps': {t: CapsWord}
     '&mkp LCLK': {t: M1}
     '&mkp RCLK': {t: M2}
     '&kp LA(LEFT)': {t: B ←}
@@ -394,7 +394,6 @@ parse_config:
     combo_rpar: {key: {t: ')'}}
     combo_rbrc: {key: {t: '}'}}
     combo_combo_gt: {key: {t: '>'}}
-    combo_capsword: {key: {t: CapsWord}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache

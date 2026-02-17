@@ -44,7 +44,7 @@
             bindings = <
           ___              ___              ___              ___              ___                                                                                        ___         ___         ___           ___          ___
           ___              ___              ___              ___              ___              ___                                                            ___         ___         ___         ___           ___          ___
- &bt BT_CLR_ALL            ___  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI              ___              ___                                                            ___    &kp _LOCK  &kp _POWER  &kp _SLEEP         ___   &bt BT_CLR
+ &bt BT_CLR_ALL            ___  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI              ___              ___                                                            ___    &kp _LOCK  &kp _POWER  &kp _SLEEP    &kp CAPS   &bt BT_CLR
     &bootloader  &rgb_ug RGB_EFR  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_EFF  &rgb_ug RGB_TOG                                                            ___        &bt_0       &bt_1       &bt_2         &bt_3  &bootloader
      &sys_reset  &rgb_ug RGB_SPD  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_SPI              ___   ___   ___   ___   ___   ___   ___         ___         ___         ___         ___  &out OUT_TOG   &sys_reset
           ___              ___              ___              ___              ___                        ___   ___   ___   ___   ___   ___                      ___         ___         ___           ___          ___

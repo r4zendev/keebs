@@ -357,7 +357,7 @@ layers:
   - $$mdi:lock$$
   - $$mdi:power$$
   - $$mdi:sleep$$
-  - ''
+  - Caps
   - BT CLR
   - {t: '$$mdi:progress-download$$', s: Boot}
   - RGB EFR
@@ -553,6 +553,3 @@ combos:
 - p: [61, 62]
   k: .
   l: [Vestnik]
-- p: [39, 40]
-  k: CapsWord
-  l: [Graphite, Vestnik]

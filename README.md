@@ -38,9 +38,11 @@ All shared layers are defined once in `base.keymap` using a `ZMK_BASE_LAYER` mac
 - **Idle cooldown** (`require-prior-idle-ms = <150>`) — fast typing always taps
 - **Bilateral filter** (opt-in via `#define BILATERAL`) — hold only triggers from opposite hand, which also makes it impossible to combine HRM from the same hand and would require using sticky mods combinations in order to do that.
 
-## Adaptive Key (★)
+## Smart Shift (★)
 
-[urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) on left inner thumb (tap=★, hold=⇧). Changes output based on previous key. If the keyboard has been idle for a certain timing (300ms default) or the previously pressed key has no magic combo, the fallback is repeat_key.
+Left inner thumb: hold=⇧, double-tap=caps-word. Based on [urob/zmk-config](https://github.com/urob/zmk-config) smart-shift: tap after alpha = repeat, tap after non-alpha = sticky shift.
+
+With `#define MAGIC_SEQUENCES`, the thumb key uses [urob/zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) instead — tap output changes based on previous key (300ms window, fallback = repeat). Double-tap = caps-word in both modes.
 
 <details>
 <summary>SFB fixes</summary>
@@ -128,6 +130,7 @@ Sticky mods on right home row (index→pinky): `⇑° ⌃° ⌥° ❖°`. These 
 | ------ | ------ | ------- |
 | `BILATERAL` | Positional hold-tap filtering | disabled |
 | `OPERATING_SYSTEM` | OS-specific keys (1=Linux, 2=macOS, 3=Windows) | `1` |
+| `MAGIC_SEQUENCES` | Adaptive key with SFB fixes + suffix completions | disabled |
 
 ## Building
 

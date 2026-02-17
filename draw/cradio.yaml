@@ -156,7 +156,7 @@ layers:
   - '&bt_2'
   - '&bt_3'
   - OUT TOG
-  - ''
+  - Caps
   - $$mdi:lock$$
   - $$mdi:power$$
   - $$mdi:sleep$$
@@ -277,9 +277,6 @@ combos:
 - p: [28, 29]
   k: .
   l: [Vestnik]
-- p: [14, 15]
-  k: CapsWord
-  l: [Graphite, Vestnik]
 - p: [20, 29]
   k: {t: System, h: toggle}
   l: [Num]

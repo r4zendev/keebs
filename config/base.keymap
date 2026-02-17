@@ -7,8 +7,11 @@
  * Config:
  *   #define BILATERAL         — positional hold-tap (opt-in)
  *   #define OPERATING_SYSTEM  — 1=linux 2=macos 3=windows
+ *   #define MAGIC_SEQUENCES   — adaptive key with SFB fixes + suffix completions (opt-in)
  *
- * Adaptive key (★) — left thumb (tap=★, hold=⇧), 300ms window, default: repeat
+ * Left thumb (tap/hold=⇧): without MAGIC_SEQUENCES uses urob's smart-shift
+ * (tap after alpha=repeat, tap after non-alpha=sticky shift, double-tap=caps-word).
+ * With MAGIC_SEQUENCES uses adaptive key with magic sequences + double-tap=caps-word.
  */
 
 #include <behaviors.dtsi>
@@ -117,11 +120,14 @@
 #define THUMBS LH2 LH1 RH1 RH2
 
 // #define BILATERAL
+// #define MAGIC_SEQUENCES
 #define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik
 #define COMBO_TIMEOUT_MS 75
 
+#ifdef MAGIC_SEQUENCES
 #define AK(name, k, b) \
     name { trigger-keys = <k>; max-prior-idle-ms = <300>; bindings = <b>; };
+#endif
 
 #include <zmk-helpers/helper.h>
 #include <dt-bindings/zmk/mouse.h>
@@ -154,68 +160,6 @@
     };
 
     behaviors {
-        adaptive_key: adaptive_key {
-            compatible = "zmk,behavior-adaptive-key";
-            #binding-cells = <0>;
-            bindings = <&key_repeat>;
-            AK(ak_r, R, &kp L)                       // R★ = RL
-            AK(ak_k, K, &kp Y)                       // K★ = KY
-            AK(ak_g, G, &kp S)                       // G★ = GS
-            AK(ak_u, U, &kp E)                       // U★ = UE
-            AK(ak_e, E, &kp U)                       // E★ = EU
-            AK(ak_s, S, &kp C)                       // S★ = SC
-            AK(ak_h, H, &kp Y)                       // H★ = HY
-            AK(ak_p, P, &kp H)                       // P★ = PH
-            AK(ak_o, O, &kp A)                       // O★ = OA
-            AK(ak_f, F, &kp Y)                       // F★ = FY
-            AK(ak_w, W, &kp S)                       // W★ = WS
-            AK(ak_y, Y, &kp H)                       // Y★ = YH
-            AK(ak_a, A, &macro_tion)                 // A★ = ATION
-            AK(ak_c, C, &macro_tion)                 // C★ = CTION
-            AK(ak_d, D, &macro_ition)                // D★ = DITION
-            AK(ak_i, I, &macro_on)                   // I★ = ION
-            AK(ak_j, J, &macro_ust)                  // J★ = JUST
-            AK(ak_l, L, &macro_ation)                // L★ = LATION
-            AK(ak_m, M, &macro_ent)                  // M★ = MENT
-            AK(ak_n, N, &macro_ion)                  // N★ = NION
-            AK(ak_q, Q, &macro_uen)                  // Q★ = QUEN
-            AK(ak_t, T, &macro_ment)                 // T★ = TMENT
-            AK(ak_z, Z, &macro_ation)                // Z★ = ZATION
-            AK(ak_spc, SPACE, &macro_the)            // ␣★ = THE
-            AK(ak_dot, DOT, &macro_dotslash)         // .★ = ./
-            AK(ak_fslh, FSLH, &macro_block_comment)  // /★ = /*  */
-            AK(ak_hash, HASH, &macro_include)        // #★ = #INCLUDE
-        };
-
-        adaptive_key_ru: adaptive_key_ru {
-            compatible = "zmk,behavior-adaptive-key";
-            #binding-cells = <0>;
-            bindings = <&key_repeat>;
-            AK(ak_ru_h, H, &kp Y)
-            AK(ak_ru_y, Y, &kp H)
-            AK(ak_ru_p, P, &kp L)
-            AK(ak_ru_x, X, &kp R)
-            AK(ak_ru_k, K, &kp Y)
-        };
-
-        adaptive_shift: adaptive_shift {
-            compatible = "zmk,behavior-hold-tap";
-            label = "ADAPTIVE_SHIFT";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            bindings = <&kp>, <&adaptive_key>;
-        };
-
-        adaptive_shift_ru: adaptive_shift_ru {
-            compatible = "zmk,behavior-hold-tap";
-            label = "ADAPTIVE_SHIFT_RU";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <200>;
-            bindings = <&kp>, <&adaptive_key_ru>;
-        };
-
         hml: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             label = "HOME_ROW_MOD_LEFT";
@@ -244,14 +188,6 @@
             hold-trigger-on-release;
 #endif
             bindings = <&kp>, <&kp>;
-        };
-
-        w_caps: capsword_and_capslock {
-            compatible = "zmk,behavior-mod-morph";
-            label = "CAPSWORD_AND_CAPSLOCK";
-            #binding-cells = <0>;
-            bindings = <&caps_word>, <&kp CAPS>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         sqt_dqt: sqt_and_dqt {
@@ -302,6 +238,7 @@
     };
 };
 
+#ifdef MAGIC_SEQUENCES
 ZMK_MACRO(macro_tion,          wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
 ZMK_MACRO(macro_ition,         wait-ms = <0>; tap-ms = <0>; bindings = <&kp I>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
 ZMK_MACRO(macro_ation,         wait-ms = <0>; tap-ms = <0>; bindings = <&kp A>, <&kp T>, <&kp I>, <&kp O>, <&kp N>;)
@@ -316,6 +253,79 @@ ZMK_MACRO(macro_dotslash,      wait-ms = <0>; tap-ms = <0>; bindings = <&kp DOT>
 ZMK_MACRO(macro_include,       wait-ms = <0>; tap-ms = <0>; bindings = <&kp I>, <&kp N>, <&kp C>, <&kp L>, <&kp U>, <&kp D>, <&kp E>, <&kp SPC>;)
 ZMK_MACRO(macro_block_comment, wait-ms = <0>; tap-ms = <0>; bindings = <&kp STAR>, <&kp SPC>, <&kp SPC>, <&kp STAR>, <&kp FSLH>, <&kp LEFT>, <&kp LEFT>, <&kp LEFT>;)
 
+ZMK_ADAPTIVE_KEY(adaptive_key, bindings = <&key_repeat>;
+    AK(ak_r, R, &kp L)
+    AK(ak_k, K, &kp Y)
+    AK(ak_g, G, &kp S)
+    AK(ak_u, U, &kp E)
+    AK(ak_e, E, &kp U)
+    AK(ak_s, S, &kp C)
+    AK(ak_h, H, &kp Y)
+    AK(ak_p, P, &kp H)
+    AK(ak_o, O, &kp A)
+    AK(ak_f, F, &kp Y)
+    AK(ak_w, W, &kp S)
+    AK(ak_y, Y, &kp H)
+    AK(ak_a, A, &macro_tion)
+    AK(ak_c, C, &macro_tion)
+    AK(ak_d, D, &macro_ition)
+    AK(ak_i, I, &macro_on)
+    AK(ak_j, J, &macro_ust)
+    AK(ak_l, L, &macro_ation)
+    AK(ak_m, M, &macro_ent)
+    AK(ak_n, N, &macro_ion)
+    AK(ak_q, Q, &macro_uen)
+    AK(ak_t, T, &macro_ment)
+    AK(ak_z, Z, &macro_ation)
+    AK(ak_spc, SPACE, &macro_the)
+    AK(ak_dot, DOT, &macro_dotslash)
+    AK(ak_fslh, FSLH, &macro_block_comment)
+    AK(ak_hash, HASH, &macro_include)
+)
+
+ZMK_ADAPTIVE_KEY(adaptive_key_ru, bindings = <&key_repeat>;
+    AK(ak_ru_h, H, &kp Y)
+    AK(ak_ru_y, Y, &kp H)
+    AK(ak_ru_p, P, &kp L)
+    AK(ak_ru_x, X, &kp R)
+    AK(ak_ru_k, K, &kp Y)
+)
+
+ZMK_MOD_MORPH(adaptive_shift_tap, bindings = <&adaptive_key>, <&caps_word>;
+              mods = <(MOD_LSFT)>;)
+ZMK_HOLD_TAP(adaptive_shift, bindings = <&kp>, <&adaptive_shift_tap>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <175>;)
+
+ZMK_MOD_MORPH(adaptive_shift_ru_tap, bindings = <&adaptive_key_ru>, <&caps_word>;
+              mods = <(MOD_LSFT)>;)
+ZMK_HOLD_TAP(adaptive_shift_ru, bindings = <&kp>, <&adaptive_shift_ru_tap>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <175>;)
+
+#define THUMB_SHIFT_EN &adaptive_shift LSHFT 0
+#define THUMB_SHIFT_RU &adaptive_shift_ru LSHFT 0
+
+#else
+
+ZMK_ADAPTIVE_KEY(shift_repeat, bindings = <&sk LSHFT>;
+    repeat {
+      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
+      bindings = <&key_repeat>;
+      max-prior-idle-ms = <1200>;
+      strict-modifiers;
+    };
+)
+ZMK_MOD_MORPH(smart_shift_tap, bindings = <&shift_repeat>, <&caps_word>;
+              mods = <(MOD_LSFT)>;)
+ZMK_HOLD_TAP(smart_shift, bindings = <&kp>, <&smart_shift_tap>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <175>;)
+
+#define THUMB_SHIFT_EN &smart_shift LSHFT 0
+#define THUMB_SHIFT_RU &smart_shift LSHFT 0
+
+#endif
 
 ZMK_MACRO(bt_0, bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;)
 ZMK_MACRO(bt_1, bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;)
@@ -349,8 +359,6 @@ ZMK_COMBO(v_qmark,     &kp LS(N7),   RM4 RB4, LAYER_Vestnik)
 ZMK_COMBO(v_comma,     &kp LS(FSLH), LB3 LB4, LAYER_Vestnik)
 ZMK_COMBO(v_period,    &kp FSLH,     RB3 RB4, LAYER_Vestnik)
 
-ZMK_COMBO(capsword,    &w_caps,      LM0 RM0, ALPHA_LAYERS)
-
 #ifndef ZMK_BASE_LAYER
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
     ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
@@ -363,7 +371,7 @@ ZMK_BASE_LAYER(Graphite,
     &kp Y   &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E   &hmr RGUI I    ,
     &kp X   &kp Q   &kp M          &kp C          &kp V         ,
     &kp K   &kp P    &sqt_dqt   &colon_semi        &dot_qmark    ,
-    &mo LAYER_Nav   &adaptive_shift LSHFT 0                      ,
+    &mo LAYER_Nav   THUMB_SHIFT_EN                               ,
     &kp SPC   &mo LAYER_Symbol
 )
 
@@ -374,7 +382,7 @@ ZMK_BASE_LAYER(Vestnik,
     &kp M   &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T   &hmr RGUI B    ,
     &kp I     &kp P     &kp K          &kp V          &kp X         ,
     &kp SEMI   &kp Q   &kp S          &kp E        &kp DOT       ,
-    &mo LAYER_Nav   &adaptive_shift_ru LSHFT 0                    ,
+    &mo LAYER_Nav   THUMB_SHIFT_RU                               ,
     &kp SPC   &mo LAYER_Symbol
 )
 
