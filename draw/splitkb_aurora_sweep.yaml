@@ -31,10 +31,10 @@ layers:
   - {t: '''', s: '"'}
   - {t: ':', s: ;}
   - {t: ., s: '?'}
+  - {t: '$$mdi:keyboard-esc$$', h: Nav}
   - {t: Spc, h: Num, s: Sentence}
-  - {t: Nav, type: layer-activator}
-  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:keyboard-return$$', h: Symbol}
   Symbol:
   - '~'
   - '#'
@@ -68,8 +68,8 @@ layers:
   - '>'
   - ./
   - '...'
-  - {type: held}
   - ''
+  - {type: held}
   Nav:
   - $$mdi:keyboard-esc$$
   - Space ←
@@ -101,8 +101,8 @@ layers:
   - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
   - $$mdi:keyboard-return$$
   - EN
-  - ''
   - {type: held}
+  - ''
   - Word ⌫
   - Word ⌦
   Num:
@@ -136,8 +136,8 @@ layers:
   - '5'
   - '6'
   - /
-  - {type: held}
   - ''
+  - {type: held}
   - '0'
   - ','
   Fn:
@@ -151,10 +151,10 @@ layers:
   - ''
   - ''
   - ''
-  - {t: F11, h: ❖}
-  - {t: F3, h: ⌥}
-  - {t: F2, h: ⌃}
-  - {t: F1, h: '$$mdi:arrow-up-bold$$'}
+  - F11
+  - F3
+  - F2
+  - F1
   - $$mdi:play-pause$$
   - ''
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
@@ -226,7 +226,7 @@ layers:
   - BT 2
   - BT 3
   - OUT TOG
-  - Caps
+  - ''
   - $$mdi:lock$$
   - $$mdi:power$$
   - $$mdi:sleep$$
@@ -276,13 +276,13 @@ layers:
   - Ы
   - У
   - Ю
+  - {t: '$$mdi:keyboard-esc$$', h: Nav}
   - {t: Spc, h: Num, s: Sentence}
-  - {t: Nav, type: layer-activator}
-  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:keyboard-return$$', h: Symbol}
 combos:
-- p: [26, 27]
-  k: $$mdi:keyboard-return$$
+- p: [2, 7]
+  k: {t: CapsWrd, s: CapsLck}
   l: [Graphite, Vestnik]
 - p: [27, 28]
   k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
@@ -291,9 +291,6 @@ combos:
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
   l: [Graphite, Vestnik]
 - p: [21, 22]
-  k: $$mdi:keyboard-esc$$
-  l: [Graphite, Vestnik]
-- p: [22, 23]
   k: $$mdi:keyboard-tab$$
   l: [Graphite, Vestnik]
 - p: [28, 29]
@@ -348,7 +345,7 @@ combos:
   k: {t: ., s: '?'}
   l: [Vestnik]
 - p: [31, 32]
-  k: Magic
+  k: {t: System, type: layer-activator}
   l: [Graphite, Vestnik]
 - p: [31, 30]
   k: Mouse

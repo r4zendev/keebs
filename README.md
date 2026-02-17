@@ -24,13 +24,13 @@ All layers live in `base.keymap` using `ZMK_BASE_LAYER` from [urob/zmk-helpers](
 ### Thumb Cluster
 
 ```
-LH2: tap=Space  shift=". ⇧"  hold=Num
-LH1: momentary Nav
-RH1: momentary Symbol
-RH2: tap=★  double-tap=caps-word  hold=Shift
+LH2: tap=Esc    hold=Nav
+LH1: tap=Space  shift=". ⇧"  hold=Num
+RH1: tap=★/sticky-shift      hold=Shift
+RH2: tap=Enter  hold=Symbol
 ```
 
-Nav and Symbol are pure `&mo` — instant activation, no tap function. Bspc, Enter, Esc, Tab are combos on non-bigram positions.
+All thumbs are hold-taps. Bspc, Tab, Esc, Enter also available as combos on non-bigram bottom row positions.
 
 ### Home Row Mods
 

@@ -56,9 +56,9 @@ parse_config:
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&lt_esc LAYER_Nav ESC': {t: '$$mdi:keyboard-esc$$', h: Nav}
     '&lt_spc LAYER_Num 0': {t: Spc, s: Sentence, h: Num}
-    '&mo LAYER_Nav': {t: Nav, type: layer-activator}
-    '&mo LAYER_Symbol': {t: Symbol, type: layer-activator}
+    '&lt_enter LAYER_Symbol RET': {t: '$$mdi:keyboard-return$$', h: Symbol}
     '&spc_morph': {t: Spc, s: Sentence}
     '&smart_mouse': Smart Mouse
     '&sl LAYER_Fn': {t: Fn}
@@ -238,9 +238,7 @@ parse_config:
     CAPSLOCK: Caps
     CAPS: Caps
   zmk_combos:
-    combo_esc: {key: {t: '$$mdi:keyboard-esc$$'}}
     combo_tab: {key: {t: '$$mdi:keyboard-tab$$'}}
-    combo_enter: {key: {t: '$$mdi:keyboard-return$$'}}
     combo_bspc: {key: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}}
     combo_undo_redo: {key: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}}
     combo_ccp: {key: {t: '$$mdi:content-copy$$'}}
@@ -262,6 +260,7 @@ parse_config:
     combo_v_semi: {key: {t: ;}}
     combo_system_combo: {key: {t: Magic}}
     combo_mouse_combo: {key: {t: Mouse}}
+    combo_caps: {key: {t: CapsWrd, s: CapsLck}}
     combo_fn_combo: {key: {t: Fn}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:

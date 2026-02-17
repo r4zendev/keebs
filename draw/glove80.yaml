@@ -70,12 +70,12 @@ layers:
   - ''
   - ''
   - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav}
   - {t: Spc, h: Num, s: Sentence}
-  - {t: Nav, type: layer-activator}
   - ''
   - ''
-  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:keyboard-return$$', h: Symbol}
   - ''
   - ''
   - ''
@@ -155,8 +155,8 @@ layers:
   - '...'
   - ''
   - ''
-  - {type: held}
   - ''
+  - {type: held}
   - ''
   - ''
   - ''
@@ -232,8 +232,8 @@ layers:
   - ''
   - ''
   - ''
-  - ''
   - {type: held}
+  - ''
   - ''
   - ''
   - Word ⌫
@@ -313,8 +313,8 @@ layers:
   - ''
   - ''
   - ''
-  - {type: held}
   - ''
+  - {type: held}
   - ''
   - ''
   - '0'
@@ -360,10 +360,10 @@ layers:
   - ''
   - ''
   - ''
-  - {t: F11, h: ❖}
-  - {t: F3, h: ⌥}
-  - {t: F2, h: ⌃}
-  - {t: F1, h: '$$mdi:arrow-up-bold$$'}
+  - F11
+  - F3
+  - F2
+  - F1
   - $$mdi:play-pause$$
   - ''
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
@@ -519,7 +519,7 @@ layers:
   - $$mdi:lock$$
   - $$mdi:power$$
   - $$mdi:sleep$$
-  - Caps
+  - ''
   - BT CLR
   - {t: '$$mdi:progress-download$$', s: Boot}
   - RGB EFR
@@ -637,20 +637,20 @@ layers:
   - ''
   - ''
   - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav}
   - {t: Spc, h: Num, s: Sentence}
-  - {t: Nav, type: layer-activator}
   - ''
   - ''
-  - {t: Symbol, type: layer-activator}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:keyboard-return$$', h: Symbol}
   - ''
   - ''
   - ''
   - ''
   - {t: Magic, type: layer-activator}
 combos:
-- p: [59, 60]
-  k: $$mdi:keyboard-return$$
+- p: [25, 30]
+  k: {t: CapsWrd, s: CapsLck}
   l: [Graphite, Vestnik]
 - p: [60, 61]
   k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
@@ -659,9 +659,6 @@ combos:
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
   l: [Graphite, Vestnik]
 - p: [48, 49]
-  k: $$mdi:keyboard-esc$$
-  l: [Graphite, Vestnik]
-- p: [49, 50]
   k: $$mdi:keyboard-tab$$
   l: [Graphite, Vestnik]
 - p: [61, 62]
