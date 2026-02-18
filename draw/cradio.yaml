@@ -31,10 +31,10 @@ layers:
   - {t: '''', s: '"'}
   - {t: ':', s: ;}
   - {t: ., s: '?'}
-  - {t: '$$mdi:keyboard-esc$$', h: Nav}
-  - {t: Spc, h: Num, s: Sentence}
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - {t: '$$mdi:keyboard-return$$', h: Symbol}
+  - {t: Spc, h: Num, s: '$$mdi:keyboard-return$$'}
+  - {t: '$$mdi:backspace$$', h: Symbol, s: '$$mdi:backspace-reverse$$'}
   Symbol:
   - '~'
   - '#'
@@ -71,7 +71,7 @@ layers:
   - ''
   - {type: held}
   Nav:
-  - $$mdi:keyboard-esc$$
+  - ''
   - Space ←
   - Space →
   - Page ←
@@ -85,7 +85,7 @@ layers:
   - {t: ⌥, h: sticky}
   - {t: ⌃, h: sticky}
   - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - $$mdi:keyboard-tab$$
+  - ''
   - PgDn
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
@@ -98,7 +98,7 @@ layers:
   - {t: '$$mdi:monitor-screenshot$$', s: Scr}
   - Pin Win
   - STT
-  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  - $$mdi:keyboard-tab$$
   - $$mdi:keyboard-return$$
   - EN
   - {type: held}
@@ -106,40 +106,40 @@ layers:
   - Word ⌫
   - Word ⌦
   Num:
-  - ''
-  - ''
-  - ''
-  - ''
-  - _
-  - +
-  - '7'
-  - '8'
-  - '9'
   - '-'
-  - {t: ❖, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - '='
-  - .
-  - '1'
-  - '2'
-  - '3'
+  - '9'
+  - '8'
+  - '7'
+  - +
+  - _
+  - ''
+  - ''
+  - ''
+  - ''
   - ':'
-  - ''
-  - ''
-  - ''
-  - ''
-  - '%'
-  - '*'
-  - '4'
-  - '5'
-  - '6'
+  - '3'
+  - '2'
+  - '1'
+  - .
+  - '='
+  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - {t: ⌃, h: sticky}
+  - {t: ⌥, h: sticky}
+  - {t: ❖, h: sticky}
   - /
+  - '6'
+  - '5'
+  - '4'
+  - '*'
+  - '%'
   - ''
-  - {type: held}
-  - '0'
+  - ''
+  - ''
+  - ''
   - ','
+  - '0'
+  - {type: held}
+  - ''
   Fn:
   - F12
   - F9
@@ -276,22 +276,16 @@ layers:
   - Ы
   - У
   - Ю
-  - {t: '$$mdi:keyboard-esc$$', h: Nav}
-  - {t: Spc, h: Num, s: Sentence}
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - {t: '$$mdi:keyboard-return$$', h: Symbol}
+  - {t: Spc, h: Num, s: '$$mdi:keyboard-return$$'}
+  - {t: '$$mdi:backspace$$', h: Symbol, s: '$$mdi:backspace-reverse$$'}
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
   l: [Graphite, Vestnik]
-- p: [27, 28]
-  k: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
-  l: [Graphite, Vestnik]
 - p: [20, 21]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Vestnik]
-- p: [21, 22]
-  k: $$mdi:keyboard-tab$$
   l: [Graphite, Vestnik]
 - p: [28, 29]
   k: $$mdi:content-copy$$

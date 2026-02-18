@@ -5,10 +5,10 @@
  * Mod-morphs: '→"  :→;  .→?  ,→!
  *
  * Thumb cluster (34-key):
- *   LH2 = tap:Esc  hold:Nav
- *   LH1 = tap:Space  shift+tap:". ⇧"  hold:Num
- *   RH1 = tap:★/sticky-shift  hold:Shift
- *   RH2 = tap:Enter  hold:Symbol
+ *   LH2 = tap:Esc→Tab  hold:Nav
+ *   LH1 = tap:★/sticky-shift  hold:Shift
+ *   RH1 = tap:Space→Enter  hold:Num
+ *   RH2 = tap:Bspc→Del  hold:Symbol
  *
  * Thumb combos:
  *   LH1+RH1 = System layer (toggle)
@@ -218,7 +218,6 @@
     };
 };
 
-ZMK_MACRO(dot_spc, bindings = <&kp DOT &kp SPACE &sk LSHFT>; wait-ms = <0>; tap-ms = <5>;)
 ZMK_MACRO(bt_0, bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;)
 ZMK_MACRO(bt_1, bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;)
 ZMK_MACRO(bt_2, bindings = <&out OUT_BLE>, <&bt BT_SEL 2>;)
@@ -324,7 +323,7 @@ ZMK_MACRO(triple_dot, bindings = <&kp DOT &kp DOT &kp DOT>; wait-ms = <0>; tap-m
         copy_paste: copy_cut_paste {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&copy_cut>, <&kp LS(INS)>;
+            bindings = <&copy_cut>, <&kp LC(V)>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -354,15 +353,17 @@ ZMK_MACRO(triple_dot, bindings = <&kp DOT &kp DOT &kp DOT>; wait-ms = <0>; tap-m
 
 /* ── Thumb hold-taps ──────────────────────────────────────────────────── */
 
-ZMK_MOD_MORPH(spc_morph, bindings = <&kp SPACE>, <&dot_spc>;
+ZMK_MOD_MORPH(esc_morph, bindings = <&kp ESC>, <&kp TAB>;
+              mods = <(MOD_LSFT|MOD_RSFT)>;)
+ZMK_MOD_MORPH(spc_morph, bindings = <&kp SPACE>, <&kp RET>;
               mods = <(MOD_LSFT|MOD_RSFT)>;)
 ZMK_HOLD_TAP(lt_spc, bindings = <&mo>, <&spc_morph>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
-ZMK_HOLD_TAP(lt_esc, bindings = <&mo>, <&kp>;
+ZMK_HOLD_TAP(lt_esc, bindings = <&mo>, <&esc_morph>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
-ZMK_HOLD_TAP(lt_enter, bindings = <&mo>, <&kp>;
+ZMK_HOLD_TAP(lt_bspc, bindings = <&mo>, <&bspc_del>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
@@ -447,7 +448,7 @@ ZMK_TRI_STATE(
 
 /* ── Copy/Cut tap-dance ──────────────────────────────────────────────── */
 
-ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
+ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(C)>, <&kp LC(X)>;
               tapping-term-ms = <200>;)
 
 
@@ -470,10 +471,7 @@ ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(INS)>, <&kp LC(X)>;
 ZMK_COMBO(caps, &caps_morph, LT2 RT2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 // Horizontal — bottom row
-ZMK_COMBO(bspc,     &bspc_del,   RB2 RB3, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
-
 ZMK_COMBO(undo_redo,      &undo_redo,  LB4 LB3, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(tab,      &kp TAB,     LB3 LB2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(ccp,      &copy_paste, RB3 RB4, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 // Vertical — left hand (Graphite only)
@@ -517,8 +515,8 @@ ZMK_BASE_LAYER(Graphite,
     &kp Y          &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E    &hmr RGUI I   ,
     &kp X          &kp Q          &kp M          &kp C          &kp V         ,
     &kp K          &kp P          &sqt_dqt       &colon_semi    &dot_qmark    ,
-    &lt_esc LAYER_Nav ESC       &lt_spc LAYER_Num 0                               ,
-    THUMB_SHIFT_EN             &lt_enter LAYER_Symbol RET
+    &lt_esc LAYER_Nav 0        THUMB_SHIFT_EN                                     ,
+    &lt_spc LAYER_Num 0        &lt_bspc LAYER_Symbol 0
 )
 
 ZMK_BASE_LAYER(Vestnik,
@@ -528,8 +526,8 @@ ZMK_BASE_LAYER(Vestnik,
     &kp M          &hmr RSHFT D   &hmr RCTRL J   &hmr RALT T    &hmr RGUI B   ,
     &kp I          &kp P          &kp K          &kp V          &kp X         ,
     &kp SEMI       &kp Q          &kp S          &kp E          &kp DOT       ,
-    &lt_esc LAYER_Nav ESC       &lt_spc LAYER_Num 0                               ,
-    THUMB_SHIFT_RU             &lt_enter LAYER_Symbol RET
+    &lt_esc LAYER_Nav 0        THUMB_SHIFT_RU                                     ,
+    &lt_spc LAYER_Num 0        &lt_bspc LAYER_Symbol 0
 )
 
 ZMK_BASE_LAYER(Symbol,
@@ -544,25 +542,25 @@ ZMK_BASE_LAYER(Symbol,
 )
 
 ZMK_BASE_LAYER(Nav,
-    &kp ESC       &kp LG(COMMA)  &kp LG(DOT)  &kp LA(LEFT)     &kp LA(RIGHT),
+    &none         &kp LG(COMMA)  &kp LG(DOT)  &kp LA(LEFT)     &kp LA(RIGHT),
     &kp PG_UP     &kp _HOME      &kp UP        &kp _END         &lang_ua     ,
-    &sk LGUI      &sk LALT       &sk LCTRL     &sk LSHFT        &kp TAB      ,
+    &sk LGUI      &sk LALT       &sk LCTRL     &sk LSHFT        &none        ,
     &kp PG_DN     &kp LEFT       &kp DOWN      &kp RIGHT        &lang_ru     ,
     &kp LC(A)     &kp LC(LS(TAB)) &kp LC(TAB)  &kp _SCR_AREA   &kp _SCR_FULL,
-    &kp LG(LS(T)) &kp LG(LA(S))  &bspc_del    &kp RET          &lang_en     ,
+    &kp LG(LS(T)) &kp LG(LA(S))  &kp TAB      &kp RET          &lang_en     ,
     &trans         &none                                                       ,
-    &kp LC(BSPC)  &kp LC(DEL)
+    &kp LC(BSPC)   &kp LC(DEL)
 )
 
 ZMK_BASE_LAYER(Num,
-    &none          &none          &none          &none          &kp UNDER     ,
-    &kp PLUS       &kp N7         &kp N8         &kp N9         &kp MINUS    ,
-    &sk LGUI       &sk LALT       &sk LCTRL      &sk LSHFT      &kp EQUAL    ,
-    &kp DOT        &kp N1         &kp N2         &kp N3         &kp COLON    ,
-    &none          &none          &none          &none          &kp PRCNT    ,
-    &kp STAR       &kp N4         &kp N5         &kp N6         &kp FSLH     ,
-    &none          &trans                                                      ,
-    &kp N0         &kp COMMA
+    &kp MINUS      &kp N9         &kp N8         &kp N7         &kp PLUS      ,
+    &kp UNDER      &none          &none          &none          &none         ,
+    &kp COLON      &kp N3         &kp N2         &kp N1         &kp DOT       ,
+    &kp EQUAL      &sk RSHFT      &sk RCTRL      &sk RALT       &sk RGUI     ,
+    &kp FSLH       &kp N6         &kp N5         &kp N4         &kp STAR      ,
+    &kp PRCNT      &none          &none          &none          &none         ,
+    &kp COMMA      &kp N0                                                      ,
+    &trans         &none
 )
 
 ZMK_BASE_LAYER(Fn,

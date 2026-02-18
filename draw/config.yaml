@@ -56,15 +56,15 @@ parse_config:
     '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&lt_esc LAYER_Nav ESC': {t: '$$mdi:keyboard-esc$$', h: Nav}
-    '&lt_spc LAYER_Num 0': {t: Spc, s: Sentence, h: Num}
-    '&lt_enter LAYER_Symbol RET': {t: '$$mdi:keyboard-return$$', h: Symbol}
-    '&spc_morph': {t: Spc, s: Sentence}
+    '&lt_esc LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$', h: Nav}
+    '&lt_spc LAYER_Num 0': {t: Spc, s: '$$mdi:keyboard-return$$', h: Num}
+    '&lt_bspc LAYER_Symbol 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Symbol}
+    '&spc_morph': {t: Spc, s: '$$mdi:keyboard-return$$'}
+    '&esc_morph': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$'}
     '&smart_mouse': Smart Mouse
     '&sl LAYER_Fn': {t: Fn}
     '&tog LAYER_Magic': {t: Magic, type: layer-activator}
     '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
-    '&dot_spc': {t: '. ⇧'}
     '&dot_slash': {t: ./}
     '&triple_dot': {t: '...'}
     '&mkp LCLK': Left Click
@@ -238,8 +238,6 @@ parse_config:
     CAPSLOCK: Caps
     CAPS: Caps
   zmk_combos:
-    combo_tab: {key: {t: '$$mdi:keyboard-tab$$'}}
-    combo_bspc: {key: {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}}
     combo_undo_redo: {key: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}}
     combo_ccp: {key: {t: '$$mdi:content-copy$$'}}
     combo_lpar: {key: {t: '('}}

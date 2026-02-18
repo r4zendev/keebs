@@ -32,7 +32,7 @@ if "Vestnik" in layers:
 data["layers"] = {name: layers[name] for name in order if name in layers}
 
 # Mark held thumb keys per layer.
-# 34-key: LH2=30(Num), LH1=31(Nav), RH1=32(Shift), RH2=33(Symbol)
+# 34-key: LH2=30(Nav), LH1=31(Shift), RH1=32(Num), RH2=33(Symbol)
 # 80-key (glove80): positions differ per layout
 first_layer = next(iter(data["layers"].values()), [])
 n_keys = len(first_layer)
@@ -40,7 +40,7 @@ n_keys = len(first_layer)
 if n_keys == 34:
     HELD = {
         "Nav": [30],
-        "Num": [31],
+        "Num": [32],
         "Symbol": [33],
         "Fn": [32, 33],
         "Mouse": [30, 31],
@@ -49,7 +49,7 @@ if n_keys == 34:
 elif n_keys == 80:
     HELD = {
         "Nav": [69],
-        "Num": [70],
+        "Num": [73],
         "Symbol": [74],
         "Fn": [73, 74],
         "Mouse": [69, 70],
