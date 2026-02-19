@@ -62,7 +62,7 @@ layers:
   - K
   - P
   - {t: '''', s: '"'}
-  - {t: ':', s: ;}
+  - {t: '-', s: /}
   - {t: ., s: '?'}
   - ''
   - {t: Magic, type: layer-activator}
@@ -107,52 +107,52 @@ layers:
   - ''
   - '~'
   - '#'
-  - +
   - '*'
+  - '&'
   - '`'
-  - '@'
+  - '"'
   - (
   - )
   - '['
   - ']'
   - ''
   - ''
-  - '!'
-  - '='
-  - _
-  - /
-  - $
-  - \
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ❖, h: sticky}
-  - ''
-  - ''
-  - '%'
-  - '|'
-  - '&'
-  - '-'
   - ^
-  - ''
-  - ''
-  - ''
-  - ''
+  - _
+  - ':'
+  - '='
+  - $
+  - '@'
+  - '%'
+  - '{'
+  - '}'
+  - ;
   - ''
   - ''
   - '?'
-  - '{'
-  - '}'
+  - '!'
+  - '|'
+  - +
+  - /
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - \
+  - '-'
   - <
   - '>'
+  - ''''
   - ''
   - {t: Magic, type: layer-activator}
   - ''
   - ''
   - ''
   - ''
-  - ./
-  - '...'
+  - ''
+  - {t: ▽, type: trans}
   - ''
   - ''
   - ''
@@ -189,19 +189,19 @@ layers:
   - ''
   - Space ←
   - Space →
-  - Page ←
-  - Page →
+  - ''
+  - ''
   - PgUp
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
   - $$mdi:arrow-collapse-right$$
-  - UA
+  - EN
   - ''
   - ''
-  - {t: ❖, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ❖
+  - ⌥
+  - ⌃
+  - $$mdi:arrow-up-bold$$
   - ''
   - PgDn
   - $$mdi:arrow-left$$
@@ -210,22 +210,22 @@ layers:
   - RU
   - ''
   - ''
-  - Tmux
+  - ''
   - Tab ←
   - Tab →
-  - {t: '$$mdi:crop$$', s: Scr}
-  - {t: '$$mdi:monitor-screenshot$$', s: Scr}
+  - Tmux
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
-  - Pin Win
-  - STT
-  - $$mdi:keyboard-tab$$
-  - $$mdi:keyboard-return$$
-  - EN
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - ''
   - {t: Magic, type: layer-activator}
   - ''
@@ -236,8 +236,8 @@ layers:
   - ''
   - ''
   - ''
-  - Word ⌫
-  - Word ⌦
+  - $$mdi:keyboard-return$$
+  - $$mdi:keyboard-tab$$
   - ''
   - ''
   - ''
@@ -285,10 +285,10 @@ layers:
   - '1'
   - .
   - '='
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ❖, h: sticky}
+  - $$mdi:arrow-up-bold$$
+  - ⌃
+  - ⌥
+  - ❖
   - ''
   - ''
   - /
@@ -366,10 +366,10 @@ layers:
   - F1
   - $$mdi:play-pause$$
   - ''
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ❖, h: sticky}
+  - $$mdi:arrow-up-bold$$
+  - ⌃
+  - ⌥
+  - ❖
   - ''
   - ''
   - F10
@@ -441,10 +441,10 @@ layers:
   - ''
   - ''
   - ''
-  - {t: ❖, h: sticky}
-  - {t: ⌥, h: sticky}
-  - {t: ⌃, h: sticky}
-  - {t: '$$mdi:arrow-up-bold$$', h: sticky}
+  - ❖
+  - ⌥
+  - ⌃
+  - $$mdi:arrow-up-bold$$
   - ''
   - PgDn
   - Mouse ←
@@ -545,9 +545,9 @@ layers:
   - ''
   - ''
   - ''
-  - ''
-  - ''
-  - ''
+  - STT
+  - {t: '$$mdi:crop$$', s: Scr}
+  - {t: '$$mdi:monitor-screenshot$$', s: Scr}
   - ''
   - OUT TOG
   - {t: '$$mdi:restart$$', s: Reset}
@@ -655,44 +655,14 @@ combos:
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
   l: [Graphite, Vestnik]
-- p: [61, 62]
-  k: $$mdi:content-copy$$
+- p: [50, 49]
+  k: $$mdi:content-paste$$
   l: [Graphite, Vestnik]
-- p: [25, 37]
-  k: (
-  l: [Graphite]
-- p: [24, 36]
-  k: '['
-  l: [Graphite]
-- p: [26, 38]
-  k: '{'
-  l: [Graphite]
-- p: [27, 39]
-  k: <
-  l: [Graphite]
-- p: [30, 42]
-  k: )
-  l: [Graphite]
-- p: [31, 43]
-  k: ']'
-  l: [Graphite]
-- p: [29, 41]
-  k: '}'
-  l: [Graphite]
-- p: [28, 40]
-  k: '>'
-  l: [Graphite]
-- p: [26, 27]
-  k: '"'
-  l: [Vestnik]
+- p: [49, 48]
+  k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
+  l: [Graphite, Vestnik]
 - p: [28, 29]
   k: Ё/'
-  l: [Vestnik]
-- p: [27, 39]
-  k: ':'
-  l: [Vestnik]
-- p: [28, 40]
-  k: ;
   l: [Vestnik]
 - p: [23, 24]
   k: Щ

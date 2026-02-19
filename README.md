@@ -24,13 +24,13 @@ All layers live in `base.keymap` using `ZMK_BASE_LAYER` from [urob/zmk-helpers](
 ### Thumb Cluster
 
 ```
-LH2: tap=Esc    hold=Nav
-LH1: tap=Space  shift=". ⇧"  hold=Num
-RH1: tap=★/sticky-shift      hold=Shift
-RH2: tap=Enter  hold=Symbol
+LH2: tap=Esc→Tab   hold=Nav
+LH1: tap=repeat       hold=Shift
+RH1: tap=Space→Enter  hold=Num
+RH2: tap=Bspc→Del  hold=Symbol
 ```
 
-All thumbs are hold-taps. Bspc, Tab, Esc, Enter also available as combos on non-bigram bottom row positions.
+All thumbs are hold-taps with mod-morphs (shift changes the tap behavior). Shift+Esc=Tab, Shift+Space=Enter, Shift+Bspc=Del.
 
 ### Home Row Mods
 
@@ -51,9 +51,9 @@ Placement follows key effort grades from the [T-34 layout](https://www.jonashiet
 - **Bracket pairs as outward rolls**: `() {} [] <>`
 - **Vim pairs**: `_`/`$` on home, `#`/`*` top, `^`/`%` bottom
 
-### Smart Shift / Magic Key (★)
+### Repeat / Magic Key (★)
 
-Tap after alpha = repeat, tap after non-alpha = sticky shift. With `MAGIC_SEQUENCES` enabled, uses [zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) for SFB fixes and suffix completions.
+Tap = key repeat (last key). Hold = Shift. With `MAGIC_SEQUENCES` enabled, uses [zmk-adaptive-key](https://github.com/urob/zmk-adaptive-key) for SFB fixes and suffix completions instead of plain repeat.
 
 <details>
 <summary>Magic Sequences</summary>
@@ -84,7 +84,7 @@ Tap after alpha = repeat, tap after non-alpha = sticky shift. With `MAGIC_SEQUEN
 | ------ | ------ | ------- |
 | `BILATERAL` | Positional hold-tap filtering + HRM-combo hack | enabled |
 | `OPERATING_SYSTEM` | OS-specific keys (1=Linux, 2=macOS, 3=Windows) | `1` |
-| `MAGIC_SEQUENCES` | Adaptive key SFB fixes + suffix completions | enabled |
+| `MAGIC_SEQUENCES` | Adaptive key SFB fixes + suffix completions | disabled |
 
 ## ZMK Modules
 

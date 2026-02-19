@@ -2,11 +2,11 @@
  *
  * Layers: Graphite(0) Vestnik(1) Symbol(2) Nav(3) Num(4) Fn(5) Mouse(6) Magic(7)
  * HRM: GACS — GUI(pinky) ALT(ring) CTL(mid) SFT(index)
- * Mod-morphs: '→"  :→;  .→?  ,→!
+ * Mod-morphs: '→"  -→/  .→?  ,→!
  *
  * Thumb cluster (34-key):
  *   LH2 = tap:Esc→Tab  hold:Nav
- *   LH1 = tap:★/sticky-shift  hold:Shift
+ *   LH1 = tap:repeat  hold:Shift
  *   RH1 = tap:Space→Enter  hold:Num
  *   RH2 = tap:Bspc→Del  hold:Symbol
  *
@@ -140,7 +140,7 @@
 /* ── Configuration ────────────────────────────────────────────────────── */
 
 #define BILATERAL
-#define MAGIC_SEQUENCES
+// #define MAGIC_SEQUENCES
 #define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik
 #define QUICK_TAP_MS 175
 
@@ -156,14 +156,14 @@
 
 /* ── Mouse pointing ───────────────────────────────────────────────────── */
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 600
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #include <dt-bindings/zmk/pointing.h>
 
 &mmv {
   acceleration-exponent = <1>;
-  time-to-max-speed-ms = <500>;
+  time-to-max-speed-ms = <250>;
   delay-ms = <0>;
 };
 
@@ -210,11 +210,6 @@
             bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N2)))>;
         };
 
-        lang_ua: lang_ua {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N3)))>;
-        };
     };
 };
 
@@ -231,8 +226,6 @@ ZMK_MACRO(macro_uen, wait-ms = <0>; tap-ms = <0>; bindings = <&kp U>, <&kp E>, <
 ZMK_MACRO(macro_the, wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp H>, <&kp E>;)
 #endif
 
-ZMK_MACRO(dot_slash, bindings = <&kp DOT &kp FSLH>; wait-ms = <0>; tap-ms = <5>;)
-ZMK_MACRO(triple_dot, bindings = <&kp DOT &kp DOT &kp DOT>; wait-ms = <0>; tap-ms = <5>;)
 
 /* ── Behaviors ────────────────────────────────────────────────────────── */
 
@@ -276,11 +269,11 @@ ZMK_MACRO(triple_dot, bindings = <&kp DOT &kp DOT &kp DOT>; wait-ms = <0>; tap-m
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        colon_semi: colon_and_semi {
+        minus_slash: minus_and_slash {
             compatible = "zmk,behavior-mod-morph";
-            label = "COLON_AND_SEMI";
+            label = "MINUS_AND_SLASH";
             #binding-cells = <0>;
-            bindings = <&kp COLON>, <&kp SEMI>;
+            bindings = <&kp MINUS>, <&kp FSLH>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -320,10 +313,10 @@ ZMK_MACRO(triple_dot, bindings = <&kp DOT &kp DOT &kp DOT>; wait-ms = <0>; tap-m
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
-        copy_paste: copy_cut_paste {
+        copy_cut: copy_and_cut {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&copy_cut>, <&kp LC(V)>;
+            bindings = <&kp _C(C)>, <&kp _C(X)>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -367,17 +360,11 @@ ZMK_HOLD_TAP(lt_bspc, bindings = <&mo>, <&bspc_del>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
-/* ── Adaptive / Smart shift ──────────────────────────────────────────── */
+/* ── Thumb shift (repeat / magic) ────────────────────────────────────── */
 
 #ifdef MAGIC_SEQUENCES
 
-ZMK_ADAPTIVE_KEY(adaptive_key, bindings = <&sk LSHFT>;
-    repeat {
-      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
-      bindings = <&key_repeat>;
-      max-prior-idle-ms = <600>;
-      strict-modifiers;
-    };
+ZMK_ADAPTIVE_KEY(adaptive_key, bindings = <&key_repeat>;
     AK(ak_u, U, &kp E)
     AK(ak_h, H, &kp Y)
     AK(ak_w, W, &kp S)
@@ -388,13 +375,7 @@ ZMK_ADAPTIVE_KEY(adaptive_key, bindings = <&sk LSHFT>;
     AK(ak_spc, SPACE, &macro_the)
 )
 
-ZMK_ADAPTIVE_KEY(adaptive_key_ru, bindings = <&sk LSHFT>;
-    repeat {
-      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
-      bindings = <&key_repeat>;
-      max-prior-idle-ms = <600>;
-      strict-modifiers;
-    };
+ZMK_ADAPTIVE_KEY(adaptive_key_ru, bindings = <&key_repeat>;
     AK(ak_ru_h, H, &kp Y)
     AK(ak_ru_y, Y, &kp H)
     AK(ak_ru_p, P, &kp L)
@@ -402,69 +383,28 @@ ZMK_ADAPTIVE_KEY(adaptive_key_ru, bindings = <&sk LSHFT>;
     AK(ak_ru_k, K, &kp Y)
 )
 
-ZMK_MOD_MORPH(adaptive_shift_tap, bindings = <&adaptive_key>, <&caps_word>;
-              mods = <(MOD_LSFT)>;)
-ZMK_HOLD_TAP(adaptive_shift, bindings = <&kp>, <&adaptive_shift_tap>;
+ZMK_HOLD_TAP(thumb_shift, bindings = <&kp>, <&adaptive_key>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+ZMK_HOLD_TAP(thumb_shift_ru, bindings = <&kp>, <&adaptive_key_ru>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
-ZMK_MOD_MORPH(adaptive_shift_ru_tap, bindings = <&adaptive_key_ru>, <&caps_word>;
-              mods = <(MOD_LSFT)>;)
-ZMK_HOLD_TAP(adaptive_shift_ru, bindings = <&kp>, <&adaptive_shift_ru_tap>;
-             flavor = "balanced"; tapping-term-ms = <200>;
-             quick-tap-ms = <QUICK_TAP_MS>;)
-
-#define THUMB_SHIFT_EN &adaptive_shift LSHFT 0
-#define THUMB_SHIFT_RU &adaptive_shift_ru LSHFT 0
+#define THUMB_SHIFT_EN &thumb_shift LSHFT 0
+#define THUMB_SHIFT_RU &thumb_shift_ru LSHFT 0
 
 #else
 
-ZMK_ADAPTIVE_KEY(shift_repeat, bindings = <&sk LSHFT>;
-    repeat {
-      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
-      bindings = <&key_repeat>;
-      max-prior-idle-ms = <600>;
-      strict-modifiers;
-    };
-)
-ZMK_MOD_MORPH(smart_shift_tap, bindings = <&shift_repeat>, <&caps_word>;
-              mods = <(MOD_LSFT)>;)
-ZMK_HOLD_TAP(smart_shift, bindings = <&kp>, <&smart_shift_tap>;
+ZMK_HOLD_TAP(thumb_shift, bindings = <&kp>, <&key_repeat>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
-#define THUMB_SHIFT_EN &smart_shift LSHFT 0
-#define THUMB_SHIFT_RU &smart_shift LSHFT 0
+#define THUMB_SHIFT_EN &thumb_shift LSHFT 0
+#define THUMB_SHIFT_RU &thumb_shift LSHFT 0
 
 #endif
 
-/* ── Smart-mouse ──────────────────────────────────────────────────────── */
 
-ZMK_TRI_STATE(
-    smart_mouse, bindings = <&tog LAYER_Mouse>, <&none>, <&tog LAYER_Mouse>;
-    ignored-key-positions =
-        <LM4 LM3 LM2 LM1 RT0 RT1 RT2 RT3 RM0 RM1 RM2 RM3 RB1 RB2 RB3 LH2 LH1 RH1 RH2>;
-    ignored-layers = <LAYER_Mouse LAYER_Nav>;)
-
-/* ── Copy/Cut tap-dance ──────────────────────────────────────────────── */
-
-ZMK_TAP_DANCE(copy_cut, bindings = <&kp LC(C)>, <&kp LC(X)>;
-              tapping-term-ms = <200>;)
-
-
-/* ── HRM-Combo hack (bilateral only) ──────────────────────────────────── */
-
-#ifdef BILATERAL
-#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
-  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced"; \
-               tapping-term-ms = <280>; quick-tap-ms = <QUICK_TAP_MS>; \
-               require-prior-idle-ms = <150>; hold-trigger-on-release; \
-               hold-trigger-key-positions = <TRIGGER_POS>;)
-
-#define ZMK_COMBO_8(NAME, TAP, POS, LAYERS, COMBO_MS, IDLE_MS, HOLD, SIDE) \
-  MAKE_HRM(hm_combo_##NAME, &kp, TAP, SIDE THUMBS) \
-  ZMK_COMBO_6(NAME, &hm_combo_##NAME HOLD 0, POS, LAYERS, COMBO_MS, IDLE_MS)
-#endif
 
 /* ── Combos ───────────────────────────────────────────────────────────── */
 
@@ -472,25 +412,11 @@ ZMK_COMBO(caps, &caps_morph, LT2 RT2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 // Horizontal — bottom row
 ZMK_COMBO(undo_redo,      &undo_redo,  LB4 LB3, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(ccp,      &copy_paste, RB3 RB4, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
-
-// Vertical — left hand (Graphite only)
-ZMK_COMBO(lpar,     &kp LPAR, LT2 LM2, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(lbkt,     &kp LBKT, LT3 LM3, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(lbrc,     &kp LBRC, LT1 LM1, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(combo_lt, &kp LT,   LT0 LM0, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-
-// Vertical — right hand (Graphite only)
-ZMK_COMBO(rpar,     &kp RPAR, RT2 RM2, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(rbkt,     &kp RBKT, RT3 RM3, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(rbrc,     &kp RBRC, RT1 RM1, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(combo_gt, &kp GT,   RT0 RM0, LAYER_Graphite, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(qm_paste,        &kp _PASTE,  LB1 LB2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(mc_copy_cut,     &copy_cut,   LB2 LB3, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 // Vestnik-specific combos
-ZMK_COMBO(v_dquote,    &kp LS(N2),   LT1 LT0, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(yo_apos,     &kp GRAVE,    RT0 RT1, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(v_colon,     &kp LS(N6),   LT0 LM0, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(v_semi,      &kp LS(N4),   RT0 RM0, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(shcha,       &kp O,        LT4 LT3, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(hard_sign,   &kp RBKT,     RT3 RT4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(v_comma_excl, &v_comma_excl, LM4 LB4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
@@ -498,7 +424,7 @@ ZMK_COMBO(v_dot_qmark,  &v_dot_qmark, RM4 RB4, LAYER_Vestnik, COMBO_TERM, COMBO_
 
 // Thumb combos
 ZMK_COMBO(system_combo, &tog LAYER_Magic,  LH1 RH1, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(mouse_combo,  &smart_mouse,      LH1 LH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(mouse_combo,  &mo LAYER_Mouse,   LH1 LH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(fn_combo,     &sl LAYER_Fn,      RH1 RH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 /* ── Layers ───────────────────────────────────────────────────────────── */
@@ -514,7 +440,7 @@ ZMK_BASE_LAYER(Graphite,
     &hml LGUI N    &hml LALT R    &hml LCTRL T   &hml LSHFT S   &kp G         ,
     &kp Y          &hmr RSHFT H   &hmr RCTRL A   &hmr RALT E    &hmr RGUI I   ,
     &kp X          &kp Q          &kp M          &kp C          &kp V         ,
-    &kp K          &kp P          &sqt_dqt       &colon_semi    &dot_qmark    ,
+    &kp K          &kp P          &sqt_dqt       &minus_slash    &dot_qmark    ,
     &lt_esc LAYER_Nav 0        THUMB_SHIFT_EN                                     ,
     &lt_spc LAYER_Num 0        &lt_bspc LAYER_Symbol 0
 )
@@ -531,32 +457,32 @@ ZMK_BASE_LAYER(Vestnik,
 )
 
 ZMK_BASE_LAYER(Symbol,
-    &kp TILDE  &kp HASH   &kp PLUS   &kp STAR   &kp GRAVE     ,
-    &kp AT     &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT      ,
-    &kp EXCL   &kp EQUAL  &kp UNDER  &kp FSLH   &kp DLLR      ,
-    &kp BSLH   &sk LSHFT  &sk LCTRL  &sk LALT   &sk LGUI       ,
-    &kp PRCNT  &kp PIPE   &kp AMPS   &kp MINUS  &kp CARET     ,
-    &kp QMARK  &kp LBRC   &kp RBRC   &kp LT     &kp GT        ,
-    &dot_slash &triple_dot                                       ,
+    &kp TILDE  &kp HASH   &kp STAR   &kp AMPS   &kp GRAVE     ,
+    &kp DQT    &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT      ,
+    &kp CARET  &kp UNDER  &kp COLON  &kp EQUAL  &kp DLLR      ,
+    &kp AT     &kp PRCNT  &kp LBRC   &kp RBRC   &kp SEMI      ,
+    &kp QMARK  &kp EXCL   &kp PIPE   &kp PLUS   &kp FSLH      ,
+    &kp BSLH   &kp MINUS  &kp LT     &kp GT     &kp SQT       ,
+    &none      &trans                                            ,
     &none      &trans
 )
 
 ZMK_BASE_LAYER(Nav,
-    &none         &kp LG(COMMA)  &kp LG(DOT)  &kp LA(LEFT)     &kp LA(RIGHT),
-    &kp PG_UP     &kp _HOME      &kp UP        &kp _END         &lang_ua     ,
-    &sk LGUI      &sk LALT       &sk LCTRL     &sk LSHFT        &none        ,
+    &none         &kp LG(COMMA)  &kp LG(DOT)  &none            &none        ,
+    &kp PG_UP     &kp _HOME      &kp UP        &kp _END         &lang_en     ,
+    &kp LGUI      &kp LALT       &kp LCTRL     &kp LSHFT        &none        ,
     &kp PG_DN     &kp LEFT       &kp DOWN      &kp RIGHT        &lang_ru     ,
-    &kp LC(A)     &kp LC(LS(TAB)) &kp LC(TAB)  &kp _SCR_AREA   &kp _SCR_FULL,
-    &kp LG(LS(T)) &kp LG(LA(S))  &kp TAB      &kp RET          &lang_en     ,
+    &none         &kp LC(LS(TAB)) &kp LC(TAB)  &kp LC(A)        &none        ,
+    &none         &none          &none          &none            &none        ,
     &trans         &none                                                       ,
-    &kp LC(BSPC)   &kp LC(DEL)
+    &kp RET        &kp TAB
 )
 
 ZMK_BASE_LAYER(Num,
     &kp MINUS      &kp N9         &kp N8         &kp N7         &kp PLUS      ,
     &kp UNDER      &none          &none          &none          &none         ,
     &kp COLON      &kp N3         &kp N2         &kp N1         &kp DOT       ,
-    &kp EQUAL      &sk RSHFT      &sk RCTRL      &sk RALT       &sk RGUI     ,
+    &kp EQUAL      &kp RSHFT      &kp RCTRL      &kp RALT       &kp RGUI     ,
     &kp FSLH       &kp N6         &kp N5         &kp N4         &kp STAR      ,
     &kp PRCNT      &none          &none          &none          &none         ,
     &kp COMMA      &kp N0                                                      ,
@@ -567,7 +493,7 @@ ZMK_BASE_LAYER(Fn,
     &kp F12            &kp F9           &kp F8            &kp F7             &kp C_PREV ,
     &none              &none            &none             &none              &none ,
     &kp F11            &kp F3           &kp F2            &kp F1             &kp C_PP ,
-    &none              &sk RSHFT        &sk RCTRL         &sk RALT           &sk RGUI ,
+    &none              &kp RSHFT        &kp RCTRL         &kp RALT           &kp RGUI ,
     &kp F10            &kp F6           &kp F5            &kp F4             &kp C_NEXT ,
     &none              &none            &none             &none              &none ,
     &kp C_MUTE         &kp LG(F9)                                                   ,
@@ -577,7 +503,7 @@ ZMK_BASE_LAYER(Fn,
 ZMK_BASE_LAYER(Mouse,
     &none      &none      &none      &none      &none         ,
     &kp PG_UP  U_WH_L     U_MS_U     U_WH_R     &none         ,
-    &sk LGUI   &sk LALT   &sk LCTRL  &sk LSHFT  &none         ,
+    &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none         ,
     &kp PG_DN  U_MS_L     U_MS_D     U_MS_R     &none         ,
     &none      &none      &none      &none      &none         ,
     &none      &mkp LCLK  &mkp MCLK  &mkp RCLK  &none         ,

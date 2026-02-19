@@ -43,30 +43,24 @@ parse_config:
   skip_binding_parsing: false
   raw_binding_map:
     '&sqt_dqt': {t: '''', s: '"'}
-    '&colon_semi': {t: ':', s: ';'}
+    '&minus_slash': {t: '-', s: '/'}
     '&dot_qmark': {t: '.', s: '?'}
     '&comma_excl': {t: ',', s: '!'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
     '&undo_redo': {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
     '&copy_cut': {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-    '&copy_paste': {t: '$$mdi:content-copy$$'}
     '&v_comma_excl': {t: ',', s: '!'}
     '&v_dot_qmark': {t: '.', s: '?'}
-    '&adaptive_key': {t: '★'}
-    '&adaptive_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&adaptive_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&smart_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&thumb_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
+    '&thumb_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&lt_esc LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$', h: Nav}
     '&lt_spc LAYER_Num 0': {t: Spc, s: '$$mdi:keyboard-return$$', h: Num}
     '&lt_bspc LAYER_Symbol 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Symbol}
     '&spc_morph': {t: Spc, s: '$$mdi:keyboard-return$$'}
     '&esc_morph': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$'}
-    '&smart_mouse': Smart Mouse
     '&sl LAYER_Fn': {t: Fn}
     '&tog LAYER_Magic': {t: Magic, type: layer-activator}
     '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
-    '&dot_slash': {t: ./}
-    '&triple_dot': {t: '...'}
     '&mkp LCLK': Left Click
     '&mkp RCLK': Right Click
     '&mkp MCLK': Middle Click
@@ -84,16 +78,11 @@ parse_config:
     '&bt_3': {t: BT 3}
     '&lang_en': {t: EN}
     '&lang_ru': {t: RU}
-    '&lang_ua': {t: UA}
-    '&kp LA(LEFT)': {t: Page ←}
-    '&kp LA(RIGHT)': {t: Page →}
     '&kp LC(LS(TAB))': {t: Tab ←}
     '&kp LC(TAB)': {t: Tab →}
     '&kp LC(Z)': {t: Undo}
     '&kp LC(LS(Z))': {t: Redo}
     '&kp LC(A)': {t: Tmux}
-    '&kp LC(BSPC)': {t: Word ⌫}
-    '&kp LC(DEL)': {t: Word ⌦}
     '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
     '&kp _SCR_FULL': {t: '$$mdi:monitor-screenshot$$', s: Scr}
     '&kp _SHUTDOWN': {t: '$$mdi:power$$'}
@@ -111,7 +100,6 @@ parse_config:
     '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
     '&kp LG(COMMA)': {t: Space ←}
     '&kp LG(DOT)': {t: Space →}
-    '&kp LG(LS(T))': {t: Pin Win}
     '&kp LG(LA(S))': {t: STT}
     '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
     '&sys_reset': {t: '$$mdi:restart$$', s: Reset}
@@ -239,23 +227,13 @@ parse_config:
     CAPS: Caps
   zmk_combos:
     combo_undo_redo: {key: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}}
-    combo_ccp: {key: {t: '$$mdi:content-copy$$'}}
-    combo_lpar: {key: {t: '('}}
-    combo_rpar: {key: {t: ')'}}
-    combo_lbkt: {key: {t: '['}}
-    combo_lbrc: {key: {t: '{'}}
-    combo_combo_lt: {key: {t: '<'}}
-    combo_rbkt: {key: {t: ']'}}
-    combo_rbrc: {key: {t: '}'}}
-    combo_combo_gt: {key: {t: '>'}}
+    combo_qm_paste: {key: {t: '$$mdi:content-paste$$'}}
+    combo_mc_copy_cut: {key: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}}
     combo_shcha: {key: {t: Щ}}
     combo_hard_sign: {key: {t: Ъ/Ї}}
     combo_yo_apos: {key: {t: Ё/'}}
     combo_v_comma_excl: {key: {t: ',', s: '!'}}
     combo_v_dot_qmark: {key: {t: '.', s: '?'}}
-    combo_v_dquote: {key: {t: '"'}}
-    combo_v_colon: {key: {t: ':'}}
-    combo_v_semi: {key: {t: ;}}
     combo_system_combo: {key: {t: Magic}}
     combo_mouse_combo: {key: {t: Mouse}}
     combo_caps: {key: {t: CapsWrd, s: CapsLck}}
