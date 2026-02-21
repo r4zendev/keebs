@@ -7,13 +7,13 @@ jobs:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: cradio.west.yml
-      board: nice_nano
+      board: nice_nano/nrf52840/zmk
       shield: cradio_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
       manifest: cradio.west.yml
-      board: nice_nano
+      board: nice_nano/nrf52840/zmk
       shield: cradio_right
   merge:
     needs: [left, right]

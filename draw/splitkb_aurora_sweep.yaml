@@ -71,7 +71,7 @@ layers:
   - {type: held}
   - {t: ▽, type: trans}
   Nav:
-  - {t: '$$mdi:progress-download$$', s: Boot}
+  - ''
   - Space ←
   - Space →
   - ''

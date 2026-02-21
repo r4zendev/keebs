@@ -1,6 +1,6 @@
 ---
 include:
-  - board: nice_nano_v2
+  - board: nice_nano/nrf52840/zmk
     shield: splitkb_aurora_sweep_left
-  - board: nice_nano_v2
+  - board: nice_nano/nrf52840/zmk
     shield: splitkb_aurora_sweep_right
