@@ -74,8 +74,8 @@ layers:
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
-  - {t: Spc, h: Num, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Symbol, s: '$$mdi:backspace-reverse$$'}
+  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
+  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
   - ''
   - ''
   - ''
@@ -155,8 +155,8 @@ layers:
   - {t: ▽, type: trans}
   - ''
   - ''
-  - ''
   - {type: held}
+  - {t: ▽, type: trans}
   - ''
   - ''
   - ''
@@ -186,7 +186,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - {t: '$$mdi:progress-download$$', s: Boot}
   - Space ←
   - Space →
   - ''
@@ -268,9 +268,9 @@ layers:
   - ''
   - ''
   - '-'
-  - '9'
-  - '8'
   - '7'
+  - '8'
+  - '9'
   - +
   - _
   - ''
@@ -280,9 +280,9 @@ layers:
   - ''
   - ''
   - ':'
-  - '3'
-  - '2'
-  - '1'
+  - '4'
+  - '5'
+  - '6'
   - .
   - '='
   - $$mdi:arrow-up-bold$$
@@ -292,9 +292,9 @@ layers:
   - ''
   - ''
   - /
-  - '6'
-  - '5'
-  - '4'
+  - '1'
+  - '2'
+  - '3'
   - '*'
   - ''
   - ''
@@ -317,8 +317,8 @@ layers:
   - '0'
   - ''
   - ''
+  - {t: ▽, type: trans}
   - {type: held}
-  - ''
   - ''
   - ''
   - ''
@@ -349,9 +349,9 @@ layers:
   - ''
   - ''
   - F12
-  - F9
-  - F8
   - F7
+  - F8
+  - F9
   - $$mdi:skip-previous$$
   - ''
   - ''
@@ -361,9 +361,9 @@ layers:
   - ''
   - ''
   - F11
-  - F3
-  - F2
-  - F1
+  - F4
+  - F5
+  - F6
   - $$mdi:play-pause$$
   - ''
   - $$mdi:arrow-up-bold$$
@@ -373,9 +373,9 @@ layers:
   - ''
   - ''
   - F10
-  - F6
-  - F5
-  - F4
+  - F1
+  - F2
+  - F3
   - $$mdi:skip-next$$
   - ''
   - ''
@@ -434,11 +434,11 @@ layers:
   - ''
   - ''
   - ''
-  - PgUp
+  - Scroll ↑
   - Scroll ←
   - Mouse ↑
   - Scroll →
-  - ''
+  - PgUp
   - ''
   - ''
   - ❖
@@ -446,10 +446,11 @@ layers:
   - ⌃
   - $$mdi:arrow-up-bold$$
   - ''
-  - PgDn
+  - Scroll ↓
   - Mouse ←
   - Mouse ↓
   - Mouse →
+  - PgDn
   - ''
   - ''
   - ''
@@ -465,9 +466,8 @@ layers:
   - ''
   - ''
   - ''
-  - Left Click
   - Middle Click
-  - Right Click
+  - ''
   - ''
   - ''
   - {t: Magic, type: layer-activator}
@@ -479,8 +479,8 @@ layers:
   - {type: held}
   - ''
   - ''
-  - Scroll ↑
-  - Scroll ↓
+  - Left Click
+  - Right Click
   - ''
   - ''
   - ''
@@ -557,10 +557,10 @@ layers:
   - ''
   - ''
   - ''
-  - {type: held}
   - ''
   - ''
-  - {type: held}
+  - ''
+  - ''
   - ''
   - ''
   - ''
@@ -641,8 +641,8 @@ layers:
   - {t: ★, h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
-  - {t: Spc, h: Num, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Symbol, s: '$$mdi:backspace-reverse$$'}
+  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
+  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
   - ''
   - ''
   - ''
@@ -670,14 +670,14 @@ combos:
 - p: [31, 32]
   k: Ъ/Ї
   l: [Vestnik]
-- p: [35, 47]
+- p: [60, 61]
   k: {t: ',', s: '!'}
   l: [Vestnik]
-- p: [44, 62]
+- p: [61, 62]
   k: {t: ., s: '?'}
   l: [Vestnik]
-- p: [70, 73]
-  k: Magic
+- p: [69, 74]
+  k: {t: System, type: layer-activator}
   l: [Graphite, Vestnik]
 - p: [70, 69]
   k: Mouse

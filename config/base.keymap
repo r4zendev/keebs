@@ -7,11 +7,11 @@
  * Thumb cluster (34-key):
  *   LH2 = tap:Esc→Tab  hold:Nav
  *   LH1 = tap:repeat  hold:Shift
- *   RH1 = tap:Space→Enter  hold:Num
- *   RH2 = tap:Bspc→Del  hold:Symbol
+ *   RH1 = tap:Space→Enter  hold:Symbol
+ *   RH2 = tap:Bspc→Del  hold:Num
  *
  * Thumb combos:
- *   LH1+RH1 = System layer (toggle)
+ *   LH2+RH2 = System layer (momentary)
  *   LH1+LH2 = Smart-Mouse (auto-deactivate)
  *   RH1+RH2 = Function layer (sticky)
  *
@@ -236,7 +236,7 @@ ZMK_MACRO(macro_the, wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp H>, <
             label = "HOME_ROW_MOD_LEFT";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <280>;
+            tapping-term-ms = <230>;
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
 #ifdef BILATERAL
@@ -251,7 +251,7 @@ ZMK_MACRO(macro_the, wait-ms = <0>; tap-ms = <0>; bindings = <&kp T>, <&kp H>, <
             label = "HOME_ROW_MOD_RIGHT";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <280>;
+            tapping-term-ms = <230>;
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
 #ifdef BILATERAL
@@ -419,11 +419,11 @@ ZMK_COMBO(mc_copy_cut,     &copy_cut,   LB2 LB3, ALPHA_LAYERS, COMBO_TERM, COMBO
 ZMK_COMBO(yo_apos,     &kp GRAVE,    RT0 RT1, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(shcha,       &kp O,        LT4 LT3, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(hard_sign,   &kp RBKT,     RT3 RT4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(v_comma_excl, &v_comma_excl, LM4 LB4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(v_dot_qmark,  &v_dot_qmark, RM4 RB4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(v_comma_excl, &v_comma_excl, RB2 RB3, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(v_dot_qmark,  &v_dot_qmark, RB3 RB4, LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 
 // Thumb combos
-ZMK_COMBO(system_combo, &tog LAYER_Magic,  LH1 RH1, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(system_combo, &sl LAYER_Magic,  LH2 RH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(mouse_combo,  &mo LAYER_Mouse,   LH1 LH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(fn_combo,     &sl LAYER_Fn,      RH1 RH2, ALPHA_LAYERS, COMBO_TERM, COMBO_IDLE)
 
@@ -442,7 +442,7 @@ ZMK_BASE_LAYER(Graphite,
     &kp X          &kp Q          &kp M          &kp C          &kp V         ,
     &kp K          &kp P          &sqt_dqt       &minus_slash    &dot_qmark    ,
     &lt_esc LAYER_Nav 0        THUMB_SHIFT_EN                                     ,
-    &lt_spc LAYER_Num 0        &lt_bspc LAYER_Symbol 0
+    &lt_spc LAYER_Symbol 0     &lt_bspc LAYER_Num 0
 )
 
 ZMK_BASE_LAYER(Vestnik,
@@ -453,7 +453,7 @@ ZMK_BASE_LAYER(Vestnik,
     &kp I          &kp P          &kp K          &kp V          &kp X         ,
     &kp SEMI       &kp Q          &kp S          &kp E          &kp DOT       ,
     &lt_esc LAYER_Nav 0        THUMB_SHIFT_RU                                     ,
-    &lt_spc LAYER_Num 0        &lt_bspc LAYER_Symbol 0
+    &lt_spc LAYER_Symbol 0     &lt_bspc LAYER_Num 0
 )
 
 ZMK_BASE_LAYER(Symbol,
@@ -479,22 +479,22 @@ ZMK_BASE_LAYER(Nav,
 )
 
 ZMK_BASE_LAYER(Num,
-    &kp MINUS      &kp N9         &kp N8         &kp N7         &kp PLUS      ,
+    &kp MINUS      &kp N7         &kp N8         &kp N9         &kp PLUS      ,
     &kp UNDER      &none          &none          &none          &none         ,
-    &kp COLON      &kp N3         &kp N2         &kp N1         &kp DOT       ,
+    &kp COLON      &kp N4         &kp N5         &kp N6         &kp DOT       ,
     &kp EQUAL      &kp RSHFT      &kp RCTRL      &kp RALT       &kp RGUI     ,
-    &kp FSLH       &kp N6         &kp N5         &kp N4         &kp STAR      ,
+    &kp FSLH       &kp N1         &kp N2         &kp N3         &kp STAR      ,
     &kp PRCNT      &none          &none          &none          &none         ,
     &kp COMMA      &kp N0                                                      ,
     &trans         &none
 )
 
 ZMK_BASE_LAYER(Fn,
-    &kp F12            &kp F9           &kp F8            &kp F7             &kp C_PREV ,
+    &kp F12            &kp F7           &kp F8            &kp F9             &kp C_PREV ,
     &none              &none            &none             &none              &none ,
-    &kp F11            &kp F3           &kp F2            &kp F1             &kp C_PP ,
+    &kp F11            &kp F4           &kp F5            &kp F6             &kp C_PP ,
     &none              &kp RSHFT        &kp RCTRL         &kp RALT           &kp RGUI ,
-    &kp F10            &kp F6           &kp F5            &kp F4             &kp C_NEXT ,
+    &kp F10            &kp F1           &kp F2            &kp F3             &kp C_NEXT ,
     &none              &none            &none             &none              &none ,
     &kp C_MUTE         &kp LG(F9)                                                   ,
     &trans             &trans
@@ -502,11 +502,11 @@ ZMK_BASE_LAYER(Fn,
 
 ZMK_BASE_LAYER(Mouse,
     &none      &none      &none      &none      &none         ,
-    &kp PG_UP  U_WH_L     U_MS_U     U_WH_R     &none         ,
+    U_WH_U     U_WH_L     U_MS_U     U_WH_R     &kp PG_UP     ,
     &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none         ,
-    &kp PG_DN  U_MS_L     U_MS_D     U_MS_R     &none         ,
+    U_WH_D     U_MS_L     U_MS_D     U_MS_R     &kp PG_DN     ,
     &none      &none      &none      &none      &none         ,
-    &none      &mkp LCLK  &mkp MCLK  &mkp RCLK  &none         ,
-    &none      &none                                            ,
-    U_WH_U     U_WH_D
+    &none      &none      &mkp MCLK  &none      &none         ,
+    &none      &none                                              ,
+    &mkp LCLK  &mkp RCLK
 )

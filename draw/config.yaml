@@ -54,12 +54,12 @@ parse_config:
     '&thumb_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&thumb_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
     '&lt_esc LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$', h: Nav}
-    '&lt_spc LAYER_Num 0': {t: Spc, s: '$$mdi:keyboard-return$$', h: Num}
-    '&lt_bspc LAYER_Symbol 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Symbol}
+    '&lt_spc LAYER_Symbol 0': {t: Spc, s: '$$mdi:keyboard-return$$', h: Symbol}
+    '&lt_bspc LAYER_Num 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Num}
     '&spc_morph': {t: Spc, s: '$$mdi:keyboard-return$$'}
     '&esc_morph': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$'}
     '&sl LAYER_Fn': {t: Fn}
-    '&tog LAYER_Magic': {t: Magic, type: layer-activator}
+    '&sl LAYER_Magic': {t: Magic, type: layer-activator}
     '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
     '&mkp LCLK': Left Click
     '&mkp RCLK': Right Click

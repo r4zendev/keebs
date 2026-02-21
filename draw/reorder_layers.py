@@ -21,6 +21,32 @@ def translate_vestnik_key(k):
     return k
 
 
+def get_hold_layer(key):
+    """Extract hold layer name from a key dict, e.g. {t: Esc, h: Nav} -> 'Nav'."""
+    if isinstance(key, dict) and "h" in key:
+        return key["h"]
+    return None
+
+
+def build_held_map(data):
+    """Derive which positions are held for each layer from base layer hold-taps and combos."""
+    held = {}
+    first_layer = next(iter(data["layers"].values()), [])
+
+    for pos, key in enumerate(first_layer):
+        layer = get_hold_layer(key)
+        if layer:
+            held.setdefault(layer, []).append(pos)
+
+    for combo in data.get("combos", []):
+        k = combo.get("k", "")
+        name = k.get("t") if isinstance(k, dict) else k if isinstance(k, str) else None
+        if name and combo.get("p"):
+            held.setdefault(name, []).extend(combo["p"])
+
+    return held
+
+
 path, *order = sys.argv[1:]
 with open(path) as f:
     data = yaml.safe_load(f)
@@ -31,34 +57,7 @@ if "Vestnik" in layers:
 
 data["layers"] = {name: layers[name] for name in order if name in layers}
 
-# Mark held thumb keys per layer.
-# 34-key: LH2=30(Nav), LH1=31(Shift), RH1=32(Num), RH2=33(Symbol)
-# 80-key (glove80): positions differ per layout
-first_layer = next(iter(data["layers"].values()), [])
-n_keys = len(first_layer)
-
-if n_keys == 34:
-    HELD = {
-        "Nav": [30],
-        "Num": [32],
-        "Symbol": [33],
-        "Fn": [32, 33],
-        "Mouse": [30, 31],
-        "System": [31, 32],
-    }
-elif n_keys == 80:
-    HELD = {
-        "Nav": [69],
-        "Num": [73],
-        "Symbol": [74],
-        "Fn": [73, 74],
-        "Mouse": [69, 70],
-        "Magic": [70, 73],
-    }
-else:
-    HELD = {}
-
-if n_keys == 34 and "combos" in data:
+if "combos" in data:
     for combo in data["combos"]:
         if combo.get("k") == "Magic":
             combo["k"] = {
@@ -66,7 +65,8 @@ if n_keys == 34 and "combos" in data:
                 "type": "layer-activator",
             }
 
-for layer_name, positions in HELD.items():
+held = build_held_map(data)
+for layer_name, positions in held.items():
     if layer_name in data["layers"]:
         layer = data["layers"][layer_name]
         for pos in positions:

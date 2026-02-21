@@ -1,6 +1,6 @@
 ---
 include:
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: cradio_left
-  - board: nice_nano
+  - board: nice_nano/nrf52840/zmk
     shield: cradio_right

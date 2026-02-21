@@ -11,7 +11,7 @@ export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 export PATH="$SDK/hosttools/sysroots/x86_64-pokysdk-linux/usr/bin:$PATH"
 
 usage() {
-    echo "Usage: $0 <keyboard> [left|right|both|clean|setup]"
+    echo "Usage: $0 <keyboard> [left|right|both|clean|setup|reset]"
     echo ""
     echo "Keyboards: glove80, cradio, splitkb_aurora_sweep"
     echo ""
@@ -20,6 +20,7 @@ usage() {
     echo "  $0 glove80 left     # left hand only"
     echo "  $0 glove80 setup    # init west workspace"
     echo "  $0 glove80 clean    # remove build artifacts"
+    echo "  $0 glove80 reset    # build settings_reset firmware"
     echo "  CLEAN=1 $0 glove80  # full rebuild"
     exit 1
 }
@@ -140,6 +141,16 @@ case "$ACTION" in
     both)
         [[ -n "$lh_board" ]] && build_entry "$lh_board" "$lh_shield"
         [[ -n "$rh_board" ]] && build_entry "$rh_board" "$rh_shield"
+        ;;
+    reset)
+        board="${lh_board:-${rh_board}}"
+        [[ -z "$board" ]] && echo "No board found" && exit 1
+        west build -d "build/settings_reset" -s zmk/app -b "$board" -- -DSHIELD=settings_reset
+        out="$REPO_ROOT/build/$KEYBOARD"
+        mkdir -p "$out"
+        cp "build/settings_reset/zephyr/zmk.uf2" "$out/settings_reset.uf2"
+        echo "→ build/$KEYBOARD/settings_reset.uf2"
+        echo "Flash this to BOTH halves to clear bonds."
         ;;
     *) usage ;;
 esac
