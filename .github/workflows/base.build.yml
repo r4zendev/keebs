@@ -18,8 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     container: zmkfirmware/zmk-build-arm:stable
     env:
-      artifact: ${{ inputs.shield && format('{0}-{1}', inputs.shield, inputs.board) || inputs.board }}
+      board_safe: placeholder
     steps:
+      - name: Sanitize board name
+        run: echo "board_safe=$(echo '${{ inputs.board }}' | tr '/' '_')" >> $GITHUB_ENV
+      - name: Set artifact name
+        run: |
+          if [ -n "${{ inputs.shield }}" ]; then
+            echo "artifact=${{ inputs.shield }}-${board_safe}" >> $GITHUB_ENV
+          else
+            echo "artifact=${board_safe}" >> $GITHUB_ENV
+          fi
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
         with:
