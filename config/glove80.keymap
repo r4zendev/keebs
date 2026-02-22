@@ -46,7 +46,7 @@
           ___              ___              ___              ___              ___              ___                                                            ___         ___         ___         ___           ___          ___
  &bt BT_CLR_ALL            ___  &rgb_ug RGB_HUD  &rgb_ug RGB_HUI              ___              ___                                                            ___    &kp _LOCK  &kp _POWER  &kp _SLEEP    ___   &bt BT_CLR
     &bootloader  &rgb_ug RGB_EFR  &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &rgb_ug RGB_EFF  &rgb_ug RGB_TOG                                                            ___        &bt_0       &bt_1       &bt_2         &bt_3  &bootloader
-     &sys_reset  &rgb_ug RGB_SPD  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_SPI              ___   ___   ___   ___   ___   ___   ___  &kp LG(LA(S))  &kp _SCR_AREA  &kp _SCR_FULL         ___  &out OUT_TOG   &sys_reset
+     &sys_reset  &rgb_ug RGB_SPD  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_SPI              ___   ___   ___   ___   ___   ___   ___        ___  &rgb_ug RGB_HUI  &rgb_ug RGB_HUD         ___  &out OUT_TOG   &sys_reset
           ___              ___              ___              ___              ___                        ___   ___   ___   ___   ___   ___                      ___         ___         ___           ___          ___
             >;
         };

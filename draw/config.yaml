@@ -58,6 +58,7 @@ parse_config:
     '&lt_bspc LAYER_Num 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Num}
     '&spc_morph': {t: Spc, s: '$$mdi:keyboard-return$$'}
     '&esc_morph': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$'}
+    '&mo LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: Magic, type: layer-activator}
     '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
@@ -98,8 +99,8 @@ parse_config:
     '&kp C_PREV': {t: '$$mdi:skip-previous$$'}
     '&kp C_NEXT': {t: '$$mdi:skip-next$$'}
     '&kp LG(F9)': {t: '$$mdi:microphone-off$$'}
-    '&kp LG(COMMA)': {t: Space ←}
-    '&kp LG(DOT)': {t: Space →}
+    '&kp LG(O)': {t: Space ←}
+    '&kp LG(U)': {t: Space →}
     '&kp LG(LA(S))': {t: STT}
     '&bootloader': {t: '$$mdi:progress-download$$', s: Boot}
     '&sys_reset': {t: '$$mdi:restart$$', s: Reset}

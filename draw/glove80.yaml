@@ -156,7 +156,7 @@ layers:
   - ''
   - ''
   - {type: held}
-  - {t: ▽, type: trans}
+  - ''
   - ''
   - ''
   - ''
@@ -195,7 +195,7 @@ layers:
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
   - $$mdi:arrow-collapse-right$$
-  - EN
+  - RU
   - ''
   - ''
   - ❖
@@ -207,12 +207,12 @@ layers:
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
   - $$mdi:arrow-right$$
-  - RU
+  - EN
   - ''
   - ''
-  - ''
-  - Tab ←
-  - Tab →
+  - STT
+  - {t: '$$mdi:crop$$', s: Scr}
+  - {t: '$$mdi:monitor-screenshot$$', s: Scr}
   - Tmux
   - ''
   - ''
@@ -222,7 +222,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - $$mdi:keyboard-tab$$
   - ''
   - ''
   - ''
@@ -233,11 +233,11 @@ layers:
   - ''
   - ''
   - {type: held}
-  - ''
+  - {t: Mouse, type: layer-activator}
   - ''
   - ''
   - $$mdi:keyboard-return$$
-  - $$mdi:keyboard-tab$$
+  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
   - ''
   - ''
   - ''
@@ -317,7 +317,7 @@ layers:
   - '0'
   - ''
   - ''
-  - {t: ▽, type: trans}
+  - Fn
   - {type: held}
   - ''
   - ''
@@ -465,8 +465,8 @@ layers:
   - ''
   - ''
   - ''
-  - ''
   - Middle Click
+  - ''
   - ''
   - ''
   - ''
@@ -545,9 +545,9 @@ layers:
   - ''
   - ''
   - ''
-  - STT
-  - {t: '$$mdi:crop$$', s: Scr}
-  - {t: '$$mdi:monitor-screenshot$$', s: Scr}
+  - ''
+  - RGB HUI
+  - RGB HUD
   - ''
   - OUT TOG
   - {t: '$$mdi:restart$$', s: Reset}

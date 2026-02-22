@@ -22,9 +22,9 @@
 
         layer_System {
             bindings = <
-     &bootloader   &none         &none         &none         &none              &none       &none        &none        &none      &bootloader
-     &bt_0         &bt_1         &bt_2         &bt_3         &out OUT_TOG       &none       &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &bt BT_CLR
-     &sys_reset    &none         &none         &none         &none              &none       &kp LG(LA(S)) &kp _SCR_AREA &kp _SCR_FULL &sys_reset
+     &bootloader   &kp _SLEEP    &kp _SHUTDOWN &kp _LOCK     &soft_off          &none       &none        &none        &none      &bootloader
+     &bt_0         &bt_1         &bt_2         &bt_3         &out OUT_TOG       &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &bt BT_CLR
+     &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                                         &none                &none              &none       &none
             >;
         };
