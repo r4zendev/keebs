@@ -32,9 +32,9 @@ layers:
   - {t: '-', s: /}
   - {t: ., s: '?'}
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
   Symbol:
   - '~'
   - '#'
@@ -76,7 +76,7 @@ layers:
   - Space →
   - ''
   - ''
-  - PgUp
+  - $$mdi:arrow-collapse-up$$
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
   - $$mdi:arrow-collapse-right$$
@@ -86,7 +86,7 @@ layers:
   - ⌃
   - $$mdi:arrow-up-bold$$
   - ''
-  - PgDn
+  - $$mdi:arrow-collapse-down$$
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
   - $$mdi:arrow-right$$
@@ -94,7 +94,7 @@ layers:
   - STT
   - {t: '$$mdi:crop$$', s: Scr}
   - {t: '$$mdi:monitor-screenshot$$', s: Scr}
-  - Tmux
+  - ''
   - ''
   - ''
   - $$mdi:keyboard-tab$$
@@ -102,9 +102,9 @@ layers:
   - ''
   - ''
   - {type: held}
-  - {t: Mouse, type: layer-activator}
-  - $$mdi:keyboard-return$$
-  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: Mouse, h: Mouse}
+  - ''
+  - ''
   Num:
   - '-'
   - '7'
@@ -185,7 +185,7 @@ layers:
   - Scroll ←
   - Mouse ↑
   - Scroll →
-  - PgUp
+  - $$mdi:arrow-collapse-up$$
   - ❖
   - ⌥
   - ⌃
@@ -195,7 +195,7 @@ layers:
   - Mouse ←
   - Mouse ↓
   - Mouse →
-  - PgDn
+  - $$mdi:arrow-collapse-down$$
   - ''
   - ''
   - ''
@@ -212,25 +212,25 @@ layers:
   - Right Click
   System:
   - {t: '$$mdi:progress-download$$', s: Boot}
-  - $$mdi:sleep$$
-  - $$mdi:power$$
-  - $$mdi:lock$$
-  - '&soft_off'
+  - ''
+  - ''
+  - ''
+  - ''
   - ''
   - ''
   - ''
   - ''
   - {t: '$$mdi:progress-download$$', s: Boot}
+  - BT CLR
   - BT 0
   - BT 1
   - BT 2
   - BT 3
-  - OUT TOG
   - '&soft_off'
   - $$mdi:lock$$
   - $$mdi:power$$
   - $$mdi:sleep$$
-  - BT CLR
+  - OUT TOG
   - {t: '$$mdi:restart$$', s: Reset}
   - ''
   - ''
@@ -277,9 +277,9 @@ layers:
   - У
   - Ю
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
-  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
@@ -292,6 +292,9 @@ combos:
   l: [Graphite, Vestnik]
 - p: [22, 21]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
+  l: [Graphite, Vestnik]
+- p: [24, 23]
+  k: Tmux
   l: [Graphite, Vestnik]
 - p: [5, 6]
   k: Ё/'
@@ -309,7 +312,7 @@ combos:
   k: {t: ., s: '?'}
   l: [Vestnik]
 - p: [30, 33]
-  k: {t: System, type: layer-activator}
+  k: System
   l: [Graphite, Vestnik]
 - p: [31, 30]
   k: Mouse

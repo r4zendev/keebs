@@ -65,22 +65,22 @@ layers:
   - {t: '-', s: /}
   - {t: ., s: '?'}
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
   - ''
   - ''
-  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
   - ''
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Symbol:
   - ''
   - ''
@@ -146,7 +146,7 @@ layers:
   - '>'
   - ''''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -161,7 +161,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Nav:
   - ''
   - ''
@@ -191,7 +191,7 @@ layers:
   - Space →
   - ''
   - ''
-  - PgUp
+  - $$mdi:arrow-collapse-up$$
   - $$mdi:arrow-collapse-left$$
   - $$mdi:arrow-up$$
   - $$mdi:arrow-collapse-right$$
@@ -203,7 +203,7 @@ layers:
   - ⌃
   - $$mdi:arrow-up-bold$$
   - ''
-  - PgDn
+  - $$mdi:arrow-collapse-down$$
   - $$mdi:arrow-left$$
   - $$mdi:arrow-down$$
   - $$mdi:arrow-right$$
@@ -213,7 +213,7 @@ layers:
   - STT
   - {t: '$$mdi:crop$$', s: Scr}
   - {t: '$$mdi:monitor-screenshot$$', s: Scr}
-  - Tmux
+  - ''
   - ''
   - ''
   - ''
@@ -227,22 +227,22 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
   - {type: held}
-  - {t: Mouse, type: layer-activator}
-  - ''
-  - ''
-  - $$mdi:keyboard-return$$
-  - {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: Mouse, h: Mouse}
   - ''
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Num:
   - ''
   - ''
@@ -308,7 +308,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -323,7 +323,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Fn:
   - ''
   - ''
@@ -389,7 +389,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -404,7 +404,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Mouse:
   - ''
   - ''
@@ -438,7 +438,7 @@ layers:
   - Scroll ←
   - Mouse ↑
   - Scroll →
-  - PgUp
+  - $$mdi:arrow-collapse-up$$
   - ''
   - ''
   - ❖
@@ -450,7 +450,7 @@ layers:
   - Mouse ←
   - Mouse ↓
   - Mouse →
-  - PgDn
+  - $$mdi:arrow-collapse-down$$
   - ''
   - ''
   - ''
@@ -470,7 +470,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
@@ -485,7 +485,7 @@ layers:
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Magic:
   - ''
   - ''
@@ -551,6 +551,7 @@ layers:
   - ''
   - OUT TOG
   - {t: '$$mdi:restart$$', s: Reset}
+  - {type: held}
   - ''
   - ''
   - ''
@@ -565,8 +566,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
-  - ''
+  - {type: held}
   Vestnik:
   - ''
   - ''
@@ -632,22 +632,22 @@ layers:
   - У
   - Ю
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
   - ''
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: ★, h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
   - ''
   - ''
-  - {t: Spc, h: Symbol, s: '$$mdi:keyboard-return$$'}
-  - {t: '$$mdi:backspace$$', h: Num, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
   - ''
   - ''
   - ''
   - ''
-  - {t: Magic, type: layer-activator}
+  - {t: '&rgb_ug_status_macro', h: Magic}
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
@@ -660,6 +660,9 @@ combos:
   l: [Graphite, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
+  l: [Graphite, Vestnik]
+- p: [51, 50]
+  k: Tmux
   l: [Graphite, Vestnik]
 - p: [28, 29]
   k: Ё/'
@@ -677,7 +680,7 @@ combos:
   k: {t: ., s: '?'}
   l: [Vestnik]
 - p: [69, 74]
-  k: {t: System, type: layer-activator}
+  k: System
   l: [Graphite, Vestnik]
 - p: [70, 69]
   k: Mouse

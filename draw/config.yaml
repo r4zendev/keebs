@@ -51,17 +51,13 @@ parse_config:
     '&copy_cut': {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
     '&v_comma_excl': {t: ',', s: '!'}
     '&v_dot_qmark': {t: '.', s: '?'}
-    '&thumb_shift LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&thumb_shift_ru LSHFT 0': {t: '★', h: '$$mdi:arrow-up-bold$$'}
-    '&lt_esc LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$', h: Nav}
-    '&lt_spc LAYER_Symbol 0': {t: Spc, s: '$$mdi:keyboard-return$$', h: Symbol}
-    '&lt_bspc LAYER_Num 0': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$', h: Num}
-    '&spc_morph': {t: Spc, s: '$$mdi:keyboard-return$$'}
-    '&esc_morph': {t: '$$mdi:keyboard-esc$$', s: '$$mdi:keyboard-tab$$'}
-    '&mo LAYER_Mouse': {t: Mouse, type: layer-activator}
+    '&thumb_bspc LSHFT 0': {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+    '&nav_ht LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+    '&thumb_spc LAYER_Symbol SPACE': {t: '$$mdi:keyboard-space$$', h: Symbol}
+    '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
+    '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&sl LAYER_Fn': {t: Fn}
-    '&sl LAYER_Magic': {t: Magic, type: layer-activator}
-    '&magic LAYER_Magic 0': {t: Magic, type: layer-activator}
+    '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&mkp LCLK': Left Click
     '&mkp RCLK': Right Click
     '&mkp MCLK': Middle Click
@@ -210,10 +206,10 @@ parse_config:
     RIGHT: '$$mdi:arrow-right$$'
     HOME: '$$mdi:arrow-collapse-left$$'
     END: '$$mdi:arrow-collapse-right$$'
-    PAGE_UP: PgUp
-    PG_UP: PgUp
-    PAGE_DOWN: PgDn
-    PG_DN: PgDn
+    PAGE_UP: '$$mdi:arrow-collapse-up$$'
+    PG_UP: '$$mdi:arrow-collapse-up$$'
+    PAGE_DOWN: '$$mdi:arrow-collapse-down$$'
+    PG_DN: '$$mdi:arrow-collapse-down$$'
     LSHIFT: '$$mdi:arrow-up-bold$$'
     LSHFT: '$$mdi:arrow-up-bold$$'
     RSHIFT: '$$mdi:arrow-up-bold$$'
@@ -235,7 +231,7 @@ parse_config:
     combo_yo_apos: {key: {t: Ё/'}}
     combo_v_comma_excl: {key: {t: ',', s: '!'}}
     combo_v_dot_qmark: {key: {t: '.', s: '?'}}
-    combo_system_combo: {key: {t: Magic}}
+    combo_system_combo: {key: {t: System}}
     combo_mouse_combo: {key: {t: Mouse}}
     combo_caps: {key: {t: CapsWrd, s: CapsLck}}
     combo_fn_combo: {key: {t: Fn}}

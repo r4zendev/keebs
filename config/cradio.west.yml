@@ -10,9 +10,6 @@ manifest:
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: zmk-adaptive-key
-      remote: urob
-      revision: main
     - name: zmk-helpers
       remote: urob
       revision: main
