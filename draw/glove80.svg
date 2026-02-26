@@ -1902,9 +1902,15 @@ path.combo {
 </g>
 <g transform="translate(868, 252)" class="key keypos-61">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
+<text x="0" y="0" class="key tap">
+<tspan x="0" dy="-0.6em">&amp;mkp</tspan><tspan x="0" dy="1.2em">MB4</tspan>
+</text>
 </g>
 <g transform="translate(924, 280)" class="key keypos-62">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
+<text x="0" y="0" class="key tap">
+<tspan x="0" dy="-0.6em">&amp;mkp</tspan><tspan x="0" dy="1.2em">MB5</tspan>
+</text>
 </g>
 <g transform="translate(980, 280)" class="key keypos-63">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -2613,16 +2619,16 @@ path.combo {
 <text x="280" y="252" class="combo tap">Tmux</text>
 </g>
 <g class="combo combopos-5">
-<rect rx="6" ry="6" x="714" y="127" width="28" height="26" class="combo"/>
-<text x="728" y="140" class="combo tap">Ё/&#x27;</text>
+<rect rx="6" ry="6" x="882" y="141" width="28" height="26" class="combo"/>
+<text x="896" y="154" class="combo tap">Ё/&#x27;</text>
 </g>
 <g class="combo combopos-6">
 <rect rx="6" ry="6" x="98" y="141" width="28" height="26" class="combo"/>
 <text x="112" y="154" class="combo tap">Щ</text>
 </g>
 <g class="combo combopos-7">
-<rect rx="6" ry="6" x="882" y="141" width="28" height="26" class="combo"/>
-<text x="896" y="154" class="combo tap">Ъ/Ї</text>
+<rect rx="6" ry="6" x="714" y="127" width="28" height="26" class="combo"/>
+<text x="728" y="140" class="combo tap">Ъ/Ї</text>
 </g>
 <g class="combo combopos-8">
 <rect rx="6" ry="6" x="826" y="239" width="28" height="26" class="combo"/>

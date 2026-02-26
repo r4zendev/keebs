@@ -204,8 +204,8 @@ layers:
   - ''
   - Middle Click
   - ''
-  - ''
-  - ''
+  - '&mkp MB4'
+  - '&mkp MB5'
   - {type: held}
   - {type: held}
   - Left Click
@@ -296,13 +296,13 @@ combos:
 - p: [24, 23]
   k: Tmux
   l: [Graphite, Vestnik]
-- p: [5, 6]
+- p: [8, 9]
   k: Ё/'
   l: [Vestnik]
 - p: [0, 1]
   k: Щ
   l: [Vestnik]
-- p: [8, 9]
+- p: [5, 6]
   k: Ъ/Ї
   l: [Vestnik]
 - p: [27, 28]

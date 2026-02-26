@@ -467,8 +467,8 @@ layers:
   - ''
   - Middle Click
   - ''
-  - ''
-  - ''
+  - '&mkp MB4'
+  - '&mkp MB5'
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -664,13 +664,13 @@ combos:
 - p: [51, 50]
   k: Tmux
   l: [Graphite, Vestnik]
-- p: [28, 29]
+- p: [31, 32]
   k: Ё/'
   l: [Vestnik]
 - p: [23, 24]
   k: Щ
   l: [Vestnik]
-- p: [31, 32]
+- p: [28, 29]
   k: Ъ/Ї
   l: [Vestnik]
 - p: [60, 61]

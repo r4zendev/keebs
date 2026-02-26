@@ -170,7 +170,7 @@
 
 &lt {
     flavor = "balanced";
-    tapping-term-ms = <175>;
+    tapping-term-ms = <150>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
@@ -205,9 +205,9 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <230>;
+            tapping-term-ms = <200>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -217,9 +217,9 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <230>;
+            tapping-term-ms = <200>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <100>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -274,6 +274,13 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        paste_morph: paste_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp _PASTE>, <&kp LC(V)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
         copy_cut: copy_and_cut {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -315,31 +322,31 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
 /* ── Thumb hold-taps ──────────────────────────────────────────────────── */
 
 ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&esc_tab>;
-             flavor = "balanced"; tapping-term-ms = <175>;
+             flavor = "balanced"; tapping-term-ms = <150>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(mouse_ht, bindings = <&mo>, <&tog>;
              flavor = "balanced"; tapping-term-ms = <200>;)
 
 ZMK_HOLD_TAP(thumb_bspc, bindings = <&kp>, <&bspc_del>;
-             flavor = "balanced"; tapping-term-ms = <200>;
+             flavor = "balanced"; tapping-term-ms = <150>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
-             flavor = "balanced"; tapping-term-ms = <175>;)
+             flavor = "balanced"; tapping-term-ms = <150>;)
 
 /* ── Combos ───────────────────────────────────────────────────────────── */
 
 ZMK_COMBO(caps,         &caps_morph,       LT2 RT2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 
 ZMK_COMBO(undo_redo,    &undo_redo,        LB4 LB3, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(qm_paste,     &kp _PASTE,        LB1 LB2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(qm_paste,     &paste_morph,      LB1 LB2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(mc_copy_cut,  &copy_cut,         LB2 LB3, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(tmux_prefix,  &kp LC(A),        LB0 LB1, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 
-ZMK_COMBO(yo_apos,      &kp GRAVE,         RT0 RT1, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(yo_apos,      &kp GRAVE,         RT3 RT4, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(shcha,        &kp O,             LT4 LT3, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
-ZMK_COMBO(hard_sign,    &kp RBKT,          RT3 RT4, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(hard_sign,    &kp RBKT,          RT0 RT1, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(v_comma_excl, &v_comma_excl,     RB2 RB3, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(v_dot_qmark,  &v_dot_qmark,      RB3 RB4, LAYER_Vestnik,  COMBO_TERM, COMBO_IDLE)
 
@@ -432,7 +439,7 @@ ZMK_BASE_LAYER(Mouse,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none      ,  &msc SCRL_DOWN &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &kp PG_DN ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &none      &none      &none      &none      &none      ,  &none      &mkp MCLK  &none      &none      &none     ,
+    &none      &none      &none      &none      &none      ,  &none      &mkp MCLK  &none      &mkp MB4   &mkp MB5  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
                                      &none  &mouse_ht LAYER_Mouse LAYER_Mouse ,  &mkp LCLK  &mkp RCLK
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
