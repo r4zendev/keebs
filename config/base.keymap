@@ -205,9 +205,9 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <200>;
+            tapping-term-ms = <180>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <100>;
+            require-prior-idle-ms = <60>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -217,9 +217,9 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <200>;
+            tapping-term-ms = <180>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <100>;
+            require-prior-idle-ms = <60>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -375,11 +375,11 @@ ZMK_BASE_LAYER(Graphite,
 
 ZMK_BASE_LAYER(Vestnik,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp W      &kp L      &kp H      &kp U      &kp LBKT   ,  &kp A      &kp G      &kp J      &kp E      &kp DOT  ,
+    &kp W      &kp L      &kp H      &kp U      &kp LBKT   ,  &kp A      &kp G      &kp F      &kp Z      &kp SQT  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   &hml LGUI C &hml LALT N &hml LCTRL Y &hml LSHFT R &kp COMMA , &kp M  &hmr RSHFT D &hmr RCTRL F &hmr RALT T &hmr RGUI B ,
+   &hml LGUI C &hml LALT N &hml LCTRL Y &hml LSHFT R &kp COMMA , &kp M  &hmr RSHFT D &hmr RCTRL J &hmr RALT T &hmr RGUI B ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp I      &kp P      &kp K      &kp V      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp Z      &kp SQT  ,
+    &kp I      &kp P      &kp K      &kp V      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
                     &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0 , &thumb_spc LAYER_Symbol SPACE &lt LAYER_Num RET
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯

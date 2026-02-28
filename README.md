@@ -52,13 +52,6 @@ Placement follows key effort grades from the [T-34 layout](https://www.jonashiet
 
 ![Effort grid](effort.png)
 
-- **Home row (effort 0)**: highest-frequency symbols `= _ / !`
-- **Strong fingers for double-tap**: `==` `//` `&&` `||` `**` — none on pinkies
-- **Common bigrams as rolls**: `!=` inward, `+=` outward, `~=` inward
-- **Cross-hand alternation**: `->` `=>` `<=` `>=`
-- **Bracket pairs as outward rolls**: `() {} [] <>`
-- **Vim pairs**: `_`/`$` on home, `#`/`*` top, `^`/`%` bottom
-
 ## Configuration
 
 | Define | Effect | Default |
@@ -67,8 +60,7 @@ Placement follows key effort grades from the [T-34 layout](https://www.jonashiet
 
 ## ZMK Modules
 
-[zmk-helpers](https://github.com/urob/zmk-helpers) ·
-[zmk-tri-state](https://github.com/urob/zmk-tri-state)
+[zmk-helpers](https://github.com/urob/zmk-helpers)
 
 ## Building
 
