@@ -170,7 +170,7 @@
 
 &lt {
     flavor = "balanced";
-    tapping-term-ms = <150>;
+    tapping-term-ms = <175>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
@@ -207,7 +207,7 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             flavor = "balanced";
             tapping-term-ms = <180>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <60>;
+            require-prior-idle-ms = <75>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -219,7 +219,7 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
             flavor = "balanced";
             tapping-term-ms = <180>;
             quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <60>;
+            require-prior-idle-ms = <75>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
             bindings = <&kp>, <&kp>;
@@ -322,18 +322,18 @@ ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)
 /* ── Thumb hold-taps ──────────────────────────────────────────────────── */
 
 ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&esc_tab>;
-             flavor = "balanced"; tapping-term-ms = <150>;
+             flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(mouse_ht, bindings = <&mo>, <&tog>;
              flavor = "balanced"; tapping-term-ms = <200>;)
 
 ZMK_HOLD_TAP(thumb_bspc, bindings = <&kp>, <&bspc_del>;
-             flavor = "balanced"; tapping-term-ms = <150>;
+             flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
-             flavor = "balanced"; tapping-term-ms = <150>;)
+             flavor = "balanced"; tapping-term-ms = <175>;)
 
 /* ── Combos ───────────────────────────────────────────────────────────── */
 
