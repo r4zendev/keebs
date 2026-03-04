@@ -22,10 +22,19 @@
 
         layer_System {
             bindings = <
-     &bootloader   &none         &none         &none         &none              &none       &none        &none        &none      &bootloader
+     &bootloader   &none         &to_graphite  &to_rain      &to_dusk       &none       &none        &none        &none      &bootloader
      &bt BT_CLR    &bt_0         &bt_1         &bt_2         &bt_3              &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG
      &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                                         &none                &none              &none       &none
+            >;
+        };
+
+        layer_Rain {
+            bindings = <
+     &kp F      &kp D      &kp L      &kp G      &kp V          &kp Q      &kp R      &kp U      &kp O      &comma_excl
+     &hml LGUI S &hml LALT T &hml LCTRL H &hml LSHFT C &kp Y   &kp J    &hmr RSHFT N &hmr RCTRL E &hmr RALT A &hmr RGUI I
+     &kp Z      &kp K      &kp M      &kp P      &kp W          &kp X      &kp B      &sqt_dqt   &minus_slash &dot_qmark
+                    &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0    &thumb_spc LAYER_Symbol SPACE &lt LAYER_Num RET
             >;
         };
 

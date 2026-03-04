@@ -44,6 +44,7 @@ parse_config:
   raw_binding_map:
     '&sqt_dqt': {t: '''', s: '"'}
     '&minus_slash': {t: '-', s: '/'}
+    '&fslh_colon': {t: '/', s: ':'}
     '&dot_qmark': {t: '.', s: '?'}
     '&comma_excl': {t: ',', s: '!'}
     '&bspc_del': {t: '$$mdi:backspace$$', s: '$$mdi:backspace-reverse$$'}
@@ -56,6 +57,11 @@ parse_config:
     '&thumb_spc LAYER_Symbol SPACE': {t: '$$mdi:keyboard-space$$', h: Symbol}
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
+    '&to_rain': {t: Rain, type: layer-activator}
+    '&to_dusk': {t: Dusk, type: layer-activator}
+    '&to_graphite': {t: Graphite, type: layer-activator}
+    '&lt LAYER_NumMirror R': {t: R, h: NumMirror}
+    '&dusk_magic LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&mkp LCLK': Left Click

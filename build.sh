@@ -50,6 +50,15 @@ setup_workspace() {
     west init -l config/ --mf "$KEYBOARD.west.yml"
     west update
     pip install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
+
+    # Apply patches if any exist for this keyboard's shield
+    for patch in "$CONFIG_DIR"/boards/shields/*/?.patch "$CONFIG_DIR"/boards/shields/*/*.patch; do
+        [[ -f "$patch" ]] || continue
+        echo "Applying patch: $patch"
+        cd "$WORKSPACE/zephyr" && git apply "$patch" 2>/dev/null && echo "  Applied." || echo "  Already applied or failed."
+        cd "$WORKSPACE"
+    done
+
     echo "Done. Workspace ready at $WORKSPACE"
 }
 

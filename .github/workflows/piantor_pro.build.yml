@@ -1,0 +1,28 @@
+name: Build Piantor Pro
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  left:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: piantor_pro.west.yml
+      board: rpi_pico/rp2040/zmk
+      shield: piantor_pro_left
+      patch_dir: boards/shields/piantor_pro
+  right:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      manifest: piantor_pro.west.yml
+      board: rpi_pico/rp2040/zmk
+      shield: piantor_pro_right
+      patch_dir: boards/shields/piantor_pro
+  merge:
+    needs: [left, right]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact/merge@v4
+        with:
+          name: piantor_pro
+          pattern: artifact-*
+          delete-merged: true

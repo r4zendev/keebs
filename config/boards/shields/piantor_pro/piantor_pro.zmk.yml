@@ -1,0 +1,10 @@
+file_format: "2"
+id: piantor_pro
+name: Piantor Pro
+type: shield
+url: https://github.com/beekeeb/piantor
+requires:
+  - rpi_pico
+siblings:
+  - piantor_pro_left
+  - piantor_pro_right

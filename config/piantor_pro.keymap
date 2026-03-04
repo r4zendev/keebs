@@ -1,4 +1,4 @@
-/* Ferris Sweep (Cradio) — 34-key board wrapper. */
+/* Piantor Pro — 34-key layout on a 42-key board. */
 
 #include <zmk-helpers/key-labels/36.h>
 
@@ -28,7 +28,6 @@
                                         &none                &none              &none       &none
             >;
         };
-
 
     };
 };

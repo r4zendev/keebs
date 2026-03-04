@@ -1,0 +1,8 @@
+config SHIELD_PIANTOR_PRO_LEFT
+    def_bool $(shields_list_contains,piantor_pro_left)
+    select ZMK_SPLIT
+    select ZMK_SPLIT_ROLE_CENTRAL
+
+config SHIELD_PIANTOR_PRO_RIGHT
+    def_bool $(shields_list_contains,piantor_pro_right)
+    select ZMK_SPLIT

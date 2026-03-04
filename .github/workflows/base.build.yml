@@ -12,6 +12,9 @@ on:
       shield:
         required: false
         type: string
+      patch_dir:
+        required: false
+        type: string
 
 jobs:
   build:
@@ -41,6 +44,14 @@ jobs:
           key: west-${{ inputs.manifest }}-${{ hashFiles(format('config/{0}', inputs.manifest)) }}
       - run: west init -l config --mf ${{ inputs.manifest }}
       - run: west update
+      - name: Apply patches
+        if: inputs.patch_dir
+        run: |
+          for patch in config/${{ inputs.patch_dir }}/*.patch; do
+            [ -f "$patch" ] || continue
+            cd zephyr && git apply "$OLDPWD/$patch" 2>/dev/null && echo "Applied $patch" || echo "Already applied: $patch"
+            cd "$OLDPWD"
+          done
       - run: west zephyr-export
       - run: >
           west build -s zmk/app -b ${{ inputs.board }} --

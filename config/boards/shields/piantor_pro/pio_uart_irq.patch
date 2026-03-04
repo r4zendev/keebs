@@ -1,0 +1,222 @@
+diff --git a/drivers/serial/Kconfig.rpi_pico b/drivers/serial/Kconfig.rpi_pico
+index a4a1c7cc5..5df99c6f4 100644
+--- a/drivers/serial/Kconfig.rpi_pico
++++ b/drivers/serial/Kconfig.rpi_pico
+@@ -6,6 +6,7 @@ config UART_RPI_PICO_PIO
+ 	default y
+ 	depends on DT_HAS_RASPBERRYPI_PICO_UART_PIO_ENABLED
+ 	select SERIAL_HAS_DRIVER
++	select SERIAL_SUPPORT_INTERRUPT
+ 	select PICOSDK_USE_PIO
+ 	select PICOSDK_USE_CLAIM
+ 	select PINCTRL
+diff --git a/drivers/serial/uart_rpi_pico_pio.c b/drivers/serial/uart_rpi_pico_pio.c
+index 7e221d4ad..9a9f82ba3 100644
+--- a/drivers/serial/uart_rpi_pico_pio.c
++++ b/drivers/serial/uart_rpi_pico_pio.c
+@@ -6,6 +6,7 @@
+ 
+ #include <zephyr/drivers/pinctrl.h>
+ #include <zephyr/drivers/uart.h>
++#include <zephyr/irq.h>
+ 
+ #include <zephyr/drivers/misc/pio_rpi_pico/pio_rpi_pico.h>
+ 
+@@ -23,11 +24,18 @@ struct pio_uart_config {
+ 	const uint32_t tx_pin;
+ 	const uint32_t rx_pin;
+ 	uint32_t baudrate;
++	uint32_t irq_num;
+ };
+ 
+ struct pio_uart_data {
+ 	size_t tx_sm;
+ 	size_t rx_sm;
++#ifdef CONFIG_UART_INTERRUPT_DRIVEN
++	uart_irq_callback_user_data_t irq_cb;
++	void *irq_cb_data;
++	bool rx_irq_enabled;
++	bool tx_irq_enabled;
++#endif
+ };
+ 
+ RPI_PICO_PIO_DEFINE_PROGRAM(uart_tx, 0, 3,
+@@ -140,6 +148,133 @@ static void pio_uart_poll_out(const struct device *dev, unsigned char c)
+ 	pio_sm_put_blocking(pio_rpi_pico_get_pio(config->piodev), data->tx_sm, (uint32_t)c);
+ }
+ 
++#ifdef CONFIG_UART_INTERRUPT_DRIVEN
++
++static int pio_uart_fifo_fill(const struct device *dev, const uint8_t *tx_data, int size)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++	int i;
++
++	for (i = 0; i < size; i++) {
++		if (pio_sm_is_tx_fifo_full(pio, data->tx_sm)) {
++			break;
++		}
++		pio_sm_put(pio, data->tx_sm, (uint32_t)tx_data[i]);
++	}
++	return i;
++}
++
++static int pio_uart_fifo_read(const struct device *dev, uint8_t *rx_data, const int size)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++	io_rw_8 *uart_rx_fifo_msb;
++	int i;
++
++	uart_rx_fifo_msb = (io_rw_8 *)&pio->rxf[data->rx_sm] + 3;
++	for (i = 0; i < size; i++) {
++		if (pio_sm_is_rx_fifo_empty(pio, data->rx_sm)) {
++			break;
++		}
++		rx_data[i] = (uint8_t)*uart_rx_fifo_msb;
++	}
++	return i;
++}
++
++static void pio_uart_irq_tx_enable(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	data->tx_irq_enabled = true;
++	pio_set_irq0_source_enabled(pio, pis_sm0_tx_fifo_not_full + data->tx_sm, true);
++	irq_enable(config->irq_num);
++}
++
++static void pio_uart_irq_tx_disable(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	data->tx_irq_enabled = false;
++	pio_set_irq0_source_enabled(pio, pis_sm0_tx_fifo_not_full + data->tx_sm, false);
++}
++
++static void pio_uart_irq_rx_enable(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	data->rx_irq_enabled = true;
++	pio_set_irq0_source_enabled(pio, pis_sm0_rx_fifo_not_empty + data->rx_sm, true);
++	irq_enable(config->irq_num);
++}
++
++static void pio_uart_irq_rx_disable(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	data->rx_irq_enabled = false;
++	pio_set_irq0_source_enabled(pio, pis_sm0_rx_fifo_not_empty + data->rx_sm, false);
++}
++
++static int pio_uart_irq_tx_ready(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	return data->tx_irq_enabled && !pio_sm_is_tx_fifo_full(pio, data->tx_sm);
++}
++
++static int pio_uart_irq_rx_ready(const struct device *dev)
++{
++	const struct pio_uart_config *config = dev->config;
++	struct pio_uart_data *data = dev->data;
++	PIO pio = pio_rpi_pico_get_pio(config->piodev);
++
++	return data->rx_irq_enabled && !pio_sm_is_rx_fifo_empty(pio, data->rx_sm);
++}
++
++static int pio_uart_irq_is_pending(const struct device *dev)
++{
++	return pio_uart_irq_rx_ready(dev) || pio_uart_irq_tx_ready(dev);
++}
++
++static int pio_uart_irq_update(const struct device *dev)
++{
++	return 1;
++}
++
++static void pio_uart_irq_callback_set(const struct device *dev,
++				       uart_irq_callback_user_data_t cb,
++				       void *user_data)
++{
++	struct pio_uart_data *data = dev->data;
++
++	data->irq_cb = cb;
++	data->irq_cb_data = user_data;
++}
++
++static void pio_uart_isr(const struct device *dev)
++{
++	struct pio_uart_data *data = dev->data;
++
++	if (data->irq_cb) {
++		data->irq_cb(dev, data->irq_cb_data);
++	}
++}
++
++#endif /* CONFIG_UART_INTERRUPT_DRIVEN */
++
+ static int pio_uart_init(const struct device *dev)
+ {
+ 	const struct pio_uart_config *config = dev->config;
+@@ -173,12 +308,35 @@ static int pio_uart_init(const struct device *dev)
+ 		return retval;
+ 	}
+ 
+-	return pinctrl_apply_state(config->pcfg, PINCTRL_STATE_DEFAULT);
++	retval = pinctrl_apply_state(config->pcfg, PINCTRL_STATE_DEFAULT);
++	if (retval < 0) {
++		return retval;
++	}
++
++#ifdef CONFIG_UART_INTERRUPT_DRIVEN
++	irq_connect_dynamic(config->irq_num, 0,
++			    (void (*)(const void *))pio_uart_isr, dev, 0);
++#endif
++
++	return 0;
+ }
+ 
+ static DEVICE_API(uart, pio_uart_driver_api) = {
+ 	.poll_in = pio_uart_poll_in,
+ 	.poll_out = pio_uart_poll_out,
++#ifdef CONFIG_UART_INTERRUPT_DRIVEN
++	.fifo_fill = pio_uart_fifo_fill,
++	.fifo_read = pio_uart_fifo_read,
++	.irq_tx_enable = pio_uart_irq_tx_enable,
++	.irq_tx_disable = pio_uart_irq_tx_disable,
++	.irq_tx_ready = pio_uart_irq_tx_ready,
++	.irq_rx_enable = pio_uart_irq_rx_enable,
++	.irq_rx_disable = pio_uart_irq_rx_disable,
++	.irq_rx_ready = pio_uart_irq_rx_ready,
++	.irq_is_pending = pio_uart_irq_is_pending,
++	.irq_update = pio_uart_irq_update,
++	.irq_callback_set = pio_uart_irq_callback_set,
++#endif
+ };
+ 
+ #define PIO_UART_INIT(idx)									\
+@@ -189,6 +347,7 @@ static DEVICE_API(uart, pio_uart_driver_api) = {
+ 		.tx_pin = DT_INST_RPI_PICO_PIO_PIN_BY_NAME(idx, default, 0, tx_pins, 0),	\
+ 		.rx_pin = DT_INST_RPI_PICO_PIO_PIN_BY_NAME(idx, default, 0, rx_pins, 0),	\
+ 		.baudrate = DT_INST_PROP(idx, current_speed),					\
++		.irq_num = DT_IRQ_BY_IDX(DT_INST_PARENT(idx), 0, irq),			\
+ 	};											\
+ 	static struct pio_uart_data pio_uart##idx##_data;					\
+ 												\

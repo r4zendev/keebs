@@ -1,0 +1,6 @@
+if SHIELD_PIANTOR_PRO_LEFT || SHIELD_PIANTOR_PRO_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Piantor Pro"
+
+endif

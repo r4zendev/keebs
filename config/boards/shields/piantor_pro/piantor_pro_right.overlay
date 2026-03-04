@@ -1,0 +1,39 @@
+#include "piantor_pro.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};
+
+/ {
+    wired_split {
+        compatible = "zmk,wired-split";
+        device = <&pio0_uart>;
+    };
+};
+
+/* Same PCB flipped: TX/RX swapped vs left half (GP1=TX, GP0=RX). */
+&pinctrl {
+    pio0_uart_default: pio0_uart_default {
+        tx_pins {
+            pinmux = <PIO0_P1>;
+        };
+        rx_pins {
+            pinmux = <PIO0_P0>;
+            input-enable;
+            bias-pull-up;
+        };
+    };
+};
+
+&pio0 {
+    status = "okay";
+    interrupts = <7 3>;
+
+    pio0_uart: uart {
+        compatible = "raspberrypi,pico-uart-pio";
+        pinctrl-0 = <&pio0_uart_default>;
+        pinctrl-names = "default";
+        current-speed = <460800>;
+        status = "okay";
+    };
+};

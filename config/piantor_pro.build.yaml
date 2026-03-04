@@ -1,0 +1,6 @@
+---
+include:
+  - board: rpi_pico/rp2040/zmk
+    shield: piantor_pro_left
+  - board: rpi_pico/rp2040/zmk
+    shield: piantor_pro_right

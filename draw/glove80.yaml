@@ -324,6 +324,87 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
+  NumMirror:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - _
+  - +
+  - '7'
+  - '8'
+  - '9'
+  - '-'
+  - ''
+  - ''
+  - ❖
+  - ⌥
+  - ⌃
+  - $$mdi:arrow-up-bold$$
+  - '='
+  - .
+  - '4'
+  - '5'
+  - '6'
+  - ':'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '%'
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '*'
+  - '1'
+  - '2'
+  - '3'
+  - /
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '0'
+  - ','
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Fn:
   - ''
   - ''
@@ -648,22 +729,184 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
+  Rain:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - F
+  - D
+  - L
+  - G
+  - V
+  - Q
+  - R
+  - U
+  - O
+  - {t: ',', s: '!'}
+  - ''
+  - ''
+  - {t: S, h: ❖}
+  - {t: T, h: ⌥}
+  - {t: H, h: ⌃}
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - J
+  - {t: N, h: '$$mdi:arrow-up-bold$$'}
+  - {t: E, h: ⌃}
+  - {t: A, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - Z
+  - K
+  - M
+  - P
+  - W
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - X
+  - B
+  - {t: '''', s: '"'}
+  - {t: '-', s: /}
+  - {t: ., s: '?'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  Dusk:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - X
+  - F
+  - D
+  - P
+  - Q
+  - J
+  - L
+  - O
+  - U
+  - {t: ',', s: '!'}
+  - ''
+  - ''
+  - {t: N, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: T, h: ⌃}
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - M
+  - {t: H, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - B
+  - V
+  - K
+  - G
+  - W
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Z
+  - {t: '''', s: '"'}
+  - '-'
+  - {t: /, s: ':'}
+  - {t: ., s: '?'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+  - {t: R, h: NumMirror}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Vestnik]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -679,12 +922,21 @@ combos:
 - p: [61, 62]
   k: {t: ., s: '?'}
   l: [Vestnik]
+- p: [59, 60]
+  k: $$mdi:keyboard-return$$
+  l: [Dusk]
+- p: [60, 61]
+  k: $$mdi:backspace$$
+  l: [Dusk]
+- p: [61, 62]
+  k: $$mdi:backspace-reverse$$
+  l: [Dusk]
 - p: [69, 74]
   k: System
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Vestnik]
+  l: [Graphite, Rain, Dusk, Vestnik]
