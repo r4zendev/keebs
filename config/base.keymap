@@ -355,13 +355,13 @@ ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
     name { trigger-keys = <k>; max-prior-idle-ms = <800>; bindings = <b>; };
 
 ZMK_ADAPTIVE_KEY(dusk_adaptive, bindings = <&sk LSHFT>;
+    AK(ak_dusk_u, U, &kp E)
     repeat {
       trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
       bindings = <&key_repeat>;
       max-prior-idle-ms = <800>;
       strict-modifiers;
     };
-    AK(ak_dusk_u, U, &kp E)
 )
 
 ZMK_MOD_MORPH(dusk_magic_tap, bindings = <&dusk_adaptive>, <&caps_word>;
