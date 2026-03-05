@@ -729,7 +729,7 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
-  Rain:
+  Racket:
   - ''
   - ''
   - ''
@@ -756,12 +756,12 @@ layers:
   - F
   - D
   - L
-  - G
-  - V
-  - Q
-  - R
-  - U
+  - W
+  - J
+  - Z
+  - B
   - O
+  - U
   - {t: ',', s: '!'}
   - ''
   - ''
@@ -770,109 +770,28 @@ layers:
   - {t: H, h: ⌃}
   - {t: C, h: '$$mdi:arrow-up-bold$$'}
   - Y
-  - J
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: E, h: ⌃}
-  - {t: A, h: ⌥}
-  - {t: I, h: ❖}
-  - ''
-  - ''
-  - Z
-  - K
-  - M
-  - P
-  - W
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - X
-  - B
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
-  - {t: ., s: '?'}
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:keyboard-return$$', h: Num}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  Dusk:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - X
-  - F
-  - D
-  - P
   - Q
-  - J
-  - L
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - ''
-  - ''
-  - {t: N, h: ❖}
-  - {t: S, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: C, h: '$$mdi:arrow-up-bold$$'}
-  - Y
-  - M
-  - {t: H, h: '$$mdi:arrow-up-bold$$'}
+  - {t: N, h: '$$mdi:arrow-up-bold$$'}
   - {t: A, h: ⌃}
   - {t: E, h: ⌥}
   - {t: I, h: ❖}
   - ''
   - ''
-  - B
-  - V
+  - X
   - K
+  - M
   - G
-  - W
+  - V
   - ''
   - ''
   - ''
   - ''
   - ''
   - ''
-  - Z
+  - ;
+  - P
   - {t: '''', s: '"'}
-  - '-'
-  - {t: /, s: ':'}
+  - {t: '-', s: /}
   - {t: ., s: '?'}
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
@@ -894,19 +813,19 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Rain, Vestnik]
+  l: [Graphite, Vestnik]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -924,19 +843,19 @@ combos:
   l: [Vestnik]
 - p: [59, 60]
   k: $$mdi:keyboard-return$$
-  l: [Dusk]
+  l: [Racket]
 - p: [60, 61]
   k: $$mdi:backspace$$
-  l: [Dusk]
+  l: [Racket]
 - p: [61, 62]
   k: $$mdi:backspace-reverse$$
-  l: [Dusk]
+  l: [Racket]
 - p: [69, 74]
   k: System
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Rain, Dusk, Vestnik]
+  l: [Graphite, Racket, Vestnik]

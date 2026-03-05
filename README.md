@@ -1,6 +1,6 @@
 # keebs
 
-Split keyboard firmware based on [Graphite](https://github.com/rdavison/graphite-layout) with [Vestnik](https://github.com/nxtk/vestnik-layout) for Cyrillic.
+Split keyboard firmware built on [ZMK](https://zmk.dev/) with [urob/zmk-helpers](https://github.com/urob/zmk-helpers).
 
 <details>
 <summary>Layout</summary>
@@ -9,64 +9,27 @@ Split keyboard firmware based on [Graphite](https://github.com/rdavison/graphite
 
 </details>
 
+## Design
+
+- **Alpha layers**: [Graphite](https://layouts.wiki/layouts/2023/graphite/) (EN), [Racket](https://layouts.wiki/layouts/2024/racket/) (EN, adaptive magic key), [Vestnik](https://github.com/nxtk/vestnik-layout) (RU)
+- **[Timeless home row mods](https://github.com/urob/zmk-config#timeless-homerow-mods)** with `hold-trigger-on-release` for multi-mod chording
+- **Symbol layer** placement follows [T-34 effort grades](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout/)
+- Mod-morphs and combos to maximize 34 keys
+
 ## Boards
 
 | Board | Config |
 | ----- | ------ |
-| [MoErgo Glove80](https://www.moergo.com/collections/glove80-keyboards/products/glove80-split-ergonomic-keyboard-revision-2) | `glove80.*` |
 | [Ferris Sweep](https://github.com/davidphilipbarr/Sweep) | `cradio.*` |
 | [Aurora Sweep](https://splitkb.com/products/aurora-sweep) | `splitkb_aurora_sweep.*` |
-
-## Architecture
-
-All layers live in `base.keymap` using `ZMK_BASE_LAYER` from [urob/zmk-helpers](https://github.com/urob/zmk-helpers). Board files either use the default 34-key expansion or redefine the macro for larger matrices (see `glove80.keymap`).
-
-### Thumb Cluster
-
-```
-LH2: tap=Esc/Tab   hold=Nav
-LH1: tap=Bspc/Del  hold=Shift
-RH1: tap=Space      hold=Symbol
-RH2: tap=Enter      hold=Num
-```
-
-Mod-morphs on thumbs: Esc→Tab (shift), Bspc→Del (shift).
-
-### Thumb Combos
-
-| Combo | Action |
-| ----- | ------ |
-| LH1+LH2 | Mouse layer (toggle) |
-| RH1+RH2 | Function layer (sticky) |
-| LH2+RH2 | System layer (sticky) |
-
-### Home Row Mods
-
-[urob's "timeless" mods](https://github.com/urob/zmk-config#timeless-homerow-mods) — GACS: `pinky=GUI ring=ALT mid=CTL index=SFT`.
-
-`hold-trigger-on-release` enables same-hand multi-mod chording (triple/quad mods).
-
-### Symbol Layer
-
-Placement follows key effort grades from the [T-34 layout](https://www.jonashietala.se/blog/2021/06/03/the-t-34-keyboard-layout):
-
-![Effort grid](effort.png)
-
-## Configuration
-
-| Define | Effect | Default |
-| ------ | ------ | ------- |
-| `OPERATING_SYSTEM` | OS-specific keys (1=Linux, 2=macOS, 3=Windows) | `1` |
-
-## ZMK Modules
-
-[zmk-helpers](https://github.com/urob/zmk-helpers)
+| [Piantor Pro](https://github.com/beekeeb/piantor) | `piantor_pro.*` (wired split, RP2040) |
+| [Glove80](https://www.moergo.com/collections/glove80-keyboards) | `glove80.*` |
 
 ## Building
 
 ```bash
-make setup                  # init west workspaces (one-time)
-make                        # all boards: firmware + drawings
-make glove80                # single board
-make draw                   # drawings only
+make setup    # init west workspaces (one-time)
+make          # all boards: firmware + drawings
+make cradio   # single board
+make draw     # drawings only
 ```
