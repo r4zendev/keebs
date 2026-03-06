@@ -186,7 +186,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - $$mdi:keyboard-esc$$
   - Space ←
   - Space →
   - ''
@@ -233,7 +233,7 @@ layers:
   - ''
   - ''
   - {type: held}
-  - {t: Mouse, h: Mouse}
+  - {t: Mouse, type: layer-activator}
   - ''
   - ''
   - ''
@@ -546,10 +546,10 @@ layers:
   - ''
   - ''
   - ''
-  - Middle Click
+  - MMB
   - ''
-  - '&mkp MB4'
-  - '&mkp MB5'
+  - MB4
+  - MB5
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -560,8 +560,8 @@ layers:
   - {type: held}
   - ''
   - ''
-  - Left Click
-  - Right Click
+  - LMB
+  - RMB
   - ''
   - ''
   - ''
@@ -599,7 +599,7 @@ layers:
   - ''
   - $$mdi:lock$$
   - $$mdi:power$$
-  - $$mdi:sleep$$
+  - $$mdi:moon-waning-crescent$$
   - ''
   - BT CLR
   - {t: '$$mdi:progress-download$$', s: Boot}
@@ -810,22 +810,184 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
+  DuskWP:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - X
+  - F
+  - D
+  - W
+  - P
+  - J
+  - L
+  - O
+  - U
+  - {t: ',', s: '!'}
+  - ''
+  - ''
+  - {t: N, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: T, h: ⌃}
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - M
+  - {t: H, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - B
+  - V
+  - K
+  - G
+  - Q
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Z
+  - {t: '''', s: '"'}
+  - '-'
+  - {t: /, s: ':'}
+  - {t: ., s: '?'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+  - {t: R, h: NumMirror}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  Night:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - B
+  - F
+  - L
+  - K
+  - Q
+  - P
+  - G
+  - O
+  - U
+  - {t: ',', s: '!'}
+  - ''
+  - ''
+  - {t: N, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: H, h: ⌃}
+  - {t: T, h: '$$mdi:arrow-up-bold$$'}
+  - M
+  - Y
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - X
+  - V
+  - J
+  - D
+  - Z
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - W
+  - {t: '''', s: '"'}
+  - '-'
+  - {t: /, s: ':'}
+  - {t: ., s: '?'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+  - {t: R, h: NumMirror}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
   l: [Graphite, Vestnik]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -843,19 +1005,19 @@ combos:
   l: [Vestnik]
 - p: [59, 60]
   k: $$mdi:keyboard-return$$
-  l: [Racket]
+  l: [Racket, DuskWP, Night]
 - p: [60, 61]
   k: $$mdi:backspace$$
-  l: [Racket]
+  l: [Racket, DuskWP, Night]
 - p: [61, 62]
   k: $$mdi:backspace-reverse$$
-  l: [Racket]
+  l: [Racket, DuskWP, Night]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, Vestnik]
+  l: [Graphite, Racket, DuskWP, Night, Vestnik]

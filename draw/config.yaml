@@ -56,16 +56,23 @@ parse_config:
     '&thumb_spc LAYER_Symbol SPACE': {t: '$$mdi:keyboard-space$$', h: Symbol}
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
+    '&mouse_ht LAYER_Mouse LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&to_racket': {t: Racket, type: layer-activator}
+    '&to_duskwp': {t: Dusk, type: layer-activator}
+    '&to_night': {t: Night, type: layer-activator}
     '&to_graphite': {t: Graphite, type: layer-activator}
     '&lt LAYER_NumMirror R': {t: R, h: NumMirror}
     '&thumb_r LAYER_NumMirror R': {t: R, h: NumMirror}
     '&thumb_magic LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
-    '&mkp LCLK': Left Click
-    '&mkp RCLK': Right Click
-    '&mkp MCLK': Middle Click
+    '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}
+    '&fslh_colon': {t: '/', s: ':'}
+    '&mkp LCLK': LMB
+    '&mkp RCLK': RMB
+    '&mkp MCLK': MMB
+    '&mkp MB4': MB4
+    '&mkp MB5': MB5
     '&mmv MOVE_UP': "Mouse ↑"
     '&mmv MOVE_DOWN': "Mouse ↓"
     '&mmv MOVE_LEFT': "Mouse ←"
@@ -94,7 +101,7 @@ parse_config:
     '&kp _LOCK': {t: '$$mdi:lock$$'}
     '&kp LG(LS(L))': {t: '$$mdi:lock$$'}
     '&kp LG(L)': {t: '$$mdi:lock$$'}
-    '&kp C_SLEEP': {t: '$$mdi:sleep$$'}
+    '&kp C_SLEEP': {t: '$$mdi:moon-waning-crescent$$'}
     '&kp C_MUTE': {t: '$$mdi:volume-mute$$'}
     '&kp C_PP': {t: '$$mdi:play-pause$$'}
     '&kp C_PREV': {t: '$$mdi:skip-previous$$'}

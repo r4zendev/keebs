@@ -3,17 +3,34 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 CONFIG_DIR="$REPO_ROOT/config"
-SDK=~/.local/zephyr-sdk-0.17.0
-WORKSPACE_BASE=~/.local/share/zmk-workspaces
+WORKSPACE_BASE="${ZMK_WORKSPACE_BASE:-${XDG_DATA_HOME:-$HOME/.local/share}/zmk-workspaces}"
 
+find_sdk() {
+    if [[ -n "${ZEPHYR_SDK_INSTALL_DIR:-}" && -d "$ZEPHYR_SDK_INSTALL_DIR" ]]; then
+        echo "$ZEPHYR_SDK_INSTALL_DIR"
+        return
+    fi
+    local search_dirs=("$HOME/.local" "$HOME" "/opt" "/usr/local")
+    for dir in "${search_dirs[@]}"; do
+        for sdk in "$dir"/zephyr-sdk-*; do
+            [[ -d "$sdk" ]] && echo "$sdk" && return
+        done
+    done
+    echo "Error: Zephyr SDK not found. Install it or set ZEPHYR_SDK_INSTALL_DIR." >&2
+    exit 1
+}
+
+SDK="$(find_sdk)"
 export ZEPHYR_SDK_INSTALL_DIR="$SDK"
 export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
-export PATH="$SDK/hosttools/sysroots/x86_64-pokysdk-linux/usr/bin:$PATH"
+
+hosttools="$(find "$SDK/hosttools" -type d -name bin 2>/dev/null | head -1)"
+[[ -n "$hosttools" ]] && export PATH="$hosttools:$PATH"
 
 usage() {
     echo "Usage: $0 <keyboard> [left|right|both|clean|setup|reset]"
     echo ""
-    echo "Keyboards: glove80, cradio, splitkb_aurora_sweep"
+    echo "Keyboards: $(ls "$CONFIG_DIR"/*.keymap 2>/dev/null | xargs -I{} basename {} .keymap | tr '\n' ' ')"
     echo ""
     echo "Examples:"
     echo "  $0 glove80          # build both halves"
@@ -49,7 +66,9 @@ setup_workspace() {
     [[ -d .west ]] && rm -rf .west
     west init -l config/ --mf "$KEYBOARD.west.yml"
     west update
-    pip install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
+
+    python3 -m venv "$WORKSPACE/.venv"
+    "$WORKSPACE/.venv/bin/pip" install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
 
     # Apply patches if any exist for this keyboard's shield
     for patch in "$CONFIG_DIR"/boards/shields/*/?.patch "$CONFIG_DIR"/boards/shields/*/*.patch; do
@@ -74,6 +93,7 @@ fi
 
 export ZEPHYR_BASE="$WORKSPACE/zephyr"
 export CMAKE_PREFIX_PATH="$WORKSPACE/zephyr/share/zephyr-package/cmake"
+[[ -d "$WORKSPACE/.venv" ]] && source "$WORKSPACE/.venv/bin/activate"
 cd "$WORKSPACE"
 
 get_build_entries() {
