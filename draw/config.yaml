@@ -59,11 +59,14 @@ parse_config:
     '&mouse_ht LAYER_Mouse LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_duskwp': {t: Dusk, type: layer-activator}
-    '&to_night': {t: Night, type: layer-activator}
+    '&to_bunya': {t: Bunya, type: layer-activator}
     '&to_graphite': {t: Graphite, type: layer-activator}
-    '&lt LAYER_NumMirror R': {t: R, h: NumMirror}
     '&thumb_r LAYER_NumMirror R': {t: R, h: NumMirror}
+    '&thumb_r LAYER_NumMirror S': {t: S, h: NumMirror}
     '&thumb_magic LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+    '&alpha_magic_racket': {t: '$$mdi:star-four-points$$'}
+    '&alpha_magic_dusk': {t: '$$mdi:star-four-points$$'}
+    '&alpha_magic_bunya': {t: '$$mdi:star-four-points$$'}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}

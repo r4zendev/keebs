@@ -1,8 +1,7 @@
-/* Piantor Pro — 34-key layout on a 42-key board. */
+/* Piantor Pro 34-key wrapper on a 42-key board. */
 
 #include <zmk-helpers/key-labels/36.h>
 
-// 34-key board: remap 4 thumb keys to positions 30-33
 #undef LH0
 #undef LH1
 #undef LH2
@@ -22,7 +21,7 @@
 
         layer_System {
             bindings = <
-     &bootloader   &to_graphite  &to_racket    &to_duskwp    &to_night      &none       &none        &none        &none      &bootloader
+     &bootloader   &to_graphite  &to_racket    &to_duskwp    &to_bunya      &none       &none        &none        &none      &bootloader
      &bt BT_CLR    &bt_0         &bt_1         &bt_2         &bt_3              &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG
      &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                                         &none                &none              &none       &none
