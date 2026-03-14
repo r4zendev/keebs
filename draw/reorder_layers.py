@@ -1,14 +1,72 @@
-"""Reorder layers and relabel Vestnik Cyrillic in a keymap-drawer YAML file."""
+"""Reorder layers and relabel Russian Cyrillic layers in keymap-drawer YAML."""
+
 import sys
 import yaml
 
 VESTNIK_MAP = {
-    "W": "Ц", "L": "Д", "H": "Р", "U": "Г", "[": "Х",
-    "A": "Ф", "G": "П", "F": "А", "Z": "Я", "'": "Э",
-    "C": "С", "N": "Т", "Y": "Н", "R": "К", ",": "Б",
-    "M": "Ь", "D": "В", "J": "О", "T": "Е", "B": "И",
-    "I": "Ш", "P": "З", "K": "Л", "V": "М", "X": "Ч",
-    ";": "Ж", "Q": "Й", "S": "Ы", "E": "У", ".": "Ю",
+    "W": "Ц",
+    "L": "Д",
+    "H": "Р",
+    "U": "Г",
+    "[": "Х",
+    "A": "Ф",
+    "G": "П",
+    "F": "А",
+    "Z": "Я",
+    "'": "Э",
+    "C": "С",
+    "N": "Т",
+    "Y": "Н",
+    "R": "К",
+    ",": "Б",
+    "M": "Ь",
+    "D": "В",
+    "J": "О",
+    "T": "Е",
+    "B": "И",
+    "I": "Ш",
+    "P": "З",
+    "K": "Л",
+    "V": "М",
+    "X": "Ч",
+    ";": "Ж",
+    "Q": "Й",
+    "S": "Ы",
+    "E": "У",
+    ".": "Ю",
+}
+
+NEIROX_MAP = {
+    "W": "Ц",
+    "K": "Л",
+    "L": "Д",
+    "U": "Г",
+    "[": "Х",
+    "Y": "Н",
+    "H": "Р",
+    "N": "Т",
+    "R": "К",
+    ",": "Б",
+    "I": "Ш",
+    "P": "З",
+    "V": "М",
+    "G": "П",
+    "X": "Ч",
+    "A": "Ф",
+    "F": "А",
+    "Z": "Я",
+    "'": "Э",
+    "M": "Ь",
+    "D": "В",
+    "J": "О",
+    "T": "Е",
+    "B": "И",
+    ";": "Ж",
+    "Q": "Й",
+    "S": "Ы",
+    "E": "У",
+    ".": "Ю",
+    "C": "С",
 }
 
 
@@ -18,6 +76,21 @@ def translate_vestnik_key(k):
     if isinstance(k, dict) and "t" in k:
         k = dict(k)
         k["t"] = VESTNIK_MAP.get(k["t"], k["t"])
+    return k
+
+
+def translate_neirox_key(k):
+    if isinstance(k, str):
+        if k == "&alpha_magic_neirox_1":
+            return {"t": "$$mdi:star-four-points$$", "h": "Magic"}
+        return NEIROX_MAP.get(k, k)
+    if isinstance(k, dict) and "t" in k:
+        k = dict(k)
+        if k["t"] == "&alpha_magic_neirox_1":
+            k["t"] = "$$mdi:star-four-points$$"
+            k["h"] = "Magic"
+            return k
+        k["t"] = NEIROX_MAP.get(k["t"], k["t"])
     return k
 
 
@@ -54,6 +127,8 @@ with open(path) as f:
 layers = data["layers"]
 if "Vestnik" in layers:
     layers["Vestnik"] = [translate_vestnik_key(k) for k in layers["Vestnik"]]
+if "Neirox" in layers:
+    layers["Neirox"] = [translate_neirox_key(k) for k in layers["Neirox"]]
 
 data["layers"] = {name: layers[name] for name in order if name in layers}
 

@@ -63,10 +63,12 @@ parse_config:
     '&to_graphite': {t: Graphite, type: layer-activator}
     '&thumb_r LAYER_NumMirror R': {t: R, h: NumMirror}
     '&thumb_r LAYER_NumMirror S': {t: S, h: NumMirror}
-    '&thumb_magic LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-    '&alpha_magic_racket': {t: '$$mdi:star-four-points$$'}
-    '&alpha_magic_dusk': {t: '$$mdi:star-four-points$$'}
-    '&alpha_magic_bunya': {t: '$$mdi:star-four-points$$'}
+    '&thumb_magic_1 LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+    '&thumb_magic_2 LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+    '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
+    '&alpha_magic_dusk_1': {t: '$$mdi:star-four-points$$'}
+    '&alpha_magic_bunya_1': {t: '$$mdi:star-four-points$$'}
+    '&alpha_magic_neirox_1': {t: '$$mdi:star-four-points$$'}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}

@@ -140,9 +140,41 @@ layers:
   - '0'
   - Fn
   - {type: held}
-  NumMirror: ['', '', '', '', _, +, '7', '8', '9', '-', ❖, ⌥, ⌃, '$$mdi:arrow-up-bold$$',
-    '=', ., '4', '5', '6', ':', '', '', '', '', '%', '*', '1', '2', '3', /, '', '',
-    '0', ',']
+  NumMirror:
+  - ''
+  - ''
+  - ''
+  - ''
+  - _
+  - +
+  - '7'
+  - '8'
+  - '9'
+  - '-'
+  - ❖
+  - ⌥
+  - ⌃
+  - $$mdi:arrow-up-bold$$
+  - '='
+  - .
+  - '4'
+  - '5'
+  - '6'
+  - ':'
+  - ''
+  - ''
+  - ''
+  - ''
+  - '%'
+  - '*'
+  - '1'
+  - '2'
+  - '3'
+  - /
+  - ''
+  - {type: held}
+  - '0'
+  - ','
   Fn:
   - F12
   - F7
@@ -248,20 +280,20 @@ layers:
   - ''
   - ''
   - {type: held}
-  Vestnik:
+  Neirox:
   - Ц
+  - Л
   - Д
-  - Р
   - Г
   - Х
   - Ф
-  - П
+  - $$mdi:star-four-points$$
   - А
   - Я
   - Э
-  - {t: С, h: ❖}
-  - {t: Т, h: ⌥}
-  - {t: Н, h: ⌃}
+  - {t: Н, h: ❖}
+  - {t: Р, h: ⌥}
+  - {t: Т, h: ⌃}
   - {t: К, h: '$$mdi:arrow-up-bold$$'}
   - Б
   - Ь
@@ -271,8 +303,8 @@ layers:
   - {t: И, h: ❖}
   - Ш
   - З
-  - Л
   - М
+  - П
   - Ч
   - Ж
   - Й
@@ -280,17 +312,17 @@ layers:
   - У
   - Ю
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: С, h: NumMirror}
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
   Racket:
-  - F
+  - Q
   - D
   - L
   - W
   - J
-  - Q
   - B
+  - F
   - O
   - U
   - {t: ',', s: '!'}
@@ -325,10 +357,10 @@ layers:
   - W
   - P
   - J
-  - L
+  - $$mdi:star-four-points$$
   - O
   - U
-  - {t: ., s: '?'}
+  - {t: ',', s: '!'}
   - {t: N, h: ❖}
   - {t: S, h: ⌥}
   - {t: T, h: ⌃}
@@ -345,10 +377,10 @@ layers:
   - G
   - Q
   - Z
-  - $$mdi:star-four-points$$
+  - L
   - {t: '''', s: '"'}
   - {t: '-', s: /}
-  - {t: ',', s: '!'}
+  - {t: ., s: '?'}
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
   - {t: R, h: NumMirror}
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
@@ -391,34 +423,37 @@ layers:
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Neirox]
 - p: [20, 21]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [23, 22]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [22, 21]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [24, 23]
   k: Tmux
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [8, 9]
   k: Ё/'
-  l: [Vestnik]
+  l: [Neirox]
 - p: [0, 1]
   k: Щ
-  l: [Vestnik]
+  l: [Neirox]
 - p: [5, 6]
   k: Ъ/Ї
-  l: [Vestnik]
+  l: [Neirox]
 - p: [27, 28]
   k: {t: ',', s: '!'}
-  l: [Vestnik]
+  l: [Neirox]
 - p: [28, 29]
   k: {t: ., s: '?'}
-  l: [Vestnik]
+  l: [Neirox]
+- p: [26, 27]
+  k: $$mdi:keyboard-return$$
+  l: [Neirox]
 - p: [26, 27]
   k: $$mdi:keyboard-return$$
   l: [Racket, DuskWP, Bunya]
@@ -430,10 +465,10 @@ combos:
   l: [Racket, DuskWP, Bunya]
 - p: [30, 33]
   k: System
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [31, 30]
   k: Mouse
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [32, 33]
   k: Fn
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]

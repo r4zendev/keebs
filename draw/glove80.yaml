@@ -395,7 +395,7 @@ layers:
   - ''
   - ''
   - ''
-  - ''
+  - {type: held}
   - ''
   - ''
   - '0'
@@ -648,7 +648,7 @@ layers:
   - ''
   - ''
   - {type: held}
-  Vestnik:
+  Neirox:
   - ''
   - ''
   - ''
@@ -673,20 +673,20 @@ layers:
   - ''
   - ''
   - Ц
+  - Л
   - Д
-  - Р
   - Г
   - Х
   - Ф
-  - П
+  - $$mdi:star-four-points$$
   - А
   - Я
   - Э
   - ''
   - ''
-  - {t: С, h: ❖}
-  - {t: Т, h: ⌥}
-  - {t: Н, h: ⌃}
+  - {t: Н, h: ❖}
+  - {t: Р, h: ⌥}
+  - {t: Т, h: ⌃}
   - {t: К, h: '$$mdi:arrow-up-bold$$'}
   - Б
   - Ь
@@ -698,8 +698,8 @@ layers:
   - ''
   - Ш
   - З
-  - Л
   - М
+  - П
   - Ч
   - ''
   - ''
@@ -719,11 +719,11 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: С, h: NumMirror}
   - ''
   - ''
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
   - ''
   - ''
   - ''
@@ -753,13 +753,13 @@ layers:
   - ''
   - ''
   - ''
-  - F
+  - Q
   - D
   - L
   - W
   - J
-  - Q
   - B
+  - F
   - O
   - U
   - {t: ',', s: '!'}
@@ -840,10 +840,10 @@ layers:
   - W
   - P
   - J
-  - L
+  - $$mdi:star-four-points$$
   - O
   - U
-  - {t: ., s: '?'}
+  - {t: ',', s: '!'}
   - ''
   - ''
   - {t: N, h: ❖}
@@ -870,10 +870,10 @@ layers:
   - ''
   - ''
   - Z
-  - $$mdi:star-four-points$$
+  - L
   - {t: '''', s: '"'}
   - {t: '-', s: /}
-  - {t: ',', s: '!'}
+  - {t: ., s: '?'}
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -975,34 +975,37 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Neirox]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [31, 32]
   k: Ё/'
-  l: [Vestnik]
+  l: [Neirox]
 - p: [23, 24]
   k: Щ
-  l: [Vestnik]
+  l: [Neirox]
 - p: [28, 29]
   k: Ъ/Ї
-  l: [Vestnik]
+  l: [Neirox]
 - p: [60, 61]
   k: {t: ',', s: '!'}
-  l: [Vestnik]
+  l: [Neirox]
 - p: [61, 62]
   k: {t: ., s: '?'}
-  l: [Vestnik]
+  l: [Neirox]
+- p: [59, 60]
+  k: $$mdi:keyboard-return$$
+  l: [Neirox]
 - p: [59, 60]
   k: $$mdi:keyboard-return$$
   l: [Racket, DuskWP, Bunya]
@@ -1014,10 +1017,10 @@ combos:
   l: [Racket, DuskWP, Bunya]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, DuskWP, Bunya, Vestnik]
+  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
