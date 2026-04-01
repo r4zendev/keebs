@@ -223,8 +223,8 @@ layers:
   - ''
   - ''
   - $$mdi:keyboard-tab$$
-  - ''
-  - ''
+  - $$mdi:backspace$$
+  - $$mdi:backspace-reverse$$
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
@@ -236,7 +236,7 @@ layers:
   - {t: Mouse, type: layer-activator}
   - ''
   - ''
-  - ''
+  - $$mdi:keyboard-return$$
   - ''
   - ''
   - ''
@@ -395,7 +395,7 @@ layers:
   - ''
   - ''
   - ''
-  - {type: held}
+  - ''
   - ''
   - ''
   - '0'
@@ -718,12 +718,12 @@ layers:
   - ''
   - ''
   - ''
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: С, h: NumMirror}
+  - {t: '&thumb_magic_1_adaptive', h: Nav, s: '&caps_word'}
+  - $$mdi:keyboard-space$$
   - ''
   - ''
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - {t: С, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Num}
   - ''
   - ''
   - ''
@@ -753,13 +753,13 @@ layers:
   - ''
   - ''
   - ''
-  - Q
+  - F
   - D
   - L
   - W
   - J
+  - Q
   - B
-  - F
   - O
   - U
   - {t: ',', s: '!'}
@@ -791,87 +791,6 @@ layers:
   - Z
   - P
   - {t: '''', s: '"'}
-  - {t: /, s: ':'}
-  - {t: ., s: '?'}
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: R, h: NumMirror}
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  DuskWP:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - X
-  - F
-  - D
-  - W
-  - P
-  - J
-  - $$mdi:star-four-points$$
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - ''
-  - ''
-  - {t: N, h: ❖}
-  - {t: S, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: C, h: '$$mdi:arrow-up-bold$$'}
-  - Y
-  - M
-  - {t: H, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
-  - {t: I, h: ❖}
-  - ''
-  - ''
-  - B
-  - V
-  - K
-  - G
-  - Q
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Z
-  - L
-  - {t: '''', s: '"'}
   - {t: '-', s: /}
   - {t: ., s: '?'}
   - ''
@@ -880,93 +799,12 @@ layers:
   - ''
   - ''
   - ''
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: R, h: NumMirror}
+  - {t: '&thumb_magic_1_adaptive', h: Nav, s: '&caps_word'}
+  - $$mdi:keyboard-space$$
   - ''
   - ''
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  Bunya:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - B
-  - L
-  - M
-  - C
-  - Z
-  - J
-  - F
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - ''
-  - ''
-  - {t: N, h: ❖}
-  - {t: R, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: D, h: '$$mdi:arrow-up-bold$$'}
-  - P
-  - Y
-  - {t: H, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
-  - {t: I, h: ❖}
-  - ''
-  - ''
-  - X
-  - Q
-  - V
-  - G
-  - W
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - K
-  - $$mdi:star-four-points$$
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
-  - {t: ., s: '?'}
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: S, h: NumMirror}
-  - ''
-  - ''
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - {t: R, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Num}
   - ''
   - ''
   - ''
@@ -978,16 +816,16 @@ combos:
   l: [Graphite, Neirox]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [31, 32]
   k: Ё/'
   l: [Neirox]
@@ -1003,24 +841,12 @@ combos:
 - p: [61, 62]
   k: {t: ., s: '?'}
   l: [Neirox]
-- p: [59, 60]
-  k: $$mdi:keyboard-return$$
-  l: [Neirox]
-- p: [59, 60]
-  k: $$mdi:keyboard-return$$
-  l: [Racket, DuskWP, Bunya]
-- p: [60, 61]
-  k: $$mdi:backspace$$
-  l: [Racket, DuskWP, Bunya]
-- p: [61, 62]
-  k: $$mdi:backspace-reverse$$
-  l: [Racket, DuskWP, Bunya]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]

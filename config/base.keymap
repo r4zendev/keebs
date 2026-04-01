@@ -1,7 +1,7 @@
-/* Shared base keymap for Graphite, Racket, DuskWP, Bunya, and Neirox.
+/* Shared base keymap for Graphite, Racket, DuskWP, and Neirox.
  *
- * Layers: Graphite(0) Racket(1) DuskWP(2) Bunya(3) Neirox(4) Symbol(5) Nav(6)
- *         Num(7) NumMirror(8) Fn(9) Mouse(10) Magic(11)
+ * Layers: Graphite(0) Racket(1) DuskWP(2) Neirox(3) Symbol(4) Nav(5)
+ *         Num(6) NumMirror(7) Fn(8) Mouse(9) Magic(10)
  * HRM: GACS = GUI(pinky) ALT(ring) CTL(mid) SFT(index)
  * Thumb magic is repeat-first with shift on hold.
  */
@@ -17,15 +17,14 @@
 #define LAYER_Graphite  0
 #define LAYER_Racket    1
 #define LAYER_DuskWP    2
-#define LAYER_Bunya     3
-#define LAYER_Neirox    4
-#define LAYER_Symbol    5
-#define LAYER_Nav       6
-#define LAYER_Num       7
-#define LAYER_NumMirror 8
-#define LAYER_Fn        9
-#define LAYER_Mouse     10
-#define LAYER_Magic     11
+#define LAYER_Neirox    3
+#define LAYER_Symbol    4
+#define LAYER_Nav       5
+#define LAYER_Num       6
+#define LAYER_NumMirror 7
+#define LAYER_Fn        8
+#define LAYER_Mouse     9
+#define LAYER_Magic     10
 
 /* ── OS-specific keycodes ─────────────────────────────────────────────── */
 
@@ -122,7 +121,7 @@
 
 /* ── Configuration ────────────────────────────────────────────────────── */
 
-#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_DuskWP LAYER_Bunya LAYER_Neirox
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_DuskWP LAYER_Neirox
 #define QUICK_TAP_MS 175
 
 #define COMBO_TERM 30
@@ -188,7 +187,6 @@
 
 ZMK_MACRO(to_racket, bindings = <&to LAYER_Racket>;)
 ZMK_MACRO(to_duskwp, bindings = <&to LAYER_DuskWP>;)
-ZMK_MACRO(to_bunya, bindings = <&to LAYER_Bunya>;)
 ZMK_MACRO(to_graphite, bindings = <&to LAYER_Graphite>;)
 
 ZMK_MACRO(bt_0, bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;)
@@ -331,6 +329,10 @@ ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&esc_tab>;
              flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
+ZMK_HOLD_TAP(nav_repeat, bindings = <&mo>, <&thumb_magic_1_tap>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
 ZMK_HOLD_TAP(mouse_ht, bindings = <&mo>, <&tog>;
              flavor = "balanced"; tapping-term-ms = <200>;)
 
@@ -389,14 +391,19 @@ ZMK_HOLD_TAP(thumb_magic_2, bindings = <&kp>, <&thumb_magic_2_tap>;
 /* ── Alpha magic (per-layout adaptive magic/repeat) ─────────────────── */
 
 ZMK_ADAPTIVE_KEY(alpha_magic_racket_1, bindings = <&key_repeat>;
+    AK(racket_ak_u, F, &kp T)
+    AK(racket_ak_u, S, &kp K)
+    AK(racket_ak_u, K, &kp S)
+    AK(racket_ak_u, L, &kp K)
+
     AK(racket_ak_u, U, &kp E)
     AK(racket_ak_e, E, &kp U)
     AK(racket_ak_o, O, &kp A)
-    AK(racket_ak_l, L, &kp M)
+
     AK(racket_ak_c, C, &kp Y)
     AK(racket_ak_y, Y, &kp W)
-    AK(racket_ak_s, S, &kp F)
     AK(racket_ak_g, G, &kp Y)
+
     AK(racket_ak_h, H, &kp M)
 )
 
@@ -410,16 +417,6 @@ ZMK_ADAPTIVE_KEY(alpha_magic_dusk_1, bindings = <&key_repeat>;
     AK(dusk_ak_w, W, &kp Y)
     AK(dusk_ak_f, F, &kp S)
     AK(dusk_ak_g, G, &kp Y)
-)
-
-ZMK_ADAPTIVE_KEY(alpha_magic_bunya_1, bindings = <&key_repeat>;
-    AK(bunya_ak_u, U, &kp E)
-    AK(bunya_ak_e, E, &kp U)
-    AK(bunya_ak_o, O, &kp A)
-    AK(bunya_ak_r, R, &kp L)
-    AK(bunya_ak_l, L, &kp R)
-    AK(bunya_ak_d, D, &kp G)
-    AK(bunya_ak_t, T, &kp M)
 )
 
 ZMK_ADAPTIVE_KEY(alpha_magic_neirox_1, bindings = <&key_repeat>;
@@ -439,11 +436,6 @@ ZMK_COMBO(shcha,        &kp O,             LT4 LT3, LAYER_Neirox,   50, COMBO_ID
 ZMK_COMBO(hard_sign,    &kp RBKT,          RT0 RT1, LAYER_Neirox,   50, COMBO_IDLE)
 ZMK_COMBO(v_comma_excl, &v_comma_excl,     RB2 RB3, LAYER_Neirox,   50, COMBO_IDLE)
 ZMK_COMBO(v_dot_qmark,  &v_dot_qmark,      RB3 RB4, LAYER_Neirox,   50, COMBO_IDLE)
-ZMK_COMBO(neirox_ret,   &kp RET,           RB1 RB2, LAYER_Neirox,   55, COMBO_IDLE)
-
-ZMK_COMBO(racket_ret,   &kp RET,           RB1 RB2, LAYER_Racket LAYER_DuskWP LAYER_Bunya,   55, COMBO_IDLE)
-ZMK_COMBO(racket_bspc,  &kp BSPC,          RB2 RB3, LAYER_Racket LAYER_DuskWP LAYER_Bunya,   55, COMBO_IDLE)
-ZMK_COMBO(racket_del,   &kp DEL,           RB3 RB4, LAYER_Racket LAYER_DuskWP LAYER_Bunya,   55, COMBO_IDLE)
 
 ZMK_COMBO(system_combo, &sl LAYER_Magic,   LH2 RH2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(mouse_combo,  &mouse_ht LAYER_Mouse LAYER_Mouse,  LH1 LH2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
@@ -470,13 +462,13 @@ ZMK_BASE_LAYER(Graphite,
 
 ZMK_BASE_LAYER(Racket,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp Q      &kp D      &kp L      &kp W      &kp J      ,  &kp B      &kp F      &kp O      &kp U      &comma_excl ,
+    &kp F      &kp D      &kp L      &kp W      &kp J      ,  &kp Q      &kp B      &kp O      &kp U      &comma_excl ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
    &hml LGUI S &hml LALT T &hml LCTRL H &hml LSHFT C &kp Y , &alpha_magic_racket_1 &hmr RSHFT N &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp X      &kp K      &kp M      &kp G      &kp V      ,  &kp Z      &kp P      &sqt_dqt   &fslh_colon &dot_qmark ,
+    &kp X      &kp K      &kp M      &kp G      &kp V      ,  &kp Z      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            &nav_ht LAYER_Nav 0  &thumb_r LAYER_NumMirror R     , &thumb_spc LAYER_Symbol SPACE  THUMB_MAGIC
+            &nav_repeat LAYER_Nav 0  &kp SPACE , &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 
@@ -484,23 +476,11 @@ ZMK_BASE_LAYER(DuskWP,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
     &kp X      &kp F      &kp D      &kp W      &kp P      ,  &kp J      &alpha_magic_dusk_1 &kp O      &kp U      &comma_excl ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &hml LGUI N &hml LALT S &hml LCTRL T &hml LSHFT C &kp Y ,  &kp M    &hmr RSHFT H &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+   &hml LGUI N &hml LALT S &hml LCTRL T &hml LSHFT C &kp Y ,  &kp M    &hmr RSHFT H &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp B      &kp V      &kp K      &kp G      &kp Q      ,  &kp Z    &kp L &sqt_dqt &minus_slash &dot_qmark ,
+    &kp B      &kp V      &kp K      &kp G      &kp Q      ,  &kp Z      &kp L      &sqt_dqt   &minus_slash &dot_qmark ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            &nav_ht LAYER_Nav 0  &thumb_r LAYER_NumMirror R     , &thumb_spc LAYER_Symbol SPACE  THUMB_MAGIC
-//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
-)
-
-ZMK_BASE_LAYER(Bunya,
-//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp B      &kp L      &kp M      &kp C      &kp Z      ,  &kp J      &kp F      &kp O      &kp U      &comma_excl ,
-//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   &hml LGUI N &hml LALT R &hml LCTRL T &hml LSHFT D &kp P ,  &kp Y    &hmr RSHFT H &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
-//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp X      &kp Q      &kp V      &kp G      &kp W      ,  &kp K    &alpha_magic_bunya_1 &sqt_dqt &minus_slash &dot_qmark ,
-//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            &nav_ht LAYER_Nav 0  &thumb_r LAYER_NumMirror S     , &thumb_spc LAYER_Symbol SPACE  THUMB_MAGIC
+            &nav_repeat LAYER_Nav 0  &kp SPACE , &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 
@@ -512,7 +492,7 @@ ZMK_BASE_LAYER(Neirox,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp I      &kp P      &kp V      &kp G      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            &nav_ht LAYER_Nav 0  &thumb_r LAYER_NumMirror C     , &thumb_spc LAYER_Symbol SPACE  THUMB_MAGIC_1
+            &nav_repeat LAYER_Nav 0  &kp SPACE , &thumb_r LAYER_Symbol C  &lt LAYER_Num BSPC
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 
@@ -534,9 +514,9 @@ ZMK_BASE_LAYER(Nav,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none      ,  &kp PG_DN  &kp LEFT   &kp DOWN   &kp RIGHT  &lang_en  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   &kp LG(LA(S)) &kp _SCR_AREA &kp _SCR_FULL &none     &none , &none      &kp TAB    &none      &none      &none     ,
+   &kp LG(LA(S)) &kp _SCR_AREA &kp _SCR_FULL &none     &none , &none      &kp TAB    &kp BSPC   &kp DEL    &none     ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     &none  &mouse_ht LAYER_Mouse LAYER_Mouse , &none      &none
+                                     &none  &mouse_ht LAYER_Mouse LAYER_Mouse , &kp RET    &none
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 

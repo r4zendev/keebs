@@ -57,17 +57,22 @@ parse_config:
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&mouse_ht LAYER_Mouse LAYER_Mouse': {t: Mouse, type: layer-activator}
+    '&to_graphite': {t: Graphite, type: layer-activator}
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_duskwp': {t: Dusk, type: layer-activator}
-    '&to_bunya': {t: Bunya, type: layer-activator}
-    '&to_graphite': {t: Graphite, type: layer-activator}
-    '&thumb_r LAYER_NumMirror R': {t: R, h: NumMirror}
-    '&thumb_r LAYER_NumMirror S': {t: S, h: NumMirror}
-    '&thumb_magic_1 LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-    '&thumb_magic_2 LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-    '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_dusk_1': {t: '$$mdi:star-four-points$$'}
-    '&alpha_magic_bunya_1': {t: '$$mdi:star-four-points$$'}
+    '&nav_bspc LAYER_Nav 0': {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
+    '&spc_sft LSHFT SPACE': {t: '$$mdi:keyboard-space$$', h: '$$mdi:arrow-up-bold$$'}
+    '&repeat_sym LAYER_Symbol 0': {t: '$$mdi:repeat$$', h: Symbol}
+    '&thumb_r LAYER_NumMirror R': {t: R, h: NumMirror}
+    '&thumb_r LAYER_NumMirror C': {t: C, h: NumMirror}
+    '&thumb_r LAYER_Symbol R': {t: R, h: Symbol}
+    '&thumb_r LAYER_Symbol C': {t: C, h: Symbol}
+    '&thumb_r LAYER_Symbol S': {t: S, h: Symbol}
+    '&nav_repeat LAYER_Nav 0': {t: '$$mdi:repeat$$', h: Nav}
+    '&thumb_magic_1 LSHFT 0': {t: '$$mdi:repeat$$', h: '$$mdi:arrow-up-bold$$'}
+    '&thumb_magic_2 LSHFT 0': {t: '$$mdi:repeat$$', h: '$$mdi:arrow-up-bold$$'}
+    '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_neirox_1': {t: '$$mdi:star-four-points$$'}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
@@ -86,12 +91,12 @@ parse_config:
     '&msc SCRL_DOWN': "Scroll ↓"
     '&msc SCRL_LEFT': "Scroll ←"
     '&msc SCRL_RIGHT': "Scroll →"
+    '&lang_en': {t: EN}
+    '&lang_ru': {t: RU}
     '&bt_0': {t: BT 0}
     '&bt_1': {t: BT 1}
     '&bt_2': {t: BT 2}
     '&bt_3': {t: BT 3}
-    '&lang_en': {t: EN}
-    '&lang_ru': {t: RU}
     '&kp LC(LS(TAB))': {t: Tab ←}
     '&kp LC(TAB)': {t: Tab →}
     '&kp LC(Z)': {t: Undo}

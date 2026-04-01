@@ -21,7 +21,7 @@
 
         layer_System {
             bindings = <
-     &bootloader   &to_graphite  &to_racket    &to_duskwp    &to_bunya      &none       &none        &none        &none      &bootloader
+     &bootloader   &to_graphite  &to_racket    &to_duskwp &none        &none       &none        &none        &none      &bootloader
      &bt BT_CLR    &bt_0         &bt_1         &bt_2         &bt_3              &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG
      &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                                         &none                &none              &none       &none

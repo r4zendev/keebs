@@ -98,12 +98,12 @@ layers:
   - ''
   - ''
   - $$mdi:keyboard-tab$$
-  - ''
-  - ''
+  - $$mdi:backspace$$
+  - $$mdi:backspace-reverse$$
   - ''
   - {type: held}
   - {t: Mouse, type: layer-activator}
-  - ''
+  - $$mdi:keyboard-return$$
   - ''
   Num:
   - '-'
@@ -140,41 +140,9 @@ layers:
   - '0'
   - Fn
   - {type: held}
-  NumMirror:
-  - ''
-  - ''
-  - ''
-  - ''
-  - _
-  - +
-  - '7'
-  - '8'
-  - '9'
-  - '-'
-  - ❖
-  - ⌥
-  - ⌃
-  - $$mdi:arrow-up-bold$$
-  - '='
-  - .
-  - '4'
-  - '5'
-  - '6'
-  - ':'
-  - ''
-  - ''
-  - ''
-  - ''
-  - '%'
-  - '*'
-  - '1'
-  - '2'
-  - '3'
-  - /
-  - ''
-  - {type: held}
-  - '0'
-  - ','
+  NumMirror: ['', '', '', '', _, +, '7', '8', '9', '-', ❖, ⌥, ⌃, '$$mdi:arrow-up-bold$$',
+    '=', ., '4', '5', '6', ':', '', '', '', '', '%', '*', '1', '2', '3', /, '', '',
+    '0', ',']
   Fn:
   - F12
   - F7
@@ -250,7 +218,7 @@ layers:
   - {t: Graphite, type: layer-activator}
   - {t: Racket, type: layer-activator}
   - {t: Dusk, type: layer-activator}
-  - {t: Bunya, type: layer-activator}
+  - ''
   - ''
   - ''
   - ''
@@ -311,18 +279,18 @@ layers:
   - Ы
   - У
   - Ю
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: С, h: NumMirror}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:repeat$$', h: Nav}
+  - $$mdi:keyboard-space$$
+  - {t: С, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Num}
   Racket:
-  - Q
+  - F
   - D
   - L
   - W
   - J
+  - Q
   - B
-  - F
   - O
   - U
   - {t: ',', s: '!'}
@@ -344,12 +312,12 @@ layers:
   - Z
   - P
   - {t: '''', s: '"'}
-  - {t: /, s: ':'}
+  - {t: '-', s: /}
   - {t: ., s: '?'}
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: R, h: NumMirror}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:repeat$$', h: Nav}
+  - $$mdi:keyboard-space$$
+  - {t: R, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Num}
   DuskWP:
   - X
   - F
@@ -381,61 +349,26 @@ layers:
   - {t: '''', s: '"'}
   - {t: '-', s: /}
   - {t: ., s: '?'}
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: R, h: NumMirror}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
-  Bunya:
-  - B
-  - L
-  - M
-  - C
-  - Z
-  - J
-  - F
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - {t: N, h: ❖}
-  - {t: R, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: D, h: '$$mdi:arrow-up-bold$$'}
-  - P
-  - Y
-  - {t: H, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
-  - {t: I, h: ❖}
-  - X
-  - Q
-  - V
-  - G
-  - W
-  - K
-  - $$mdi:star-four-points$$
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
-  - {t: ., s: '?'}
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: S, h: NumMirror}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:star-four-points$$', h: '$$mdi:arrow-up-bold$$'}
+  - {t: '$$mdi:repeat$$', h: Nav}
+  - $$mdi:keyboard-space$$
+  - {t: R, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Num}
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
   l: [Graphite, Neirox]
 - p: [20, 21]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [23, 22]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [22, 21]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [24, 23]
   k: Tmux
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [8, 9]
   k: Ё/'
   l: [Neirox]
@@ -451,24 +384,12 @@ combos:
 - p: [28, 29]
   k: {t: ., s: '?'}
   l: [Neirox]
-- p: [26, 27]
-  k: $$mdi:keyboard-return$$
-  l: [Neirox]
-- p: [26, 27]
-  k: $$mdi:keyboard-return$$
-  l: [Racket, DuskWP, Bunya]
-- p: [27, 28]
-  k: $$mdi:backspace$$
-  l: [Racket, DuskWP, Bunya]
-- p: [28, 29]
-  k: $$mdi:backspace-reverse$$
-  l: [Racket, DuskWP, Bunya]
 - p: [30, 33]
   k: System
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [31, 30]
   k: Mouse
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]
 - p: [32, 33]
   k: Fn
-  l: [Graphite, Racket, DuskWP, Bunya, Neirox]
+  l: [Graphite, Racket, DuskWP, Neirox]

@@ -1,0 +1,55 @@
+/* Generic 36-key wrapper.
+ * Any 36-key board can use this as a starting point.
+ */
+
+#include <zmk-helpers/key-labels/36.h>
+
+#define THUMBS LH2 LH1 LH0 RH0 RH1 RH2
+
+#define GRAPHITE_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &none
+#define GRAPHITE_RH &none  &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET
+
+#define RACKET_LH &nav_bspc LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror R
+#define RACKET_RH &spc_sft LSHFT SPACE  &lt LAYER_Num RET  &repeat_sym LAYER_Symbol 0
+
+#define DUSKWP_LH &nav_bspc LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror R
+#define DUSKWP_RH &spc_sft LSHFT SPACE  &lt LAYER_Num RET  &repeat_sym LAYER_Symbol 0
+
+#define NEIROX_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror C
+#define NEIROX_RH &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET  THUMB_MAGIC_1
+
+#define SYMBOL_LH  &none  &trans  &none
+#define SYMBOL_RH  &none  &none  &none
+
+#define NAV_LH     &none  &mouse_ht LAYER_Mouse LAYER_Mouse  &none
+#define NAV_RH     &kp RET  &none  &none
+
+#define NUM_LH     &kp COMMA  &kp N0  &none
+#define NUM_RH     &none  &sl LAYER_Fn  &none
+
+#define NUMMIRROR_LH &none  &none  &none
+#define NUMMIRROR_RH &none  &kp N0  &kp COMMA
+
+#define FN_LH      &kp C_MUTE  &kp LG(F9)  &none
+#define FN_RH      &none  &trans  &trans
+
+#define MOUSE_LH   &none  &mouse_ht LAYER_Mouse LAYER_Mouse  &none
+#define MOUSE_RH   &none  &mkp LCLK  &mkp RCLK
+
+#include "base.keymap"
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        layer_System {
+            bindings = <
+     &bootloader   &to_graphite  &to_racket    &to_duskwp &none        &none       &none        &none        &none      &bootloader
+     &bt BT_CLR    &bt_0         &bt_1         &bt_2         &bt_3              &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG
+     &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
+                              &none       &none                &none              &none       &none        &none
+            >;
+        };
+
+    };
+};
