@@ -1,6 +1,6 @@
-/* Shared base keymap for Graphite, Racket, DuskWP, and Neirox.
+/* Shared base keymap for Graphite, Racket, DuskWP, and Vestnik.
  *
- * Layers: Graphite(0) Racket(1) DuskWP(2) Neirox(3) Symbol(4) Nav(5)
+ * Layers: Graphite(0) Racket(1) DuskWP(2) Vestnik(3) Symbol(4) Nav(5)
  *         Num(6) NumMirror(7) Fn(8) Mouse(9) Magic(10)
  * HRM: GACS = GUI(pinky) ALT(ring) CTL(mid) SFT(index)
  * Thumb magic is repeat-first with shift on hold.
@@ -17,7 +17,7 @@
 #define LAYER_Graphite  0
 #define LAYER_Racket    1
 #define LAYER_DuskWP    2
-#define LAYER_Neirox    3
+#define LAYER_Vestnik   3
 #define LAYER_Symbol    4
 #define LAYER_Nav       5
 #define LAYER_Num       6
@@ -121,7 +121,7 @@
 
 /* ── Configuration ────────────────────────────────────────────────────── */
 
-#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_DuskWP LAYER_Neirox
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_DuskWP LAYER_Vestnik
 #define QUICK_TAP_MS 175
 
 #define COMBO_TERM 30
@@ -180,7 +180,7 @@
         lang_ru: lang_ru {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&to LAYER_Neirox>, <&kp LC(LS(LG(N2)))>;
+            bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N2)))>;
         };
     };
 };
@@ -391,10 +391,10 @@ ZMK_HOLD_TAP(thumb_magic_2, bindings = <&kp>, <&thumb_magic_2_tap>;
 /* ── Alpha magic (per-layout adaptive magic/repeat) ─────────────────── */
 
 ZMK_ADAPTIVE_KEY(alpha_magic_racket_1, bindings = <&key_repeat>;
-    AK(racket_ak_u, F, &kp T)
-    AK(racket_ak_u, S, &kp K)
-    AK(racket_ak_u, K, &kp S)
-    AK(racket_ak_u, L, &kp K)
+    AK(racket_ak_f, F, &kp T)
+    AK(racket_ak_s, S, &kp K)
+    AK(racket_ak_k, K, &kp S)
+    AK(racket_ak_l, L, &kp K)
 
     AK(racket_ak_u, U, &kp E)
     AK(racket_ak_e, E, &kp U)
@@ -419,23 +419,20 @@ ZMK_ADAPTIVE_KEY(alpha_magic_dusk_1, bindings = <&key_repeat>;
     AK(dusk_ak_g, G, &kp Y)
 )
 
-ZMK_ADAPTIVE_KEY(alpha_magic_neirox_1, bindings = <&key_repeat>;
-)
-
 /* ── Combos ───────────────────────────────────────────────────────────── */
 
-ZMK_COMBO(caps,         &caps_morph,       LT2 RT2, LAYER_Graphite LAYER_Neirox, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(caps,         &caps_morph,       LT2 RT2, LAYER_Graphite LAYER_Vestnik, COMBO_TERM, COMBO_IDLE)
 
 ZMK_COMBO(undo_redo,    &undo_redo,        LB4 LB3, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(qm_paste,     &paste_morph,      LB1 LB2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(mc_copy_cut,  &copy_cut,         LB2 LB3, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(tmux_prefix,  &kp LC(A),        LB0 LB1, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 
-ZMK_COMBO(yo_apos,      &kp GRAVE,         RT3 RT4, LAYER_Neirox,   50, COMBO_IDLE)
-ZMK_COMBO(shcha,        &kp O,             LT4 LT3, LAYER_Neirox,   50, COMBO_IDLE)
-ZMK_COMBO(hard_sign,    &kp RBKT,          RT0 RT1, LAYER_Neirox,   50, COMBO_IDLE)
-ZMK_COMBO(v_comma_excl, &v_comma_excl,     RB2 RB3, LAYER_Neirox,   50, COMBO_IDLE)
-ZMK_COMBO(v_dot_qmark,  &v_dot_qmark,      RB3 RB4, LAYER_Neirox,   50, COMBO_IDLE)
+ZMK_COMBO(yo_apos,      &kp GRAVE,         RT3 RT4, LAYER_Vestnik,  50, COMBO_IDLE)
+ZMK_COMBO(shcha,        &kp O,             LT4 LT3, LAYER_Vestnik,  50, COMBO_IDLE)
+ZMK_COMBO(hard_sign,    &kp RBKT,          RT0 RT1, LAYER_Vestnik,  50, COMBO_IDLE)
+ZMK_COMBO(v_comma_excl, &v_comma_excl,     RB2 RB3, LAYER_Vestnik,  50, COMBO_IDLE)
+ZMK_COMBO(v_dot_qmark,  &v_dot_qmark,      RB3 RB4, LAYER_Vestnik,  50, COMBO_IDLE)
 
 ZMK_COMBO(system_combo, &sl LAYER_Magic,   LH2 RH2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(mouse_combo,  &mouse_ht LAYER_Mouse LAYER_Mouse,  LH1 LH2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
@@ -456,7 +453,7 @@ ZMK_BASE_LAYER(Graphite,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp X      &kp Q      &kp M      &kp C      &kp V      ,  &kp K      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                    &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0 , &thumb_spc LAYER_Symbol SPACE &lt LAYER_Num RET
+                    &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &thumb_bspc LSHFT 0 &lt LAYER_Num RET
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 
@@ -484,15 +481,15 @@ ZMK_BASE_LAYER(DuskWP,
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 
-ZMK_BASE_LAYER(Neirox,
+ZMK_BASE_LAYER(Vestnik,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp W      &kp K      &kp L      &kp U      &kp LBKT   ,  &kp A      &alpha_magic_neirox_1 &kp F      &kp Z      &kp SQT  ,
+    &kp W      &kp L      &kp H      &kp U      &kp LBKT   ,  &kp A      &kp G      &kp F      &kp Z      &kp SQT  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &hml LGUI Y &hml LALT H &hml LCTRL N &hml LSHFT R &kp COMMA , &kp M  &hmr RSHFT D &hmr RCTRL J &hmr RALT T &hmr RGUI B ,
+    &hml LGUI C &hml LALT N &hml LCTRL Y &hml LSHFT R &kp COMMA , &kp M  &hmr RSHFT D &hmr RCTRL J &hmr RALT T &hmr RGUI B ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp I      &kp P      &kp V      &kp G      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
+    &kp I      &kp P      &kp K      &kp V      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            &nav_repeat LAYER_Nav 0  &kp SPACE , &thumb_r LAYER_Symbol C  &lt LAYER_Num BSPC
+            &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &thumb_bspc LSHFT 0  &lt LAYER_Num RET
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 

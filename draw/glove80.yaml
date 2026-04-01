@@ -71,10 +71,10 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
-  - ''
-  - ''
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - ''
+  - ''
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
   - {t: '$$mdi:keyboard-return$$', h: Num}
   - ''
   - ''
@@ -152,10 +152,10 @@ layers:
   - ''
   - ''
   - ''
-  - {t: ▽, type: trans}
-  - ''
-  - ''
   - {type: held}
+  - ''
+  - ''
+  - ''
   - ''
   - ''
   - ''
@@ -648,7 +648,7 @@ layers:
   - ''
   - ''
   - {type: held}
-  Neirox:
+  Vestnik:
   - ''
   - ''
   - ''
@@ -673,20 +673,20 @@ layers:
   - ''
   - ''
   - Ц
-  - Л
   - Д
+  - Р
   - Г
   - Х
   - Ф
-  - $$mdi:star-four-points$$
+  - П
   - А
   - Я
   - Э
   - ''
   - ''
-  - {t: Н, h: ❖}
-  - {t: Р, h: ⌥}
-  - {t: Т, h: ⌃}
+  - {t: С, h: ❖}
+  - {t: Т, h: ⌥}
+  - {t: Н, h: ⌃}
   - {t: К, h: '$$mdi:arrow-up-bold$$'}
   - Б
   - Ь
@@ -698,8 +698,8 @@ layers:
   - ''
   - Ш
   - З
+  - Л
   - М
-  - П
   - Ч
   - ''
   - ''
@@ -718,93 +718,12 @@ layers:
   - ''
   - ''
   - ''
-  - {t: '&thumb_magic_1_adaptive', h: Nav, s: '&caps_word'}
-  - $$mdi:keyboard-space$$
+  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
   - ''
   - ''
-  - {t: С, h: Symbol}
-  - {t: '$$mdi:backspace$$', h: Num}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  Racket:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - F
-  - D
-  - L
-  - W
-  - J
-  - Q
-  - B
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - ''
-  - ''
-  - {t: S, h: ❖}
-  - {t: T, h: ⌥}
-  - {t: H, h: ⌃}
-  - {t: C, h: '$$mdi:arrow-up-bold$$'}
-  - Y
-  - $$mdi:star-four-points$$
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
-  - {t: I, h: ❖}
-  - ''
-  - ''
-  - X
-  - K
-  - M
-  - G
-  - V
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - Z
-  - P
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
-  - {t: ., s: '?'}
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&thumb_magic_1_adaptive', h: Nav, s: '&caps_word'}
-  - $$mdi:keyboard-space$$
-  - ''
-  - ''
-  - {t: R, h: Symbol}
-  - {t: '$$mdi:backspace$$', h: Num}
+  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-return$$', h: Num}
   - ''
   - ''
   - ''
@@ -813,40 +732,40 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Neirox]
+  l: [Graphite, Vestnik]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [31, 32]
   k: Ё/'
-  l: [Neirox]
+  l: [Vestnik]
 - p: [23, 24]
   k: Щ
-  l: [Neirox]
+  l: [Vestnik]
 - p: [28, 29]
   k: Ъ/Ї
-  l: [Neirox]
+  l: [Vestnik]
 - p: [60, 61]
   k: {t: ',', s: '!'}
-  l: [Neirox]
+  l: [Vestnik]
 - p: [61, 62]
   k: {t: ., s: '?'}
-  l: [Neirox]
+  l: [Vestnik]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, DuskWP, Neirox]
+  l: [Graphite, Vestnik]

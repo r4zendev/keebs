@@ -6,17 +6,17 @@
 
 #define THUMBS LH2 LH1 LH0 RH0 RH1 RH2
 
-#define GRAPHITE_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &none
-#define GRAPHITE_RH &none  &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET
+#define GRAPHITE_LH &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE  &none
+#define GRAPHITE_RH &none  &thumb_bspc LSHFT 0  &lt LAYER_Num RET
 
-#define RACKET_LH &nav_bspc LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror R
-#define RACKET_RH &spc_sft LSHFT SPACE  &lt LAYER_Num RET  &repeat_sym LAYER_Symbol 0
+#define RACKET_LH &nav_repeat LAYER_Nav 0  &kp SPACE  &none
+#define RACKET_RH &none  &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
 
-#define DUSKWP_LH &nav_bspc LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror R
-#define DUSKWP_RH &spc_sft LSHFT SPACE  &lt LAYER_Num RET  &repeat_sym LAYER_Symbol 0
+#define DUSKWP_LH &nav_repeat LAYER_Nav 0  &kp SPACE  &none
+#define DUSKWP_RH &none  &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
 
-#define NEIROX_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &thumb_r LAYER_NumMirror C
-#define NEIROX_RH &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET  THUMB_MAGIC_1
+#define VESTNIK_LH &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE  &none
+#define VESTNIK_RH &none  &thumb_bspc LSHFT 0  &lt LAYER_Num RET
 
 #define SYMBOL_LH  &none  &trans  &none
 #define SYMBOL_RH  &none  &none  &none
