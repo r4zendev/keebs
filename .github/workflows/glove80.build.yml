@@ -6,12 +6,12 @@ jobs:
   left:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: glove80.west.yml
+      keyboard: glove80
       board: glove80_lh
   right:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: glove80.west.yml
+      keyboard: glove80
       board: glove80_rh
   merge:
     needs: [left, right]

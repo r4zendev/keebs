@@ -1,0 +1,63 @@
+ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&esc_tab>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+ZMK_HOLD_TAP(nav_repeat, bindings = <&mo>, <&thumb_magic_1_tap>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+ZMK_HOLD_TAP(mouse_ht, bindings = <&mo>, <&tog>;
+             flavor = "balanced"; tapping-term-ms = <200>;)
+
+ZMK_HOLD_TAP(thumb_bspc, bindings = <&kp>, <&bspc_del>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
+             flavor = "balanced"; tapping-term-ms = <175>;)
+
+ZMK_HOLD_TAP(thumb_r, bindings = <&mo>, <&kp>;
+             flavor = "tap-preferred"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+/* ── Thumb magic (adaptive repeat/shift) ─────────────────────────────── */
+
+#define AK(name, k, b) \
+    name { trigger-keys = <k>; max-prior-idle-ms = <800>; bindings = <b>; };
+
+ZMK_ADAPTIVE_KEY(thumb_magic_1_adaptive, bindings = <&sk LSHFT>;
+    repeat {
+      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
+      bindings = <&key_repeat>;
+      max-prior-idle-ms = <800>;
+      strict-modifiers;
+    };
+)
+
+ZMK_MOD_MORPH(thumb_magic_1_tap, bindings = <&thumb_magic_1_adaptive>, <&caps_word>;
+              mods = <(MOD_LSFT)>;)
+
+ZMK_HOLD_TAP(thumb_magic_1, bindings = <&kp>, <&thumb_magic_1_tap>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+#define THUMB_MAGIC &thumb_magic_1 LSHFT 0
+
+/* ── Alpha magic (per-layout adaptive keys) ──────────────────────────── */
+
+ZMK_ADAPTIVE_KEY(alpha_magic_racket_1, bindings = <&key_repeat>;
+    AK(racket_ak_f, F, &kp T)
+    AK(racket_ak_s, S, &kp K)
+    AK(racket_ak_k, K, &kp S)
+    AK(racket_ak_l, L, &kp K)
+
+    AK(racket_ak_u, U, &kp E)
+    AK(racket_ak_e, E, &kp U)
+    AK(racket_ak_o, O, &kp A)
+
+    AK(racket_ak_c, C, &kp Y)
+    AK(racket_ak_y, Y, &kp W)
+    AK(racket_ak_g, G, &kp Y)
+
+    AK(racket_ak_h, H, &kp M)
+)

@@ -1,0 +1,11 @@
+ZMK_BASE_LAYER(Racket,
+//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+    &kp F      &kp D      &kp L      &kp W      &kp J      ,  &kp Q      &kp B      &kp O      &kp U      &comma_excl ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   &hml LGUI S &hml LALT T &hml LCTRL H &hml LSHFT C &kp Y , &alpha_magic_racket_1 &hmr RSHFT N &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+    &kp X      &kp K      &kp M      &kp G      &kp V      ,  &kp Z      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
+//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+            LH_NONE &lt LAYER_Nav BSPC  &thumb_r LAYER_Symbol R , &kp SPACE  &nav_repeat LAYER_Num 0 RH_NONE
+//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+)

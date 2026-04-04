@@ -2,19 +2,19 @@ CONF := draw/config.yaml
 BOARD_TARGETS := glove80 cradio aurora piantor corne
 
 # ─── Draw config ────────────────────────────────────────────────────
-GLOVE80_KEYMAP   := config/glove80.keymap
+GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
 GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Racket Vestnik Caster Night
 
-CRADIO_KEYMAP   := config/cradio.keymap
+CRADIO_KEYMAP   := config/keyboards/cradio/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
 CRADIO_KEYBOARD := cradio
 CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Caster Night
 
-AURORA_KEYMAP   := config/splitkb_aurora_sweep.keymap
+AURORA_KEYMAP   := config/keyboards/splitkb_aurora_sweep/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
 AURORA_KEYBOARD := cradio
@@ -82,22 +82,24 @@ $(GLOVE80_LABELS):
 $(LABELS_36):
 	mkdir -p $(dir $@) && curl -sL $(ZMK_HELPERS_BASE)/zmk-helpers/key-labels/36.h -o $@
 
+SHARED_KEYMAP := config/base.keymap $(wildcard config/includes/*.dtsi config/includes/layers/*.dtsi)
+
 # ─── Draw pipelines ─────────────────────────────────────────────────
-$(GLOVE80_YAML): $(GLOVE80_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(GLOVE80_LABELS)
+$(GLOVE80_YAML): $(GLOVE80_KEYMAP) $(SHARED_KEYMAP) $(CONF) $(ZMK_HELPERS_H) $(GLOVE80_LABELS)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ $(GLOVE80_LAYERS)
 
 $(GLOVE80_SVG): $(GLOVE80_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(GLOVE80_KEYBOARD) > $@
 
-$(CRADIO_YAML): $(CRADIO_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
+$(CRADIO_YAML): $(CRADIO_KEYMAP) $(SHARED_KEYMAP) $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ $(CRADIO_LAYERS)
 
 $(CRADIO_SVG): $(CRADIO_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(CRADIO_KEYBOARD) > $@
 
-$(AURORA_YAML): $(AURORA_KEYMAP) config/base.keymap $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
+$(AURORA_YAML): $(AURORA_KEYMAP) $(SHARED_KEYMAP) $(CONF) $(ZMK_HELPERS_H) $(LABELS_36)
 	keymap -c $(CONF) parse -z $< > $@
 	python3 draw/reorder_layers.py $@ $(AURORA_LAYERS)
 

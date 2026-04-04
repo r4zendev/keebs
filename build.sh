@@ -27,18 +27,69 @@ export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
 hosttools="$(find "$SDK/hosttools" -type d -name bin 2>/dev/null | head -1)"
 [[ -n "$hosttools" ]] && export PATH="$hosttools:$PATH"
 
+find_keyboard_dir() {
+    if [[ -d "$CONFIG_DIR/keyboards/$1" ]]; then
+        echo "$CONFIG_DIR/keyboards/$1"
+    else
+        echo "No keyboard config found for '$1'" >&2
+        exit 1
+    fi
+}
+
+# Resolve west manifest: keyboard-specific if exists, otherwise default
+find_manifest() {
+    if [[ -f "$KB_DIR/$KEYBOARD.west.yml" ]]; then
+        echo "$KEYBOARD.west.yml"
+    elif [[ -f "$CONFIG_DIR/default.west.yml" ]]; then
+        echo "default.west.yml"
+    else
+        echo "No west manifest found for '$KEYBOARD'" >&2
+        exit 1
+    fi
+}
+
+# Resolve conf: keyboard-specific if exists, otherwise default
+find_conf() {
+    if [[ -f "$KB_DIR/$KEYBOARD.conf" ]]; then
+        echo "$KB_DIR/$KEYBOARD.conf"
+    elif [[ -f "$CONFIG_DIR/default.conf" ]]; then
+        echo "$CONFIG_DIR/default.conf"
+    fi
+}
+
+# Read board/shield from keyboard.yml or use conventions
+get_board_shield() {
+    local yml="$KB_DIR/keyboard.yml"
+    if [[ -f "$yml" ]]; then
+        python3 -c "
+import yaml
+with open('$yml') as f:
+    d = yaml.safe_load(f)
+board = d.get('board', 'nice_nano/nrf52840/zmk')
+prefix = d.get('shield_prefix', '$KEYBOARD')
+suffixes = d.get('split_suffixes', '_left _right')
+print(f'{board}|{prefix}|{suffixes}')
+"
+    else
+        echo "nice_nano/nrf52840/zmk|$KEYBOARD|_left _right"
+    fi
+}
+
 usage() {
     echo "Usage: $0 <keyboard> [left|right|both|clean|setup|reset]"
     echo ""
-    echo "Keyboards: $(ls "$CONFIG_DIR"/*.keymap 2>/dev/null | xargs -I{} basename {} .keymap | tr '\n' ' ')"
+    echo "Keyboards:"
+    for d in "$CONFIG_DIR"/keyboards/*/; do
+        [[ -d "$d" ]] && echo "  $(basename "$d")"
+    done
     echo ""
     echo "Examples:"
-    echo "  $0 glove80          # build both halves"
-    echo "  $0 glove80 left     # left hand only"
-    echo "  $0 glove80 setup    # init west workspace"
-    echo "  $0 glove80 clean    # remove build artifacts"
-    echo "  $0 glove80 reset    # build settings_reset firmware"
-    echo "  CLEAN=1 $0 glove80  # full rebuild"
+    echo "  $0 cradio          # build both halves"
+    echo "  $0 cradio left     # left hand only"
+    echo "  $0 cradio setup    # init west workspace"
+    echo "  $0 cradio clean    # remove build artifacts"
+    echo "  $0 cradio reset    # build settings_reset firmware"
+    echo "  CLEAN=1 $0 cradio  # full rebuild"
     exit 1
 }
 
@@ -47,36 +98,56 @@ usage() {
 KEYBOARD="$1"
 ACTION="${2:-both}"
 WORKSPACE="$WORKSPACE_BASE/$KEYBOARD"
+KB_DIR="$(find_keyboard_dir "$KEYBOARD")"
 
-[[ ! -f "$CONFIG_DIR/$KEYBOARD.keymap" ]] && echo "No $KEYBOARD.keymap in config/" && exit 1
+[[ ! -f "$KB_DIR/$KEYBOARD.keymap" ]] && echo "No $KEYBOARD.keymap found" && exit 1
 
 setup_workspace() {
     echo "Setting up west workspace for $KEYBOARD at $WORKSPACE ..."
+    rm -rf "$WORKSPACE/config"
     mkdir -p "$WORKSPACE/config"
 
-    for f in "$CONFIG_DIR"/*; do
-        ln -sf "$f" "$WORKSPACE/config/"
+    # Shared config
+    for f in "$CONFIG_DIR"/base.keymap "$CONFIG_DIR"/includes "$CONFIG_DIR"/default.west.yml "$CONFIG_DIR"/default.conf; do
+        [[ -e "$f" ]] && ln -sf "$f" "$WORKSPACE/config/"
     done
 
-    if [[ ! -f "$CONFIG_DIR/$KEYBOARD.west.yml" ]]; then
-        echo "No $KEYBOARD.west.yml in config/"
-        exit 1
+    # Keyboard-specific files
+    for f in "$KB_DIR"/*; do
+        [[ -e "$f" && "$(basename "$f")" != "shields" ]] && ln -sf "$f" "$WORKSPACE/config/"
+    done
+
+    # If no keyboard-specific conf, symlink default as {keyboard}.conf (ZMK expects this name)
+    if [[ ! -f "$KB_DIR/$KEYBOARD.conf" && -f "$CONFIG_DIR/default.conf" ]]; then
+        ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/$KEYBOARD.conf"
     fi
+
+    # Custom shield definitions (must be at config/boards/shields/ for ZMK)
+    if [[ -d "$KB_DIR/shields" ]]; then
+        mkdir -p "$WORKSPACE/config/boards"
+        ln -sf "$KB_DIR/shields" "$WORKSPACE/config/boards/shields"
+    fi
+
+    local manifest
+    manifest="$(find_manifest)"
+
     cd "$WORKSPACE"
     [[ -d .west ]] && rm -rf .west
-    west init -l config/ --mf "$KEYBOARD.west.yml"
+    west init -l config/ --mf "$manifest"
     west update
 
     python3 -m venv "$WORKSPACE/.venv"
     "$WORKSPACE/.venv/bin/pip" install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
 
-    # Apply patches if any exist for this keyboard's shield
-    for patch in "$CONFIG_DIR"/boards/shields/*/?.patch "$CONFIG_DIR"/boards/shields/*/*.patch; do
-        [[ -f "$patch" ]] || continue
-        echo "Applying patch: $patch"
-        cd "$WORKSPACE/zephyr" && git apply "$patch" 2>/dev/null && echo "  Applied." || echo "  Already applied or failed."
-        cd "$WORKSPACE"
-    done
+    # Apply patches
+    if [[ -d "$KB_DIR/shields" ]]; then
+        for patch in "$KB_DIR"/shields/*/*.patch; do
+            [[ -f "$patch" ]] || continue
+            echo "Applying patch: $patch"
+            cd "$WORKSPACE/zephyr" && git apply "$patch" 2>/dev/null && echo "  Applied." || echo "  Already applied or failed."
+            cd "$WORKSPACE"
+        done
+    fi
 
     echo "Done. Workspace ready at $WORKSPACE"
 }
@@ -95,30 +166,6 @@ export ZEPHYR_BASE="$WORKSPACE/zephyr"
 export CMAKE_PREFIX_PATH="$WORKSPACE/zephyr/share/zephyr-package/cmake"
 [[ -d "$WORKSPACE/.venv" ]] && source "$WORKSPACE/.venv/bin/activate"
 cd "$WORKSPACE"
-
-get_build_entries() {
-    local build_yaml="$WORKSPACE/config/$KEYBOARD.build.yaml"
-    if [[ ! -f "$build_yaml" ]]; then
-        echo "No $KEYBOARD.build.yaml in config/"
-        exit 1
-    fi
-    python3 -c "
-import yaml, sys
-with open('$build_yaml') as f:
-    data = yaml.safe_load(f)
-
-keyboard = '$KEYBOARD'
-for entry in data.get('include', []):
-    board = entry.get('board', '')
-    shield = entry.get('shield', '')
-    if shield:
-        if keyboard in shield:
-            print(f'{board} {shield}')
-    else:
-        if keyboard in board:
-            print(f'{board} ')
-"
-}
 
 build_entry() {
     local board=$1 shield=$2
@@ -140,46 +187,42 @@ build_entry() {
     echo "→ build/$KEYBOARD/${label}.uf2"
 }
 
-if [[ "$ACTION" == "clean" ]]; then
-    rm -rf build/ "$REPO_ROOT/build/$KEYBOARD"
-    echo "Cleaned."
-    exit 0
-fi
-
-mapfile -t entries < <(get_build_entries)
-if [[ ${#entries[@]} -eq 0 ]]; then
-    echo "No build entries found for '$KEYBOARD'"
-    exit 1
-fi
-
-lh_board="" lh_shield="" rh_board="" rh_shield=""
-for entry in "${entries[@]}"; do
-    read -r board shield <<< "$entry"
-    if [[ "$board" == *_lh || "$shield" == *_left ]]; then
-        lh_board="$board"; lh_shield="$shield"
-    elif [[ "$board" == *_rh || "$shield" == *_right ]]; then
-        rh_board="$board"; rh_shield="$shield"
-    fi
-done
+IFS='|' read -r board shield_prefix suffixes <<< "$(get_board_shield)"
+read -ra suffix_arr <<< "$suffixes"
 
 case "$ACTION" in
     left|lh)
-        [[ -n "$lh_board" ]] && build_entry "$lh_board" "$lh_shield" || echo "No left side found" ;;
+        if [[ -n "$shield_prefix" ]]; then
+            build_entry "$board" "${shield_prefix}${suffix_arr[0]}"
+        else
+            build_entry "${board}${suffix_arr[0]}" ""
+        fi ;;
     right|rh)
-        [[ -n "$rh_board" ]] && build_entry "$rh_board" "$rh_shield" || echo "No right side found" ;;
+        if [[ -n "$shield_prefix" ]]; then
+            build_entry "$board" "${shield_prefix}${suffix_arr[1]}"
+        else
+            build_entry "${board}${suffix_arr[1]}" ""
+        fi ;;
     both)
-        [[ -n "$lh_board" ]] && build_entry "$lh_board" "$lh_shield"
-        [[ -n "$rh_board" ]] && build_entry "$rh_board" "$rh_shield"
+        for sfx in "${suffix_arr[@]}"; do
+            if [[ -n "$shield_prefix" ]]; then
+                build_entry "$board" "${shield_prefix}${sfx}"
+            else
+                build_entry "${board}${sfx}" ""
+            fi
+        done
         ;;
     reset)
-        board="${lh_board:-${rh_board}}"
-        [[ -z "$board" ]] && echo "No board found" && exit 1
         west build -d "build/settings_reset" -s zmk/app -b "$board" -- -DSHIELD=settings_reset
         out="$REPO_ROOT/build/$KEYBOARD"
         mkdir -p "$out"
         cp "build/settings_reset/zephyr/zmk.uf2" "$out/settings_reset.uf2"
         echo "→ build/$KEYBOARD/settings_reset.uf2"
         echo "Flash this to BOTH halves to clear bonds."
+        ;;
+    clean)
+        rm -rf build/ "$REPO_ROOT/build/$KEYBOARD"
+        echo "Cleaned."
         ;;
     *) usage ;;
 esac

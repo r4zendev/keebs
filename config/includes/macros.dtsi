@@ -1,0 +1,25 @@
+/ {
+    macros {
+        lang_en: lang_en {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to LAYER_Graphite>, <&kp LC(LS(LG(N1)))>;
+        };
+
+        lang_ru: lang_ru {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to LAYER_Vestnik>, <&kp LC(LS(LG(N2)))>;
+        };
+    };
+};
+
+ZMK_MACRO(to_racket, bindings = <&to LAYER_Racket>;)
+ZMK_MACRO(to_graphite, bindings = <&to LAYER_Graphite>;)
+ZMK_MACRO(to_caster, bindings = <&to LAYER_Caster>;)
+ZMK_MACRO(to_night, bindings = <&to LAYER_Night>;)
+
+ZMK_MACRO(bt_0, bindings = <&out OUT_BLE>, <&bt BT_SEL 0>;)
+ZMK_MACRO(bt_1, bindings = <&out OUT_BLE>, <&bt BT_SEL 1>;)
+ZMK_MACRO(bt_2, bindings = <&out OUT_BLE>, <&bt BT_SEL 2>;)
+ZMK_MACRO(bt_3, bindings = <&out OUT_BLE>, <&bt BT_SEL 3>;)

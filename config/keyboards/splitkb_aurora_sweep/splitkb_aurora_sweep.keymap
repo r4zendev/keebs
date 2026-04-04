@@ -1,0 +1,3 @@
+/* splitkb Aurora Sweep 34-key wrapper. */
+#include "includes/34key.dtsi"
+#include "base.keymap"

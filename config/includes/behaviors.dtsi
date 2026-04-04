@@ -1,0 +1,119 @@
+/ {
+    behaviors {
+        hml: home_row_mod_left {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <180>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <100>;
+            hold-trigger-key-positions = <KEYS_R THUMBS>;
+            hold-trigger-on-release;
+            bindings = <&kp>, <&kp>;
+        };
+
+        hmr: home_row_mod_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <180>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <100>;
+            hold-trigger-key-positions = <KEYS_L THUMBS>;
+            hold-trigger-on-release;
+            bindings = <&kp>, <&kp>;
+        };
+
+        sqt_dqt: sqt_and_dqt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SQT>, <&kp DQT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        minus_slash: minus_and_slash {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp FSLH>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        dot_qmark: dot_and_qmark {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp QMARK>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        comma_excl: comma_and_excl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&kp LS(N1)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        undo_redo: undo_and_redo {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LC(Z)>, <&kp LC(LS(Z))>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        v_comma_excl: v_comma_and_excl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LS(FSLH)>, <&kp LS(N1)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        v_dot_qmark: v_dot_and_qmark {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp FSLH>, <&kp LS(N7)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        paste_morph: paste_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp _PASTE>, <&kp LC(V)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        copy_cut: copy_and_cut {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp _C(C)>, <&kp _C(X)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        bspc_del: bspc_and_del {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        esc_tab: esc_and_tab {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp ESC>, <&kp TAB>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        caps_morph: caps_word_lock {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&caps_word>, <&kp CAPS>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        behavior_caps_word {
+            continue-list = <
+                UNDERSCORE MINUS
+                BACKSPACE DELETE
+                N1 N2 N3 N4 N5 N6 N7 N8 N9 N0
+            >;
+        };
+    };
+};

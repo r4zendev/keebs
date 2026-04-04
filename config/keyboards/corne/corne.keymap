@@ -1,0 +1,32 @@
+/* Corne 5-column (36-key) wrapper. */
+
+#include <layouts/foostan/corne/5column.dtsi>
+
+/ {
+    chosen {
+        zmk,physical-layout = &foostan_corne_5col_layout;
+    };
+};
+
+#include <zmk-helpers/key-labels/36.h>
+
+#undef LH0
+#undef LH1
+#undef LH2
+#undef RH0
+#undef RH1
+#undef RH2
+#define LH0 30
+#define LH2 31
+#define LH1 32
+#define RH1 33
+#define RH2 34
+#define RH0 35
+
+#undef THUMBS
+#define THUMBS LH2 LH1 LH0 RH0 RH1 RH2
+
+#define LH_NONE &none
+#define RH_NONE &none
+
+#include "base.keymap"

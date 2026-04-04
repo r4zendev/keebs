@@ -6,13 +6,13 @@ jobs:
   left:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: cradio.west.yml
+      keyboard: cradio
       board: nice_nano/nrf52840/zmk
       shield: cradio_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: cradio.west.yml
+      keyboard: cradio
       board: nice_nano/nrf52840/zmk
       shield: cradio_right
   merge:

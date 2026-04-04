@@ -6,13 +6,13 @@ jobs:
   left:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: splitkb_aurora_sweep.west.yml
+      keyboard: splitkb_aurora_sweep
       board: nice_nano/nrf52840/zmk
       shield: splitkb_aurora_sweep_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: splitkb_aurora_sweep.west.yml
+      keyboard: splitkb_aurora_sweep
       board: nice_nano/nrf52840/zmk
       shield: splitkb_aurora_sweep_right
   merge:
@@ -21,6 +21,6 @@ jobs:
     steps:
       - uses: actions/upload-artifact/merge@v4
         with:
-          name: aurora-sweep
+          name: aurora_sweep
           pattern: artifact-*
           delete-merged: true

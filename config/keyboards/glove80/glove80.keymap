@@ -14,6 +14,7 @@
         &magic LAYER_Magic 0 ___ ___ ___ ___ LH ___ ___ RH ___ ___ ___ ___ &magic LAYER_Magic 0 \
     )
 
+#define SKIP_SYSTEM_LAYER
 #include "base.keymap"
 
 / {

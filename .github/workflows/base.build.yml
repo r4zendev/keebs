@@ -3,16 +3,13 @@ name: Build ZMK Firmware
 on:
   workflow_call:
     inputs:
-      manifest:
+      keyboard:
         required: true
         type: string
       board:
         required: true
         type: string
       shield:
-        required: false
-        type: string
-      patch_dir:
         required: false
         type: string
 
@@ -33,6 +30,32 @@ jobs:
             echo "artifact=${board_safe}" >> $GITHUB_ENV
           fi
       - uses: actions/checkout@v4
+      - name: Prepare config
+        run: |
+          kb_dir="config/keyboards/${{ inputs.keyboard }}"
+
+          # Symlink keyboard-specific files into config/
+          for f in "$kb_dir"/*; do
+            [ -e "$f" ] && [ "$(basename "$f")" != "shields" ] && ln -sf "$(realpath "$f")" config/
+          done
+
+          # Custom shield definitions
+          if [ -d "$kb_dir/shields" ]; then
+            mkdir -p config/boards
+            ln -sf "$(realpath "$kb_dir/shields")" config/boards/shields
+          fi
+
+          # Default conf if no keyboard-specific one exists
+          if [ ! -f "$kb_dir/${{ inputs.keyboard }}.conf" ] && [ -f config/default.conf ]; then
+            ln -sf "$(realpath config/default.conf)" "config/${{ inputs.keyboard }}.conf"
+          fi
+
+          # Resolve west manifest
+          if [ -f "$kb_dir/${{ inputs.keyboard }}.west.yml" ]; then
+            echo "manifest=${{ inputs.keyboard }}.west.yml" >> $GITHUB_ENV
+          else
+            echo "manifest=default.west.yml" >> $GITHUB_ENV
+          fi
       - uses: actions/cache@v4
         with:
           path: |
@@ -41,17 +64,19 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: west-${{ inputs.manifest }}-${{ hashFiles(format('config/{0}', inputs.manifest)) }}
-      - run: west init -l config --mf ${{ inputs.manifest }}
+          key: west-${{ env.manifest }}-${{ hashFiles(format('config/{0}', env.manifest)) }}
+      - run: west init -l config --mf ${{ env.manifest }}
       - run: west update
       - name: Apply patches
-        if: inputs.patch_dir
         run: |
-          for patch in config/${{ inputs.patch_dir }}/*.patch; do
-            [ -f "$patch" ] || continue
-            cd zephyr && git apply "$OLDPWD/$patch" 2>/dev/null && echo "Applied $patch" || echo "Already applied: $patch"
-            cd "$OLDPWD"
-          done
+          kb_dir="config/keyboards/${{ inputs.keyboard }}"
+          if [ -d "$kb_dir/shields" ]; then
+            for patch in "$kb_dir"/shields/*/*.patch; do
+              [ -f "$patch" ] || continue
+              cd zephyr && git apply "$OLDPWD/$patch" 2>/dev/null && echo "Applied $patch" || echo "Already applied: $patch"
+              cd "$OLDPWD"
+            done
+          fi
       - run: west zephyr-export
       - run: >
           west build -s zmk/app -b ${{ inputs.board }} --

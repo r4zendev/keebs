@@ -1,0 +1,3 @@
+/* Piantor Pro 34-key wrapper on a 42-key board. */
+#include "includes/34key.dtsi"
+#include "base.keymap"

@@ -62,9 +62,6 @@ parse_config:
     '&to_graphite': {t: Graphite, type: layer-activator}
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_night': {t: Night, type: layer-activator}
-    '&nav_bspc LAYER_Nav 0': {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
-    '&spc_sft LSHFT SPACE': {t: '$$mdi:keyboard-space$$', h: '$$mdi:arrow-up-bold$$'}
-    '&repeat_sym LAYER_Symbol 0': {t: '$$mdi:repeat$$', h: Symbol}
     '&thumb_r LAYER_Symbol R': {t: R, h: Symbol}
     '&thumb_r LAYER_Symbol E': {t: E, h: Symbol}
     '&to_caster': {t: Caster, type: layer-activator}
@@ -75,7 +72,6 @@ parse_config:
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}
-    '&fslh_colon': {t: '/', s: ':'}
     '&mkp LCLK': LMB
     '&mkp RCLK': RMB
     '&mkp MCLK': MMB
@@ -258,3 +254,4 @@ parse_config:
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache
+    - config

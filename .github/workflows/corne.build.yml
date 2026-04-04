@@ -6,13 +6,13 @@ jobs:
   left:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: corne.west.yml
+      keyboard: corne
       board: nice_nano/nrf52840/zmk
       shield: corne_left
   right:
     uses: ./.github/workflows/base.build.yml
     with:
-      manifest: corne.west.yml
+      keyboard: corne
       board: nice_nano/nrf52840/zmk
       shield: corne_right
   merge:
