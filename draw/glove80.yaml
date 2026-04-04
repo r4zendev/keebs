@@ -71,10 +71,10 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - ''
-  - ''
   - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
   - {t: '$$mdi:keyboard-return$$', h: Num}
   - ''
   - ''
@@ -151,12 +151,12 @@ layers:
   - ''
   - ''
   - ''
+  - {t: ▽, type: trans}
+  - $$mdi:keyboard-space$$
+  - ''
   - ''
   - {type: held}
-  - ''
-  - ''
-  - ''
-  - ''
+  - {t: ▽, type: trans}
   - ''
   - ''
   - ''
@@ -648,6 +648,87 @@ layers:
   - ''
   - ''
   - {type: held}
+  Racket:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - F
+  - D
+  - L
+  - W
+  - J
+  - Q
+  - B
+  - O
+  - U
+  - {t: ',', s: '!'}
+  - ''
+  - ''
+  - {t: S, h: ❖}
+  - {t: T, h: ⌥}
+  - {t: H, h: ⌃}
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - $$mdi:star-four-points$$
+  - {t: N, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - X
+  - K
+  - M
+  - G
+  - V
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Z
+  - P
+  - {t: '''', s: '"'}
+  - {t: '-', s: /}
+  - {t: ., s: '?'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:backspace$$', h: Nav}
+  - {t: R, h: Symbol}
+  - ''
+  - ''
+  - $$mdi:keyboard-space$$
+  - {t: '$$mdi:repeat$$', h: Num}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
   Vestnik:
   - ''
   - ''
@@ -719,11 +800,173 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - ''
-  - ''
   - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - ''
+  - ''
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
   - {t: '$$mdi:keyboard-return$$', h: Num}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  Caster:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - B
+  - Y
+  - D
+  - L
+  - /
+  - Q
+  - F
+  - O
+  - U
+  - ;
+  - ''
+  - ''
+  - {t: C, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: T, h: ⌃}
+  - {t: R, h: '$$mdi:arrow-up-bold$$'}
+  - X
+  - J
+  - {t: N, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: I, h: ⌥}
+  - {t: H, h: ❖}
+  - ''
+  - ''
+  - V
+  - W
+  - G
+  - M
+  - Z
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - '-'
+  - P
+  - {t: ., s: '?'}
+  - {t: ',', s: '!'}
+  - K
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:repeat$$', h: Num}
+  - $$mdi:keyboard-space$$
+  - ''
+  - ''
+  - {t: E, h: Symbol}
+  - {t: '$$mdi:backspace$$', h: Nav}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  Night:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - B
+  - F
+  - L
+  - D
+  - Q
+  - P
+  - G
+  - O
+  - U
+  - {t: ., s: '?'}
+  - ''
+  - ''
+  - {t: N, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: H, h: ⌃}
+  - {t: T, h: '$$mdi:arrow-up-bold$$'}
+  - M
+  - Y
+  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - {t: A, h: ⌃}
+  - {t: E, h: ⌥}
+  - {t: I, h: ❖}
+  - ''
+  - ''
+  - X
+  - V
+  - J
+  - K
+  - Z
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '''', s: '"'}
+  - W
+  - ;
+  - /
+  - {t: ',', s: '!'}
+  - ''
+  - {t: '&rgb_ug_status_macro', h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:backspace$$', h: Nav}
+  - {t: R, h: Symbol}
+  - ''
+  - ''
+  - $$mdi:keyboard-space$$
+  - {t: '$$mdi:repeat$$', h: Num}
   - ''
   - ''
   - ''
@@ -732,19 +975,19 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Vestnik, Caster, Night]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -762,10 +1005,10 @@ combos:
   l: [Vestnik]
 - p: [69, 74]
   k: System
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Vestnik]
+  l: [Graphite, Racket, Vestnik, Caster, Night]

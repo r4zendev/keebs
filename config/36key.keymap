@@ -6,20 +6,23 @@
 
 #define THUMBS LH2 LH1 LH0 RH0 RH1 RH2
 
-#define GRAPHITE_LH &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE  &none
-#define GRAPHITE_RH &none  &thumb_bspc LSHFT 0  &lt LAYER_Num RET
+#define GRAPHITE_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &none
+#define GRAPHITE_RH &none  &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET
 
-#define RACKET_LH &nav_repeat LAYER_Nav 0  &kp SPACE  &none
-#define RACKET_RH &none  &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
+#define RACKET_LH &lt LAYER_Nav BSPC  &thumb_r LAYER_Symbol R  &none
+#define RACKET_RH &none  &kp SPACE  &nav_repeat LAYER_Num 0
 
-#define DUSKWP_LH &nav_repeat LAYER_Nav 0  &kp SPACE  &none
-#define DUSKWP_RH &none  &thumb_r LAYER_Symbol R  &lt LAYER_Num BSPC
+#define VESTNIK_LH &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0  &none
+#define VESTNIK_RH &none  &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET
 
-#define VESTNIK_LH &nav_ht LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE  &none
-#define VESTNIK_RH &none  &thumb_bspc LSHFT 0  &lt LAYER_Num RET
+#define CASTER_LH &nav_repeat LAYER_Num 0  &kp SPACE  &none
+#define CASTER_RH &none  &thumb_r LAYER_Symbol E  &lt LAYER_Nav BSPC
 
-#define SYMBOL_LH  &none  &trans  &none
-#define SYMBOL_RH  &none  &none  &none
+#define NIGHT_LH &lt LAYER_Nav BSPC  &thumb_r LAYER_Symbol R  &none
+#define NIGHT_RH &none  &kp SPACE  &nav_repeat LAYER_Num 0
+
+#define SYMBOL_LH  &trans  &kp SPACE  &none
+#define SYMBOL_RH  &none  &kp SPACE  &trans
 
 #define NAV_LH     &none  &mouse_ht LAYER_Mouse LAYER_Mouse  &none
 #define NAV_RH     &kp RET  &none  &none
@@ -44,7 +47,7 @@
 
         layer_System {
             bindings = <
-     &bootloader   &to_graphite  &to_racket    &to_duskwp &none        &none       &none        &none        &none      &bootloader
+     &bootloader   &to_graphite  &to_racket    &to_night &to_caster   &none       &none        &none        &none      &bootloader
      &bt BT_CLR    &bt_0         &bt_1         &bt_2         &bt_3              &soft_off   &kp _LOCK    &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG
      &sys_reset    &none         &none         &none         &none              &none       &none        &none        &none      &sys_reset
                               &none       &none                &none              &none       &none        &none

@@ -1,24 +1,24 @@
 CONF := draw/config.yaml
-BOARD_TARGETS := glove80 cradio aurora piantor
+BOARD_TARGETS := glove80 cradio aurora piantor corne
 
 # ─── Draw config ────────────────────────────────────────────────────
 GLOVE80_KEYMAP   := config/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
-GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Vestnik
+GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Racket Vestnik Caster Night
 
 CRADIO_KEYMAP   := config/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
 CRADIO_KEYBOARD := cradio
-CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Vestnik
+CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Caster Night
 
 AURORA_KEYMAP   := config/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
 AURORA_KEYBOARD := cradio
-AURORA_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Vestnik
+AURORA_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Caster Night
 
 ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
 ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h
@@ -27,13 +27,13 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Main targets ───────────────────────────────────────────────────
 .PHONY: all build draw setup clean help \
-         glove80 cradio aurora piantor \
+         glove80 cradio aurora piantor corne \
          %-build %-draw %-setup %-clean %-reset %-left %-right
 
 all: build draw
-build: glove80-build cradio-build aurora-build piantor-build
+build: glove80-build cradio-build aurora-build piantor-build corne-build
 draw: $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG)
-setup: glove80-setup cradio-setup aurora-setup piantor-setup
+setup: glove80-setup cradio-setup aurora-setup piantor-setup corne-setup
 
 help:
 	@printf "Commands:\n"
@@ -53,12 +53,14 @@ glove80: glove80-build $(GLOVE80_SVG)
 cradio:  cradio-build $(CRADIO_SVG)
 aurora:  aurora-build $(AURORA_SVG)
 piantor: piantor-build
+corne:   corne-build
 
 # ─── Firmware (delegates to build.sh) ───────────────────────────────
 glove80-build: ; ./build.sh glove80
 cradio-build:  ; ./build.sh cradio
 aurora-build:  ; ./build.sh splitkb_aurora_sweep
 piantor-build: ; ./build.sh piantor_pro
+corne-build:   ; ./build.sh corne
 
 glove80-draw: $(GLOVE80_SVG)
 cradio-draw:  $(CRADIO_SVG)
@@ -66,7 +68,7 @@ aurora-draw:  $(AURORA_SVG)
 
 %-setup: ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) setup
 %-clean: ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) clean
-%-left: ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) left
+%-left:  ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) left
 %-right: ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) right
 %-reset: ; ./build.sh $(if $(filter aurora%,$*),splitkb_aurora_sweep,$(if $(filter piantor%,$*),piantor_pro,$*)) reset
 
