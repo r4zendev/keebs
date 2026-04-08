@@ -810,87 +810,6 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
-  Caster:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - B
-  - Y
-  - D
-  - L
-  - /
-  - Q
-  - F
-  - O
-  - U
-  - ;
-  - ''
-  - ''
-  - {t: C, h: ❖}
-  - {t: S, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: R, h: '$$mdi:arrow-up-bold$$'}
-  - X
-  - J
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: I, h: ⌥}
-  - {t: H, h: ❖}
-  - ''
-  - ''
-  - V
-  - W
-  - G
-  - M
-  - Z
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - '-'
-  - P
-  - {t: ., s: '?'}
-  - {t: ',', s: '!'}
-  - K
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '$$mdi:repeat$$', h: Num}
-  - $$mdi:keyboard-space$$
-  - ''
-  - ''
-  - {t: E, h: Symbol}
-  - {t: '$$mdi:backspace$$', h: Nav}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '&rgb_ug_status_macro', h: Magic}
   Night:
   - ''
   - ''
@@ -975,19 +894,19 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik, Caster, Night]
+  l: [Graphite, Vestnik, Night]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -1005,10 +924,10 @@ combos:
   l: [Vestnik]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]

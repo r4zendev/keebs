@@ -1,6 +1,6 @@
 ZMK_BASE_LAYER(System,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &bootloader &to_graphite &to_racket &to_night &to_caster , &none      &none      &none      &none      &bootloader ,
+    &bootloader &to_graphite &to_racket &to_night &none      , &none      &none      &none      &none      &bootloader ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &bt BT_CLR &bt_0      &bt_1      &bt_2      &bt_3      ,  &soft_off  &kp _LOCK  &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤

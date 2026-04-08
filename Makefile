@@ -6,19 +6,19 @@ GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
-GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Racket Vestnik Caster Night
+GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Racket Vestnik Night
 
 CRADIO_KEYMAP   := config/keyboards/cradio/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
 CRADIO_KEYBOARD := cradio
-CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Caster Night
+CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Night
 
 AURORA_KEYMAP   := config/keyboards/splitkb_aurora_sweep/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
 AURORA_KEYBOARD := cradio
-AURORA_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Caster Night
+AURORA_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Racket Vestnik Night
 
 ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
 ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h

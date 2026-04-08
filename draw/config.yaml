@@ -63,8 +63,6 @@ parse_config:
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_night': {t: Night, type: layer-activator}
     '&thumb_r LAYER_Symbol R': {t: R, h: Symbol}
-    '&thumb_r LAYER_Symbol E': {t: E, h: Symbol}
-    '&to_caster': {t: Caster, type: layer-activator}
     '&nav_repeat LAYER_Nav 0': {t: '$$mdi:repeat$$', h: Nav}
     '&thumb_magic_1 LSHFT 0': {t: '$$mdi:repeat$$', h: '$$mdi:arrow-up-bold$$'}
     '&thumb_magic_2 LSHFT 0': {t: '$$mdi:repeat$$', h: '$$mdi:arrow-up-bold$$'}

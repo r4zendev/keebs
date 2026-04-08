@@ -25,7 +25,6 @@
 #include "includes/layers/alpha_graphite.dtsi"
 #include "includes/layers/alpha_racket.dtsi"
 #include "includes/layers/alpha_vestnik.dtsi"
-#include "includes/layers/alpha_caster.dtsi"
 #include "includes/layers/alpha_night.dtsi"
 
 /* ── Utility layers ──────────────────────────────────────────────────── */

@@ -218,7 +218,7 @@ layers:
   - {t: Graphite, type: layer-activator}
   - {t: Racket, type: layer-activator}
   - {t: Night, type: layer-activator}
-  - {t: Caster, type: layer-activator}
+  - ''
   - ''
   - ''
   - ''
@@ -318,41 +318,6 @@ layers:
   - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
   - {t: '$$mdi:keyboard-return$$', h: Num}
-  Caster:
-  - B
-  - Y
-  - D
-  - L
-  - /
-  - Q
-  - F
-  - O
-  - U
-  - ;
-  - {t: C, h: ❖}
-  - {t: S, h: ⌥}
-  - {t: T, h: ⌃}
-  - {t: R, h: '$$mdi:arrow-up-bold$$'}
-  - X
-  - J
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: I, h: ⌥}
-  - {t: H, h: ❖}
-  - V
-  - W
-  - G
-  - M
-  - Z
-  - '-'
-  - P
-  - {t: ., s: '?'}
-  - {t: ',', s: '!'}
-  - K
-  - {t: '$$mdi:repeat$$', h: Num}
-  - $$mdi:keyboard-space$$
-  - {t: E, h: Symbol}
-  - {t: '$$mdi:backspace$$', h: Nav}
   Night:
   - B
   - F
@@ -391,19 +356,19 @@ layers:
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik, Caster, Night]
+  l: [Graphite, Vestnik, Night]
 - p: [20, 21]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [23, 22]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [22, 21]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [24, 23]
   k: Tmux
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [8, 9]
   k: Ё/'
   l: [Vestnik]
@@ -421,10 +386,10 @@ combos:
   l: [Vestnik]
 - p: [30, 33]
   k: System
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [31, 30]
   k: Mouse
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]
 - p: [32, 33]
   k: Fn
-  l: [Graphite, Racket, Vestnik, Caster, Night]
+  l: [Graphite, Racket, Vestnik, Night]

@@ -9,15 +9,14 @@
 #define LAYER_Graphite  0
 #define LAYER_Racket    1
 #define LAYER_Vestnik   2
-#define LAYER_Caster    3
-#define LAYER_Night     4
-#define LAYER_Symbol    5
-#define LAYER_Nav       6
-#define LAYER_Num       7
-#define LAYER_NumMirror 8
-#define LAYER_Fn        9
-#define LAYER_Mouse     10
-#define LAYER_Magic     11
+#define LAYER_Night     3
+#define LAYER_Symbol    4
+#define LAYER_Nav       5
+#define LAYER_Num       6
+#define LAYER_NumMirror 7
+#define LAYER_Fn        8
+#define LAYER_Mouse     9
+#define LAYER_Magic     10
 
 /* ── OS-specific keycodes ─────────────────────────────────────────────── */
 
@@ -123,7 +122,7 @@
 
 /* ── Configuration ────────────────────────────────────────────────────── */
 
-#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_Vestnik LAYER_Caster LAYER_Night
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_Vestnik LAYER_Night
 #define QUICK_TAP_MS 175
 
 #define COMBO_TERM 30
