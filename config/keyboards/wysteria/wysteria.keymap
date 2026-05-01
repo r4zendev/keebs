@@ -1,0 +1,60 @@
+/* Wysteria wireless wrapper.
+ *
+ * The Wysteria PCB has 38 switch positions. This wrapper maps the shared
+ * 34-key layout onto the 30 alpha keys and two thumb keys per side.
+ */
+
+#define ___ &none
+
+#define LT4  0
+#define LT3  1
+#define LT2  2
+#define LT1  3
+#define LT0  4
+
+#define RT0  5
+#define RT1  6
+#define RT2  7
+#define RT3  8
+#define RT4  9
+
+#define LM4 10
+#define LM3 11
+#define LM2 12
+#define LM1 13
+#define LM0 14
+
+#define RM0 15
+#define RM1 16
+#define RM2 17
+#define RM3 18
+#define RM4 19
+
+#define LB4 20
+#define LB3 21
+#define LB2 22
+#define LB1 23
+#define LB0 24
+
+#define RB0 27
+#define RB1 28
+#define RB2 29
+#define RB3 30
+#define RB4 31
+
+#define LH2 32
+#define LH1 33
+#define RH1 36
+#define RH2 37
+
+#define THUMBS LH2 LH1 RH1 RH2
+
+#define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
+    ZMK_LAYER(name, \
+        LT RT \
+        LM RM \
+        LB ___ ___ RB \
+        LH ___ ___ RH \
+    )
+
+#include "base.keymap"

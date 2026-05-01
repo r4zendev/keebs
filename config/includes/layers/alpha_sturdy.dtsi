@@ -1,0 +1,82 @@
+/* Magic Sturdy — https://github.com/Ikcelaks/keyboard_layouts */
+
+ZMK_MACRO(ms_uen,    bindings = <&kp U &kp E &kp N>;)
+ZMK_MACRO(ms_the,    bindings = <&kp T &kp H &kp E>;)
+ZMK_MACRO(ms_efore, bindings = <&kp E &kp F &kp O &kp R &kp E>;)
+ZMK_MACRO(ms_oa,    bindings = <&kp O &kp A>;)
+ZMK_MACRO(ms_on,    bindings = <&kp O &kp N>;)
+ZMK_MACRO(ms_ust,   bindings = <&kp U &kp S &kp T>;)
+ZMK_MACRO(ms_ent,   bindings = <&kp E &kp N &kp T>;)
+ZMK_MACRO(ms_ion,   bindings = <&kp I &kp O &kp N>;)
+ZMK_MACRO(ms_ment,  bindings = <&kp M &kp E &kp N &kp T>;)
+ZMK_MACRO(ms_er,    bindings = <&kp E &kp R>;)
+ZMK_MACRO(ms_hich,  bindings = <&kp H &kp I &kp C &kp H>;)
+ZMK_MACRO(ms_es,    bindings = <&kp E &kp S>;)
+
+/* Repeat key overrides */
+ZMK_MACRO(ms_nd,     bindings = <&kp N &kp D>;)
+ZMK_MACRO(ms_ng,     bindings = <&kp N &kp G>;)
+ZMK_MACRO(ms_ou,     bindings = <&kp O &kp U>;)
+ZMK_MACRO(ms_ecause, bindings = <&kp E &kp C &kp A &kp U &kp S &kp E>;)
+ZMK_MACRO(ms_ould,   bindings = <&kp O &kp U &kp L &kp D>;)
+ZMK_MACRO(ms_r_and,  bindings = <&kp SPACE &kp A &kp N &kp D>;)
+ZMK_MACRO(ms_org,    bindings = <&kp O &kp R &kp G>;)
+ZMK_MACRO(ms_for,    bindings = <&kp F &kp O &kp R>;)
+
+ZMK_ADAPTIVE_KEY(sturdy_repeat, bindings = <&key_repeat>;
+    AK(rep_a, A, &ms_nd)
+    AK(rep_i, I, &ms_ng)
+    AK(rep_y, Y, &ms_ou)
+    AK(rep_n, N, &kp F)
+    AK(rep_b, B, &ms_ecause)
+    AK(rep_w, W, &ms_ould)
+    AK(rep_comma, COMMA, &ms_r_and)
+    AK(rep_dot, DOT, &ms_org)
+    AK(rep_spc, SPACE, &ms_for)
+)
+
+ZMK_HOLD_TAP(sturdy_num_repeat, bindings = <&mo>, <&sturdy_repeat>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+/* Magic key */
+ZMK_ADAPTIVE_KEY(alpha_magic_sturdy, bindings = <&key_repeat>;
+    AK(sturdy_ak_a, A, &kp O)
+    AK(sturdy_ak_b, B, &ms_efore)
+    AK(sturdy_ak_c, C, &kp Y)
+    AK(sturdy_ak_d, D, &kp Y)
+    AK(sturdy_ak_e, E, &kp U)
+    AK(sturdy_ak_g, G, &kp Y)
+    AK(sturdy_ak_h, H, &ms_oa)
+    AK(sturdy_ak_i, I, &ms_on)
+    AK(sturdy_ak_j, J, &ms_ust)
+    AK(sturdy_ak_k, K, &kp S)
+    AK(sturdy_ak_l, L, &kp K)
+    AK(sturdy_ak_m, M, &ms_ent)
+    AK(sturdy_ak_n, N, &ms_ion)
+    AK(sturdy_ak_o, O, &kp A)
+    AK(sturdy_ak_p, P, &kp Y)
+    AK(sturdy_ak_r, R, &kp L)
+    AK(sturdy_ak_s, S, &kp K)
+    AK(sturdy_ak_t, T, &ms_ment)
+    AK(sturdy_ak_u, U, &kp E)
+    AK(sturdy_ak_v, V, &ms_er)
+    AK(sturdy_ak_w, W, &ms_hich)
+    AK(sturdy_ak_x, X, &ms_es)
+    AK(sturdy_ak_y, Y, &kp P)
+    AK(sturdy_ak_z, Z, &kp Y)
+    AK(sturdy_ak_q, Q, &ms_uen)
+    AK(sturdy_ak_spc, SPACE, &ms_the)
+)
+
+ZMK_BASE_LAYER(Sturdy,
+//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+    &kp V      &kp M      &kp L      &kp C      &kp P      ,  &kp B      &alpha_magic_sturdy &kp U      &kp O      &kp Q ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   &hml LGUI S &hml LALT T &hml LCTRL R &hml LSHFT D &kp Y ,  &kp F    &hmr RSHFT N &hmr RCTRL E &hmr RALT A &hmr RGUI I ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+    &kp X      &kp K      &kp J      &kp G      &kp W      ,  &kp Z      &kp H      &comma_excl &dot_qmark &kp SEMI ,
+//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+            LH_NONE &lt LAYER_Nav BSPC  &thumb_spc LAYER_Symbol SPACE , THUMB_MAGIC  &sturdy_num_repeat LAYER_Num 0 RH_NONE
+//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+)

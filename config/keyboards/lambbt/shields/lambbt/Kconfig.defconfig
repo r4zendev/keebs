@@ -1,0 +1,6 @@
+if SHIELD_LAMBBT_LEFT || SHIELD_LAMBBT_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "LambBT"
+
+endif

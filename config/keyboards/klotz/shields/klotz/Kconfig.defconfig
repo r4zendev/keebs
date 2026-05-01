@@ -1,0 +1,16 @@
+if SHIELD_KLOTZ_LEFT || SHIELD_KLOTZ_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "KLOTZ"
+
+if ZMK_BACKLIGHT
+
+config PWM
+    default y
+
+config LED_PWM
+    default y
+
+endif # ZMK_BACKLIGHT
+
+endif

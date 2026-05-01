@@ -1,0 +1,26 @@
+name: Build KLOTZ
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  left:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      keyboard: klotz
+      board: nice_nano/nrf52840/zmk
+      shield: klotz_left
+  right:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      keyboard: klotz
+      board: nice_nano/nrf52840/zmk
+      shield: klotz_right
+  merge:
+    needs: [left, right]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact/merge@v4
+        with:
+          name: klotz
+          pattern: artifact-*
+          delete-merged: true

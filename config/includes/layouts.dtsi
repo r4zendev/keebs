@@ -1,0 +1,28 @@
+/* ── Layer indices ────────────────────────────────────────────────────── */
+
+#define LAYER_Graphite  0
+#define LAYER_Racket    1
+#define LAYER_Sturdy    2
+#define LAYER_Vestnik   3
+#define LAYER_Symbol    4
+#define LAYER_Nav       5
+#define LAYER_Num       6
+#define LAYER_NumMirror 7
+#define LAYER_Fn        8
+#define LAYER_Mouse     9
+#define LAYER_Magic     10
+
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_Sturdy LAYER_Vestnik
+#define CAPS_LAYERS  LAYER_Graphite LAYER_Racket LAYER_Sturdy LAYER_Vestnik
+
+/* ── Layout macros ───────────────────────────────────────────────────── */
+
+ZMK_MACRO(to_racket, bindings = <&to LAYER_Racket>;)
+ZMK_MACRO(to_sturdy, bindings = <&to LAYER_Sturdy>;)
+ZMK_MACRO(to_vestnik, bindings = <&to LAYER_Vestnik>;)
+
+/* ── System layer helpers ────────────────────────────────────────────── */
+
+#define SYS_SLOT1 &to_racket
+#define SYS_SLOT2 &to_sturdy
+#define SYS_SLOT3 &to_vestnik

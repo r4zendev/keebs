@@ -648,7 +648,7 @@ layers:
   - ''
   - ''
   - {type: held}
-  Racket:
+  Sturdy:
   - ''
   - ''
   - ''
@@ -672,35 +672,35 @@ layers:
   - ''
   - ''
   - ''
-  - F
-  - D
+  - V
+  - M
   - L
-  - W
-  - J
-  - Q
+  - C
+  - P
   - B
-  - O
+  - $$mdi:star-four-points$$
   - U
-  - {t: ',', s: '!'}
+  - O
+  - Q
   - ''
   - ''
   - {t: S, h: ❖}
   - {t: T, h: ⌥}
-  - {t: H, h: ⌃}
-  - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - {t: R, h: ⌃}
+  - {t: D, h: '$$mdi:arrow-up-bold$$'}
   - Y
-  - $$mdi:star-four-points$$
+  - F
   - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
+  - {t: E, h: ⌃}
+  - {t: A, h: ⌥}
   - {t: I, h: ❖}
   - ''
   - ''
   - X
   - K
-  - M
+  - J
   - G
-  - V
+  - W
   - ''
   - ''
   - ''
@@ -708,10 +708,10 @@ layers:
   - ''
   - ''
   - Z
-  - P
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
+  - H
+  - {t: ',', s: '!'}
   - {t: ., s: '?'}
+  - ;
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -719,10 +719,10 @@ layers:
   - ''
   - ''
   - {t: '$$mdi:backspace$$', h: Nav}
-  - {t: R, h: Symbol}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
   - ''
   - ''
-  - $$mdi:keyboard-space$$
+  - $$mdi:arrow-up-bold$$
   - {t: '$$mdi:repeat$$', h: Num}
   - ''
   - ''
@@ -810,7 +810,7 @@ layers:
   - ''
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
-  Night:
+  Racket:
   - ''
   - ''
   - ''
@@ -834,46 +834,46 @@ layers:
   - ''
   - ''
   - ''
-  - B
   - F
-  - L
   - D
+  - L
+  - W
+  - J
   - Q
-  - P
-  - G
+  - B
   - O
   - U
-  - {t: ., s: '?'}
+  - {t: ',', s: '!'}
   - ''
   - ''
-  - {t: N, h: ❖}
-  - {t: S, h: ⌥}
+  - {t: S, h: ❖}
+  - {t: T, h: ⌥}
   - {t: H, h: ⌃}
-  - {t: T, h: '$$mdi:arrow-up-bold$$'}
-  - M
-  - Y
   - {t: C, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - $$mdi:star-four-points$$
+  - {t: N, h: '$$mdi:arrow-up-bold$$'}
   - {t: A, h: ⌃}
   - {t: E, h: ⌥}
   - {t: I, h: ❖}
   - ''
   - ''
   - X
-  - V
-  - J
   - K
+  - M
+  - G
+  - V
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
   - Z
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
+  - P
   - {t: '''', s: '"'}
-  - W
-  - ;
-  - /
-  - {t: ',', s: '!'}
+  - {t: '-', s: /}
+  - {t: ., s: '?'}
   - ''
   - {t: '&rgb_ug_status_macro', h: Magic}
   - ''
@@ -894,19 +894,19 @@ layers:
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [47, 48]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [50, 49]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [49, 48]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [51, 50]
   k: Tmux
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [31, 32]
   k: Ё/'
   l: [Vestnik]
@@ -924,10 +924,10 @@ combos:
   l: [Vestnik]
 - p: [69, 74]
   k: System
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [70, 69]
   k: Mouse
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]
 - p: [73, 74]
   k: Fn
-  l: [Graphite, Racket, Vestnik, Night]
+  l: [Graphite, Racket, Sturdy, Vestnik]

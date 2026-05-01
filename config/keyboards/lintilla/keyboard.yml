@@ -1,0 +1,14 @@
+board: xiao_ble
+default_builds:
+  - left
+  - right
+builds:
+  left:
+    shield: lintilla_left_central rgbled_adapter
+    label: lintilla_left_central
+  right:
+    shield: lintilla_right_peripheral rgbled_adapter
+    label: lintilla_right_peripheral
+  left-peripheral:
+    shield: lintilla_left_peripheral rgbled_adapter
+    label: lintilla_left_peripheral

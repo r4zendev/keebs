@@ -1,0 +1,552 @@
+#!/usr/bin/env python3
+"""Generate the QMK YetiS layer/combo tables from the ZMK config."""
+
+from __future__ import annotations
+
+import argparse
+import re
+from pathlib import Path
+
+
+LAYER_FILES = [
+    "alpha_graphite.dtsi",
+    "alpha_racket.dtsi",
+    "alpha_sturdy.dtsi",
+    "alpha_vestnik.dtsi",
+    "symbol.dtsi",
+    "nav.dtsi",
+    "num.dtsi",
+    "fn.dtsi",
+    "mouse.dtsi",
+    "system.dtsi",
+]
+
+LAYER_ENUMS = {
+    "Graphite": "L_GRAPHITE",
+    "Racket": "L_RACKET",
+    "Sturdy": "L_STURDY",
+    "Vestnik": "L_VESTNIK",
+    "Symbol": "L_SYMBOL",
+    "Nav": "L_NAV",
+    "Num": "L_NUM",
+    "NumMirror": "L_NUM_MIRROR",
+    "Fn": "L_FN",
+    "Mouse": "L_MOUSE",
+    "System": "L_SYSTEM",
+    "Magic": "L_SYSTEM",
+}
+
+STANDALONE = {
+    "THUMB_MAGIC": "MAGIC",
+    "SYS_SLOT1": "TO(L_RACKET)",
+    "SYS_SLOT2": "TO(L_STURDY)",
+    "SYS_SLOT3": "TO(L_VESTNIK)",
+    "SYS_LIGHT_TOG": "RGB_TOG",
+    "SYS_LIGHT_DEC": "RGB_VAD",
+    "SYS_LIGHT_INC": "RGB_VAI",
+}
+
+POSITION_ENUMS = {
+    "LT1": "P_LT1",
+    "LT2": "P_LT2",
+    "LT3": "P_LT3",
+    "LT4": "P_LT4",
+    "RT0": "P_RT0",
+    "RT1": "P_RT1",
+    "RT2": "P_RT2",
+    "RT3": "P_RT3",
+    "LT0": "P_LT0",
+    "LM0": "P_LM0",
+    "LM1": "P_LM1",
+    "LM2": "P_LM2",
+    "LM3": "P_LM3",
+    "LM4": "P_LM4",
+    "RM0": "P_RM0",
+    "RM1": "P_RM1",
+    "RM2": "P_RM2",
+    "RM3": "P_RM3",
+    "RM4": "P_RM4",
+    "RT4": "P_RT4",
+    "LB0": "P_LB0",
+    "LB1": "P_LB1",
+    "LB2": "P_LB2",
+    "LB3": "P_LB3",
+    "LB4": "P_LB4",
+    "RB0": "P_RB0",
+    "RB1": "P_RB1",
+    "RB2": "P_RB2",
+    "RB3": "P_RB3",
+    "RB4": "P_RB4",
+    "LH1": "P_LH1",
+    "LH2": "P_LH2",
+    "RH1": "P_RH1",
+    "RH2": "P_RH2",
+}
+
+KEYS = {
+    "A": "KC_A",
+    "B": "KC_B",
+    "C": "KC_C",
+    "D": "KC_D",
+    "E": "KC_E",
+    "F": "KC_F",
+    "G": "KC_G",
+    "H": "KC_H",
+    "I": "KC_I",
+    "J": "KC_J",
+    "K": "KC_K",
+    "L": "KC_L",
+    "M": "KC_M",
+    "N": "KC_N",
+    "O": "KC_O",
+    "P": "KC_P",
+    "Q": "KC_Q",
+    "R": "KC_R",
+    "S": "KC_S",
+    "T": "KC_T",
+    "U": "KC_U",
+    "V": "KC_V",
+    "W": "KC_W",
+    "X": "KC_X",
+    "Y": "KC_Y",
+    "Z": "KC_Z",
+    "N0": "KC_0",
+    "N1": "KC_1",
+    "N2": "KC_2",
+    "N3": "KC_3",
+    "N4": "KC_4",
+    "N5": "KC_5",
+    "N6": "KC_6",
+    "N7": "KC_7",
+    "N8": "KC_8",
+    "N9": "KC_9",
+    "SPACE": "KC_SPC",
+    "RET": "KC_ENT",
+    "ESC": "KC_ESC",
+    "TAB": "KC_TAB",
+    "BSPC": "KC_BSPC",
+    "DEL": "KC_DEL",
+    "PG_UP": "KC_PGUP",
+    "PG_DN": "KC_PGDN",
+    "UP": "KC_UP",
+    "DOWN": "KC_DOWN",
+    "LEFT": "KC_LEFT",
+    "RIGHT": "KC_RGHT",
+    "HOME": "KC_HOME",
+    "END": "KC_END",
+    "LGUI": "KC_LGUI",
+    "LALT": "KC_LALT",
+    "LCTRL": "KC_LCTL",
+    "LSHFT": "KC_LSFT",
+    "RGUI": "KC_RGUI",
+    "RALT": "KC_RALT",
+    "RCTRL": "KC_RCTL",
+    "RSHFT": "KC_RSFT",
+    "F1": "KC_F1",
+    "F2": "KC_F2",
+    "F3": "KC_F3",
+    "F4": "KC_F4",
+    "F5": "KC_F5",
+    "F6": "KC_F6",
+    "F7": "KC_F7",
+    "F8": "KC_F8",
+    "F9": "KC_F9",
+    "F10": "KC_F10",
+    "F11": "KC_F11",
+    "F12": "KC_F12",
+    "COMMA": "KC_COMM",
+    "DOT": "KC_DOT",
+    "SEMI": "KC_SCLN",
+    "SQT": "KC_QUOT",
+    "MINUS": "KC_MINS",
+    "EQUAL": "KC_EQL",
+    "FSLH": "KC_SLSH",
+    "BSLH": "KC_BSLS",
+    "LBKT": "KC_LBRC",
+    "RBKT": "KC_RBRC",
+    "GRAVE": "KC_GRV",
+    "C_PREV": "KC_MPRV",
+    "C_PP": "KC_MPLY",
+    "C_NEXT": "KC_MNXT",
+    "C_MUTE": "KC_MUTE",
+    "_HOME": "KC_HOME_OS",
+    "_END": "KC_END_OS",
+    "_LOCK": "KC_LOCK_OS",
+    "_SHUTDOWN": "KC_SHUT_OS",
+    "_SLEEP": "KC_SLEP",
+    "_SCR_FULL": "KC_SCR_FULL_OS",
+    "_SCR_AREA": "KC_SCR_AREA_OS",
+    "_PASTE": "KC_PASTE_OS",
+}
+
+SHIFTED = {
+    "AMPS": "S(KC_7)",
+    "AT": "S(KC_2)",
+    "CARET": "S(KC_6)",
+    "COLON": "S(KC_SCLN)",
+    "DLLR": "S(KC_4)",
+    "DQT": "S(KC_QUOT)",
+    "EXCL": "S(KC_1)",
+    "GT": "S(KC_DOT)",
+    "HASH": "S(KC_3)",
+    "LBRC": "S(KC_LBRC)",
+    "LPAR": "S(KC_9)",
+    "LT": "S(KC_COMM)",
+    "PIPE": "S(KC_BSLS)",
+    "PLUS": "S(KC_EQL)",
+    "PRCNT": "S(KC_5)",
+    "QMARK": "S(KC_SLSH)",
+    "RBRC": "S(KC_RBRC)",
+    "RPAR": "S(KC_0)",
+    "STAR": "S(KC_8)",
+    "TILDE": "S(KC_GRV)",
+    "UNDER": "S(KC_MINS)",
+}
+
+MODS = {"LG": "G", "LC": "C", "LS": "S", "LA": "A", "RG": "G", "RC": "C", "RS": "S", "RA": "A"}
+HRM = {
+    ("hml", "LGUI"): "HMLG",
+    ("hml", "LALT"): "HMLA",
+    ("hml", "LCTRL"): "HMLC",
+    ("hml", "LSHFT"): "HMLS",
+    ("hmr", "RSHFT"): "HMRS",
+    ("hmr", "RCTRL"): "HMRC",
+    ("hmr", "RALT"): "HMRA",
+    ("hmr", "RGUI"): "HMRG",
+}
+
+
+def strip_comments(text: str) -> str:
+    return "\n".join(line.split("//", 1)[0] for line in text.splitlines())
+
+
+def macro_calls(text: str, macro: str) -> list[str]:
+    calls: list[str] = []
+    i = 0
+    needle = f"{macro}("
+    while True:
+        start = text.find(needle, i)
+        if start == -1:
+            return calls
+        pos = start + len(needle)
+        depth = 1
+        while pos < len(text) and depth:
+            if text[pos] == "(":
+                depth += 1
+            elif text[pos] == ")":
+                depth -= 1
+            pos += 1
+        calls.append(text[start + len(needle) : pos - 1])
+        i = pos
+
+
+def split_args(s: str) -> list[str]:
+    args: list[str] = []
+    depth = 0
+    start = 0
+    for i, ch in enumerate(s):
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        elif ch == "," and depth == 0:
+            args.append(s[start:i].strip())
+            start = i + 1
+    args.append(s[start:].strip())
+    return args
+
+
+def layer_const(name: str) -> str:
+    if name not in LAYER_ENUMS:
+        raise ValueError(f"Unknown layer {name!r}")
+    return LAYER_ENUMS[name]
+
+
+def qmk_key(token: str) -> str:
+    token = token.strip()
+    match = re.fullmatch(r"([A-Z][A-Z])\((.*)\)", token)
+    if match and match.group(1) in MODS:
+        return f"{MODS[match.group(1)]}({qmk_key(match.group(2))})"
+    if token in SHIFTED:
+        return SHIFTED[token]
+    if token in KEYS:
+        return KEYS[token]
+    raise ValueError(f"Unknown key token {token!r}")
+
+
+def qmk_layer(token: str) -> str:
+    if not token.startswith("LAYER_"):
+        raise ValueError(f"Unknown layer token {token!r}")
+    return layer_const(token.removeprefix("LAYER_"))
+
+
+def convert_binding(name: str, args: list[str]) -> str:
+    if name == "none":
+        return "KC_NO"
+    if name == "trans":
+        return "KC_TRNS"
+    if name == "kp":
+        return qmk_key(args[0])
+    if name in {"hml", "hmr"}:
+        return f"{HRM[(name, args[0])]}({qmk_key(args[1])})"
+    if name == "lt":
+        return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
+    if name == "sl":
+        return f"OSL({qmk_layer(args[0])})"
+    if name == "mo":
+        return f"MO({qmk_layer(args[0])})"
+    if name == "nav_ht":
+        return "NAV_ESC"
+    if name == "nav_repeat":
+        return "NUM_0"
+    if name == "mouse_ht":
+        return "MOUSE_T"
+    if name == "thumb_bspc":
+        return "LSFT_T(KC_BSPC)"
+    if name == "thumb_spc":
+        return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
+    if name == "thumb_r":
+        return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
+    if name == "sturdy_num_repeat":
+        return "NUM_0"
+    if name == "alpha_magic_racket_1":
+        return "RACKET_MAGIC"
+    if name == "alpha_magic_sturdy":
+        return "STURDY_MAGIC"
+    if name == "sturdy_repeat":
+        return "STURDY_REPEAT"
+    if name == "key_repeat":
+        return "MAGIC"
+    if name == "comma_excl":
+        return "COM_EX"
+    if name == "dot_qmark":
+        return "DOT_Q"
+    if name == "minus_slash":
+        return "MNS_SLSH"
+    if name == "sqt_dqt":
+        return "SQT_DQT"
+    if name == "undo_redo":
+        return "UNDO_REDO"
+    if name == "paste_morph":
+        return "PASTE_M"
+    if name == "copy_cut":
+        return "COPY_CUT"
+    if name == "bspc_del":
+        return "BSPC_DEL"
+    if name == "esc_tab":
+        return "ESC_TAB"
+    if name == "v_comma_excl":
+        return "V_COM_EX"
+    if name == "v_dot_qmark":
+        return "V_DOT_Q"
+    if name == "lang_en":
+        return "LANG_EN"
+    if name == "lang_ru":
+        return "LANG_RU"
+    if name == "to_graphite":
+        return "TO(L_GRAPHITE)"
+    if name == "to_racket":
+        return "TO(L_RACKET)"
+    if name == "to_sturdy":
+        return "TO(L_STURDY)"
+    if name == "to_vestnik":
+        return "TO(L_VESTNIK)"
+    if name == "to":
+        return f"TO({qmk_layer(args[0])})"
+    if name == "bootloader":
+        return "QK_BOOT"
+    if name == "sys_reset":
+        return "QK_REBOOT"
+    if name == "soft_off":
+        return "KC_PWR"
+    if name == "out":
+        return "RGB_TOG" if args and args[0] == "OUT_TOG" else "KC_NO"
+    if name == "bt":
+        return "KC_NO"
+    if name in {"bt_0", "bt_1", "bt_2", "bt_3"}:
+        return "KC_NO"
+    if name == "mmv":
+        return {"MOVE_UP": "MS_UP", "MOVE_DOWN": "MS_DOWN", "MOVE_LEFT": "MS_LEFT", "MOVE_RIGHT": "MS_RGHT"}[args[0]]
+    if name == "msc":
+        return {"SCRL_UP": "MS_WHLU", "SCRL_DOWN": "MS_WHLD", "SCRL_LEFT": "MS_WHLL", "SCRL_RIGHT": "MS_WHLR"}[args[0]]
+    if name == "mkp":
+        return {"LCLK": "MS_BTN1", "RCLK": "MS_BTN2", "MCLK": "MS_BTN3", "MB4": "MS_BTN4", "MB5": "MS_BTN5"}[args[0]]
+    raise ValueError(f"Unsupported ZMK behavior &{name} {' '.join(args)}")
+
+
+def parse_binding_list(s: str) -> list[str]:
+    bindings: list[str] = []
+    tokens = s.replace("\n", " ").split()
+    i = 0
+    while i < len(tokens):
+        token = tokens[i]
+        if token in {"LH_NONE", "RH_NONE"}:
+            i += 1
+            continue
+        if token in STANDALONE:
+            bindings.append(STANDALONE[token])
+            i += 1
+            continue
+        if not token.startswith("&"):
+            raise ValueError(f"Unexpected token {token!r} in {s!r}")
+        name = token[1:]
+        i += 1
+        args: list[str] = []
+        while i < len(tokens) and not tokens[i].startswith("&") and tokens[i] not in STANDALONE:
+            if tokens[i] not in {"LH_NONE", "RH_NONE"}:
+                args.append(tokens[i])
+            i += 1
+        bindings.append(convert_binding(name, args))
+    return bindings
+
+
+def parse_layers(repo: Path) -> list[tuple[str, list[str]]]:
+    layers: list[tuple[str, list[str]]] = []
+    layer_dir = repo / "config" / "includes" / "layers"
+    for filename in LAYER_FILES:
+        text = strip_comments((layer_dir / filename).read_text())
+        for call in macro_calls(text, "ZMK_BASE_LAYER"):
+            args = split_args(call)
+            name = args[0]
+            cells: list[str] = []
+            for section in args[1:]:
+                cells.extend(parse_binding_list(section))
+            if len(cells) != 34:
+                raise ValueError(f"Layer {name} produced {len(cells)} keys, expected 34")
+            layers.append((name, cells))
+    return layers
+
+
+def combo_action(action: str) -> tuple[str, str | None]:
+    bits = action.split()
+    if bits[0] == "&caps_morph":
+        return "handle_caps_combo();", None
+    if bits[0] == "&undo_redo":
+        return "tap_morph(C(KC_Z), C(S(KC_Z)));", None
+    if bits[0] == "&paste_morph":
+        return "tap_morph(KC_PASTE_OS, C(KC_V));", None
+    if bits[0] == "&copy_cut":
+        return "tap_morph(C(KC_C), C(KC_X));", None
+    if bits[0] == "&kp":
+        return f"tap_code16({qmk_key(bits[1])});", None
+    if bits[0] == "&v_comma_excl":
+        return "tap_morph(S(KC_SLSH), S(KC_1));", None
+    if bits[0] == "&v_dot_qmark":
+        return "tap_morph(KC_SLSH, S(KC_7));", None
+    if bits[0] == "&sl":
+        layer = qmk_layer(bits[1])
+        return f"layer_on({layer});", f"layer_off({layer});"
+    if bits[0] == "&mouse_ht":
+        return "layer_on(L_MOUSE);", "layer_off(L_MOUSE);"
+    raise ValueError(f"Unsupported combo action {action!r}")
+
+
+def combo_layer_check(layers: str) -> str:
+    if layers in {"ALPHA_LAYERS", "CAPS_LAYERS"}:
+        names = ["L_GRAPHITE", "L_RACKET", "L_STURDY", "L_VESTNIK"]
+    elif layers.startswith("LAYER_"):
+        names = [qmk_layer(layers)]
+    else:
+        names = [qmk_layer(layer) for layer in layers.split()]
+    return " || ".join(f"layer_state_is({name})" for name in names)
+
+
+def parse_combos(repo: Path) -> list[dict[str, object]]:
+    text = strip_comments((repo / "config" / "includes" / "combos.dtsi").read_text())
+    combos: list[dict[str, object]] = []
+    for call in macro_calls(text, "ZMK_COMBO"):
+        args = split_args(call)
+        if len(args) != 6:
+            raise ValueError(f"Unexpected combo args: {args!r}")
+        name, action, positions, layers, _term, _idle = args
+        pressed, released = combo_action(action)
+        combos.append(
+            {
+                "name": name,
+                "enum": "CB_" + re.sub(r"[^A-Za-z0-9]+", "_", name).upper(),
+                "array": "combo_" + re.sub(r"[^A-Za-z0-9]+", "_", name).lower(),
+                "positions": [POSITION_ENUMS[p] for p in positions.split()],
+                "pressed": pressed,
+                "released": released,
+                "layer_check": combo_layer_check(layers),
+            }
+        )
+    return combos
+
+
+def emit_layers(layers: list[tuple[str, list[str]]]) -> str:
+    out = ["const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {"]
+    for name, cells in layers:
+        out.append(f"    [{layer_const(name)}] = RAZEN_LAYOUT(")
+        for idx in range(0, len(cells), 10):
+            chunk = cells[idx : idx + 10]
+            comma = "," if idx + 10 < len(cells) else ""
+            out.append("        " + ", ".join(f"{cell:<16}" for cell in chunk) + comma)
+        out.append("    ),")
+        out.append("")
+    out.append("};")
+    return "\n".join(out)
+
+
+def emit_combos(combos: list[dict[str, object]]) -> str:
+    out = ["enum combo_events {"]
+    for combo in combos:
+        out.append(f"    {combo['enum']},")
+    out.append("};")
+    out.append("")
+    for combo in combos:
+        positions = ", ".join(combo["positions"])  # type: ignore[arg-type]
+        out.append(f"const uint16_t PROGMEM {combo['array']}[] = {{{positions}, COMBO_END}};")
+    out.append("")
+    out.append("combo_t key_combos[] = {")
+    for combo in combos:
+        out.append(f"    [{combo['enum']}] = COMBO_ACTION({combo['array']}),")
+    out.append("};")
+    out.append("")
+    out.append("bool process_generated_combo_event(uint16_t combo_index, bool pressed) {")
+    out.append("    if (!pressed) {")
+    out.append("        switch (combo_index) {")
+    for combo in combos:
+        if combo["released"]:
+            out.append(f"            case {combo['enum']}: {combo['released']} return false;")
+    out.append("        }")
+    out.append("        return true;")
+    out.append("    }")
+    out.append("")
+    out.append("    switch (combo_index) {")
+    for combo in combos:
+        out.append(f"        case {combo['enum']}: {combo['pressed']} return false;")
+    out.append("    }")
+    out.append("    return true;")
+    out.append("}")
+    out.append("")
+    out.append("bool generated_combo_should_trigger(uint16_t combo_index) {")
+    out.append("    switch (combo_index) {")
+    for combo in combos:
+        out.append(f"        case {combo['enum']}: return {combo['layer_check']};")
+    out.append("    }")
+    out.append("    return true;")
+    out.append("}")
+    return "\n".join(out)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--repo", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    args = parser.parse_args()
+
+    layers = parse_layers(args.repo)
+    combos = parse_combos(args.repo)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(
+        "/* Generated by qmk/scripts/generate_yetis_keymap.py. Do not edit. */\n\n"
+        + emit_layers(layers)
+        + "\n\n"
+        + emit_combos(combos)
+        + "\n"
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -12,6 +12,10 @@ on:
       shield:
         required: false
         type: string
+      snippets:
+        required: false
+        type: string
+        default: ""
 
 jobs:
   build:
@@ -25,7 +29,8 @@ jobs:
       - name: Set artifact name
         run: |
           if [ -n "${{ inputs.shield }}" ]; then
-            echo "artifact=${{ inputs.shield }}-${board_safe}" >> $GITHUB_ENV
+            shield_safe="$(echo '${{ inputs.shield }}' | awk '{print $1}')"
+            echo "artifact=${shield_safe}-${board_safe}" >> $GITHUB_ENV
           else
             echo "artifact=${board_safe}" >> $GITHUB_ENV
           fi
@@ -36,7 +41,7 @@ jobs:
 
           # Symlink keyboard-specific files into config/
           for f in "$kb_dir"/*; do
-            [ -e "$f" ] && [ "$(basename "$f")" != "shields" ] && ln -sf "$(realpath "$f")" config/
+            [ -e "$f" ] && [ "$(basename "$f")" != "shields" ] && [ "$(basename "$f")" != "${{ inputs.keyboard }}.conf" ] && ln -sf "$(realpath "$f")" config/
           done
 
           # Custom shield definitions
@@ -45,8 +50,10 @@ jobs:
             ln -sf "$(realpath "$kb_dir/shields")" config/boards/shields
           fi
 
-          # Default conf if no keyboard-specific one exists
-          if [ ! -f "$kb_dir/${{ inputs.keyboard }}.conf" ] && [ -f config/default.conf ]; then
+          # Merge shared and keyboard-specific Kconfig like build.sh.
+          if [ -f "$kb_dir/${{ inputs.keyboard }}.conf" ]; then
+            { [ -f config/default.conf ] && cat config/default.conf; cat "$kb_dir/${{ inputs.keyboard }}.conf"; } > "config/${{ inputs.keyboard }}.conf"
+          elif [ -f config/default.conf ]; then
             ln -sf "$(realpath config/default.conf)" "config/${{ inputs.keyboard }}.conf"
           fi
 
@@ -67,6 +74,13 @@ jobs:
           key: west-${{ env.manifest }}-${{ hashFiles(format('config/{0}', env.manifest)) }}
       - run: west init -l config --mf ${{ env.manifest }}
       - run: west update
+      - name: Install Python extras
+        if: inputs.snippets != ''
+        run: |
+          python3 - <<'PY' || python3 -m pip install -q protobuf grpcio-tools
+          import google.protobuf
+          import grpc_tools.protoc
+          PY
       - name: Apply patches
         run: |
           kb_dir="config/keyboards/${{ inputs.keyboard }}"
@@ -78,10 +92,19 @@ jobs:
             done
           fi
       - run: west zephyr-export
-      - run: >
-          west build -s zmk/app -b ${{ inputs.board }} --
-          ${{ inputs.shield && format('-DSHIELD={0}', inputs.shield) || '' }}
-          -DZMK_CONFIG=$PWD/config
+      - name: Build
+        run: |
+          snippet_args=""
+          for snippet in ${{ inputs.snippets }}; do
+            snippet_args="$snippet_args -S $snippet"
+          done
+          shield_arg=""
+          if [ -n "${{ inputs.shield }}" ]; then
+            shield_arg="-DSHIELD=${{ inputs.shield }}"
+          fi
+          west build -s zmk/app -b ${{ inputs.board }} $snippet_args -- \
+            ${shield_arg:+"$shield_arg"} \
+            -DZMK_CONFIG=$PWD/config
       - run: mkdir -p artifacts && cp build/zephyr/zmk.uf2 artifacts/${{ env.artifact }}.uf2
       - uses: actions/upload-artifact@v4
         with:

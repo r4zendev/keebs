@@ -41,23 +41,8 @@ ZMK_HOLD_TAP(thumb_magic_1, bindings = <&kp>, <&thumb_magic_1_tap>;
              flavor = "balanced"; tapping-term-ms = <200>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
+ZMK_HOLD_TAP(num_repeat, bindings = <&mo>, <&key_repeat>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
 #define THUMB_MAGIC &thumb_magic_1 LSHFT 0
-
-/* ── Alpha magic (per-layout adaptive keys) ──────────────────────────── */
-
-ZMK_ADAPTIVE_KEY(alpha_magic_racket_1, bindings = <&key_repeat>;
-    AK(racket_ak_f, F, &kp T)
-    AK(racket_ak_s, S, &kp K)
-    AK(racket_ak_k, K, &kp S)
-    AK(racket_ak_l, L, &kp K)
-
-    AK(racket_ak_u, U, &kp E)
-    AK(racket_ak_e, E, &kp U)
-    AK(racket_ak_o, O, &kp A)
-
-    AK(racket_ak_c, C, &kp Y)
-    AK(racket_ak_y, Y, &kp W)
-    AK(racket_ak_g, G, &kp Y)
-
-    AK(racket_ak_h, H, &kp M)
-)

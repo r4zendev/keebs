@@ -8,12 +8,11 @@
  */
 
 #include "includes/defines.dtsi"
+#include "includes/layouts.dtsi"
 #include "includes/macros.dtsi"
 #include "includes/behaviors.dtsi"
 #include "includes/thumbs.dtsi"
 #include "includes/combos.dtsi"
-
-/* ── Default base-layer macro (boards can override before this file) ── */
 
 #ifndef ZMK_BASE_LAYER
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
@@ -24,8 +23,8 @@
 
 #include "includes/layers/alpha_graphite.dtsi"
 #include "includes/layers/alpha_racket.dtsi"
+#include "includes/layers/alpha_sturdy.dtsi"
 #include "includes/layers/alpha_vestnik.dtsi"
-#include "includes/layers/alpha_night.dtsi"
 
 /* ── Utility layers ──────────────────────────────────────────────────── */
 
@@ -35,7 +34,7 @@
 #include "includes/layers/fn.dtsi"
 #include "includes/layers/mouse.dtsi"
 
-/* ── System layer (boards can skip with #define SKIP_SYSTEM_LAYER) ─── */
+/* ── System layer ────────────────────────────────────────────────────── */
 
 #ifndef SKIP_SYSTEM_LAYER
 #include "includes/layers/system.dtsi"

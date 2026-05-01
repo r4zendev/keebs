@@ -1,0 +1,6 @@
+if SHIELD_ANSIC_LEFT || SHIELD_ANSIC_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "ANSIC"
+
+endif

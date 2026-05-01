@@ -1,0 +1,12 @@
+file_format: "2"
+id: ansic
+name: ANSIC
+type: shield
+url: https://github.com/yuburoll/ANSIC
+requires:
+  - pro_micro
+features:
+  - keys
+siblings:
+  - ansic_left
+  - ansic_right

@@ -1,0 +1,26 @@
+name: Build Lintilla
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  left:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      keyboard: lintilla
+      board: xiao_ble
+      shield: lintilla_left_central rgbled_adapter
+  right:
+    uses: ./.github/workflows/base.build.yml
+    with:
+      keyboard: lintilla
+      board: xiao_ble
+      shield: lintilla_right_peripheral rgbled_adapter
+  merge:
+    needs: [left, right]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/upload-artifact/merge@v4
+        with:
+          name: lintilla
+          pattern: artifact-*
+          delete-merged: true

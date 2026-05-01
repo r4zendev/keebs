@@ -1,0 +1,8 @@
+config SHIELD_LAMBBT_LEFT
+    def_bool $(shields_list_contains,lambbt_left)
+    select ZMK_SPLIT
+    select ZMK_SPLIT_ROLE_CENTRAL
+
+config SHIELD_LAMBBT_RIGHT
+    def_bool $(shields_list_contains,lambbt_right)
+    select ZMK_SPLIT

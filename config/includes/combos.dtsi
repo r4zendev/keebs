@@ -1,4 +1,4 @@
-ZMK_COMBO(caps,         &caps_morph,       LT2 RT2, LAYER_Graphite LAYER_Vestnik LAYER_Night, COMBO_TERM, COMBO_IDLE)
+ZMK_COMBO(caps,         &caps_morph,       LT2 RT2, CAPS_LAYERS, COMBO_TERM, COMBO_IDLE)
 
 ZMK_COMBO(undo_redo,    &undo_redo,        LB4 LB3, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)
 ZMK_COMBO(qm_paste,     &paste_morph,      LB1 LB2, ALPHA_LAYERS,   COMBO_TERM, COMBO_IDLE)

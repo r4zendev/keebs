@@ -1,0 +1,13 @@
+file_format: "2"
+id: wysteria
+name: Wysteria
+type: shield
+url: https://github.com/j-w-e/wysteria
+requires:
+  - pro_micro
+features:
+  - keys
+  - encoder
+siblings:
+  - wysteria_left
+  - wysteria_right

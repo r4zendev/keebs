@@ -1,0 +1,6 @@
+if SHIELD_WYSTERIA_LEFT || SHIELD_WYSTERIA_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Wysteria"
+
+endif

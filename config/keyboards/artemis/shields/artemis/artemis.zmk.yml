@@ -1,0 +1,11 @@
+file_format: "1"
+id: artemis
+name: Artemis
+type: shield
+url: https://github.com/mindhatch/keyboards
+requires: [pro_micro]
+features:
+  - keys
+siblings:
+  - artemis_left
+  - artemis_right

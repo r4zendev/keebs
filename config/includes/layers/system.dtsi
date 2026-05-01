@@ -1,6 +1,18 @@
+#ifndef SYS_LIGHT_TOG
+#define SYS_LIGHT_TOG &none
+#endif
+
+#ifndef SYS_LIGHT_DEC
+#define SYS_LIGHT_DEC &none
+#endif
+
+#ifndef SYS_LIGHT_INC
+#define SYS_LIGHT_INC &none
+#endif
+
 ZMK_BASE_LAYER(System,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &bootloader &to_graphite &to_racket &to_night &none      , &none      &none      &none      &none      &bootloader ,
+    &bootloader &to_graphite SYS_SLOT1  SYS_SLOT2  SYS_SLOT3 ,  SYS_LIGHT_TOG SYS_LIGHT_DEC SYS_LIGHT_INC &none      &bootloader ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &bt BT_CLR &bt_0      &bt_1      &bt_2      &bt_3      ,  &soft_off  &kp _LOCK  &kp _SHUTDOWN &kp _SLEEP &out OUT_TOG ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
