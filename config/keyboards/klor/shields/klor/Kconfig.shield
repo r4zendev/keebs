@@ -1,5 +1,8 @@
 config SHIELD_KLOR_LEFT
     def_bool $(shields_list_contains,klor_left)
+    select ZMK_SPLIT
+    select ZMK_SPLIT_ROLE_CENTRAL
 
 config SHIELD_KLOR_RIGHT
     def_bool $(shields_list_contains,klor_right)
+    select ZMK_SPLIT
