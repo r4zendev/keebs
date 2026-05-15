@@ -43,6 +43,7 @@ config/
   base.keymap              shared layers, behaviors, combos
   default.conf             default ZMK Kconfig
   default.west.yml         default west manifest
+  includes/features.dtsi   shared feature flags and opt-outs
   includes/                shared layer/behavior/thumb/combo snippets
   keyboards/<board>/       board-specific conf/keymap/keyboard.yml/shields
 draw/
@@ -51,7 +52,8 @@ draw/
   <board>.svg              rendered layout preview
 qmk/
   keyboards/               local QMK board and keymap overlays
-  scripts/                 generator from ZMK layout files to QMK tables
+  scripts/generate_keymap.py internal generator from preprocessed ZMK snippets to QMK tables
+scripts/generate           shared generation/check entry point
 build.sh                   ZMK workspace/build entry point
 qmk-build.sh               QMK checkout/keymap/link/build entry point
 Makefile                   common shortcuts
@@ -91,6 +93,41 @@ make clean                 # remove build outputs and draw cache
 ```
 
 If you change a board's `.west.yml`, rerun that board's `setup` command so `west update` picks up the new modules.
+
+## Editing Layouts
+
+The editable source of truth is intentionally small:
+
+- `config/includes/layers/*.dtsi` for layer contents
+- `config/includes/combos.dtsi` for combos
+- `config/includes/features.dtsi` for shared feature flags and opt-outs
+- `config/includes/behaviors.dtsi` and `config/includes/thumbs.dtsi` for reusable behavior definitions
+
+Normal builds run generation/checks automatically. Use `./scripts/generate check` only when you want a quick validation without building firmware.
+
+Graphite adaptive bigram swaps live next to the Graphite layer in `config/includes/layers/alpha_graphite.dtsi`. To disable them everywhere, set this in `config/includes/features.dtsi`:
+
+```c
+#define GRAPHITE_BIGRAM_SWAPS 0
+```
+
+To change the window:
+
+```c
+#define GRAPHITE_BIGRAM_TIMEOUT_MS 750
+```
+
+## nRF52 BLE stability
+
+nRF52 wireless builds automatically append `config/nrf52_ble_stability.conf`.
+That profile uses the calibrated internal LFRC clock instead of trusting the
+controller board's external 32 kHz crystal, and raises BLE TX power to +8 dBm.
+This is intentional for nRF52840 controllers that otherwise reconnect poorly or
+drop under normal use.
+
+After changing BLE clock or bond settings, flash `settings_reset.uf2` to both
+halves, then flash the normal left/right UF2s and pair from a freshly removed
+host bond.
 
 ## Wysteria
 
@@ -142,14 +179,15 @@ To flash RP2040:
 
 Double-tapping reset may also enter the bootloader after QMK has been flashed once. Shorting `RST` to `GND` only resets the controller; use `BOOTSEL` for the reliable first flash.
 
-Edit the normal ZMK files for layout changes:
+Edit the normal shared files for layout changes:
 
 - `config/includes/layers/*.dtsi`
 - `config/includes/combos.dtsi`
+- `config/includes/features.dtsi`
 
-`make yetis` regenerates `.cache/qmk/yetis/razen/generated_keymap.inc` from those files and copies it into the QMK checkout for compilation. The same generator also feeds the repo-local QMK keymaps for Wysteria and KLOR. The QMK files under `qmk/keyboards/*/keymaps/razen/` are compatibility glue for QMK-only behavior, thumb-wrapper differences, OLED/RGB feature flags, and board-specific tuning.
+`make yetis`, `make wysteria-wired`, and `make klor-wired` regenerate `.cache/qmk/.../generated_keymap.inc` from the preprocessed shared `.dtsi` files and copy it into the QMK checkout for compilation. The QMK files under `qmk/keyboards/*/keymaps/razen/` are compatibility glue for QMK-only behavior, thumb-wrapper differences, OLED/RGB feature flags, and board-specific tuning.
 
-Do not edit `.cache/qmk/.../generated_keymap.inc` or the copied keymap inside `.qmk/qmk_firmware`; both are generated scratch output. If a normal layer/combo edit does not show up in QMK, fix the generator mapping in `qmk/scripts/generate_yetis_keymap.py`. If you add a new custom ZMK behavior, add its QMK translation there instead of hand-editing the generated QMK table.
+Do not edit `.cache/qmk/.../generated_keymap.inc` or the copied keymap inside `.qmk/qmk_firmware`; both are generated scratch output. If a normal layer/combo edit does not show up in QMK, run `./scripts/generate check` first. If you add a new custom ZMK behavior, add its QMK translation in the generator instead of hand-editing the generated QMK table.
 
 Useful overrides:
 

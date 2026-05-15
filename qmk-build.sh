@@ -329,18 +329,15 @@ PY
 }
 
 generate_keymap() {
-    if [[ -f "$KEYMAP_SRC/generated_keymap.inc" ]]; then
-        return
-    fi
-
     if [[ "$KEYMAP" != "razen" ]]; then
+        if [[ -f "$KEYMAP_SRC/generated_keymap.inc" ]]; then
+            return
+        fi
         return
     fi
 
     if [[ "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" ) ]]; then
-        python3 "$REPO_ROOT/qmk/scripts/generate_yetis_keymap.py" \
-            --repo "$REPO_ROOT" \
-            --out "$GENERATED_KEYMAP"
+        "$REPO_ROOT/scripts/generate" qmk "$GENERATED_KEYMAP"
     else
         echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
         exit 1

@@ -121,9 +121,10 @@ static void tap_without_shift(uint16_t keycode);
 static void tap_morph(uint16_t normal, uint16_t shifted);
 static void handle_caps_combo(void);
 
-#include "generated_keymap.inc"
-
 static uint16_t last_basic_keycode = KC_NO;
+static uint32_t last_basic_key_timer = 0;
+
+#include "generated_keymap.inc"
 
 static bool shift_active(void) {
     return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
@@ -237,10 +238,15 @@ static void remember_basic_key(uint16_t keycode, keyrecord_t *record) {
     const uint16_t basic = keycode & 0xFF;
     if ((basic >= KC_A && basic <= KC_Z) || basic == KC_SPC || basic == KC_COMM || basic == KC_DOT) {
         last_basic_keycode = basic;
+        last_basic_key_timer = timer_read32();
     }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_generated_adaptive_key(keycode, record)) {
+        return false;
+    }
+
     if (!record->event.pressed) {
         return true;
     }

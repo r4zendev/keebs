@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+usage() {
+    cat <<EOF
+Usage: $0 [check|qmk|all] [output]
+
+Commands:
+  check        Validate that shared layers/features can be generated
+  qmk [out]    Generate a QMK generated_keymap.inc
+  all          Generate repo-local cached artifacts
+
+Normal builds call this automatically.
+EOF
+}
+
+generate_qmk() {
+    local out="${1:-}"
+    if [[ -z "$out" ]]; then
+        local keyboard="${QMK_KEYBOARD:-yetis}"
+        local keymap="${QMK_KEYMAP:-razen}"
+        out="$REPO_ROOT/.cache/qmk/$keyboard/$keymap/generated_keymap.inc"
+    fi
+
+    python3 "$REPO_ROOT/qmk/scripts/generate_keymap.py" \
+        --repo "$REPO_ROOT" \
+        --out "$out"
+}
+
+cmd="${1:-all}"
+case "$cmd" in
+    check)
+        tmp="$(mktemp)"
+        trap 'rm -f "$tmp"' EXIT
+        generate_qmk "$tmp"
+        ;;
+    qmk)
+        generate_qmk "${2:-}"
+        ;;
+    all)
+        for keyboard in yetis wysteria klor; do
+            QMK_KEYBOARD="$keyboard" generate_qmk "$REPO_ROOT/.cache/qmk/$keyboard/razen/generated_keymap.inc"
+        done
+        ;;
+    -h|--help|help)
+        usage
+        ;;
+    *)
+        usage >&2
+        exit 1
+        ;;
+esac

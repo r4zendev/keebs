@@ -1,0 +1,13 @@
+/* Shared feature flags.
+ *
+ * Edit this file to toggle behavior that should apply to both ZMK and QMK
+ * generation. Layers remain in includes/layers/*.dtsi.
+ */
+
+#ifndef GRAPHITE_BIGRAM_SWAPS
+#define GRAPHITE_BIGRAM_SWAPS 1
+#endif
+
+#ifndef GRAPHITE_BIGRAM_TIMEOUT_MS
+#define GRAPHITE_BIGRAM_TIMEOUT_MS 1000
+#endif

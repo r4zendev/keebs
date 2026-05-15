@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate the QMK YetiS layer/combo tables from the ZMK config."""
+"""Generate shared QMK layer/combo tables from the ZMK config."""
 
 from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 from pathlib import Path
 
 
@@ -215,9 +216,45 @@ HRM = {
     ("hmr", "RGUI"): "HMRG",
 }
 
+GRAPHITE_HRM = {
+    "graphite_hml_n": ("HMLG", "KC_N"),
+    "graphite_hml_r": ("HMLA", "KC_R"),
+}
+GRAPHITE_ADAPTIVE_QMK_KEYCODE = {
+    "graphite_bigram_n": "HMLG(KC_N)",
+    "graphite_bigram_r": "HMLA(KC_R)",
+}
+
+
+def qmk_basic_keycode(token: str) -> str:
+    keycode = qmk_key(token)
+    if not keycode.startswith("KC_"):
+        raise ValueError(f"Expected a basic key token, got {token!r}")
+    return keycode
+
 
 def strip_comments(text: str) -> str:
     return "\n".join(line.split("//", 1)[0] for line in text.splitlines())
+
+
+def preprocess_dtsi(repo: Path, path: Path) -> str:
+    text = path.read_text().replace("#binding-cells", "binding-cells")
+    cmd = [
+        "cpp",
+        "-E",
+        "-P",
+        "-x",
+        "c",
+        "-I",
+        str(repo / "config"),
+        "-include",
+        str(repo / "config" / "includes" / "features.dtsi"),
+        "-",
+    ]
+    result = subprocess.run(cmd, input=text, text=True, capture_output=True, check=False)
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to preprocess {path}:\n{result.stderr}")
+    return result.stdout
 
 
 def macro_calls(text: str, macro: str) -> list[str]:
@@ -289,6 +326,11 @@ def convert_binding(name: str, args: list[str]) -> str:
         return qmk_key(args[0])
     if name in {"hml", "hmr"}:
         return f"{HRM[(name, args[0])]}({qmk_key(args[1])})"
+    if name.startswith("graphite_bigram_") and len(name) == len("graphite_bigram_x"):
+        return qmk_key(name.removeprefix("graphite_bigram_").upper())
+    if name in GRAPHITE_HRM:
+        hrm, tap = GRAPHITE_HRM[name]
+        return f"{hrm}({tap})"
     if name == "lt":
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
     if name == "sl":
@@ -404,7 +446,7 @@ def parse_layers(repo: Path) -> list[tuple[str, list[str]]]:
     layers: list[tuple[str, list[str]]] = []
     layer_dir = repo / "config" / "includes" / "layers"
     for filename in LAYER_FILES:
-        text = strip_comments((layer_dir / filename).read_text())
+        text = strip_comments(preprocess_dtsi(repo, layer_dir / filename))
         for call in macro_calls(text, "ZMK_BASE_LAYER"):
             args = split_args(call)
             name = args[0]
@@ -415,6 +457,55 @@ def parse_layers(repo: Path) -> list[tuple[str, list[str]]]:
                 raise ValueError(f"Layer {name} produced {len(cells)} keys, expected 34")
             layers.append((name, cells))
     return layers
+
+
+def parse_graphite_adaptive_keys(repo: Path) -> list[dict[str, object]]:
+    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "layers" / "alpha_graphite.dtsi"))
+    adaptive_keys: list[dict[str, object]] = []
+
+    for call in macro_calls(text, "ZMK_ADAPTIVE_KEY"):
+        args = split_args(call)
+        if len(args) != 2:
+            continue
+        name = args[0].strip()
+        if not name.startswith("graphite_bigram_"):
+            continue
+
+        body = args[1]
+        default_match = re.search(r"bindings\s*=\s*<\s*&kp\s+([A-Z])\s*>;", body)
+        if not default_match:
+            raise ValueError(f"Unsupported default binding for {name}")
+
+        triggers = []
+        timeout_ms = None
+        for child in re.finditer(r"\w+\s*\{([^{}]*)\};", body, flags=re.S):
+            child_body = child.group(1)
+            trigger_match = re.search(r"trigger-keys\s*=\s*<\s*([A-Z])\s*>;", child_body)
+            binding_match = re.search(r"bindings\s*=\s*<\s*&kp\s+([A-Z])\s*>;", child_body)
+            timeout_match = re.search(r"max-prior-idle-ms\s*=\s*<\s*(\d+)\s*>;", child_body)
+            if not trigger_match or not binding_match:
+                raise ValueError(f"Unsupported adaptive child in {name}: {child_body!r}")
+            if timeout_match:
+                timeout_ms = int(timeout_match.group(1))
+            triggers.append(
+                {
+                    "prior": qmk_basic_keycode(trigger_match.group(1)),
+                    "output": qmk_basic_keycode(binding_match.group(1)),
+                }
+            )
+
+        if triggers:
+            adaptive_keys.append(
+                {
+                    "name": name,
+                    "replacement": qmk_basic_keycode(default_match.group(1)),
+                    "qmk_keycode": GRAPHITE_ADAPTIVE_QMK_KEYCODE.get(name, convert_binding(name, [])),
+                    "triggers": triggers,
+                    "timeout_ms": timeout_ms or 1000,
+                }
+            )
+
+    return adaptive_keys
 
 
 def combo_action(action: str) -> tuple[str, str | None]:
@@ -452,7 +543,7 @@ def combo_layer_check(layers: str) -> str:
 
 
 def parse_combos(repo: Path) -> list[dict[str, object]]:
-    text = strip_comments((repo / "config" / "includes" / "combos.dtsi").read_text())
+    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "combos.dtsi"))
     combos: list[dict[str, object]] = []
     for call in macro_calls(text, "ZMK_COMBO"):
         args = split_args(call)
@@ -530,6 +621,75 @@ def emit_combos(combos: list[dict[str, object]]) -> str:
     return "\n".join(out)
 
 
+def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
+    if adaptive_keys:
+        timeout_ms = max(int(key["timeout_ms"]) for key in adaptive_keys)
+    else:
+        timeout_ms = 1000
+
+    out = [
+        "#ifndef GRAPHITE_BIGRAM_TIMEOUT_MS",
+        f"#define GRAPHITE_BIGRAM_TIMEOUT_MS {timeout_ms}",
+        "#endif",
+        "",
+        "static bool process_generated_adaptive_key(uint16_t keycode, keyrecord_t *record) {",
+        "    if (!record->event.pressed || get_highest_layer(layer_state) != L_GRAPHITE ||",
+        "        timer_elapsed32(last_basic_key_timer) > GRAPHITE_BIGRAM_TIMEOUT_MS) {",
+        "        return true;",
+        "    }",
+        "",
+        "    uint16_t tap_keycode = KC_NO;",
+        "    switch (keycode) {",
+    ]
+
+    for adaptive in adaptive_keys:
+        qmk_keycode = adaptive["qmk_keycode"]
+        replacement = adaptive["replacement"]
+        if qmk_keycode != replacement:
+            out.append(f"        case {qmk_keycode}:")
+            out.append("            if (!record->tap.count) {")
+            out.append("                return true;")
+            out.append("            }")
+            out.append(f"            tap_keycode = {replacement};")
+            out.append("            break;")
+        else:
+            out.append(f"        case {qmk_keycode}: tap_keycode = {replacement}; break;")
+
+    out.extend(
+        [
+            "        default:",
+            "            return true;",
+            "    }",
+            "",
+            "    switch (tap_keycode) {",
+        ]
+    )
+
+    for adaptive in adaptive_keys:
+        out.append(f"        case {adaptive['replacement']}:")
+        out.append("            switch (last_basic_keycode) {")
+        for trigger in adaptive["triggers"]:  # type: ignore[index]
+            out.append(
+                f"                case {trigger['prior']}: "
+                f"tap_code16({trigger['output']}); "
+                f"last_basic_keycode = {trigger['output']}; "
+                "last_basic_key_timer = timer_read32(); "
+                "return false;"
+            )
+        out.append("            }")
+        out.append("            break;")
+
+    out.extend(
+        [
+            "    }",
+            "",
+            "    return true;",
+            "}",
+        ]
+    )
+    return "\n".join(out)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", type=Path, required=True)
@@ -538,12 +698,15 @@ def main() -> None:
 
     layers = parse_layers(args.repo)
     combos = parse_combos(args.repo)
+    graphite_adaptive = parse_graphite_adaptive_keys(args.repo)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(
-        "/* Generated by qmk/scripts/generate_yetis_keymap.py. Do not edit. */\n\n"
+        "/* Generated by qmk/scripts/generate_keymap.py. Do not edit. */\n\n"
         + emit_layers(layers)
         + "\n\n"
         + emit_combos(combos)
+        + "\n\n"
+        + emit_graphite_adaptive(graphite_adaptive)
         + "\n"
     )
 

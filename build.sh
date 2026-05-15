@@ -57,6 +57,29 @@ find_conf() {
     fi
 }
 
+uses_nrf52_ble_board() {
+    local yml="$KB_DIR/keyboard.yml"
+    local board="nice_nano/nrf52840/zmk"
+
+    if [[ -f "$yml" ]]; then
+        board="$(python3 -c "
+import yaml
+with open('$yml') as f:
+    d = yaml.safe_load(f) or {}
+print(d.get('board', 'nice_nano/nrf52840/zmk'))
+")"
+    fi
+
+    case "$board" in
+        *nrf52*|xiao_ble|glove80)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
 # Read board/shield from keyboard.yml or use conventions
 get_board_shield() {
     local yml="$KB_DIR/keyboard.yml"
@@ -182,6 +205,7 @@ sync_workspace_config() {
     if [[ -f "$kb_conf" ]]; then
         {
             [[ -f "$CONFIG_DIR/default.conf" ]] && cat "$CONFIG_DIR/default.conf"
+            uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]] && cat "$CONFIG_DIR/nrf52_ble_stability.conf"
             cat "$kb_conf"
             [[ -n "$extra_conf" && -f "$extra_conf" ]] && cat "$extra_conf"
         } > "$WORKSPACE/config/$KEYBOARD.conf"
@@ -189,11 +213,19 @@ sync_workspace_config() {
         if [[ -n "$extra_conf" && -f "$extra_conf" ]]; then
             {
                 cat "$CONFIG_DIR/default.conf"
+                uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]] && cat "$CONFIG_DIR/nrf52_ble_stability.conf"
                 cat "$extra_conf"
             } > "$WORKSPACE/config/$KEYBOARD.conf"
         else
-            ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/$KEYBOARD.conf"
-            ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/default.conf"
+            if uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]]; then
+                {
+                    cat "$CONFIG_DIR/default.conf"
+                    cat "$CONFIG_DIR/nrf52_ble_stability.conf"
+                } > "$WORKSPACE/config/$KEYBOARD.conf"
+            else
+                ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/$KEYBOARD.conf"
+                ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/default.conf"
+            fi
         fi
     fi
 
@@ -243,6 +275,7 @@ if [[ ! -d "$WORKSPACE/.west" ]]; then
     exit 1
 fi
 
+"$REPO_ROOT/scripts/generate" check
 sync_workspace_config
 
 export ZEPHYR_BASE="$WORKSPACE/zephyr"

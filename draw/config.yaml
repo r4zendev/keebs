@@ -67,6 +67,14 @@ parse_config:
     '&nav_repeat LAYER_Nav 0': {t: '$$mdi:repeat$$', h: Nav}
     '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_sturdy': {t: '$$mdi:star-four-points$$'}
+    '&graphite_bigram_d': {t: D}
+    '&graphite_bigram_o': {t: O}
+    '&graphite_bigram_x': {t: X}
+    '&graphite_bigram_q': {t: Q}
+    '&graphite_hml_n LGUI': {t: N, h: ❖}
+    '&graphite_hml_n LGUI 0': {t: N, h: ❖}
+    '&graphite_hml_r LALT': {t: R, h: ⌥}
+    '&graphite_hml_r LALT 0': {t: R, h: ⌥}
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_sturdy': {t: Sturdy, type: layer-activator}
     '&to_vestnik': {t: Vestnik, type: layer-activator}

@@ -7,6 +7,7 @@
  *   SKIP_SYSTEM_LAYER — define to omit the System layer (for boards with custom system layers)
  */
 
+#include "includes/features.dtsi"
 #include "includes/defines.dtsi"
 #include "includes/layouts.dtsi"
 #include "includes/macros.dtsi"
