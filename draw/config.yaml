@@ -54,6 +54,7 @@ parse_config:
     '&thumb_bspc LSHFT 0': {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
     '&nav_ht LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
     '&thumb_spc LAYER_Symbol SPACE': {t: '$$mdi:keyboard-space$$', h: Symbol}
+    '&sk LSHFT': {t: '$$mdi:arrow-up-bold$$'}
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&lt LAYER_Nav BSPC': {t: '$$mdi:backspace$$', h: Nav}
     '&num_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
@@ -68,13 +69,25 @@ parse_config:
     '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_sturdy': {t: '$$mdi:star-four-points$$'}
     '&graphite_bigram_d': {t: D}
+    '&graphite_bigram_b': {t: B}
+    '&graphite_bigram_c': {t: C}
+    '&graphite_bigram_l': {t: L}
     '&graphite_bigram_o': {t: O}
+    '&graphite_bigram_w': {t: W}
     '&graphite_bigram_x': {t: X}
+    '&graphite_bigram_y': {t: Y}
     '&graphite_bigram_q': {t: Q}
+    '&graphite_bigram_z': {t: Z}
     '&graphite_hml_n LGUI': {t: N, h: ❖}
     '&graphite_hml_n LGUI 0': {t: N, h: ❖}
     '&graphite_hml_r LALT': {t: R, h: ⌥}
     '&graphite_hml_r LALT 0': {t: R, h: ⌥}
+    '&graphite_hml_s LSHFT': {t: S, h: '$$mdi:arrow-up-bold$$'}
+    '&graphite_hml_s LSHFT 0': {t: S, h: '$$mdi:arrow-up-bold$$'}
+    '&graphite_hmr_h RSHFT': {t: H, h: '$$mdi:arrow-up-bold$$'}
+    '&graphite_hmr_h RSHFT 0': {t: H, h: '$$mdi:arrow-up-bold$$'}
+    '&graphite_hmr_e RALT': {t: E, h: ⌥}
+    '&graphite_hmr_e RALT 0': {t: E, h: ⌥}
     '&to_racket': {t: Racket, type: layer-activator}
     '&to_sturdy': {t: Sturdy, type: layer-activator}
     '&to_vestnik': {t: Vestnik, type: layer-activator}

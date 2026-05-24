@@ -53,6 +53,7 @@ draw/
 qmk/
   keyboards/               local QMK board and keymap overlays
   scripts/generate_keymap.py internal generator from preprocessed ZMK snippets to QMK tables
+tools/layout-lab/          layout-analysis sandbox for magic/adaptive experiments
 scripts/generate           shared generation/check entry point
 build.sh                   ZMK workspace/build entry point
 qmk-build.sh               QMK checkout/keymap/link/build entry point
@@ -72,6 +73,7 @@ make cradio                # build firmware + drawing for one board
 make yetis                 # build QMK firmware for YetiS
 make wysteria              # build Wysteria wired QMK + wireless ZMK
 make wysteria-wired        # build only Wysteria QMK firmware
+make wysteria-bodged-wired # build Wysteria QMK firmware using the bodged keymap target
 make wysteria-wireless     # build only Wysteria ZMK firmware
 make klor                  # build KLOR wired QMK + wireless ZMK
 make klor-wired            # build only KLOR QMK firmware
@@ -100,12 +102,13 @@ The editable source of truth is intentionally small:
 
 - `config/includes/layers/*.dtsi` for layer contents
 - `config/includes/combos.dtsi` for combos
+- `config/includes/adaptive_swaps.dtsi` for adaptive swap tables
 - `config/includes/features.dtsi` for shared feature flags and opt-outs
 - `config/includes/behaviors.dtsi` and `config/includes/thumbs.dtsi` for reusable behavior definitions
 
 Normal builds run generation/checks automatically. Use `./scripts/generate check` only when you want a quick validation without building firmware.
 
-Graphite adaptive bigram swaps live next to the Graphite layer in `config/includes/layers/alpha_graphite.dtsi`. To disable them everywhere, set this in `config/includes/features.dtsi`:
+Graphite adaptive bigram swaps live in `config/includes/adaptive_swaps.dtsi`. Each `ADAPTIVE_SWAP(Graphite, S, C, D)` entry makes `C` and `D` interchangeable after `S`. To disable them everywhere, set this in `config/includes/features.dtsi`:
 
 ```c
 #define GRAPHITE_BIGRAM_SWAPS 0
@@ -116,6 +119,25 @@ To change the window:
 ```c
 #define GRAPHITE_BIGRAM_TIMEOUT_MS 750
 ```
+
+QMK generation supports the shared layer/combo behavior that is mapped in `qmk/scripts/generate_keymap.py`. It is intentionally strict: if a layer or combo starts using an unmapped ZMK behavior, generation fails instead of producing stale QMK firmware.
+
+## Layout Lab
+
+`tools/layout-lab/` is a separate sandbox for alpha-layout experiments. It does
+not generate firmware. Use it to compare Whirl/Graphite/Magic Sturdy, encode
+personal colstag position costs, and search around uncomfortable keys before
+turning a candidate into a real `config/includes/layers/alpha_*.dtsi` file.
+
+Useful commands:
+
+```bash
+python3 tools/layout-lab/lab.py compare --layouts whirl graphite magic_sturdy
+python3 tools/layout-lab/lab.py neighborhood --layout whirl --focus-positions 21,24,25
+python3 tools/layout-lab/lab.py optimize --layout whirl --iterations 12000
+```
+
+The first recorded run is in `tools/layout-lab/reports/first-run.md`.
 
 ## nRF52 BLE stability
 
@@ -136,6 +158,7 @@ Wysteria has two firmware paths:
 ```bash
 make wysteria-wireless     # ZMK nice_nano left/right UF2s
 make wysteria-wired        # QMK RP2040 UF2
+make wysteria-bodged-wired # QMK RP2040 UF2 for the bodged Wysteria build
 make wysteria              # both of the above
 make wysteria-flash        # QMK flash target for the wired build
 ```

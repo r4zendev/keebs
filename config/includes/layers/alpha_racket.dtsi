@@ -22,6 +22,6 @@ ZMK_BASE_LAYER(Racket,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp X      &kp K      &kp M      &kp G      &kp V      ,  &kp Z      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            LH_NONE &lt LAYER_Nav BSPC  &thumb_r LAYER_Symbol R , &kp SPACE  &nav_repeat LAYER_Num 0 RH_NONE
+            LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )

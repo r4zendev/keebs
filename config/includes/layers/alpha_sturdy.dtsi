@@ -77,6 +77,6 @@ ZMK_BASE_LAYER(Sturdy,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp X      &kp K      &kp J      &kp G      &kp W      ,  &kp Z      &kp H      &comma_excl &dot_qmark &kp SEMI ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            LH_NONE &lt LAYER_Nav BSPC  &thumb_spc LAYER_Symbol SPACE , THUMB_MAGIC  &sturdy_num_repeat LAYER_Num 0 RH_NONE
+            LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )

@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEVICE="${1:-}"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+OUT_DIR="${BLE_DROP_LOG_DIR:-$HOME/ble-drop-logs}/$STAMP"
+
+usage() {
+    cat <<EOF
+Usage: $0 [device-mac]
+
+Capture Bluetooth logs for an intermittent BLE keyboard drop.
+
+Outputs:
+  $OUT_DIR/btmon.snoop
+  $OUT_DIR/kernel.log
+  $OUT_DIR/bluetooth.log
+  $OUT_DIR/device-info.log
+  $OUT_DIR/README.txt
+
+Stop with Ctrl-C after a disconnect/reconnect happens.
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || "${1:-}" == "help" ]]; then
+    usage
+    exit 0
+fi
+
+mkdir -p "$OUT_DIR"
+
+cat > "$OUT_DIR/README.txt" <<EOF
+Started: $(date --iso-8601=seconds)
+Host: $(hostname)
+Kernel: $(uname -a)
+Device: ${DEVICE:-not specified}
+
+After reproducing a drop, stop scripts/capture_ble_drop with Ctrl-C.
+The most important file is btmon.snoop.
+EOF
+
+pids=()
+cleanup() {
+    for pid in "${pids[@]}"; do
+        kill "$pid" 2>/dev/null || true
+    done
+    wait 2>/dev/null || true
+    printf 'Logs written to %s\n' "$OUT_DIR"
+}
+trap cleanup EXIT INT TERM
+
+printf 'Writing BLE drop capture to %s\n' "$OUT_DIR"
+printf 'btmon requires sudo on this host; enter your password if prompted.\n'
+
+sudo btmon -w "$OUT_DIR/btmon.snoop" &
+pids+=("$!")
+
+journalctl -kf -o short-iso > "$OUT_DIR/kernel.log" &
+pids+=("$!")
+
+journalctl -fu bluetooth -o short-iso > "$OUT_DIR/bluetooth.log" &
+pids+=("$!")
+
+(
+    while true; do
+        {
+            printf '\n===== %s =====\n' "$(date --iso-8601=seconds)"
+            bluetoothctl devices Connected || true
+            bluetoothctl show || true
+            if [[ -n "$DEVICE" ]]; then
+                bluetoothctl info "$DEVICE" || true
+            fi
+        } >> "$OUT_DIR/device-info.log" 2>&1
+        sleep 5
+    done
+) &
+pids+=("$!")
+
+wait

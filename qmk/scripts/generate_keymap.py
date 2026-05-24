@@ -219,11 +219,24 @@ HRM = {
 GRAPHITE_HRM = {
     "graphite_hml_n": ("HMLG", "KC_N"),
     "graphite_hml_r": ("HMLA", "KC_R"),
+    "graphite_hml_s": ("HMLS", "KC_S"),
+    "graphite_hmr_h": ("HMRS", "KC_H"),
+    "graphite_hmr_e": ("HMRA", "KC_E"),
 }
 GRAPHITE_ADAPTIVE_QMK_KEYCODE = {
     "graphite_bigram_n": "HMLG(KC_N)",
     "graphite_bigram_r": "HMLA(KC_R)",
+    "graphite_bigram_s": "HMLS(KC_S)",
+    "graphite_bigram_h": "HMRS(KC_H)",
+    "graphite_bigram_e": "HMRA(KC_E)",
 }
+
+DEFINE_INT_DEFAULTS = {
+    "COMBO_TERM": 30,
+    "COMBO_IDLE": 50,
+}
+HRM_TAPPING_TERM_MS = 180
+HRM_PRIOR_IDLE_MS = 100
 
 
 def qmk_basic_keycode(token: str) -> str:
@@ -247,6 +260,8 @@ def preprocess_dtsi(repo: Path, path: Path) -> str:
         "c",
         "-I",
         str(repo / "config"),
+        "-I",
+        str(path.parent),
         "-include",
         str(repo / "config" / "includes" / "features.dtsi"),
         "-",
@@ -317,6 +332,23 @@ def qmk_layer(token: str) -> str:
     return layer_const(token.removeprefix("LAYER_"))
 
 
+def config_int(repo: Path, name: str) -> int:
+    text = (repo / "config" / "includes" / "defines.dtsi").read_text()
+    match = re.search(rf"^\s*#\s*define\s+{re.escape(name)}\s+(\d+)\b", text, flags=re.M)
+    if match:
+        return int(match.group(1))
+    if name in DEFINE_INT_DEFAULTS:
+        return DEFINE_INT_DEFAULTS[name]
+    raise ValueError(f"Unknown integer config {name!r}")
+
+
+def parse_int_expr(repo: Path, expr: str) -> int:
+    expr = expr.strip()
+    if expr.isdigit():
+        return int(expr)
+    return config_int(repo, expr)
+
+
 def convert_binding(name: str, args: list[str]) -> str:
     if name == "none":
         return "KC_NO"
@@ -335,16 +367,22 @@ def convert_binding(name: str, args: list[str]) -> str:
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
     if name == "sl":
         return f"OSL({qmk_layer(args[0])})"
+    if name == "sk":
+        if args[0] != "LSHFT":
+            raise ValueError(f"Unsupported sticky key {args!r}")
+        return "OSM(MOD_LSFT)"
     if name == "mo":
         return f"MO({qmk_layer(args[0])})"
     if name == "nav_ht":
         return "NAV_ESC"
+    if name == "num_repeat":
+        return "NUM_REPEAT"
     if name == "nav_repeat":
         return "NUM_0"
     if name == "mouse_ht":
         return "MOUSE_T"
     if name == "thumb_bspc":
-        return "LSFT_T(KC_BSPC)"
+        return "NAV_BSPC_DEL"
     if name == "thumb_spc":
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
     if name == "thumb_r":
@@ -358,7 +396,7 @@ def convert_binding(name: str, args: list[str]) -> str:
     if name == "sturdy_repeat":
         return "STURDY_REPEAT"
     if name == "key_repeat":
-        return "MAGIC"
+        return "QK_REP"
     if name == "comma_excl":
         return "COM_EX"
     if name == "dot_qmark":
@@ -460,7 +498,7 @@ def parse_layers(repo: Path) -> list[tuple[str, list[str]]]:
 
 
 def parse_graphite_adaptive_keys(repo: Path) -> list[dict[str, object]]:
-    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "layers" / "alpha_graphite.dtsi"))
+    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "generated" / "adaptive_swaps.dtsi"))
     adaptive_keys: list[dict[str, object]] = []
 
     for call in macro_calls(text, "ZMK_ADAPTIVE_KEY"):
@@ -539,7 +577,7 @@ def combo_layer_check(layers: str) -> str:
         names = [qmk_layer(layers)]
     else:
         names = [qmk_layer(layer) for layer in layers.split()]
-    return " || ".join(f"layer_state_is({name})" for name in names)
+    return " || ".join(f"generated_combo_layer_is({name})" for name in names)
 
 
 def parse_combos(repo: Path) -> list[dict[str, object]]:
@@ -549,7 +587,7 @@ def parse_combos(repo: Path) -> list[dict[str, object]]:
         args = split_args(call)
         if len(args) != 6:
             raise ValueError(f"Unexpected combo args: {args!r}")
-        name, action, positions, layers, _term, _idle = args
+        name, action, positions, layers, term, idle = args
         pressed, released = combo_action(action)
         combos.append(
             {
@@ -560,9 +598,20 @@ def parse_combos(repo: Path) -> list[dict[str, object]]:
                 "pressed": pressed,
                 "released": released,
                 "layer_check": combo_layer_check(layers),
+                "term": parse_int_expr(repo, term),
+                "idle": parse_int_expr(repo, idle),
             }
         )
     return combos
+
+
+def collect_hrm_keycodes(layers: list[tuple[str, list[str]]]) -> list[str]:
+    keycodes = set()
+    for _name, cells in layers:
+        for cell in cells:
+            if cell.startswith(("HML", "HMR")):
+                keycodes.add(cell)
+    return sorted(keycodes)
 
 
 def emit_layers(layers: list[tuple[str, list[str]]]) -> str:
@@ -575,6 +624,20 @@ def emit_layers(layers: list[tuple[str, list[str]]]) -> str:
             out.append("        " + ", ".join(f"{cell:<16}" for cell in chunk) + comma)
         out.append("    ),")
         out.append("")
+    out.append("#ifdef RAZEN_COMBO_REF_LAYER")
+    out.append("    [RAZEN_COMBO_REF_LAYER] = RAZEN_LAYOUT(")
+    out.append(
+        "        P_LT4, P_LT3, P_LT2, P_LT1, P_LT0, P_RT0, P_RT1, P_RT2, P_RT3, P_RT4,"
+    )
+    out.append(
+        "        P_LM4, P_LM3, P_LM2, P_LM1, P_LM0, P_RM0, P_RM1, P_RM2, P_RM3, P_RM4,"
+    )
+    out.append(
+        "        P_LB4, P_LB3, P_LB2, P_LB1, P_LB0, P_RB0, P_RB1, P_RB2, P_RB3, P_RB4,"
+    )
+    out.append("        P_LH2, P_LH1, P_RH1, P_RH2")
+    out.append("    ),")
+    out.append("#endif")
     out.append("};")
     return "\n".join(out)
 
@@ -594,6 +657,15 @@ def emit_combos(combos: list[dict[str, object]]) -> str:
         out.append(f"    [{combo['enum']}] = COMBO_ACTION({combo['array']}),")
     out.append("};")
     out.append("")
+    out.append("uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {")
+    out.append("    (void)combo;")
+    out.append("    switch (combo_index) {")
+    for combo in combos:
+        out.append(f"        case {combo['enum']}: return {combo['term']};")
+    out.append("    }")
+    out.append("    return COMBO_TERM;")
+    out.append("}")
+    out.append("")
     out.append("bool process_generated_combo_event(uint16_t combo_index, bool pressed) {")
     out.append("    if (!pressed) {")
     out.append("        switch (combo_index) {")
@@ -611,13 +683,74 @@ def emit_combos(combos: list[dict[str, object]]) -> str:
     out.append("    return true;")
     out.append("}")
     out.append("")
-    out.append("bool generated_combo_should_trigger(uint16_t combo_index) {")
+    out.append("static bool generated_combo_prior_idle_ok(combo_t *combo, keyrecord_t *record, uint16_t idle_ms) {")
+    out.append("    return !record->event.pressed || combo->state != 0 || razen_current_keypress_idle_ms >= idle_ms;")
+    out.append("}")
+    out.append("")
+    out.append("static bool generated_combo_layer_is(uint8_t layer) {")
+    out.append("    return layer_state_cmp(layer_state | default_layer_state, layer);")
+    out.append("}")
+    out.append("")
+    out.append("bool generated_combo_should_trigger(uint16_t combo_index, combo_t *combo, keyrecord_t *record) {")
     out.append("    switch (combo_index) {")
     for combo in combos:
-        out.append(f"        case {combo['enum']}: return {combo['layer_check']};")
+        out.append(
+            f"        case {combo['enum']}: "
+            f"return generated_combo_prior_idle_ok(combo, record, {combo['idle']}) && ({combo['layer_check']});"
+        )
     out.append("    }")
     out.append("    return true;")
     out.append("}")
+    return "\n".join(out)
+
+
+def emit_tap_hold_helpers(hrm_keycodes: list[str]) -> str:
+    out = [
+        f"#define RAZEN_HRM_TAPPING_TERM_MS {HRM_TAPPING_TERM_MS}",
+        f"#define RAZEN_HRM_PRIOR_IDLE_MS {HRM_PRIOR_IDLE_MS}",
+        "",
+        "static uint32_t razen_last_keypress_timer = 0;",
+        "static uint32_t razen_current_keypress_idle_ms = UINT32_MAX;",
+        "",
+        "bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {",
+        "    (void)keycode;",
+        "    if (record->event.pressed) {",
+        "        razen_current_keypress_idle_ms = razen_last_keypress_timer ? timer_elapsed32(razen_last_keypress_timer) : UINT32_MAX;",
+        "        razen_last_keypress_timer = timer_read32();",
+        "    }",
+        "    return true;",
+        "}",
+        "",
+        "static bool generated_is_home_row_mod(uint16_t keycode) {",
+        "    switch (keycode) {",
+    ]
+
+    for keycode in hrm_keycodes:
+        out.append(f"        case {keycode}:")
+    out.extend(
+        [
+            "            return true;",
+            "    }",
+            "    return false;",
+            "}",
+            "",
+            "uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {",
+            "    (void)record;",
+            "    return generated_is_home_row_mod(keycode) ? RAZEN_HRM_TAPPING_TERM_MS : TAPPING_TERM;",
+            "}",
+            "",
+            "bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {",
+            "    (void)record;",
+            "    return generated_is_home_row_mod(keycode);",
+            "}",
+            "",
+            "uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_keycode) {",
+            "    (void)record;",
+            "    (void)prev_keycode;",
+            "    return generated_is_home_row_mod(keycode) ? RAZEN_HRM_PRIOR_IDLE_MS : 0;",
+            "}",
+        ]
+    )
     return "\n".join(out)
 
 
@@ -634,6 +767,7 @@ def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
         "",
         "static bool process_generated_adaptive_key(uint16_t keycode, keyrecord_t *record) {",
         "    if (!record->event.pressed || get_highest_layer(layer_state) != L_GRAPHITE ||",
+        "        get_mods() || get_oneshot_mods() || get_weak_mods() ||",
         "        timer_elapsed32(last_basic_key_timer) > GRAPHITE_BIGRAM_TIMEOUT_MS) {",
         "        return true;",
         "    }",
@@ -672,6 +806,8 @@ def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
             out.append(
                 f"                case {trigger['prior']}: "
                 f"tap_code16({trigger['output']}); "
+                f"set_last_keycode({trigger['output']}); "
+                "set_last_mods(0); "
                 f"last_basic_keycode = {trigger['output']}; "
                 "last_basic_key_timer = timer_read32(); "
                 "return false;"
@@ -699,10 +835,13 @@ def main() -> None:
     layers = parse_layers(args.repo)
     combos = parse_combos(args.repo)
     graphite_adaptive = parse_graphite_adaptive_keys(args.repo)
+    hrm_keycodes = collect_hrm_keycodes(layers)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(
         "/* Generated by qmk/scripts/generate_keymap.py. Do not edit. */\n\n"
         + emit_layers(layers)
+        + "\n\n"
+        + emit_tap_hold_helpers(hrm_keycodes)
         + "\n\n"
         + emit_combos(combos)
         + "\n\n"

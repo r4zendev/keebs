@@ -1,0 +1,11 @@
+file_format: "2"
+id: dartyl
+name: Dartyl
+type: shield
+requires:
+  - rpi_pico
+features:
+  - keys
+siblings:
+  - dartyl_left
+  - dartyl_right

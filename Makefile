@@ -1,5 +1,5 @@
 CONF := draw/config.yaml
-BOARD_TARGETS := glove80 cradio aurora piantor corne artemis ansic klotz lambbt lintilla yetis wysteria klor
+BOARD_TARGETS := glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl
 
 # ─── Draw config ────────────────────────────────────────────────────
 GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
@@ -27,9 +27,18 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Main targets ───────────────────────────────────────────────────
 .PHONY: all build draw setup clean help \
-         glove80 cradio aurora piantor corne artemis ansic klotz lambbt lintilla yetis wysteria klor \
+         glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl \
+         corne-build corne-setup corne-clean corne-flash corne-distclean \
+         corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-flash corne-qmk-distclean \
+         corne-zmk corne-zmk-build corne-zmk-setup corne-zmk-clean corne-zmk-reset \
+         corne-wired corne-wireless \
+         cygnus-build cygnus-setup cygnus-clean cygnus-flash cygnus-distclean \
+         cygnus-qmk cygnus-qmk-build cygnus-qmk-setup cygnus-qmk-clean cygnus-qmk-flash cygnus-qmk-distclean \
+         cygnus-zmk cygnus-zmk-build cygnus-zmk-setup cygnus-zmk-clean cygnus-zmk-reset \
+         cygnus-wired cygnus-wireless \
          yetis-build yetis-setup yetis-clean yetis-flash yetis-distclean \
          wysteria-build wysteria-setup wysteria-clean wysteria-flash wysteria-distclean \
+         wysteria-bodged-wired wysteria-bodged-qmk-build wysteria-bodged-qmk-setup wysteria-bodged-qmk-clean wysteria-bodged-qmk-flash \
          wysteria-qmk wysteria-qmk-build wysteria-qmk-setup wysteria-qmk-clean wysteria-qmk-flash wysteria-qmk-distclean \
          wysteria-zmk wysteria-zmk-build wysteria-zmk-setup wysteria-zmk-clean wysteria-zmk-reset \
          wysteria-wired wysteria-wireless \
@@ -40,9 +49,9 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
          %-build %-draw %-setup %-clean %-reset %-left %-right
 
 all: build draw
-build: glove80-build cradio-build aurora-build piantor-build corne-build artemis-build ansic-build klotz-build lambbt-build lintilla-build yetis-build wysteria-build klor-build
+build: glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build yetis-build wysteria-build klor-build dartyl-build
 draw: $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG)
-setup: glove80-setup cradio-setup aurora-setup piantor-setup corne-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup yetis-setup wysteria-setup
+setup: glove80-setup cradio-setup aurora-setup piantor-setup corne-setup cygnus-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup yetis-setup wysteria-setup
 
 help:
 	@printf "Commands:\n"
@@ -56,9 +65,14 @@ help:
 	@printf "  make <board>-left     Build only the left half\n"
 	@printf "  make <board>-right    Build only the right half\n"
 	@printf "  make <board>-reset    Build settings_reset firmware\n"
+	@printf "  make corne-wired      Build QMK Corne RP2040 firmware\n"
+	@printf "  make corne-wireless   Build ZMK Corne firmware\n"
+	@printf "  make cygnus-wired     Build QMK Cygnus/Corne RP2040 firmware\n"
+	@printf "  make cygnus-wireless  Build ZMK Cygnus firmware using Corne shields\n"
 	@printf "  make yetis-flash      Build and flash the QMK YetiS target\n"
 	@printf "  make wysteria         Build Wysteria wired QMK and wireless ZMK\n"
 	@printf "  make wysteria-wired   Build QMK Wysteria firmware\n"
+	@printf "  make wysteria-bodged-wired Build QMK Wysteria bodged firmware\n"
 	@printf "  make wysteria-wireless Build ZMK Wysteria firmware\n"
 	@printf "  make wysteria-flash   Build and flash the QMK Wysteria target\n"
 	@printf "  make klor             Build KLOR wired QMK and wireless ZMK\n"
@@ -72,6 +86,7 @@ cradio:  cradio-build $(CRADIO_SVG)
 aurora:  aurora-build $(AURORA_SVG)
 piantor: piantor-build
 corne:   corne-build
+cygnus:  cygnus-build
 artemis: artemis-build
 ansic: ansic-build
 klotz: klotz-build
@@ -80,13 +95,60 @@ lintilla: lintilla-build
 yetis: yetis-build
 wysteria: wysteria-build
 klor: klor-build
+dartyl: dartyl-build
 
 # ─── Firmware (delegates to build.sh) ───────────────────────────────
+dartyl-build: dartyl-qmk-build
+dartyl-setup: dartyl-qmk-setup
+dartyl-clean: dartyl-qmk-clean
+dartyl-flash: dartyl-qmk-flash
+dartyl-distclean: dartyl-qmk-distclean
+dartyl-qmk: dartyl-qmk-build
+dartyl-qmk-build: ; QMK_KEYBOARD=dartyl ./qmk-build.sh build
+dartyl-qmk-setup: ; QMK_KEYBOARD=dartyl ./qmk-build.sh setup
+dartyl-qmk-clean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh clean
+dartyl-qmk-flash: ; QMK_KEYBOARD=dartyl ./qmk-build.sh flash
+dartyl-qmk-distclean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh distclean
 glove80-build: ; ./build.sh glove80
 cradio-build:  ; ./build.sh cradio
 aurora-build:  ; ./build.sh splitkb_aurora_sweep
 piantor-build: ; ./build.sh piantor_pro
-corne-build:   ; ./build.sh corne
+corne-build: corne-zmk-build corne-qmk-build
+corne-setup: corne-zmk-setup corne-qmk-setup
+corne-clean: corne-zmk-clean corne-qmk-clean
+corne-flash: corne-qmk-flash
+corne-distclean: corne-zmk-clean corne-qmk-distclean
+corne-wired: corne-qmk-build
+corne-wireless: corne-zmk-build
+corne-qmk: corne-qmk-build
+corne-qmk-build: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=corne ./qmk-build.sh build
+corne-qmk-setup: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=corne ./qmk-build.sh setup
+corne-qmk-clean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=corne ./qmk-build.sh clean
+corne-qmk-flash: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=corne ./qmk-build.sh flash
+corne-qmk-distclean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=corne ./qmk-build.sh distclean
+corne-zmk: corne-zmk-build
+corne-zmk-build: ; ./build.sh corne
+corne-zmk-setup: ; ./build.sh corne setup
+corne-zmk-clean: ; ./build.sh corne clean
+corne-zmk-reset: ; ./build.sh corne reset
+cygnus-build: cygnus-zmk-build cygnus-qmk-build
+cygnus-setup: cygnus-zmk-setup cygnus-qmk-setup
+cygnus-clean: cygnus-zmk-clean cygnus-qmk-clean
+cygnus-flash: cygnus-qmk-flash
+cygnus-distclean: cygnus-zmk-clean cygnus-qmk-distclean
+cygnus-wired: cygnus-qmk-build
+cygnus-wireless: cygnus-zmk-build
+cygnus-qmk: cygnus-qmk-build
+cygnus-qmk-build: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh build
+cygnus-qmk-setup: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh setup
+cygnus-qmk-clean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh clean
+cygnus-qmk-flash: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh flash
+cygnus-qmk-distclean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh distclean
+cygnus-zmk: cygnus-zmk-build
+cygnus-zmk-build: ; ./build.sh cygnus
+cygnus-zmk-setup: ; ./build.sh cygnus setup
+cygnus-zmk-clean: ; ./build.sh cygnus clean
+cygnus-zmk-reset: ; ./build.sh cygnus reset
 artemis-build: ; ./build.sh artemis
 ansic-build:   ; ./build.sh ansic
 klotz-build:   ; ./build.sh klotz
@@ -110,6 +172,11 @@ wysteria-qmk-setup: ; QMK_KEYBOARD=wysteria ./qmk-build.sh setup
 wysteria-qmk-clean: ; QMK_KEYBOARD=wysteria ./qmk-build.sh clean
 wysteria-qmk-flash: ; QMK_KEYBOARD=wysteria ./qmk-build.sh flash
 wysteria-qmk-distclean: ; QMK_KEYBOARD=wysteria ./qmk-build.sh distclean
+wysteria-bodged-wired: wysteria-bodged-qmk-build
+wysteria-bodged-qmk-build: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh build
+wysteria-bodged-qmk-setup: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh setup
+wysteria-bodged-qmk-clean: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh clean
+wysteria-bodged-qmk-flash: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh flash
 wysteria-zmk: wysteria-zmk-build
 wysteria-zmk-build: ; ./build.sh wysteria
 wysteria-zmk-setup: ; ./build.sh wysteria setup
@@ -178,6 +245,6 @@ $(AURORA_SVG): $(AURORA_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(AURORA_KEYBOARD) > $@
 
 # ─── Clean ──────────────────────────────────────────────────────────
-clean: glove80-clean cradio-clean aurora-clean piantor-clean corne-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean yetis-clean wysteria-clean klor-clean
+clean: glove80-clean cradio-clean aurora-clean piantor-clean corne-clean cygnus-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean yetis-clean wysteria-clean klor-clean
 	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(CRADIO_YAML) $(CRADIO_SVG) $(AURORA_YAML) $(AURORA_SVG)
 	rm -rf .cache

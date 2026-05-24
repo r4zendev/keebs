@@ -6,6 +6,6 @@ ZMK_BASE_LAYER(Vestnik,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp I      &kp P      &kp K      &kp V      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            LH_NONE &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0 , &thumb_spc LAYER_Symbol SPACE  &lt LAYER_Num RET RH_NONE
+            LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )

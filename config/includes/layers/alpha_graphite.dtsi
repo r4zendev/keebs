@@ -1,88 +1,59 @@
-#if GRAPHITE_BIGRAM_SWAPS
+#include "../generated/adaptive_swaps.dtsi"
 
-#define GRAPHITE_BIGRAM(name, k, b) \
-    name { trigger-keys = <k>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <b>; };
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_d, bindings = <&kp D>;
-    GRAPHITE_BIGRAM(graphite_bigram_sc, S, &kp C)
-    GRAPHITE_BIGRAM(graphite_bigram_ws, W, &kp S)
-    GRAPHITE_BIGRAM(graphite_bigram_br, B, &kp R)
-)
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_r, bindings = <&kp R>;
-    GRAPHITE_BIGRAM(graphite_bigram_sw, S, &kp W)
-)
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_n, bindings = <&kp N>;
-    GRAPHITE_BIGRAM(graphite_bigram_cs, C, &kp S)
-)
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_x, bindings = <&kp X>;
-    GRAPHITE_BIGRAM(graphite_bigram_rl, R, &kp L)
-)
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_o, bindings = <&kp O>;
-    GRAPHITE_BIGRAM(graphite_bigram_ue, U, &kp E)
-)
-
-ZMK_ADAPTIVE_KEY(graphite_bigram_q, bindings = <&kp Q>;
-    GRAPHITE_BIGRAM(graphite_bigram_mb, M, &kp B)
-)
-
-/ {
-    behaviors {
-        graphite_hml_n: graphite_hml_n {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <180>;
-            quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <100>;
-            hold-trigger-key-positions = <KEYS_R THUMBS>;
-            hold-trigger-on-release;
-            bindings = <&kp>, <&graphite_bigram_n>;
-        };
-
-        graphite_hml_r: graphite_hml_r {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <180>;
-            quick-tap-ms = <QUICK_TAP_MS>;
-            require-prior-idle-ms = <100>;
-            hold-trigger-key-positions = <KEYS_R THUMBS>;
-            hold-trigger-on-release;
-            bindings = <&kp>, <&graphite_bigram_r>;
-        };
-    };
-};
-
-#define GRAPHITE_D &graphite_bigram_d
-#define GRAPHITE_R &graphite_hml_r LALT 0
-#define GRAPHITE_N &graphite_hml_n LGUI 0
-#define GRAPHITE_X &graphite_bigram_x
-#define GRAPHITE_O &graphite_bigram_o
-#define GRAPHITE_Q &graphite_bigram_q
-
-#else
-
+#ifndef GRAPHITE_B
+#define GRAPHITE_B &kp B
+#endif
+#ifndef GRAPHITE_C
+#define GRAPHITE_C &kp C
+#endif
+#ifndef GRAPHITE_D
 #define GRAPHITE_D &kp D
+#endif
+#ifndef GRAPHITE_E
+#define GRAPHITE_E &hmr RALT E
+#endif
+#ifndef GRAPHITE_H
+#define GRAPHITE_H &hmr RSHFT H
+#endif
+#ifndef GRAPHITE_L
+#define GRAPHITE_L &kp L
+#endif
+#ifndef GRAPHITE_R
 #define GRAPHITE_R &hml LALT R
+#endif
+#ifndef GRAPHITE_N
 #define GRAPHITE_N &hml LGUI N
+#endif
+#ifndef GRAPHITE_S
+#define GRAPHITE_S &hml LSHFT S
+#endif
+#ifndef GRAPHITE_W
+#define GRAPHITE_W &kp W
+#endif
+#ifndef GRAPHITE_X
 #define GRAPHITE_X &kp X
+#endif
+#ifndef GRAPHITE_Y
+#define GRAPHITE_Y &kp Y
+#endif
+#ifndef GRAPHITE_O
 #define GRAPHITE_O &kp O
+#endif
+#ifndef GRAPHITE_Q
 #define GRAPHITE_Q &kp Q
-
+#endif
+#ifndef GRAPHITE_Z
+#define GRAPHITE_Z &kp Z
 #endif
 
 ZMK_BASE_LAYER(Graphite,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp B      &kp L      GRAPHITE_D &kp W      &kp Z      ,  &kp J      &kp F      GRAPHITE_O &kp U      &comma_excl ,
+    GRAPHITE_B GRAPHITE_L GRAPHITE_D GRAPHITE_W GRAPHITE_Z ,  &kp J      &kp F      GRAPHITE_O &kp U      &comma_excl ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   GRAPHITE_N GRAPHITE_R &hml LCTRL T &hml LSHFT S &kp G ,  &kp Y    &hmr RSHFT H &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+   GRAPHITE_N GRAPHITE_R &hml LCTRL T GRAPHITE_S &kp G ,  GRAPHITE_Y GRAPHITE_H &hmr RCTRL A GRAPHITE_E &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    GRAPHITE_X GRAPHITE_Q &kp M      &kp C      &kp V      ,  &kp K      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
+    GRAPHITE_X GRAPHITE_Q &kp M      GRAPHITE_C &kp V      ,  &kp K      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                    LH_NONE &nav_ht LAYER_Nav 0  &thumb_bspc LSHFT 0 , &thumb_spc LAYER_Symbol SPACE &lt LAYER_Num RET RH_NONE
+                    LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )

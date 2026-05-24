@@ -1,0 +1,61 @@
+#include "charybdis_nano.dtsi"
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+&default_transform {
+    col-offset = <6>;
+};
+
+&kscan0 {
+    col-gpios
+        = <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+&pinctrl {
+    spi1_charybdis_nano_default: spi1_charybdis_nano_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 6)>,
+                <NRF_PSEL(SPIM_MOSI, 1, 4)>,
+                <NRF_PSEL(SPIM_MISO, 1, 4)>;
+        };
+    };
+
+    spi1_charybdis_nano_sleep: spi1_charybdis_nano_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 6)>,
+                <NRF_PSEL(SPIM_MOSI, 1, 4)>,
+                <NRF_PSEL(SPIM_MISO, 1, 4)>;
+            low-power-enable;
+        };
+    };
+};
+
+&pro_micro_spi {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_charybdis_nano_default>;
+    pinctrl-1 = <&spi1_charybdis_nano_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio0 10 GPIO_ACTIVE_LOW>;
+
+    trackball: trackball@0 {
+        status = "okay";
+        compatible = "pixart,pmw3610";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        motion-gpios = <&gpio0 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        zephyr,axis-x = <INPUT_REL_X>;
+        zephyr,axis-y = <INPUT_REL_Y>;
+        res-cpi = <400>;
+        smart-mode;
+    };
+};
+
+&trackball_split {
+    device = <&trackball>;
+};

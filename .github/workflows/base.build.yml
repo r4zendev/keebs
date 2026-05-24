@@ -35,6 +35,8 @@ jobs:
             echo "artifact=${board_safe}" >> $GITHUB_ENV
           fi
       - uses: actions/checkout@v4
+      - name: Generate shared config
+        run: ./scripts/generate zmk
       - name: Prepare config
         run: |
           kb_dir="config/keyboards/${{ inputs.keyboard }}"

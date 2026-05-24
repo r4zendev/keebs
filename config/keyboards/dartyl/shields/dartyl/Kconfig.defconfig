@@ -1,0 +1,6 @@
+if SHIELD_DARTYL_LEFT || SHIELD_DARTYL_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Dartyl"
+
+endif

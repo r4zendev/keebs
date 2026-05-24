@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 QMK_HOME="${QMK_HOME:-$REPO_ROOT/.qmk/qmk_firmware}"
-QMK_REF="${QMK_REF:-4167a13b4c3662dba54b65ab53e0e74b4514df15}"
+QMK_REF="${QMK_REF:-c26449e64f18940c0a57e459eeae465b26502b64}"
 QMK_REPO="${QMK_REPO:-https://github.com/qmk/qmk_firmware.git}"
 QMK_VENV="${QMK_VENV:-$REPO_ROOT/.qmk/.venv}"
 KEYBOARD="${QMK_KEYBOARD:-yetis}"
@@ -13,8 +13,12 @@ OUTPUT_KEYBOARD="${QMK_OUTPUT_KEYBOARD:-$KEYBOARD_ROOT}"
 if [[ -z "${QMK_CONVERT_TO+x}" && -z "${CONVERT_TO+x}" ]]; then
     if [[ "$KEYBOARD" == "yetis" ]]; then
         QMK_CONVERT_TO="rp2040_ce"
-    elif [[ "$KEYBOARD" == "klor" ]]; then
+    elif [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" == "cygnus" ]]; then
+        QMK_CONVERT_TO="none"
+    elif [[ "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" ]]; then
         QMK_CONVERT_TO="rp2040_ce"
+    elif [[ "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep" ]]; then
+        QMK_CONVERT_TO="liatris"
     else
         QMK_CONVERT_TO="none"
     fi
@@ -24,6 +28,9 @@ fi
 KEYBOARD_SRC="$REPO_ROOT/qmk/keyboards/$KEYBOARD_ROOT"
 KEYMAP_SRC="$REPO_ROOT/qmk/keyboards/$KEYBOARD/keymaps/$KEYMAP"
 GENERATED_KEYMAP="$REPO_ROOT/.cache/qmk/$KEYBOARD/$KEYMAP/generated_keymap.inc"
+if [[ -z "${QMK_OUTPUT_KEYBOARD+x}" && ( "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep" ) ]]; then
+    OUTPUT_KEYBOARD="splitkb_aurora_sweep"
+fi
 ARTIFACT_DIR="$REPO_ROOT/build/qmk/$OUTPUT_KEYBOARD"
 
 usage() {
@@ -87,10 +94,6 @@ link_keymap() {
 }
 
 link_keyboard_definition() {
-    if [[ "$KEYBOARD_ROOT" == "klor" ]]; then
-        return
-    fi
-
     if [[ ! -f "$KEYBOARD_SRC/info.json" && ! -f "$KEYBOARD_SRC/keyboard.json" ]]; then
         return
     fi
@@ -108,6 +111,7 @@ patch_keyboard_for_rp2040() {
 
     python3 - "$QMK_HOME/keyboards/yetis/keyboard.json" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -138,6 +142,7 @@ patch_klor_keyboard() {
 
     python3 - "$QMK_HOME/keyboards/klor/rules.mk" "$QMK_HOME/keyboards/klor/config.h" "$QMK_HOME/keyboards/klor/keyboard.json" "$QMK_HOME/keyboards/klor/klor.c" "$QMK_HOME/keyboards/klor/halconf.h" <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -301,6 +306,104 @@ halconf_path.write_text("""// Copyright 2022 QMK
 PY
 }
 
+patch_cygnus_keyboard() {
+    if [[ "$KEYBOARD" != "crkbd/rev1" || "$OUTPUT_KEYBOARD" != "cygnus" ]]; then
+        return
+    fi
+
+    python3 - "$QMK_HOME/keyboards/crkbd/rev1/keyboard.json" "$QMK_HOME/keyboards/crkbd/info.json" <<'PY'
+import json
+import os
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+parent_path = Path(sys.argv[2])
+data = json.loads(path.read_text())
+
+cygnus_layouts = {
+    "LAYOUT_split_3x5_3": {
+        "layout": [
+            {"matrix": [0, 0], "x": 0, "y": 0.3},
+            {"matrix": [0, 1], "x": 1, "y": 0.1},
+            {"matrix": [0, 2], "x": 2, "y": 0},
+            {"matrix": [0, 3], "x": 3, "y": 0.1},
+            {"matrix": [0, 4], "x": 4, "y": 0.2},
+            {"matrix": [4, 4], "x": 8, "y": 0.2},
+            {"matrix": [4, 3], "x": 9, "y": 0.1},
+            {"matrix": [4, 2], "x": 10, "y": 0},
+            {"matrix": [4, 1], "x": 11, "y": 0.1},
+            {"matrix": [4, 0], "x": 12, "y": 0.3},
+
+            {"matrix": [1, 0], "x": 0, "y": 1.3},
+            {"matrix": [1, 1], "x": 1, "y": 1.1},
+            {"matrix": [1, 2], "x": 2, "y": 1},
+            {"matrix": [1, 3], "x": 3, "y": 1.1},
+            {"matrix": [1, 4], "x": 4, "y": 1.2},
+            {"matrix": [5, 4], "x": 8, "y": 1.2},
+            {"matrix": [5, 3], "x": 9, "y": 1.1},
+            {"matrix": [5, 2], "x": 10, "y": 1},
+            {"matrix": [5, 1], "x": 11, "y": 1.1},
+            {"matrix": [5, 0], "x": 12, "y": 1.3},
+
+            {"matrix": [2, 0], "x": 0, "y": 2.3},
+            {"matrix": [2, 1], "x": 1, "y": 2.1},
+            {"matrix": [2, 2], "x": 2, "y": 2},
+            {"matrix": [2, 3], "x": 3, "y": 2.1},
+            {"matrix": [2, 4], "x": 4, "y": 2.2},
+            {"matrix": [6, 4], "x": 8, "y": 2.2},
+            {"matrix": [6, 3], "x": 9, "y": 2.1},
+            {"matrix": [6, 2], "x": 10, "y": 2},
+            {"matrix": [6, 1], "x": 11, "y": 2.1},
+            {"matrix": [6, 0], "x": 12, "y": 2.3},
+
+            {"matrix": [3, 2], "x": 3, "y": 3.7},
+            {"matrix": [3, 3], "x": 4, "y": 3.7},
+            {"matrix": [3, 4], "x": 5, "y": 3.2, "h": 1.5},
+            {"matrix": [7, 4], "x": 7, "y": 3.2, "h": 1.5},
+            {"matrix": [7, 3], "x": 8, "y": 3.7},
+            {"matrix": [7, 2], "x": 9, "y": 3.7},
+        ]
+    }
+}
+
+parent = json.loads(parent_path.read_text())
+parent.setdefault("features", {})["rgblight"] = False
+parent["features"]["rgb_matrix"] = False
+parent["layout_aliases"] = {"LAYOUT": "LAYOUT_split_3x5_3"}
+parent["community_layouts"] = ["split_3x5_3"]
+parent["layouts"] = cygnus_layouts
+parent.pop("rgblight", None)
+parent.pop("rgb_matrix", None)
+parent_path.write_text(json.dumps(parent, indent=4) + "\n")
+
+data["keyboard_name"] = "Cygnus"
+data["processor"] = "RP2040"
+data["board"] = "GENERIC_RP_RP2040"
+data["bootloader"] = "rp2040"
+data.pop("development_board", None)
+data["matrix_pins"] = {
+    "cols": ["GP29", "GP28", "GP27", "GP26", "GP15"],
+    "rows": ["GP4", "GP5", "GP6", "GP7"],
+}
+data["diode_direction"] = "COL2ROW"
+data["bootmagic"] = {"matrix": [0, 0]}
+
+data.setdefault("features", {})["rgblight"] = False
+data["features"]["rgb_matrix"] = False
+data.pop("rgblight", None)
+data.pop("rgb_matrix", None)
+data.pop("ws2812", None)
+
+data.setdefault("split", {})["serial"] = {"pin": "GP3"}
+data["split"]["bootmagic"] = {"matrix": [4, 0]}
+
+data["layouts"] = cygnus_layouts
+
+path.write_text(json.dumps(data, indent=4) + "\n")
+PY
+}
+
 patch_qmk_python_compat() {
     local math_py="$QMK_HOME/lib/python/qmk/math.py"
     if [[ ! -f "$math_py" ]]; then
@@ -329,14 +432,28 @@ PY
 }
 
 generate_keymap() {
-    if [[ "$KEYMAP" != "razen" ]]; then
+    local generated_keymaps=(razen razen_bodged)
+    local should_generate=false
+    for generated_keymap in "${generated_keymaps[@]}"; do
+        if [[ "$KEYMAP" == "$generated_keymap" ]]; then
+            should_generate=true
+            break
+        fi
+    done
+
+    if [[ "$should_generate" != true ]]; then
         if [[ -f "$KEYMAP_SRC/generated_keymap.inc" ]]; then
             return
         fi
         return
     fi
 
-    if [[ "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" ) ]]; then
+    if [[ "$KEYMAP" == "razen_bodged" && "$KEYBOARD" != "wysteria" ]]; then
+        echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
+        exit 1
+    fi
+
+    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "dartyl" ) ) ]]; then
         "$REPO_ROOT/scripts/generate" qmk "$GENERATED_KEYMAP"
     else
         echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
@@ -364,6 +481,9 @@ run_qmk_make() {
     fi
     if [[ -n "$QMK_CONVERT_TO" && "$QMK_CONVERT_TO" != "none" ]]; then
         make_args+=("CONVERT_TO=$QMK_CONVERT_TO")
+    fi
+    if [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" == "cygnus" ]]; then
+        make_args+=("RAZEN_CYGNUS_QMK=yes")
     fi
 
     local runtime
@@ -424,6 +544,7 @@ build_keymap() {
     link_keyboard_definition
     patch_keyboard_for_rp2040
     patch_klor_keyboard
+    patch_cygnus_keyboard
     generate_keymap
     link_keymap
 
@@ -458,6 +579,8 @@ flash_keymap() {
     patch_qmk_python_compat
     link_keyboard_definition
     patch_keyboard_for_rp2040
+    patch_klor_keyboard
+    patch_cygnus_keyboard
     generate_keymap
     link_keymap
     run_qmk_make "$KEYBOARD:$KEYMAP:flash" flash
@@ -465,7 +588,7 @@ flash_keymap() {
 
 action="${1:-build}"
 case "$action" in
-    setup) clone_or_update_qmk; patch_qmk_python_compat; ensure_qmk_cli; link_keyboard_definition; patch_keyboard_for_rp2040; generate_keymap; link_keymap ;;
+    setup) clone_or_update_qmk; patch_qmk_python_compat; ensure_qmk_cli; link_keyboard_definition; patch_keyboard_for_rp2040; patch_klor_keyboard; patch_cygnus_keyboard; generate_keymap; link_keymap ;;
     build) build_keymap ;;
     flash) flash_keymap ;;
     clean)

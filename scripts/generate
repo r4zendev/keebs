@@ -2,13 +2,15 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+QMK_GENERATED_KEYBOARDS=(yetis wysteria klor crkbd/rev1 splitkb/aurora/sweep/rev1)
 
 usage() {
     cat <<EOF
-Usage: $0 [check|qmk|all] [output]
+Usage: $0 [check|zmk|qmk|all] [output]
 
 Commands:
   check        Validate that shared layers/features can be generated
+  zmk          Generate ZMK include files
   qmk [out]    Generate a QMK generated_keymap.inc
   all          Generate repo-local cached artifacts
 
@@ -16,7 +18,14 @@ Normal builds call this automatically.
 EOF
 }
 
+generate_zmk() {
+    python3 "$REPO_ROOT/scripts/generate_adaptive_swaps.py" \
+        --repo "$REPO_ROOT"
+}
+
 generate_qmk() {
+    generate_zmk
+
     local out="${1:-}"
     if [[ -z "$out" ]]; then
         local keyboard="${QMK_KEYBOARD:-yetis}"
@@ -32,15 +41,22 @@ generate_qmk() {
 cmd="${1:-all}"
 case "$cmd" in
     check)
-        tmp="$(mktemp)"
-        trap 'rm -f "$tmp"' EXIT
-        generate_qmk "$tmp"
+        generate_zmk
+        tmpdir="$(mktemp -d)"
+        trap 'rm -rf "$tmpdir"' EXIT
+        for keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
+            QMK_KEYBOARD="$keyboard" generate_qmk "$tmpdir/$keyboard/generated_keymap.inc"
+        done
+        ;;
+    zmk)
+        generate_zmk
         ;;
     qmk)
         generate_qmk "${2:-}"
         ;;
     all)
-        for keyboard in yetis wysteria klor; do
+        generate_zmk
+        for keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
             QMK_KEYBOARD="$keyboard" generate_qmk "$REPO_ROOT/.cache/qmk/$keyboard/razen/generated_keymap.inc"
         done
         ;;

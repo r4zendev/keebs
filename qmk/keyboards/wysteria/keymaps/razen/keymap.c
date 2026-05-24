@@ -24,6 +24,8 @@ enum custom_keycodes {
     COPY_CUT,
     ESC_TAB,
     BSPC_DEL,
+    NUM_REPEAT,
+    MOUSE_T,
     MAGIC,
     RACKET_MAGIC,
     STURDY_MAGIC,
@@ -78,8 +80,8 @@ enum custom_keycodes {
 #define HMRG(kc) RGUI_T(kc)
 
 #define NAV_ESC LT(L_NAV, KC_ESC)
+#define NAV_BSPC_DEL LT(L_NAV, KC_BSPC)
 #define NUM_0 LT(L_NUM, KC_0)
-#define MOUSE_T LT(L_MOUSE, KC_NO)
 
 #ifdef RGB_MATRIX_ENABLE
 #    undef RGB_TOG
@@ -116,18 +118,34 @@ enum positions {
     P_LX0, P_LH1, P_LX1, P_LH2, P_RH2, P_RX0, P_RH1, P_RX1,
 };
 
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = RAZEN_LAYOUT(
+    'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L', 'R', 'R', 'R', 'R', 'R',
+    '*', '*', '*', '*'
+);
+
 static bool shift_active(void);
 static void tap_without_shift(uint16_t keycode);
 static void tap_morph(uint16_t normal, uint16_t shifted);
+static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_t shifted);
 static void handle_caps_combo(void);
 
 static uint16_t last_basic_keycode = KC_NO;
 static uint32_t last_basic_key_timer = 0;
+static bool num_repeat_active = false;
+static bool num_repeat_interrupted = false;
+static uint32_t num_repeat_timer = 0;
+static bool mouse_t_active = false;
+static bool mouse_t_interrupted = false;
+static bool mouse_t_was_on = false;
+static uint32_t mouse_t_timer = 0;
+static uint16_t active_tap_hold_morph_keycode = KC_NO;
 
 #include "generated_keymap.inc"
 
 static bool shift_active(void) {
-    return (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT;
+    return (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_SHIFT;
 }
 
 static void tap_without_shift(uint16_t keycode) {
@@ -137,7 +155,7 @@ static void tap_without_shift(uint16_t keycode) {
     clear_oneshot_mods();
     tap_code16(keycode);
     set_mods(mods);
-    set_oneshot_mods(oneshot);
+    set_oneshot_mods(oneshot & ~MOD_MASK_SHIFT);
 }
 
 static void tap_morph(uint16_t normal, uint16_t shifted) {
@@ -148,12 +166,89 @@ static void tap_morph(uint16_t normal, uint16_t shifted) {
     }
 }
 
+static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_t shifted) {
+    if (record->event.pressed) {
+        if (record->tap.count > 1 && !shift_active()) {
+            active_tap_hold_morph_keycode = normal;
+            register_code16(normal);
+        } else {
+            tap_morph(normal, shifted);
+        }
+    } else if (active_tap_hold_morph_keycode != KC_NO) {
+        unregister_code16(active_tap_hold_morph_keycode);
+        active_tap_hold_morph_keycode = KC_NO;
+    }
+    return false;
+}
+
 static void handle_caps_combo(void) {
     if (shift_active()) {
         tap_without_shift(KC_CAPS);
     } else {
         caps_word_on();
     }
+}
+
+static void tap_repeat_key(keyrecord_t *record) {
+    keyevent_t event = record->event;
+    event.pressed = true;
+    repeat_key_invoke(&event);
+    event.pressed = false;
+    repeat_key_invoke(&event);
+}
+
+static bool process_num_repeat(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == NUM_REPEAT) {
+        if (record->event.pressed) {
+            num_repeat_active = true;
+            num_repeat_interrupted = false;
+            num_repeat_timer = timer_read32();
+            layer_on(L_NUM);
+        } else {
+            layer_off(L_NUM);
+            const bool should_repeat = !num_repeat_interrupted && timer_elapsed32(num_repeat_timer) < TAPPING_TERM;
+            num_repeat_active = false;
+            if (should_repeat) {
+                tap_repeat_key(record);
+            }
+        }
+        return false;
+    }
+
+    if (num_repeat_active && record->event.pressed) {
+        num_repeat_interrupted = true;
+    }
+    return true;
+}
+
+static bool process_mouse_t(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == MOUSE_T) {
+        if (record->event.pressed) {
+            mouse_t_active = true;
+            mouse_t_interrupted = false;
+            mouse_t_was_on = layer_state_is(L_MOUSE);
+            mouse_t_timer = timer_read32();
+            layer_on(L_MOUSE);
+        } else {
+            const bool should_toggle = !mouse_t_interrupted && timer_elapsed32(mouse_t_timer) < 200;
+            mouse_t_active = false;
+            if (should_toggle) {
+                if (mouse_t_was_on) {
+                    layer_off(L_MOUSE);
+                } else {
+                    layer_on(L_MOUSE);
+                }
+            } else if (!mouse_t_was_on) {
+                layer_off(L_MOUSE);
+            }
+        }
+        return false;
+    }
+
+    if (mouse_t_active && record->event.pressed) {
+        mouse_t_interrupted = true;
+    }
+    return true;
 }
 
 static void send_repeat_or_shift(void) {
@@ -234,6 +329,10 @@ static void remember_basic_key(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return;
     }
+    if (IS_QK_MODS(keycode) || get_mods() || get_oneshot_mods() || get_weak_mods()) {
+        last_basic_keycode = KC_NO;
+        return;
+    }
 
     const uint16_t basic = keycode & 0xFF;
     if ((basic >= KC_A && basic <= KC_Z) || basic == KC_SPC || basic == KC_COMM || basic == KC_DOT) {
@@ -242,9 +341,40 @@ static void remember_basic_key(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *remembered_mods) {
+    (void)record;
+    (void)remembered_mods;
+
+    switch (keycode) {
+        case NUM_REPEAT:
+        case MAGIC:
+        case RACKET_MAGIC:
+        case STURDY_MAGIC:
+        case STURDY_REPEAT:
+            return false;
+    }
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_generated_adaptive_key(keycode, record)) {
         return false;
+    }
+
+    if (!process_num_repeat(keycode, record)) {
+        return false;
+    }
+
+    if (!process_mouse_t(keycode, record)) {
+        return false;
+    }
+
+    switch (keycode) {
+        case NAV_BSPC_DEL:
+            if (record->tap.count) {
+                return process_tap_hold_morph(record, KC_BSPC, KC_DEL);
+            }
+            return true;
     }
 
     if (!record->event.pressed) {
@@ -286,10 +416,8 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 }
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
-    (void)combo;
     (void)keycode;
-    (void)record;
-    return generated_combo_should_trigger(combo_index);
+    return generated_combo_should_trigger(combo_index, combo, record);
 }
 
 #ifdef ENCODER_ENABLE

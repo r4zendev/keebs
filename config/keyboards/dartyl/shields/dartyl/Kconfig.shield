@@ -1,0 +1,8 @@
+config SHIELD_DARTYL_LEFT
+    def_bool $(shields_list_contains,dartyl_left)
+    select ZMK_SPLIT
+    select ZMK_SPLIT_ROLE_CENTRAL
+
+config SHIELD_DARTYL_RIGHT
+    def_bool $(shields_list_contains,dartyl_right)
+    select ZMK_SPLIT

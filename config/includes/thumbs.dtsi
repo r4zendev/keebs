@@ -9,12 +9,13 @@ ZMK_HOLD_TAP(nav_repeat, bindings = <&mo>, <&thumb_magic_1_tap>;
 ZMK_HOLD_TAP(mouse_ht, bindings = <&mo>, <&tog>;
              flavor = "balanced"; tapping-term-ms = <200>;)
 
-ZMK_HOLD_TAP(thumb_bspc, bindings = <&kp>, <&bspc_del>;
+ZMK_HOLD_TAP(thumb_bspc, bindings = <&mo>, <&bspc_del>;
              flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
-             flavor = "balanced"; tapping-term-ms = <175>;)
+             flavor = "tap-preferred"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
 
 ZMK_HOLD_TAP(thumb_r, bindings = <&mo>, <&kp>;
              flavor = "tap-preferred"; tapping-term-ms = <175>;
