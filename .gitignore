@@ -4,3 +4,4 @@
 *.uf2
 build/
 .cache/
+.direnv/

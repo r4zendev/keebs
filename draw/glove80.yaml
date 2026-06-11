@@ -81,87 +81,6 @@ layers:
   - ''
   - ''
   - {t: RGB, h: Magic}
-  Vestnik:
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - W
-  - L
-  - H
-  - U
-  - '['
-  - A
-  - G
-  - F
-  - Z
-  - ''''
-  - ''
-  - ''
-  - {t: C, h: ❖}
-  - {t: N, h: ⌥}
-  - {t: Y, h: ⌃}
-  - {t: R, h: '$$mdi:arrow-up-bold$$'}
-  - ','
-  - M
-  - {t: D, h: '$$mdi:arrow-up-bold$$'}
-  - {t: J, h: ⌃}
-  - {t: T, h: ⌥}
-  - {t: B, h: ❖}
-  - ''
-  - ''
-  - I
-  - P
-  - K
-  - V
-  - X
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ''
-  - ;
-  - Q
-  - S
-  - E
-  - .
-  - ''
-  - {t: RGB, h: Magic}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - ''
-  - ''
-  - $$mdi:arrow-up-bold$$
-  - {t: '$$mdi:repeat$$', h: Num}
-  - ''
-  - ''
-  - ''
-  - ''
-  - {t: RGB, h: Magic}
   WhirlMrl:
   - ''
   - ''
@@ -317,7 +236,7 @@ layers:
   - $$mdi:keyboard-space$$
   - ''
   - ''
-  - $$mdi:keyboard-space$$
+  - {type: held}
   - {t: ▽, type: trans}
   - ''
   - ''
@@ -641,8 +560,8 @@ layers:
   - $$mdi:microphone-off$$
   - ''
   - ''
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {type: held}
+  - {type: held}
   - ''
   - ''
   - ''
@@ -718,8 +637,8 @@ layers:
   - ''
   - ''
   - ''
-  - ''
-  - {t: Mouse, type: held}
+  - {type: held}
+  - {type: held}
   - ''
   - ''
   - LMB
@@ -809,7 +728,88 @@ layers:
   - ''
   - ''
   - ''
+  - {type: held}
+  Vestnik:
   - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Ц
+  - Д
+  - Р
+  - Г
+  - Х
+  - Ф
+  - П
+  - А
+  - Я
+  - Э
+  - ''
+  - ''
+  - {t: С, h: ❖}
+  - {t: Т, h: ⌥}
+  - {t: Н, h: ⌃}
+  - {t: К, h: '$$mdi:arrow-up-bold$$'}
+  - Б
+  - Ь
+  - {t: В, h: '$$mdi:arrow-up-bold$$'}
+  - {t: О, h: ⌃}
+  - {t: Е, h: ⌥}
+  - {t: И, h: ❖}
+  - ''
+  - ''
+  - Ш
+  - З
+  - Л
+  - М
+  - Ч
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Ж
+  - Й
+  - Ы
+  - У
+  - Ю
+  - ''
+  - {t: RGB, h: Magic}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - ''
+  - ''
+  - $$mdi:arrow-up-bold$$
+  - {t: '$$mdi:repeat$$', h: Num}
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: RGB, h: Magic}
 combos:
 - p: [25, 30]
   k: {t: CapsWrd, s: CapsLck}
