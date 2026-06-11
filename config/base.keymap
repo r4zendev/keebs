@@ -23,9 +23,12 @@
 /* ── Alpha layers ────────────────────────────────────────────────────── */
 
 #include "includes/layers/alpha_graphite.dtsi"
-#include "includes/layers/alpha_racket.dtsi"
-#include "includes/layers/alpha_sturdy.dtsi"
 #include "includes/layers/alpha_vestnik.dtsi"
+#include "includes/layers/alpha_whirlmrl.dtsi"
+/* Inactive layouts — kept on disk, excluded from the compiled keymap:
+ *   alpha_racket.dtsi, alpha_sturdy.dtsi, alpha_night.dtsi, alpha_dusk.dtsi,
+ *   alpha_twirl.dtsi, alpha_whirlie.dtsi, alpha_whirly.dtsi
+ */
 
 /* ── Utility layers ──────────────────────────────────────────────────── */
 

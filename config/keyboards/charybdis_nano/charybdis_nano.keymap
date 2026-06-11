@@ -1,4 +1,4 @@
-/* Charybdis Nano wrapper: 5 columns per hand, 3 left thumbs, 2 right thumbs. */
+/* Charybdis Nano wrapper: 5 columns per hand, 3 thumbs per hand. */
 
 #include <zmk-helpers/key-labels/36.h>
 
@@ -7,5 +7,8 @@
 
 #undef LH_NONE
 #define LH_NONE &none
+
+#undef RH_NONE
+#define RH_NONE &none
 
 #include "base.keymap"

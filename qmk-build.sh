@@ -453,7 +453,7 @@ generate_keymap() {
         exit 1
     fi
 
-    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "dartyl" ) ) ]]; then
+    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "dartyl" || "$KEYBOARD" == "choctyl" ) ) ]]; then
         "$REPO_ROOT/scripts/generate" qmk "$GENERATED_KEYMAP"
     else
         echo "No generator configured for $KEYBOARD:$KEYMAP" >&2

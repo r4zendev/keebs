@@ -11,6 +11,7 @@ enum layers {
     L_FN,
     L_MOUSE,
     L_SYSTEM,
+    L_COMBO_REF,
 };
 
 enum custom_keycodes {
@@ -33,7 +34,6 @@ enum custom_keycodes {
     LANG_RU,
     V_COM_EX,
     V_DOT_Q,
-    NUM_SHIFT,
 };
 
 #define OS_LINUX 1
@@ -84,28 +84,33 @@ enum custom_keycodes {
 #define NUM_0 LT(L_NUM, KC_0)
 
 /*
- * ZMK source layout: 5+5 / 5+5 / 5+5 / 2+2.
- * YetiS QMK layout: 4+4 / 6+6 / 5+5 / 2+2.
- * The outer top-pinky keys become YetiS side keys.
+ * Choctyl is a 3x5_3 board. The razen layout uses 2 thumbs per half
+ * (inner + middle); the outer thumb keys map to KC_NO.
  */
 #define RAZEN_LAYOUT( \
-    LT0, LT1, LT2, LT3, LT4, RT0, RT1, RT2, RT3, RT4, \
-    LM0, LM1, LM2, LM3, LM4, RM0, RM1, RM2, RM3, RM4, \
-    LB0, LB1, LB2, LB3, LB4, RB0, RB1, RB2, RB3, RB4, \
-    LH1, LH2, RH1, RH2 \
+    LT4, LT3, LT2, LT1, LT0, RT0, RT1, RT2, RT3, RT4, \
+    LM4, LM3, LM2, LM1, LM0, RM0, RM1, RM2, RM3, RM4, \
+    LB4, LB3, LB2, LB1, LB0, RB0, RB1, RB2, RB3, RB4, \
+    LH2, LH1, RH1, RH2 \
 ) \
-    LAYOUT( \
-        LT1, LT2, LT3, LT4,                 RT0, RT1, RT2, RT3, \
-        LT0, LM0, LM1, LM2, LM3, LM4,  RM0, RM1, RM2, RM3, RM4, RT4, \
-        LB0, LB1, LB2, LB3, LB4,       RB0, RB1, RB2, RB3, RB4, \
-                       LH1, LH2,       RH1, RH2 \
+    LAYOUT_split_3x5_3( \
+        LT4, LT3, LT2, LT1, LT0,       RT0, RT1, RT2, RT3, RT4, \
+        LM4, LM3, LM2, LM1, LM0,       RM0, RM1, RM2, RM3, RM4, \
+        LB4, LB3, LB2, LB1, LB0,       RB0, RB1, RB2, RB3, RB4, \
+                  KC_NO, LH2, LH1,     RH1, RH2, KC_NO \
     )
 
+#define RAZEN_COMBO_REF_LAYER L_COMBO_REF
+
 enum positions {
-    P_LT1, P_LT2, P_LT3, P_LT4, P_RT0, P_RT1, P_RT2, P_RT3,
-    P_LT0, P_LM0, P_LM1, P_LM2, P_LM3, P_LM4, P_RM0, P_RM1, P_RM2, P_RM3, P_RM4, P_RT4,
-    P_LB0, P_LB1, P_LB2, P_LB3, P_LB4, P_RB0, P_RB1, P_RB2, P_RB3, P_RB4,
-    P_LH1, P_LH2, P_RH1, P_RH2,
+    P_LT4 = V_DOT_Q + 1, P_LT3, P_LT2, P_LT1, P_LT0,
+    P_LM4, P_LM3, P_LM2, P_LM1, P_LM0,
+    P_LB4, P_LB3, P_LB2, P_LB1, P_LB0,
+    P_LH2, P_LH1,
+    P_RT0, P_RT1, P_RT2, P_RT3, P_RT4,
+    P_RM0, P_RM1, P_RM2, P_RM3, P_RM4,
+    P_RB0, P_RB1, P_RB2, P_RB3, P_RB4,
+    P_RH1, P_RH2,
 };
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = RAZEN_LAYOUT(
@@ -133,6 +138,10 @@ static uint32_t mouse_t_timer = 0;
 static uint16_t active_tap_hold_morph_keycode = KC_NO;
 
 #include "generated_keymap.inc"
+
+uint8_t combo_ref_from_layer(uint8_t layer) {
+    return RAZEN_COMBO_REF_LAYER;
+}
 
 static bool shift_active(void) {
     return (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_SHIFT;
@@ -207,34 +216,6 @@ static bool process_num_repeat(uint16_t keycode, keyrecord_t *record) {
 
     if (num_repeat_active && record->event.pressed) {
         num_repeat_interrupted = true;
-    }
-    return true;
-}
-
-static bool process_num_shift(uint16_t keycode, keyrecord_t *record) {
-    static bool num_shift_active = false;
-    static bool num_shift_interrupted = false;
-    static uint32_t num_shift_timer = 0;
-
-    if (keycode == NUM_SHIFT) {
-        if (record->event.pressed) {
-            num_shift_active = true;
-            num_shift_interrupted = false;
-            num_shift_timer = timer_read32();
-            layer_on(L_NUM);
-        } else {
-            layer_off(L_NUM);
-            const bool tapped = !num_shift_interrupted && timer_elapsed32(num_shift_timer) < TAPPING_TERM;
-            num_shift_active = false;
-            if (tapped) {
-                add_oneshot_mods(MOD_BIT(KC_LSFT));
-            }
-        }
-        return false;
-    }
-
-    if (num_shift_active && record->event.pressed) {
-        num_shift_interrupted = true;
     }
     return true;
 }
@@ -365,7 +346,6 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 
     switch (keycode) {
         case NUM_REPEAT:
-        case NUM_SHIFT:
         case MAGIC:
         case RACKET_MAGIC:
         case STURDY_MAGIC:
@@ -381,10 +361,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (!process_num_repeat(keycode, record)) {
-        return false;
-    }
-
-    if (!process_num_shift(keycode, record)) {
         return false;
     }
 
@@ -442,55 +418,3 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     (void)keycode;
     return generated_combo_should_trigger(combo_index, combo, record);
 }
-
-#ifdef OLED_ENABLE
-void render_logo(void);
-
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return rotation;
-}
-
-static void render_oled_mods(void) {
-    uint8_t mods = get_mods() | get_oneshot_mods();
-    oled_write_ln_P((mods & MOD_MASK_SHIFT) ? PSTR("Shft") : PSTR(" "), false);
-    oled_write_ln_P((mods & MOD_MASK_CTRL) ? PSTR("Ctrl") : PSTR(" "), false);
-    oled_write_ln_P((mods & MOD_MASK_ALT) ? PSTR("Alt") : PSTR(" "), false);
-    oled_write_ln_P((mods & MOD_MASK_GUI) ? PSTR("Win") : PSTR(" "), false);
-}
-
-static void render_oled_caps(void) {
-    led_t leds = host_keyboard_led_state();
-    oled_write_ln_P(leds.caps_lock ? PSTR("Caps Lock") : PSTR(" "), false);
-}
-
-static void render_oled_layer(void) {
-    switch (get_highest_layer(layer_state)) {
-        case L_VESTNIK: oled_write_ln_P(PSTR("Vestnik"), false); break;
-        case L_WHIRLMRL: oled_write_ln_P(PSTR("WhirlMrl"), false); break;
-        case L_SYMBOL: oled_write_ln_P(PSTR("Symbol"), false); break;
-        case L_NAV: oled_write_ln_P(PSTR("Nav"), false); break;
-        case L_NUM: oled_write_ln_P(PSTR("Num"), false); break;
-        case L_NUM_MIRROR: oled_write_ln_P(PSTR("NumMir"), false); break;
-        case L_FN: oled_write_ln_P(PSTR("Fn"), false); break;
-        case L_MOUSE: oled_write_ln_P(PSTR("Mouse"), false); break;
-        case L_SYSTEM: oled_write_ln_P(PSTR("System"), false); break;
-        default: oled_write_ln_P(PSTR("Alpha"), false); break;
-    }
-}
-
-static void render_oled_status(void) {
-    oled_write_ln_P(PSTR("yeti\n"), false);
-    render_oled_mods();
-    render_oled_caps();
-    render_oled_layer();
-}
-
-bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        render_oled_status();
-    } else {
-        render_logo();
-    }
-    return false;
-}
-#endif

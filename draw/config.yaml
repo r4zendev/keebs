@@ -68,6 +68,14 @@ parse_config:
     '&nav_repeat LAYER_Nav 0': {t: '$$mdi:repeat$$', h: Nav}
     '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_sturdy': {t: '$$mdi:star-four-points$$'}
+    '&whirlmrl_magic': {t: '$$mdi:star-four-points$$'}
+    '&whirlmrl_bigram_d': {t: D}
+    '&whirlmrl_bigram_w': {t: W}
+    '&whirlmrl_bigram_f': {t: F}
+    '&whirlmrl_bigram_p': {t: P}
+    '&whirlmrl_bigram_h': {t: H}
+    '&key_repeat': {t: '$$mdi:repeat$$'}
+    '&to_whirlmrl': {t: WhirlMrl, type: layer-activator}
     '&graphite_bigram_d': {t: D}
     '&graphite_bigram_b': {t: B}
     '&graphite_bigram_c': {t: C}
@@ -94,6 +102,7 @@ parse_config:
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}
+    '&rgb_ug_status_macro': {t: RGB}
     '&mkp LCLK': LMB
     '&mkp RCLK': RMB
     '&mkp MCLK': MMB

@@ -10,6 +10,7 @@ ZMK_ADAPTIVE_KEY(graphite_bigram_d, bindings = <&kp D>;
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_c, bindings = <&kp C>;
     graphite_bigram_sd { trigger-keys = <S>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp D>; strict-modifiers; };
+    graphite_bigram_mb { trigger-keys = <M>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp B>; strict-modifiers; };
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_r, bindings = <&kp R>;
@@ -19,10 +20,12 @@ ZMK_ADAPTIVE_KEY(graphite_bigram_r, bindings = <&kp R>;
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_w, bindings = <&kp W>;
     graphite_bigram_sr { trigger-keys = <S>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp R>; strict-modifiers; };
+    graphite_bigram_rl { trigger-keys = <R>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp L>; strict-modifiers; };
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_n, bindings = <&kp N>;
     graphite_bigram_cs { trigger-keys = <C>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp S>; strict-modifiers; };
+    graphite_bigram_ph { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp H>; strict-modifiers; };
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_s, bindings = <&kp S>;
@@ -30,15 +33,8 @@ ZMK_ADAPTIVE_KEY(graphite_bigram_s, bindings = <&kp S>;
     graphite_bigram_wd { trigger-keys = <W>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp D>; strict-modifiers; };
 )
 
-ZMK_ADAPTIVE_KEY(graphite_bigram_z, bindings = <&kp Z>;
-    graphite_bigram_rl { trigger-keys = <R>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp L>; strict-modifiers; };
-    graphite_bigram_py { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
-    graphite_bigram_hy { trigger-keys = <H>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
-    graphite_bigram_fy { trigger-keys = <F>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
-)
-
 ZMK_ADAPTIVE_KEY(graphite_bigram_l, bindings = <&kp L>;
-    graphite_bigram_rz { trigger-keys = <R>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Z>; strict-modifiers; };
+    graphite_bigram_rw { trigger-keys = <R>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp W>; strict-modifiers; };
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_o, bindings = <&kp O>;
@@ -49,13 +45,14 @@ ZMK_ADAPTIVE_KEY(graphite_bigram_e, bindings = <&kp E>;
     graphite_bigram_uo { trigger-keys = <U>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp O>; strict-modifiers; };
 )
 
-ZMK_ADAPTIVE_KEY(graphite_bigram_q, bindings = <&kp Q>;
-    graphite_bigram_ph { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp H>; strict-modifiers; };
-    graphite_bigram_mb { trigger-keys = <M>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp B>; strict-modifiers; };
+ZMK_ADAPTIVE_KEY(graphite_bigram_h, bindings = <&kp H>;
+    graphite_bigram_pn { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp N>; strict-modifiers; };
 )
 
-ZMK_ADAPTIVE_KEY(graphite_bigram_h, bindings = <&kp H>;
-    graphite_bigram_pq { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Q>; strict-modifiers; };
+ZMK_ADAPTIVE_KEY(graphite_bigram_z, bindings = <&kp Z>;
+    graphite_bigram_py { trigger-keys = <P>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
+    graphite_bigram_hy { trigger-keys = <H>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
+    graphite_bigram_fy { trigger-keys = <F>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Y>; strict-modifiers; };
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_y, bindings = <&kp Y>;
@@ -65,7 +62,7 @@ ZMK_ADAPTIVE_KEY(graphite_bigram_y, bindings = <&kp Y>;
 )
 
 ZMK_ADAPTIVE_KEY(graphite_bigram_b, bindings = <&kp B>;
-    graphite_bigram_mq { trigger-keys = <M>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp Q>; strict-modifiers; };
+    graphite_bigram_mc { trigger-keys = <M>; max-prior-idle-ms = <GRAPHITE_BIGRAM_TIMEOUT_MS>; bindings = <&kp C>; strict-modifiers; };
 )
 
 ZMK_HOLD_TAP(graphite_hml_r, bindings = <&kp>, <&graphite_bigram_r>;
@@ -104,12 +101,11 @@ ZMK_HOLD_TAP(graphite_hmr_h, bindings = <&kp>, <&graphite_bigram_h>;
 #define GRAPHITE_W &graphite_bigram_w
 #define GRAPHITE_N &graphite_hml_n LGUI 0
 #define GRAPHITE_S &graphite_hml_s LSHFT 0
-#define GRAPHITE_Z &graphite_bigram_z
 #define GRAPHITE_L &graphite_bigram_l
 #define GRAPHITE_O &graphite_bigram_o
 #define GRAPHITE_E &graphite_hmr_e RALT 0
-#define GRAPHITE_Q &graphite_bigram_q
 #define GRAPHITE_H &graphite_hmr_h RSHFT 0
+#define GRAPHITE_Z &graphite_bigram_z
 #define GRAPHITE_Y &graphite_bigram_y
 #define GRAPHITE_B &graphite_bigram_b
 

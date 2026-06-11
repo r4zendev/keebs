@@ -11,9 +11,8 @@ from pathlib import Path
 
 LAYER_FILES = [
     "alpha_graphite.dtsi",
-    "alpha_racket.dtsi",
-    "alpha_sturdy.dtsi",
     "alpha_vestnik.dtsi",
+    "alpha_whirlmrl.dtsi",
     "symbol.dtsi",
     "nav.dtsi",
     "num.dtsi",
@@ -24,9 +23,8 @@ LAYER_FILES = [
 
 LAYER_ENUMS = {
     "Graphite": "L_GRAPHITE",
-    "Racket": "L_RACKET",
-    "Sturdy": "L_STURDY",
     "Vestnik": "L_VESTNIK",
+    "WhirlMrl": "L_WHIRLMRL",
     "Symbol": "L_SYMBOL",
     "Nav": "L_NAV",
     "Num": "L_NUM",
@@ -39,9 +37,9 @@ LAYER_ENUMS = {
 
 STANDALONE = {
     "THUMB_MAGIC": "MAGIC",
-    "SYS_SLOT1": "TO(L_RACKET)",
-    "SYS_SLOT2": "TO(L_STURDY)",
-    "SYS_SLOT3": "TO(L_VESTNIK)",
+    "SYS_SLOT1": "TO(L_WHIRLMRL)",
+    "SYS_SLOT2": "TO(L_VESTNIK)",
+    "SYS_SLOT3": "KC_NO",
     "SYS_LIGHT_TOG": "RGB_TOG",
     "SYS_LIGHT_DEC": "RGB_VAD",
     "SYS_LIGHT_INC": "RGB_VAI",
@@ -363,6 +361,16 @@ def convert_binding(name: str, args: list[str]) -> str:
     if name in GRAPHITE_HRM:
         hrm, tap = GRAPHITE_HRM[name]
         return f"{hrm}({tap})"
+    # Whirl-MRL adaptive behaviors are ZMK-only (the 2-key redirects + magic key
+    # need the adaptive-key fork). QMK gets the plain layout: map each adaptive
+    # alpha key to its base key, the home-row shift on H, and the magic thumb to
+    # repeat/Num.
+    if name in {"whirlmrl_bigram_d", "whirlmrl_bigram_w", "whirlmrl_bigram_f", "whirlmrl_bigram_p"}:
+        return qmk_key(name.rsplit("_", 1)[-1].upper())
+    if name == "whirlmrl_hml_h":
+        return f"HMLS({qmk_key('H')})"
+    if name == "whirlmrl_magic_ht":
+        return "NUM_REPEAT"
     if name == "lt":
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
     if name == "sl":
@@ -377,6 +385,8 @@ def convert_binding(name: str, args: list[str]) -> str:
         return "NAV_ESC"
     if name == "num_repeat":
         return "NUM_REPEAT"
+    if name == "num_shift":
+        return "NUM_SHIFT"
     if name == "nav_repeat":
         return "NUM_0"
     if name == "mouse_ht":
@@ -425,10 +435,8 @@ def convert_binding(name: str, args: list[str]) -> str:
         return "LANG_RU"
     if name == "to_graphite":
         return "TO(L_GRAPHITE)"
-    if name == "to_racket":
-        return "TO(L_RACKET)"
-    if name == "to_sturdy":
-        return "TO(L_STURDY)"
+    if name == "to_whirlmrl":
+        return "TO(L_WHIRLMRL)"
     if name == "to_vestnik":
         return "TO(L_VESTNIK)"
     if name == "to":
@@ -572,7 +580,7 @@ def combo_action(action: str) -> tuple[str, str | None]:
 
 def combo_layer_check(layers: str) -> str:
     if layers in {"ALPHA_LAYERS", "CAPS_LAYERS"}:
-        names = ["L_GRAPHITE", "L_RACKET", "L_STURDY", "L_VESTNIK"]
+        names = ["L_GRAPHITE", "L_VESTNIK", "L_WHIRLMRL"]
     elif layers.startswith("LAYER_"):
         names = [qmk_layer(layers)]
     else:

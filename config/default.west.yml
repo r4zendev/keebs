@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/urob
     - name: caksoylar
       url-base: https://github.com/caksoylar
+    - name: r4zendev
+      url-base: https://github.com/r4zendev
 
   projects:
     - name: zmk
@@ -16,8 +18,8 @@ manifest:
       remote: urob
       revision: main
     - name: zmk-adaptive-key
-      remote: urob
-      revision: main
+      remote: r4zendev
+      revision: skipmagic
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: main

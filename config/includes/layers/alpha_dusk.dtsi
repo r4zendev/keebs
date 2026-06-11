@@ -1,0 +1,72 @@
+/* Dusk — left-thumb alpha (r), right-thumb space. */
+
+#ifndef DUSK_O
+#define DUSK_O &kp O
+#endif
+#ifndef DUSK_U
+#define DUSK_U &kp U
+#endif
+#ifndef DUSK_C
+#define DUSK_C &hml LSHFT C
+#endif
+#ifndef DUSK_G
+#define DUSK_G &kp G
+#endif
+
+#if DUSK_ADAPTIVE
+/*
+ * Adaptive fixes (bigram swaps + weak-redirect fixes) for Dusk.
+ * The redirects use the `prior-trigger-keys` property from the extended
+ * zmk-adaptive-key fork — enabling DUSK_ADAPTIVE requires that fork wired
+ * into config/default.west.yml.
+ */
+
+ZMK_MACRO(dusk_nds, bindings = <&kp BSPC &kp D &kp S>;)
+
+ZMK_ADAPTIVE_KEY(dusk_bigram_o, bindings = <&kp O>;
+    dusk_o_u   { trigger-keys = <U>;   max-prior-idle-ms = <800>; bindings = <&kp E>; strict-modifiers; };
+    dusk_o_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp L>; strict-modifiers; };
+)
+
+ZMK_ADAPTIVE_KEY(dusk_bigram_u, bindings = <&kp U>;
+    dusk_u_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp M>; strict-modifiers; };
+)
+
+/* ntc -> nts, stc -> sts : C outputs S when preceded by "nt"/"st". */
+ZMK_ADAPTIVE_KEY(dusk_redirect_c, bindings = <&kp C>;
+    dusk_c_nt { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    dusk_c_st { trigger-keys = <T>; prior-trigger-keys = <S>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+)
+
+/* ntg -> nds : G deletes the prior T and emits "ds" when preceded by "nt". */
+ZMK_ADAPTIVE_KEY(dusk_redirect_g, bindings = <&kp G>;
+    dusk_g_nt { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&dusk_nds>; strict-modifiers; };
+)
+
+ZMK_HOLD_TAP(dusk_hml_c, bindings = <&kp>, <&dusk_redirect_c>;
+             flavor = "balanced"; tapping-term-ms = <180>;
+             quick-tap-ms = <QUICK_TAP_MS>; require-prior-idle-ms = <100>;
+             hold-trigger-key-positions = <KEYS_R THUMBS>;
+             hold-trigger-on-release;)
+
+#undef DUSK_O
+#undef DUSK_U
+#undef DUSK_C
+#undef DUSK_G
+#define DUSK_O &dusk_bigram_o
+#define DUSK_U &dusk_bigram_u
+#define DUSK_C &dusk_hml_c LSHFT 0
+#define DUSK_G &dusk_redirect_g
+#endif
+
+ZMK_BASE_LAYER(Dusk,
+//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+    &kp B      &kp F      &kp D      &kp W      &kp P      ,  &kp J      &sqt_dqt   DUSK_O     DUSK_U     &comma_excl ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   &hml LGUI N &hml LALT S &hml LCTRL T DUSK_C &kp Y ,  &kp M      &hmr RSHFT H &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+    &kp X      &kp V      &kp K      DUSK_G     &kp Q      ,  &kp Z      &kp L      &kp SEMI   &minus_slash &dot_qmark ,
+//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+        LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Mouse R , &thumb_spc LAYER_Symbol SPACE  &num_repeat LAYER_Num 0 RH_NONE
+//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+)

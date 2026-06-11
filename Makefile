@@ -1,24 +1,24 @@
 CONF := draw/config.yaml
-BOARD_TARGETS := glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl
+BOARD_TARGETS := glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl choctyl
 
 # ─── Draw config ────────────────────────────────────────────────────
 GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
-GLOVE80_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse Magic Sturdy Vestnik Racket
+GLOVE80_LAYERS   := Graphite WhirlMrl Symbol Nav Num NumMirror Fn Mouse Magic Vestnik
 
 CRADIO_KEYMAP   := config/keyboards/cradio/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
 CRADIO_KEYBOARD := cradio
-CRADIO_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Sturdy Vestnik Racket
+CRADIO_LAYERS   := Graphite WhirlMrl Symbol Nav Num NumMirror Fn Mouse System Vestnik
 
 AURORA_KEYMAP   := config/keyboards/splitkb_aurora_sweep/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
 AURORA_KEYBOARD := cradio
-AURORA_LAYERS   := Graphite Symbol Nav Num NumMirror Fn Mouse System Sturdy Vestnik Racket
+AURORA_LAYERS   := Graphite WhirlMrl Symbol Nav Num NumMirror Fn Mouse System Vestnik
 
 ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
 ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h
@@ -27,7 +27,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Main targets ───────────────────────────────────────────────────
 .PHONY: all build draw setup clean help \
-         glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl \
+         glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl choctyl \
          corne-build corne-setup corne-clean corne-flash corne-distclean \
          corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-flash corne-qmk-distclean \
          corne-zmk corne-zmk-build corne-zmk-setup corne-zmk-clean corne-zmk-reset \
@@ -49,7 +49,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
          %-build %-draw %-setup %-clean %-reset %-left %-right
 
 all: build draw
-build: glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build yetis-build wysteria-build klor-build dartyl-build
+build: glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build yetis-build wysteria-build klor-build dartyl-build choctyl-build
 draw: $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG)
 setup: glove80-setup cradio-setup aurora-setup piantor-setup corne-setup cygnus-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup yetis-setup wysteria-setup
 
@@ -109,6 +109,19 @@ dartyl-qmk-setup: ; QMK_KEYBOARD=dartyl ./qmk-build.sh setup
 dartyl-qmk-clean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh clean
 dartyl-qmk-flash: ; QMK_KEYBOARD=dartyl ./qmk-build.sh flash
 dartyl-qmk-distclean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh distclean
+
+choctyl: choctyl-build
+choctyl-build: choctyl-qmk-build
+choctyl-setup: choctyl-qmk-setup
+choctyl-clean: choctyl-qmk-clean
+choctyl-flash: choctyl-qmk-flash
+choctyl-distclean: choctyl-qmk-distclean
+choctyl-qmk: choctyl-qmk-build
+choctyl-qmk-build: ; QMK_KEYBOARD=choctyl ./qmk-build.sh build
+choctyl-qmk-setup: ; QMK_KEYBOARD=choctyl ./qmk-build.sh setup
+choctyl-qmk-clean: ; QMK_KEYBOARD=choctyl ./qmk-build.sh clean
+choctyl-qmk-flash: ; QMK_KEYBOARD=choctyl ./qmk-build.sh flash
+choctyl-qmk-distclean: ; QMK_KEYBOARD=choctyl ./qmk-build.sh distclean
 glove80-build: ; ./build.sh glove80
 cradio-build:  ; ./build.sh cradio
 aurora-build:  ; ./build.sh splitkb_aurora_sweep

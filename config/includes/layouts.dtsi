@@ -1,28 +1,29 @@
 /* ── Layer indices ────────────────────────────────────────────────────── */
 
+/* Indices follow the compiled order in base.keymap (graphite, vestnik, dusk,
+ * then the utility layers). Toggling which alpha layers are included means
+ * updating these to match. */
 #define LAYER_Graphite  0
-#define LAYER_Racket    1
-#define LAYER_Sturdy    2
-#define LAYER_Vestnik   3
-#define LAYER_Symbol    4
-#define LAYER_Nav       5
-#define LAYER_Num       6
-#define LAYER_NumMirror 7
-#define LAYER_Fn        8
-#define LAYER_Mouse     9
-#define LAYER_Magic     10
+#define LAYER_Vestnik   1
+#define LAYER_WhirlMrl  2
+#define LAYER_Symbol    3
+#define LAYER_Nav       4
+#define LAYER_Num       5
+#define LAYER_NumMirror 6
+#define LAYER_Fn        7
+#define LAYER_Mouse     8
+#define LAYER_Magic     9
 
-#define ALPHA_LAYERS LAYER_Graphite LAYER_Racket LAYER_Sturdy LAYER_Vestnik
-#define CAPS_LAYERS  LAYER_Graphite LAYER_Racket LAYER_Sturdy LAYER_Vestnik
+#define ALPHA_LAYERS LAYER_Graphite LAYER_Vestnik LAYER_WhirlMrl
+#define CAPS_LAYERS  LAYER_Graphite LAYER_Vestnik LAYER_WhirlMrl
 
 /* ── Layout macros ───────────────────────────────────────────────────── */
 
-ZMK_MACRO(to_racket, bindings = <&to LAYER_Racket>;)
-ZMK_MACRO(to_sturdy, bindings = <&to LAYER_Sturdy>;)
-ZMK_MACRO(to_vestnik, bindings = <&to LAYER_Vestnik>;)
+ZMK_MACRO(to_whirlmrl, bindings = <&to LAYER_WhirlMrl>;)
+ZMK_MACRO(to_vestnik,  bindings = <&to LAYER_Vestnik>;)
 
 /* ── System layer helpers ────────────────────────────────────────────── */
 
-#define SYS_SLOT1 &to_racket
-#define SYS_SLOT2 &to_sturdy
-#define SYS_SLOT3 &to_vestnik
+#define SYS_SLOT1 &to_whirlmrl
+#define SYS_SLOT2 &to_vestnik
+#define SYS_SLOT3 &none

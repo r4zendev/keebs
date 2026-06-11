@@ -2,9 +2,8 @@
 
 enum layers {
     L_GRAPHITE,
-    L_RACKET,
-    L_STURDY,
     L_VESTNIK,
+    L_WHIRLMRL,
     L_SYMBOL,
     L_NAV,
     L_NUM,
@@ -35,6 +34,7 @@ enum custom_keycodes {
     LANG_RU,
     V_COM_EX,
     V_DOT_Q,
+    NUM_SHIFT,
 };
 
 #define OS_LINUX 1
@@ -84,6 +84,10 @@ enum custom_keycodes {
 #define NAV_BSPC_DEL LT(L_NAV, KC_BSPC)
 #define NUM_0 LT(L_NUM, KC_0)
 
+/*
+ * Choctyl is a 3x5_3 board. The razen layout uses 2 thumbs per half
+ * (inner + middle); the outer thumb keys map to KC_NO.
+ */
 #define RAZEN_LAYOUT( \
     LT4, LT3, LT2, LT1, LT0, RT0, RT1, RT2, RT3, RT4, \
     LM4, LM3, LM2, LM1, LM0, RM0, RM1, RM2, RM3, RM4, \
@@ -104,10 +108,10 @@ enum positions {
     P_LM4, P_LM3, P_LM2, P_LM1, P_LM0,
     P_LB4, P_LB3, P_LB2, P_LB1, P_LB0,
     P_LH2, P_LH1,
-    P_RT4, P_RT3, P_RT2, P_RT1, P_RT0,
-    P_RM4, P_RM3, P_RM2, P_RM1, P_RM0,
-    P_RB4, P_RB3, P_RB2, P_RB1, P_RB0,
-    P_RH2, P_RH1,
+    P_RT0, P_RT1, P_RT2, P_RT3, P_RT4,
+    P_RM0, P_RM1, P_RM2, P_RM3, P_RM4,
+    P_RB0, P_RB1, P_RB2, P_RB3, P_RB4,
+    P_RH1, P_RH2,
 };
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = RAZEN_LAYOUT(
@@ -213,6 +217,34 @@ static bool process_num_repeat(uint16_t keycode, keyrecord_t *record) {
 
     if (num_repeat_active && record->event.pressed) {
         num_repeat_interrupted = true;
+    }
+    return true;
+}
+
+static bool process_num_shift(uint16_t keycode, keyrecord_t *record) {
+    static bool num_shift_active = false;
+    static bool num_shift_interrupted = false;
+    static uint32_t num_shift_timer = 0;
+
+    if (keycode == NUM_SHIFT) {
+        if (record->event.pressed) {
+            num_shift_active = true;
+            num_shift_interrupted = false;
+            num_shift_timer = timer_read32();
+            layer_on(L_NUM);
+        } else {
+            layer_off(L_NUM);
+            const bool tapped = !num_shift_interrupted && timer_elapsed32(num_shift_timer) < TAPPING_TERM;
+            num_shift_active = false;
+            if (tapped) {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+            }
+        }
+        return false;
+    }
+
+    if (num_shift_active && record->event.pressed) {
+        num_shift_interrupted = true;
     }
     return true;
 }
@@ -343,6 +375,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 
     switch (keycode) {
         case NUM_REPEAT:
+        case NUM_SHIFT:
         case MAGIC:
         case RACKET_MAGIC:
         case STURDY_MAGIC:
@@ -358,6 +391,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (!process_num_repeat(keycode, record)) {
+        return false;
+    }
+
+    if (!process_num_shift(keycode, record)) {
         return false;
     }
 

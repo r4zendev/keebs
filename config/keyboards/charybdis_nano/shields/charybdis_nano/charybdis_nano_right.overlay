@@ -53,9 +53,19 @@
         zephyr,axis-y = <INPUT_REL_Y>;
         res-cpi = <400>;
         smart-mode;
+        force-awake;
     };
 };
 
-&trackball_split {
-    device = <&trackball>;
+/ {
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        status = "okay";
+        device = <&trackball>;
+
+        scroller {
+            layers = <9>;
+            input-processors = <&zip_xy_to_scroll_mapper>;
+        };
+    };
 };

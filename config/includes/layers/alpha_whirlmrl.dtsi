@@ -1,0 +1,81 @@
+/* Whirl-MRL — left-hand space, right-thumb repeat-magic. Inactive by default. */
+
+#ifndef WHIRLMRL_D
+#define WHIRLMRL_D &kp D
+#endif
+#ifndef WHIRLMRL_W
+#define WHIRLMRL_W &kp W
+#endif
+#ifndef WHIRLMRL_H
+#define WHIRLMRL_H &hml LSHFT H
+#endif
+#ifndef WHIRLMRL_F
+#define WHIRLMRL_F &kp F
+#endif
+#ifndef WHIRLMRL_P
+#define WHIRLMRL_P &kp P
+#endif
+#ifndef WHIRLMRL_MAGIC
+#define WHIRLMRL_MAGIC &num_repeat LAYER_Num 0
+#endif
+
+#if WHIRLMRL_ADAPTIVE
+ZMK_ADAPTIVE_KEY(whirlmrl_bigram_d, bindings = <&kp D>;
+    whirlmrl_d_s { trigger-keys = <S>; max-prior-idle-ms = <800>; bindings = <&kp C>; strict-modifiers; };
+)
+ZMK_ADAPTIVE_KEY(whirlmrl_bigram_w, bindings = <&kp W>;
+    whirlmrl_w_r { trigger-keys = <R>; max-prior-idle-ms = <800>; bindings = <&kp L>; strict-modifiers; };
+)
+ZMK_ADAPTIVE_KEY(whirlmrl_bigram_f, bindings = <&kp F>;
+    whirlmrl_f_p { trigger-keys = <P>; max-prior-idle-ms = <800>; bindings = <&kp T>; strict-modifiers; };
+)
+ZMK_ADAPTIVE_KEY(whirlmrl_bigram_p, bindings = <&kp P>;
+    whirlmrl_p_g { trigger-keys = <G>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+)
+ZMK_ADAPTIVE_KEY(whirlmrl_bigram_h, bindings = <&kp H>;
+    whirlmrl_h_n { trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp G>; strict-modifiers; };
+    whirlmrl_h_r { trigger-keys = <R>; max-prior-idle-ms = <800>; bindings = <&kp M>; strict-modifiers; };
+)
+ZMK_HOLD_TAP(whirlmrl_hml_h, bindings = <&kp>, <&whirlmrl_bigram_h>;
+             flavor = "balanced"; tapping-term-ms = <180>;
+             quick-tap-ms = <QUICK_TAP_MS>; require-prior-idle-ms = <100>;
+             hold-trigger-key-positions = <KEYS_R THUMBS>;
+             hold-trigger-on-release;)
+
+ZMK_ADAPTIVE_KEY(whirlmrl_magic, bindings = <&key_repeat>;
+    whirlmrl_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    whirlmrl_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    whirlmrl_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp R>; };
+    whirlmrl_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <800>; bindings = <&kp E>; };
+    whirlmrl_m_w   { trigger-keys = <W>;   max-prior-idle-ms = <800>; bindings = <&kp H>; };
+    whirlmrl_m_h   { trigger-keys = <H>;   max-prior-idle-ms = <800>; bindings = <&kp Y>; };
+)
+ZMK_HOLD_TAP(whirlmrl_magic_ht, bindings = <&mo>, <&whirlmrl_magic>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+#undef WHIRLMRL_D
+#undef WHIRLMRL_W
+#undef WHIRLMRL_H
+#undef WHIRLMRL_F
+#undef WHIRLMRL_P
+#undef WHIRLMRL_MAGIC
+#define WHIRLMRL_D &whirlmrl_bigram_d
+#define WHIRLMRL_W &whirlmrl_bigram_w
+#define WHIRLMRL_H &whirlmrl_hml_h LSHFT 0
+#define WHIRLMRL_F &whirlmrl_bigram_f
+#define WHIRLMRL_P &whirlmrl_bigram_p
+#define WHIRLMRL_MAGIC &whirlmrl_magic_ht LAYER_Num 0
+#endif
+
+ZMK_BASE_LAYER(WhirlMrl,
+//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+    &kp B      &kp C      WHIRLMRL_D WHIRLMRL_W &kp K      ,  &sqt_dqt   &kp L      &kp U      &kp O      &kp J      ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   &hml LGUI N &hml LALT S &hml LCTRL T WHIRLMRL_H &kp Y , &kp M      &hmr RSHFT R &hmr RCTRL E &hmr RALT A &hmr RGUI I ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+    &kp Q      &kp G      WHIRLMRL_P WHIRLMRL_F &kp V      ,  &kp Z      &kp X      &dot_qmark &minus_slash &comma_excl ,
+//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+        LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , WHIRLMRL_MAGIC  &sk LSHFT RH_NONE
+//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+)

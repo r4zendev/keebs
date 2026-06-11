@@ -31,10 +31,45 @@ layers:
   - {t: '''', s: '"'}
   - {t: '-', s: /}
   - {t: ., s: '?'}
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:repeat$$', h: Mouse}
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:keyboard-return$$', h: Num}
+  - {t: '$$mdi:arrow-up-bold$$', h: Num}
+  WhirlMrl:
+  - B
+  - C
+  - D
+  - W
+  - K
+  - {t: '''', s: '"'}
+  - L
+  - U
+  - O
+  - J
+  - {t: N, h: ❖}
+  - {t: S, h: ⌥}
+  - {t: T, h: ⌃}
+  - {t: H, h: '$$mdi:arrow-up-bold$$'}
+  - Y
+  - M
+  - {t: R, h: '$$mdi:arrow-up-bold$$'}
+  - {t: E, h: ⌃}
+  - {t: A, h: ⌥}
+  - {t: I, h: ❖}
+  - Q
+  - G
+  - P
+  - F
+  - V
+  - Z
+  - X
+  - {t: ., s: '?'}
+  - {t: '-', s: /}
+  - {t: ',', s: '!'}
+  - {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:keyboard-space$$', h: Symbol}
+  - {t: '$$mdi:star-four-points$$', h: Num}
+  - $$mdi:arrow-up-bold$$
   Symbol:
   - '~'
   - '#'
@@ -216,9 +251,9 @@ layers:
   System:
   - {t: '$$mdi:progress-download$$', s: Boot}
   - {t: Graphite, type: layer-activator}
-  - {t: Racket, type: layer-activator}
-  - {t: Sturdy, type: layer-activator}
+  - {t: WhirlMrl, type: layer-activator}
   - {t: Vestnik, type: layer-activator}
+  - ''
   - ''
   - ''
   - ''
@@ -248,41 +283,6 @@ layers:
   - ''
   - ''
   - {type: held}
-  Sturdy:
-  - V
-  - M
-  - L
-  - C
-  - P
-  - B
-  - $$mdi:star-four-points$$
-  - U
-  - O
-  - Q
-  - {t: S, h: ❖}
-  - {t: T, h: ⌥}
-  - {t: R, h: ⌃}
-  - {t: D, h: '$$mdi:arrow-up-bold$$'}
-  - Y
-  - F
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: E, h: ⌃}
-  - {t: A, h: ⌥}
-  - {t: I, h: ❖}
-  - X
-  - K
-  - J
-  - G
-  - W
-  - Z
-  - H
-  - {t: ',', s: '!'}
-  - {t: ., s: '?'}
-  - ;
-  - {t: '$$mdi:backspace$$', h: Nav}
-  - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - $$mdi:arrow-up-bold$$
-  - {t: '$$mdi:repeat$$', h: Num}
   Vestnik:
   - Ц
   - Д
@@ -314,61 +314,26 @@ layers:
   - Ы
   - У
   - Ю
-  - {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
-  - {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
+  - {t: '$$mdi:backspace$$', h: Nav, s: '$$mdi:backspace-reverse$$'}
   - {t: '$$mdi:keyboard-space$$', h: Symbol}
-  - {t: '$$mdi:keyboard-return$$', h: Num}
-  Racket:
-  - F
-  - D
-  - L
-  - W
-  - J
-  - Q
-  - B
-  - O
-  - U
-  - {t: ',', s: '!'}
-  - {t: S, h: ❖}
-  - {t: T, h: ⌥}
-  - {t: H, h: ⌃}
-  - {t: C, h: '$$mdi:arrow-up-bold$$'}
-  - Y
-  - $$mdi:star-four-points$$
-  - {t: N, h: '$$mdi:arrow-up-bold$$'}
-  - {t: A, h: ⌃}
-  - {t: E, h: ⌥}
-  - {t: I, h: ❖}
-  - X
-  - K
-  - M
-  - G
-  - V
-  - Z
-  - P
-  - {t: '''', s: '"'}
-  - {t: '-', s: /}
-  - {t: ., s: '?'}
-  - {t: '$$mdi:backspace$$', h: Nav}
-  - {t: R, h: Symbol}
-  - $$mdi:keyboard-space$$
+  - $$mdi:arrow-up-bold$$
   - {t: '$$mdi:repeat$$', h: Num}
 combos:
 - p: [2, 7]
   k: {t: CapsWrd, s: CapsLck}
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [20, 21]
   k: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [23, 22]
   k: $$mdi:content-paste$$
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [22, 21]
   k: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [24, 23]
   k: Tmux
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [8, 9]
   k: Ё/'
   l: [Vestnik]
@@ -386,10 +351,10 @@ combos:
   l: [Vestnik]
 - p: [30, 33]
   k: System
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [31, 30]
   k: Mouse
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]
 - p: [32, 33]
   k: Fn
-  l: [Graphite, Racket, Sturdy, Vestnik]
+  l: [Graphite, Vestnik, WhirlMrl]

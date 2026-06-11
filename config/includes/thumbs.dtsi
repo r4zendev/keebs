@@ -46,4 +46,8 @@ ZMK_HOLD_TAP(num_repeat, bindings = <&mo>, <&key_repeat>;
              flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
+ZMK_HOLD_TAP(num_shift, bindings = <&mo>, <&sk>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
 #define THUMB_MAGIC &thumb_magic_1 LSHFT 0
