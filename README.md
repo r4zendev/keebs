@@ -36,6 +36,7 @@ This repo keeps one shared layout stack across a few boards, with behavior built
 | [Adept BLE](https://github.com/taichan1113/mouse-test) | `adept.*` Xiao BLE PMW3610 trackball shield | `adept` |
 | [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) (+[TOTEMX](https://github.com/azhizhinov/TOTEMX)) | `totem.*` Xiao BLE shield | `totem` |
 | Cantor BLE (own PCB) | `cantor_ble.*` nice!nano shield | `cantor_ble` |
+| [Charybdis Nano](https://github.com/Bastardkb/Charybdis) | `charybdis_nano.*` nice!nano PMW3610 trackball shield | `charybdis` |
 | [Wysteria](https://github.com/j-w-e/wysteria) | ZMK wireless config + generated QMK wired keymap | `wysteria` |
 | [KLOR](https://github.com/GEIGEIGEIST/KLOR) | ZMK wireless config + generated QMK wired keymap | `klor` |
 
@@ -56,7 +57,6 @@ draw/
 qmk/
   keyboards/               local QMK board and keymap overlays
   scripts/generate_keymap.py internal generator from preprocessed ZMK snippets to QMK tables
-tools/layout-lab/          layout-analysis sandbox for magic/adaptive experiments
 scripts/generate           shared generation/check entry point
 build.sh                   ZMK workspace/build entry point
 qmk-build.sh               QMK checkout/keymap/link/build entry point
@@ -125,30 +125,15 @@ To change the window:
 
 QMK generation supports the shared layer/combo behavior that is mapped in `qmk/scripts/generate_keymap.py`. It is intentionally strict: if a layer or combo starts using an unmapped ZMK behavior, generation fails instead of producing stale QMK firmware.
 
-## Layout Lab
-
-`tools/layout-lab/` is a separate sandbox for alpha-layout experiments. It does
-not generate firmware. Use it to compare Whirl/Graphite/Magic Sturdy, encode
-personal colstag position costs, and search around uncomfortable keys before
-turning a candidate into a real `config/includes/layers/alpha_*.dtsi` file.
-
-Useful commands:
-
-```bash
-python3 tools/layout-lab/lab.py compare --layouts whirl graphite magic_sturdy
-python3 tools/layout-lab/lab.py neighborhood --layout whirl --focus-positions 21,24,25
-python3 tools/layout-lab/lab.py optimize --layout whirl --iterations 12000
-```
-
-The first recorded run is in `tools/layout-lab/reports/first-run.md`.
-
 ## nRF52 BLE stability
 
-nRF52 wireless builds automatically append `config/nrf52_ble_stability.conf`.
-That profile uses the calibrated internal LFRC clock instead of trusting the
-controller board's external 32 kHz crystal, and raises BLE TX power to +8 dBm.
-This is intentional for nRF52840 controllers that otherwise reconnect poorly or
-drop under normal use.
+nRF52 wireless builds automatically append `config/nrf52_ble.conf`.
+That profile keeps LE Ping enabled so the keyboard answers the host's periodic
+encryption-verification pings (without it, hosts hit an authentication-procedure
+timeout and disconnect with reason `0x22` after ~40s idle). It also uses the
+calibrated internal LFRC clock instead of trusting the controller board's
+external 32 kHz crystal, and raises BLE TX power to +8 dBm. All intentional for
+nRF52840 controllers that otherwise reconnect poorly or drop under normal use.
 
 After changing BLE clock or bond settings, flash `settings_reset.uf2` to both
 halves, then flash the normal left/right UF2s and pair from a freshly removed
