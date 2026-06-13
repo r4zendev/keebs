@@ -1,0 +1,5 @@
+board: xiao_ble/nrf52840/zmk
+builds:
+  adept:
+    shield: adept
+    snippets: studio-rpc-usb-uart

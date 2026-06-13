@@ -205,7 +205,7 @@ sync_workspace_config() {
     if [[ -f "$kb_conf" ]]; then
         {
             [[ -f "$CONFIG_DIR/default.conf" ]] && cat "$CONFIG_DIR/default.conf"
-            uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]] && cat "$CONFIG_DIR/nrf52_ble_stability.conf"
+            uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble.conf" ]] && cat "$CONFIG_DIR/nrf52_ble.conf"
             cat "$kb_conf"
             [[ -n "$extra_conf" && -f "$extra_conf" ]] && cat "$extra_conf"
         } > "$WORKSPACE/config/$KEYBOARD.conf"
@@ -213,14 +213,14 @@ sync_workspace_config() {
         if [[ -n "$extra_conf" && -f "$extra_conf" ]]; then
             {
                 cat "$CONFIG_DIR/default.conf"
-                uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]] && cat "$CONFIG_DIR/nrf52_ble_stability.conf"
+                uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble.conf" ]] && cat "$CONFIG_DIR/nrf52_ble.conf"
                 cat "$extra_conf"
             } > "$WORKSPACE/config/$KEYBOARD.conf"
         else
-            if uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble_stability.conf" ]]; then
+            if uses_nrf52_ble_board && [[ -f "$CONFIG_DIR/nrf52_ble.conf" ]]; then
                 {
                     cat "$CONFIG_DIR/default.conf"
-                    cat "$CONFIG_DIR/nrf52_ble_stability.conf"
+                    cat "$CONFIG_DIR/nrf52_ble.conf"
                 } > "$WORKSPACE/config/$KEYBOARD.conf"
             else
                 ln -sf "$CONFIG_DIR/default.conf" "$WORKSPACE/config/$KEYBOARD.conf"
@@ -250,7 +250,8 @@ setup_workspace() {
 
     python3 -m venv "$WORKSPACE/.venv"
     "$WORKSPACE/.venv/bin/pip" install -q -r "$WORKSPACE/zephyr/scripts/requirements.txt"
-    "$WORKSPACE/.venv/bin/pip" install -q protobuf grpcio-tools
+    "$WORKSPACE/.venv/bin/pip" install -q -U protobuf
+    "$WORKSPACE/.venv/bin/pip" install -q --ignore-installed west
 
     # Apply patches
     if [[ -d "$KB_DIR/shields" ]]; then

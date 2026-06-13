@@ -1,0 +1,10 @@
+file_format: "1"
+id: cantor_ble
+name: Cantor BLE
+type: shield
+requires: [nice_nano]
+features:
+  - keys
+siblings:
+  - cantor_ble_left
+  - cantor_ble_right

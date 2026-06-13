@@ -1,0 +1,11 @@
+file_format: "1"
+id: adept
+name: AdeptBLE
+type: shield
+url: https://github.com/taichan1113/mouse-test
+requires:
+  - xiao_ble
+features:
+  - keys
+  - pointer
+  - studio

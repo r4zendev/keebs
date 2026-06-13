@@ -1,0 +1,9 @@
+if SHIELD_CANTOR_BLE_DIODEPROBE
+
+config ZMK_KEYBOARD_NAME
+    default "Cantor Dprobe"
+
+config ZMK_BLE
+    default y
+
+endif

@@ -1,5 +1,5 @@
 CONF := draw/config.yaml
-BOARD_TARGETS := glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl choctyl
+BOARD_TARGETS := glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla adept totem cantor_ble yetis wysteria klor dartyl choctyl
 
 # ─── Draw config ────────────────────────────────────────────────────
 GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
@@ -27,7 +27,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 
 # ─── Main targets ───────────────────────────────────────────────────
 .PHONY: all build draw setup clean help \
-         glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla yetis wysteria klor dartyl choctyl \
+         glove80 cradio aurora piantor corne cygnus artemis ansic klotz lambbt lintilla adept totem cantor_ble yetis wysteria klor dartyl choctyl \
          corne-build corne-setup corne-clean corne-flash corne-distclean \
          corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-flash corne-qmk-distclean \
          corne-zmk corne-zmk-build corne-zmk-setup corne-zmk-clean corne-zmk-reset \
@@ -49,7 +49,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
          %-build %-draw %-setup %-clean %-reset %-left %-right
 
 all: build draw
-build: glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build yetis-build wysteria-build klor-build dartyl-build choctyl-build
+build: glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build adept-build totem-build cantor_ble-build yetis-build wysteria-build klor-build dartyl-build choctyl-build
 draw: $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG)
 setup: glove80-setup cradio-setup aurora-setup piantor-setup corne-setup cygnus-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup yetis-setup wysteria-setup
 
@@ -92,6 +92,9 @@ ansic: ansic-build
 klotz: klotz-build
 lambbt: lambbt-build
 lintilla: lintilla-build
+adept: adept-build
+totem: totem-build
+cantor_ble: cantor_ble-build
 yetis: yetis-build
 wysteria: wysteria-build
 klor: klor-build
@@ -167,6 +170,9 @@ ansic-build:   ; ./build.sh ansic
 klotz-build:   ; ./build.sh klotz
 lambbt-build:  ; ./build.sh lambbt
 lintilla-build: ; ./build.sh lintilla
+adept-build: ; ./build.sh adept
+totem-build: ; ./build.sh totem
+cantor_ble-build: ; ./build.sh cantor_ble
 yetis-build:   ; ./qmk-build.sh build
 yetis-setup:   ; ./qmk-build.sh setup
 yetis-clean:   ; ./qmk-build.sh clean
@@ -258,6 +264,6 @@ $(AURORA_SVG): $(AURORA_YAML) $(CONF)
 	keymap -c $(CONF) draw $< -z $(AURORA_KEYBOARD) > $@
 
 # ─── Clean ──────────────────────────────────────────────────────────
-clean: glove80-clean cradio-clean aurora-clean piantor-clean corne-clean cygnus-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean yetis-clean wysteria-clean klor-clean
+clean: glove80-clean cradio-clean aurora-clean piantor-clean corne-clean cygnus-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean adept-clean totem-clean cantor_ble-clean yetis-clean wysteria-clean klor-clean
 	rm -f $(GLOVE80_YAML) $(GLOVE80_SVG) $(CRADIO_YAML) $(CRADIO_SVG) $(AURORA_YAML) $(AURORA_SVG)
 	rm -rf .cache

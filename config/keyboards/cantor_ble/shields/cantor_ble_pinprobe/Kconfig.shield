@@ -1,0 +1,2 @@
+config SHIELD_CANTOR_BLE_PINPROBE
+    def_bool $(shields_list_contains,cantor_ble_pinprobe)

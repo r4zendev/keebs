@@ -1,0 +1,5 @@
+config SHIELD_CANTOR_BLE_LEFT
+    def_bool $(shields_list_contains,cantor_ble_left)
+
+config SHIELD_CANTOR_BLE_RIGHT
+    def_bool $(shields_list_contains,cantor_ble_right)

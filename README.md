@@ -33,6 +33,9 @@ This repo keeps one shared layout stack across a few boards, with behavior built
 | [KLOTZ](https://github.com/GEIGEIGEIST/KLOTZ) | `klotz.*` wireless shield | `klotz` |
 | [LambBT](https://github.com/johnlamb/LambBT) | `lambbt.*` wireless shield | `lambbt` |
 | [Lintilla](https://github.com/ctranstrum/lintilla/tree/zmk) | `lintilla.*` Xiao BLE shield | `lintilla` |
+| [Adept BLE](https://github.com/taichan1113/mouse-test) | `adept.*` Xiao BLE PMW3610 trackball shield | `adept` |
+| [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) (+[TOTEMX](https://github.com/azhizhinov/TOTEMX)) | `totem.*` Xiao BLE shield | `totem` |
+| Cantor BLE (own PCB) | `cantor_ble.*` nice!nano shield | `cantor_ble` |
 | [Wysteria](https://github.com/j-w-e/wysteria) | ZMK wireless config + generated QMK wired keymap | `wysteria` |
 | [KLOR](https://github.com/GEIGEIGEIST/KLOR) | ZMK wireless config + generated QMK wired keymap | `klor` |
 

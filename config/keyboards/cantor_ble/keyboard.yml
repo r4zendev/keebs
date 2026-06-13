@@ -1,0 +1,13 @@
+board: nice_nano/nrf52840/zmk
+default_builds:
+  - left
+  - right
+builds:
+  left:
+    shield: cantor_ble_left
+  right:
+    shield: cantor_ble_right
+  pinprobe:
+    shield: cantor_ble_pinprobe
+  diodeprobe:
+    shield: cantor_ble_diodeprobe

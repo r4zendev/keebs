@@ -1,0 +1,15 @@
+if SHIELD_ADEPT
+
+config ZMK_KEYBOARD_NAME
+    default "AdeptBLE"
+
+config ZMK_BLE
+    default y
+
+config ZMK_USB
+    default y
+
+config SPI
+    default y
+
+endif

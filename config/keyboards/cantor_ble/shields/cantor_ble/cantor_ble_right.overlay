@@ -1,0 +1,5 @@
+#include "cantor_ble.dtsi"
+
+&default_transform {
+    col-offset = <6>;
+};

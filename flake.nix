@@ -19,6 +19,7 @@
           cmake
           ninja
           dtc
+          protobuf
         ];
       };
     };

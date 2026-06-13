@@ -1,0 +1,9 @@
+if SHIELD_CANTOR_BLE_PINPROBE
+
+config ZMK_KEYBOARD_NAME
+    default "Cantor Pinprobe"
+
+config ZMK_BLE
+    default y
+
+endif

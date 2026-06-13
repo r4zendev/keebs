@@ -1,0 +1,22 @@
+if SHIELD_CANTOR_BLE_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Cantor BLE"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_USB
+    default y
+
+endif
+
+if SHIELD_CANTOR_BLE_LEFT || SHIELD_CANTOR_BLE_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif
+
+config ZMK_BLE
+    default y
