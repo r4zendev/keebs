@@ -34,6 +34,7 @@ enum custom_keycodes {
     LANG_RU,
     V_COM_EX,
     V_DOT_Q,
+    NUM_SHIFT,
 };
 
 #define OS_LINUX 1
@@ -220,6 +221,34 @@ static bool process_num_repeat(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+static bool process_num_shift(uint16_t keycode, keyrecord_t *record) {
+    static bool num_shift_active = false;
+    static bool num_shift_interrupted = false;
+    static uint32_t num_shift_timer = 0;
+
+    if (keycode == NUM_SHIFT) {
+        if (record->event.pressed) {
+            num_shift_active = true;
+            num_shift_interrupted = false;
+            num_shift_timer = timer_read32();
+            layer_on(L_NUM);
+        } else {
+            layer_off(L_NUM);
+            const bool tapped = !num_shift_interrupted && timer_elapsed32(num_shift_timer) < TAPPING_TERM;
+            num_shift_active = false;
+            if (tapped) {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+            }
+        }
+        return false;
+    }
+
+    if (num_shift_active && record->event.pressed) {
+        num_shift_interrupted = true;
+    }
+    return true;
+}
+
 static bool process_mouse_t(uint16_t keycode, keyrecord_t *record) {
     if (keycode == MOUSE_T) {
         if (record->event.pressed) {
@@ -346,6 +375,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 
     switch (keycode) {
         case NUM_REPEAT:
+        case NUM_SHIFT:
         case MAGIC:
         case RACKET_MAGIC:
         case STURDY_MAGIC:
@@ -361,6 +391,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (!process_num_repeat(keycode, record)) {
+        return false;
+    }
+
+    if (!process_num_shift(keycode, record)) {
         return false;
     }
 
