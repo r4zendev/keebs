@@ -1,3 +1,34 @@
 board: nice_nano/nrf52840/zmk
-shield_prefix: charybdis_nano
-split_suffixes: "_left _right"
+
+default_builds: [left, right]
+
+builds:
+  # Normal split: right half is central (trackball side), left is peripheral.
+  left:
+    shield: charybdis_nano_left
+  right:
+    shield: charybdis_nano_right
+  # diagnostic: right central with USB serial logging
+  right_log:
+    shield: charybdis_nano_right
+    cmake_args: -DCONFIG_ZMK_USB_LOGGING=y
+    label: charybdis_nano_right_log
+
+  # Opt-in underdongle (XIAO nRF52840 + ST7789 screen). The dongle is the
+  # central; BOTH halves become peripheral. Build all three:
+  #   ./build.sh charybdis_nano dongle
+  #   ./build.sh charybdis_nano dongle_left
+  #   ./build.sh charybdis_nano dongle_right
+  dongle:
+    board: xiao_ble/nrf52840/zmk
+    shield: charybdis_dongle underdongle_adapter
+    cmake_args: -DCONFIG_ZMK_USB_LOGGING=y
+    label: charybdis_dongle
+  dongle_left:
+    shield: charybdis_nano_left
+    cmake_args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    label: charybdis_left_dongle
+  dongle_right:
+    shield: charybdis_nano_right
+    cmake_args: -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+    label: charybdis_right_dongle

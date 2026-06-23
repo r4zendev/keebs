@@ -8,6 +8,8 @@ manifest:
       url-base: https://github.com/caksoylar
     - name: r4zendev
       url-base: https://github.com/r4zendev
+    - name: zzeneg
+      url-base: https://github.com/zzeneg
 
   projects:
     - name: zmk
@@ -17,11 +19,20 @@ manifest:
     - name: zmk-helpers
       remote: urob
       revision: main
+    - name: zmk-leader-key
+      remote: urob
+      revision: main
     - name: zmk-adaptive-key
       remote: r4zendev
       revision: skipmagic
     - name: zmk-rgbled-widget
       remote: caksoylar
+      revision: main
+    - name: zmk-component-underdongle
+      remote: r4zendev
+      revision: main
+    - name: zmk-raw-hid
+      remote: zzeneg
       revision: main
 
   self:

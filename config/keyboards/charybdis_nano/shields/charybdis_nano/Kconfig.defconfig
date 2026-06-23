@@ -4,3 +4,12 @@ config ZMK_KEYBOARD_NAME
     default "Charybdis Nano"
 
 endif
+
+# Right half is central by default (trackball side). A `default` (not `select`)
+# so the dongle build can override it to peripheral via cmake_args.
+if SHIELD_CHARYBDIS_NANO_RIGHT
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif

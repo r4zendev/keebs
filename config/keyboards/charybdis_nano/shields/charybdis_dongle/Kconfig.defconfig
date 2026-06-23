@@ -1,0 +1,32 @@
+if SHIELD_CHARYBDIS_DONGLE
+
+config ZMK_KEYBOARD_NAME
+    default "charybdis dgl"
+
+# underdongle compiles its time/volume widgets unconditionally but only
+# defines their structs under CONFIG_RAW_HID, so raw-HID must be on.
+config RAW_HID
+    default y
+
+config ZMK_SPLIT
+    default y
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+# left + right halves = 2 peripherals
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 2
+
+# peripherals (2) + 5 BT host profiles
+config BT_MAX_CONN
+    default 7
+
+config BT_MAX_PAIRED
+    default 7
+
+# central must process the relayed trackball input
+config ZMK_POINTING
+    default y
+
+endif
