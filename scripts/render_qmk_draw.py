@@ -90,10 +90,6 @@ def main() -> None:
     if not set(core_roles).issubset(slots):
         raise ValueError(f"{args.profile} QMK slots do not cover the 34-key core")
 
-    # draw_slots is what's actually shown: an explicit visual ordering
-    # (qmk_draw_order) if the board needs a synthetic layout, else the real
-    # firmware slots minus positions that aren't real physical keys
-    # (board_only_positions, e.g. an encoder press with no keycap).
     board_only = set(profile.get("board_only_positions", []))
     draw_slots = profile.get("qmk_draw_order") or [slot for slot in slots if slot not in board_only]
     if len(draw_slots) != profile["physical_keys"]:
@@ -137,7 +133,6 @@ def main() -> None:
 
     data = yaml.safe_load(args.out.read_text())
     if "qmk_draw_order" in profile:
-        # drawn via a synthetic -n notation, not this embedded layout name
         data.pop("layout", None)
     for name, layer in data["layers"].items():
         data["layers"][name] = [clean_key(key) for key in layer]

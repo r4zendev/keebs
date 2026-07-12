@@ -116,14 +116,6 @@
       "zmk": {"board": "xiao_ble/nrf52840/zmk", "shields": ["lintilla_left_central", "lintilla_right_peripheral"]},
       "alpha_capacity": 38
     },
-    "corne_42": {
-      "physical_keys": 42,
-      "binding_positions": 42,
-      "geometry": "3x6+3 3+3x6",
-      "layout_source": "zmk_dts",
-      "alpha_capacity": 38,
-      "target_confirmation_required": true
-    },
     "dactyl_cc_68": {
       "physical_keys": 68,
       "binding_positions": 68,
@@ -201,7 +193,7 @@
     "wysteria_38": {
       "physical_keys": 36,
       "binding_positions": 38,
-      "board_only_positions": ["L_THUMB_OPTIONAL_0", "R_THUMB_OPTIONAL_0"],
+      "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
       "geometry": "wysteria",
       "layout_source": "qmk_info",
       "zmk_transform": "config/keyboards/wysteria/shields/wysteria/wysteria.dtsi",
@@ -219,7 +211,7 @@
         "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
         "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
         "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
-        "L_THUMB_OPTIONAL_0", "L_THUMB_A", "L_THUMB_OPTIONAL_1", "L_THUMB_B", "R_THUMB_B", "R_THUMB_OPTIONAL_1", "R_THUMB_A", "R_THUMB_OPTIONAL_0"
+        "L_THUMB_B", "L_THUMB_A", "L_THUMB_OPTIONAL_1", "ENC_L_PRESS", "ENC_R_PRESS", "R_THUMB_OPTIONAL_1", "R_THUMB_A", "R_THUMB_B"
       ],
       "alpha_capacity": 38
     }

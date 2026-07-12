@@ -73,7 +73,6 @@ def build_held_map(data):
 
 
 def parse_ranges(spec):
-    """Parse "0-9,20,10-19" into a flat list of indices, expanding ranges."""
     indices = []
     for part in spec.split(","):
         if not part:

@@ -40,6 +40,15 @@ def validate_position_sets(model: dict) -> None:
     if standard_36 - core_34 != {"L_THUMB_OPTIONAL", "R_THUMB_OPTIONAL"} or core_34 - standard_36:
         fail("standard_36 must add only optional outer thumbs")
 
+    totem_38 = set(position_sets.get("totem_38", []))
+    if totem_38 - standard_36 != {"L_BOTTOM_EXTRA", "R_BOTTOM_EXTRA"} or standard_36 - totem_38:
+        fail("totem_38 must be standard_36 plus only the two outer-pinky extras")
+
+    klor_konrad_42 = set(position_sets.get("klor_konrad_42", []))
+    klor_polydactyl_44 = set(position_sets.get("klor_polydactyl_44", []))
+    if klor_polydactyl_44 - klor_konrad_42 != {"L_THUMB_OUTER", "R_THUMB_OUTER"} or klor_konrad_42 - klor_polydactyl_44:
+        fail("klor_polydactyl_44 must be klor_konrad_42 plus only the two outer thumbs")
+
 
 def validate_alphas(model: dict) -> None:
     if model["active_alphas"] != ["graphite", "vestnik_dm"]:
@@ -154,9 +163,6 @@ def validate_profiles(model: dict, profiles: dict) -> None:
                 fail(f"{name} repeats {firmware.upper()} slots")
             if profile["alpha_capacity"] >= 34 and set(slots) & core_34 != core_34:
                 fail(f"{name} {firmware.upper()} slots must map every 34-key core role")
-            # board_only_positions describes the QMK binding-array/physical-key gap
-            # (e.g. an encoder press QMK can scan but this board's ZMK transform
-            # never wires up at all) -- only the QMK slots need to name them.
             if firmware == "qmk" and not set(board_only).issubset(slots):
                 fail(f"{name} {firmware.upper()} slots must name board-only positions")
 

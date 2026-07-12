@@ -28,13 +28,15 @@ LUNA_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 TOTEM_KEYMAP := config/keyboards/totem/totem.keymap
 TOTEM_YAML   := draw/totem.yaml
 TOTEM_SVG    := draw/totem.svg
+SHAPE_36 := 33333+3 3+33333
+
 TOTEM_LAYOUT := 133333+3 3+333331
 TOTEM_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 
 CYGNUS_KEYMAP := config/keyboards/cygnus/cygnus.keymap
 CYGNUS_YAML   := draw/cygnus.yaml
 CYGNUS_SVG    := draw/cygnus.svg
-CYGNUS_LAYOUT := 33333+3 3+33333
+CYGNUS_LAYOUT := $(SHAPE_36)
 CYGNUS_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 
 CHARYBDIS_KEYMAP := config/keyboards/charybdis_nano/charybdis_nano.keymap
@@ -43,7 +45,7 @@ CHARYBDIS_35_SVG := draw/charybdis_35.svg
 CHARYBDIS_35_LAYOUT := 33333+3 2+33333
 CHARYBDIS_36_YAML := draw/charybdis_36.yaml
 CHARYBDIS_36_SVG := draw/charybdis_36.svg
-CHARYBDIS_36_LAYOUT := 33333+3 3+33333
+CHARYBDIS_36_LAYOUT := $(SHAPE_36)
 CHARYBDIS_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 
 DARTYL_YAML    := draw/dartyl.yaml
@@ -90,7 +92,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 # ─── Main targets ───────────────────────────────────────────────────
 .PHONY: all build draw setup clean help \
          luna luna-build luna-draw luna-setup luna-clean glove80 cradio aurora aurora-build aurora-zmk aurora-zmk-build aurora-zmk-setup aurora-zmk-clean aurora-qmk aurora-qmk-build aurora-qmk-setup aurora-qmk-clean aurora-qmk-flash aurora-qmk-distclean aurora-wired aurora-wireless piantor corne cygnus artemis ansic klotz lambbt lintilla adept totem cantor_ble yetis wysteria klor dartyl choctyl dactyl_cc dactyl-cc charybdis_nano charybdis \
-         corne-build corne-setup corne-clean corne-flash corne-distclean \
+         corne-build corne-distclean \
          corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-flash corne-qmk-distclean \
          corne-zmk corne-zmk-build corne-zmk-setup corne-zmk-clean corne-zmk-reset \
          corne-wired corne-wireless \
@@ -110,7 +112,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
          klor-wired klor-wireless \
          dactyl-cc-build dactyl-cc-setup dactyl-cc-clean dactyl-cc-flash dactyl-cc-distclean \
          totem-draw cygnus-draw charybdis_nano-draw charybdis-draw dartyl-draw choctyl-draw yetis-draw wysteria-draw klor-draw klor-polydactyl-draw klor-konrad-draw \
-         %-build %-draw %-setup %-clean %-reset %-left %-right
+         %-setup %-clean %-reset %-left %-right
 
 all: build draw
 build: luna-build glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build adept-build totem-build cantor_ble-build yetis-build wysteria-build klor-build dartyl-build choctyl-build dactyl-cc-build charybdis_nano-build
@@ -171,7 +173,36 @@ dactyl-cc: dactyl-cc-build
 charybdis_nano: charybdis_nano-build
 charybdis: charybdis_nano-build
 
-# ─── Firmware (delegates to build.sh) ───────────────────────────────
+# ─── Firmware (delegates to build.sh / qmk-build.sh) ────────────────
+define QMK_BUILD_RULES
+$(1)-qmk: $(1)-qmk-build
+$(1)-qmk-build: ; QMK_KEYBOARD=$(2)$(if $(3), QMK_OUTPUT_KEYBOARD=$(3)) ./qmk-build.sh build
+$(1)-qmk-setup: ; QMK_KEYBOARD=$(2)$(if $(3), QMK_OUTPUT_KEYBOARD=$(3)) ./qmk-build.sh setup
+$(1)-qmk-clean: ; QMK_KEYBOARD=$(2)$(if $(3), QMK_OUTPUT_KEYBOARD=$(3)) ./qmk-build.sh clean
+$(1)-qmk-flash: ; QMK_KEYBOARD=$(2)$(if $(3), QMK_OUTPUT_KEYBOARD=$(3)) ./qmk-build.sh flash
+$(1)-qmk-distclean: ; QMK_KEYBOARD=$(2)$(if $(3), QMK_OUTPUT_KEYBOARD=$(3)) ./qmk-build.sh distclean
+endef
+
+$(eval $(call QMK_BUILD_RULES,dartyl,dartyl,))
+$(eval $(call QMK_BUILD_RULES,choctyl,choctyl,))
+$(eval $(call QMK_BUILD_RULES,aurora,splitkb/aurora/sweep/rev1,splitkb_aurora_sweep))
+$(eval $(call QMK_BUILD_RULES,cygnus,crkbd/rev1,cygnus))
+$(eval $(call QMK_BUILD_RULES,wysteria,wysteria,))
+$(eval $(call QMK_BUILD_RULES,klor,klor,klor))
+
+define ZMK_BUILD_RULES
+$(1)-zmk: $(1)-zmk-build
+$(1)-zmk-build: ; ./build.sh $(1)
+$(1)-zmk-setup: ; ./build.sh $(1) setup
+$(1)-zmk-clean: ; ./build.sh $(1) clean
+$(1)-zmk-reset: ; ./build.sh $(1) reset
+endef
+
+$(eval $(call ZMK_BUILD_RULES,corne))
+$(eval $(call ZMK_BUILD_RULES,cygnus))
+$(eval $(call ZMK_BUILD_RULES,wysteria))
+$(eval $(call ZMK_BUILD_RULES,klor))
+
 dartyl-build: dartyl-qmk-build
 dartyl-setup: dartyl-qmk-setup
 dartyl-clean: dartyl-qmk-clean
@@ -179,12 +210,6 @@ dartyl-flash: dartyl-qmk-flash
 dartyl-distclean: dartyl-qmk-distclean
 
 luna-build: ; ./build.sh luna
-dartyl-qmk: dartyl-qmk-build
-dartyl-qmk-build: ; QMK_KEYBOARD=dartyl ./qmk-build.sh build
-dartyl-qmk-setup: ; QMK_KEYBOARD=dartyl ./qmk-build.sh setup
-dartyl-qmk-clean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh clean
-dartyl-qmk-flash: ; QMK_KEYBOARD=dartyl ./qmk-build.sh flash
-dartyl-qmk-distclean: ; QMK_KEYBOARD=dartyl ./qmk-build.sh distclean
 
 choctyl: choctyl-build
 choctyl-build: choctyl-qmk-build
@@ -192,12 +217,6 @@ choctyl-setup: choctyl-qmk-setup
 choctyl-clean: choctyl-qmk-clean
 choctyl-flash: choctyl-qmk-flash
 choctyl-distclean: choctyl-qmk-distclean
-choctyl-qmk: choctyl-qmk-build
-choctyl-qmk-build: ; QMK_KEYBOARD=choctyl ./qmk-build.sh build
-choctyl-qmk-setup: ; QMK_KEYBOARD=choctyl ./qmk-build.sh setup
-choctyl-qmk-clean: ; QMK_KEYBOARD=choctyl ./qmk-build.sh clean
-choctyl-qmk-flash: ; QMK_KEYBOARD=choctyl ./qmk-build.sh flash
-choctyl-qmk-distclean: ; QMK_KEYBOARD=choctyl ./qmk-build.sh distclean
 dactyl-cc-build: ; QMK_KEYBOARD=dactyl_cc QMK_KEYMAP=default ./qmk-build.sh build
 dactyl-cc-setup: ; QMK_KEYBOARD=dactyl_cc QMK_KEYMAP=default ./qmk-build.sh setup
 dactyl-cc-clean: ; QMK_KEYBOARD=dactyl_cc QMK_KEYMAP=default ./qmk-build.sh clean
@@ -209,33 +228,20 @@ aurora-build: aurora-zmk-build aurora-qmk-build
 aurora-setup: aurora-zmk-setup aurora-qmk-setup
 aurora-clean: aurora-zmk-clean aurora-qmk-clean
 aurora-distclean: aurora-zmk-clean aurora-qmk-distclean
-aurora-zmk: aurora-zmk-build
 aurora-zmk-build: ; ./build.sh splitkb_aurora_sweep
 aurora-zmk-setup: ; ./build.sh splitkb_aurora_sweep setup
 aurora-zmk-clean: ; ./build.sh splitkb_aurora_sweep clean
-aurora-qmk: aurora-qmk-build
-aurora-qmk-build: ; QMK_KEYBOARD=splitkb/aurora/sweep/rev1 QMK_OUTPUT_KEYBOARD=splitkb_aurora_sweep ./qmk-build.sh build
-aurora-qmk-setup: ; QMK_KEYBOARD=splitkb/aurora/sweep/rev1 QMK_OUTPUT_KEYBOARD=splitkb_aurora_sweep ./qmk-build.sh setup
-aurora-qmk-clean: ; QMK_KEYBOARD=splitkb/aurora/sweep/rev1 QMK_OUTPUT_KEYBOARD=splitkb_aurora_sweep ./qmk-build.sh clean
-aurora-qmk-flash: ; QMK_KEYBOARD=splitkb/aurora/sweep/rev1 QMK_OUTPUT_KEYBOARD=splitkb_aurora_sweep ./qmk-build.sh flash
-aurora-qmk-distclean: ; QMK_KEYBOARD=splitkb/aurora/sweep/rev1 QMK_OUTPUT_KEYBOARD=splitkb_aurora_sweep ./qmk-build.sh distclean
+aurora-zmk: aurora-zmk-build
 aurora-wired: aurora-qmk-build
 aurora-wireless: aurora-zmk-build
 piantor-build: ; ./build.sh piantor_pro
 charybdis_nano-build: ; ./build.sh charybdis_nano
 corne-build: corne-zmk-build
-corne-setup: corne-zmk-setup
-corne-clean: corne-zmk-clean
 corne-distclean: corne-zmk-clean
 corne-wireless: corne-zmk-build
 corne-wired corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-flash corne-qmk-distclean:
 	@printf "No QMK Corne target in this repo. Use cygnus-wired for crkbd/rev1 wiring.\n" >&2
 	@false
-corne-zmk: corne-zmk-build
-corne-zmk-build: ; ./build.sh corne
-corne-zmk-setup: ; ./build.sh corne setup
-corne-zmk-clean: ; ./build.sh corne clean
-corne-zmk-reset: ; ./build.sh corne reset
 cygnus-build: cygnus-zmk-build cygnus-qmk-build
 cygnus-setup: cygnus-zmk-setup cygnus-qmk-setup
 cygnus-clean: cygnus-zmk-clean cygnus-qmk-clean
@@ -243,17 +249,6 @@ cygnus-flash: cygnus-qmk-flash
 cygnus-distclean: cygnus-zmk-clean cygnus-qmk-distclean
 cygnus-wired: cygnus-qmk-build
 cygnus-wireless: cygnus-zmk-build
-cygnus-qmk: cygnus-qmk-build
-cygnus-qmk-build: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh build
-cygnus-qmk-setup: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh setup
-cygnus-qmk-clean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh clean
-cygnus-qmk-flash: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh flash
-cygnus-qmk-distclean: ; QMK_KEYBOARD=crkbd/rev1 QMK_OUTPUT_KEYBOARD=cygnus ./qmk-build.sh distclean
-cygnus-zmk: cygnus-zmk-build
-cygnus-zmk-build: ; ./build.sh cygnus
-cygnus-zmk-setup: ; ./build.sh cygnus setup
-cygnus-zmk-clean: ; ./build.sh cygnus clean
-cygnus-zmk-reset: ; ./build.sh cygnus reset
 artemis-build: ; ./build.sh artemis
 ansic-build:   ; ./build.sh ansic
 klotz-build:   ; ./build.sh klotz
@@ -274,22 +269,11 @@ wysteria-flash: wysteria-qmk-flash
 wysteria-distclean: wysteria-zmk-clean wysteria-qmk-distclean
 wysteria-wired: wysteria-qmk-build
 wysteria-wireless: wysteria-zmk-build
-wysteria-qmk: wysteria-qmk-build
-wysteria-qmk-build: ; QMK_KEYBOARD=wysteria ./qmk-build.sh build
-wysteria-qmk-setup: ; QMK_KEYBOARD=wysteria ./qmk-build.sh setup
-wysteria-qmk-clean: ; QMK_KEYBOARD=wysteria ./qmk-build.sh clean
-wysteria-qmk-flash: ; QMK_KEYBOARD=wysteria ./qmk-build.sh flash
-wysteria-qmk-distclean: ; QMK_KEYBOARD=wysteria ./qmk-build.sh distclean
 wysteria-bodged-wired: wysteria-bodged-qmk-build
 wysteria-bodged-qmk-build: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh build
 wysteria-bodged-qmk-setup: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh setup
 wysteria-bodged-qmk-clean: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh clean
 wysteria-bodged-qmk-flash: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh flash
-wysteria-zmk: wysteria-zmk-build
-wysteria-zmk-build: ; ./build.sh wysteria
-wysteria-zmk-setup: ; ./build.sh wysteria setup
-wysteria-zmk-clean: ; ./build.sh wysteria clean
-wysteria-zmk-reset: ; ./build.sh wysteria reset
 klor-build: klor-zmk-build klor-qmk-build
 klor-setup: klor-zmk-setup klor-qmk-setup
 klor-clean: klor-zmk-clean klor-qmk-clean
@@ -297,17 +281,6 @@ klor-flash: klor-qmk-flash
 klor-distclean: klor-zmk-clean klor-qmk-distclean
 klor-wired: klor-qmk-build
 klor-wireless: klor-zmk-build
-klor-qmk: klor-qmk-build
-klor-qmk-build: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor ./qmk-build.sh build
-klor-qmk-setup: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor ./qmk-build.sh setup
-klor-qmk-clean: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor ./qmk-build.sh clean
-klor-qmk-flash: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor ./qmk-build.sh flash
-klor-qmk-distclean: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor ./qmk-build.sh distclean
-klor-zmk: klor-zmk-build
-klor-zmk-build: ; ./build.sh klor
-klor-zmk-setup: ; ./build.sh klor setup
-klor-zmk-clean: ; ./build.sh klor clean
-klor-zmk-reset: ; ./build.sh klor reset
 klor-konrad-build: klor-konrad-zmk-build klor-konrad-qmk-build
 klor-konrad-zmk-build: ; ZMK_OUTPUT_KEYBOARD=klor_konrad EXTRA_KEYMAP_PATH="$(CURDIR)/config/keyboards/klor/konrad.keymap" ./build.sh klor
 klor-konrad-qmk-build: ; QMK_KEYBOARD=klor QMK_OUTPUT_KEYBOARD=klor_konrad QMK_MAKE_ARGS="RAZEN_KLOR_KONRAD=yes" ./qmk-build.sh build
@@ -423,7 +396,6 @@ $(eval $(call QMK_DRAW_YAML_RULE,WYSTERIA))
 $(eval $(call QMK_DRAW_YAML_RULE,KLOR_POLYDACTYL))
 $(eval $(call QMK_DRAW_YAML_RULE,KLOR_KONRAD))
 
-# Real vendored keyboard.json coordinates: trustworthy geometry, draw as-is.
 define QMK_DRAW_SVG_FROM_INFO
 $$($(1)_SVG): $$($(1)_YAML) $$(CONF) $$($(1)_INFO)
 	keymap -c $$(CONF) draw $$< -j $$($(1)_INFO) -l $$($(1)_LAYOUT) > $$@
@@ -434,9 +406,6 @@ $(eval $(call QMK_DRAW_SVG_FROM_INFO,CHOCTYL))
 $(eval $(call QMK_DRAW_SVG_FROM_INFO,YETIS))
 $(eval $(call QMK_DRAW_SVG_FROM_INFO,WYSTERIA))
 
-# Klor's vendored keyboard.json coordinates are unreliable (misaligned
-# columns); draw from a synthetic notation instead. qmk_draw_order in
-# profiles.json puts the generated layer content in matching visual order.
 $(KLOR_POLYDACTYL_SVG): $(KLOR_POLYDACTYL_YAML) $(CONF)
 	keymap -c $(CONF) draw -n '$(KLOR_POLYDACTYL_NOTATION)' $< > $@
 

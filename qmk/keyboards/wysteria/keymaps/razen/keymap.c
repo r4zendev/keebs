@@ -92,12 +92,6 @@ enum custom_keycodes {
 #    define RGB_VAI RM_VALU
 #endif
 
-/*
- * ZMK source layout: 5+5 / 5+5 / 5+5 / 2+2.
- * Wysteria QMK layout: 5+5 / 5+5 / 5+5 / 4+4.
- * Use the tucked thumb plus the middle lower thumb on each side.
- * Space/BSPC stay on the middle lower thumbs; the other thumb roles use the tucked keys.
- */
 #define RAZEN_LAYOUT( \
     LT4, LT3, LT2, LT1, LT0, RT0, RT1, RT2, RT3, RT4, \
     LM4, LM3, LM2, LM1, LM0, RM0, RM1, RM2, RM3, RM4, \
@@ -108,7 +102,7 @@ enum custom_keycodes {
         LT4, LT3, LT2, LT1, LT0,       RT0, RT1, RT2, RT3, RT4, \
         LM4, LM3, LM2, LM1, LM0,       RM0, RM1, RM2, RM3, RM4, \
         LB4, LB3, LB2, LB1, LB0,       RB0, RB1, RB2, RB3, RB4, \
-        KC_NO, LH2, KC_NO, LH1,        RH2, KC_NO, RH1, KC_NO \
+        LH1, LH2, KC_NO, KC_NO,        KC_NO, KC_NO, RH1, RH2 \
     )
 
 enum positions {
