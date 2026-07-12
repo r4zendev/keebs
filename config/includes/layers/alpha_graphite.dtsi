@@ -1,4 +1,6 @@
-#include "../generated/adaptive_swaps.dtsi"
+/* >>> generated adaptive swaps (do not edit — run ./scripts/generate) >>> */
+#include "../generated/alpha_graphite.dtsi"
+/* <<< end generated adaptive swaps <<< */
 
 #ifndef GRAPHITE_B
 #define GRAPHITE_B &kp B
@@ -46,14 +48,38 @@
 #define GRAPHITE_Z &kp Z
 #endif
 
+ZMK_ADAPTIVE_KEY(graphite_yous, bindings = <&kp S>;
+    yous_apostrophe { trigger-keys = <U>; prior-keys = <Y O>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&sqt_dqt>; };
+)
+ZMK_HOLD_TAP(yous_hml_s, bindings = <&kp>, <&graphite_yous>;
+             flavor = "balanced"; tapping-term-ms = <180>;
+             quick-tap-ms = <QUICK_TAP_MS>; require-prior-idle-ms = <100>;
+             hold-trigger-key-positions = <KEYS_R THUMBS>;
+             hold-trigger-on-release;)
+#undef GRAPHITE_S
+#define GRAPHITE_S &yous_hml_s LSHFT 0
+
+#ifdef LUNA
+ZMK_LAYER(Graphite,
+    GRAPHITE_B GRAPHITE_L GRAPHITE_D GRAPHITE_W &kp G
+    GRAPHITE_Y &kp F GRAPHITE_O &kp U &kp J
+    GRAPHITE_N GRAPHITE_R &hml LCTRL T GRAPHITE_S &kp V
+    &kp K GRAPHITE_H &hmr RCTRL A GRAPHITE_E &hmr RGUI I
+    GRAPHITE_X &kp M GRAPHITE_C
+    &kp P &dot_qmark &comma_excl
+    &thumb_bspc LAYER_Nav 0 THUMB_MAGIC
+    &thumb_spc LAYER_Symbol SPACE &num_shift LAYER_Num LSHFT
+)
+#else
 ZMK_BASE_LAYER(Graphite,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    GRAPHITE_B GRAPHITE_L GRAPHITE_D GRAPHITE_W GRAPHITE_Z ,  &kp J      &kp F      GRAPHITE_O &kp U      &comma_excl ,
+    GRAPHITE_B GRAPHITE_L GRAPHITE_D GRAPHITE_W GRAPHITE_Z ,  &sqt_dqt   &kp F      GRAPHITE_O &kp U      &kp J      ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
    GRAPHITE_N GRAPHITE_R &hml LCTRL T GRAPHITE_S &kp G ,  GRAPHITE_Y GRAPHITE_H &hmr RCTRL A GRAPHITE_E &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    GRAPHITE_X GRAPHITE_Q &kp M      GRAPHITE_C &kp V      ,  &kp K      &kp P      &sqt_dqt   &minus_slash &dot_qmark ,
+    GRAPHITE_Q GRAPHITE_X &kp M      GRAPHITE_C &kp V      ,  &kp K      &kp P      &dot_qmark &minus_slash &comma_excl ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                    LH_NONE &thumb_bspc LAYER_Nav 0  &num_repeat LAYER_Mouse 0 , &thumb_spc LAYER_Symbol SPACE  &num_shift LAYER_Num LSHFT RH_NONE
+                    LH_NONE &thumb_bspc LAYER_Nav 0  THUMB_MAGIC , &thumb_spc LAYER_Symbol SPACE  &num_shift LAYER_Num LSHFT RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
+#endif

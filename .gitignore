@@ -5,3 +5,14 @@
 build/
 .cache/
 .direnv/
+WIRED_ZMK_NOTES.md
+__pycache__/
+*.py[cod]
+
+config/includes/generated/
+
+draw/*.yaml
+!draw/config.yaml
+draw/*.svg
+!draw/cradio.svg
+!draw/luna.svg

@@ -57,11 +57,35 @@
 #define LH_NONE &none
 #define RH_NONE &none
 
+#define TOTEM_CAT_(a, b) a ## b
+#define TOTEM_CAT(a, b) TOTEM_CAT_(a, b)
+#define TOTEM_LEFT_EXTRA(name) TOTEM_CAT(TOTEM_LEFT_EXTRA_, name)
+#define TOTEM_RIGHT_EXTRA(name) TOTEM_CAT(TOTEM_RIGHT_EXTRA_, name)
+
+#define TOTEM_LEFT_EXTRA_Graphite &none
+#define TOTEM_RIGHT_EXTRA_Graphite &none
+#define TOTEM_LEFT_EXTRA_VestnikDm &kp COMMA
+#define TOTEM_RIGHT_EXTRA_VestnikDm &kp DOT
+#define TOTEM_LEFT_EXTRA_Symbol &none
+#define TOTEM_RIGHT_EXTRA_Symbol &none
+#define TOTEM_LEFT_EXTRA_Nav &none
+#define TOTEM_RIGHT_EXTRA_Nav &none
+#define TOTEM_LEFT_EXTRA_Num &none
+#define TOTEM_RIGHT_EXTRA_Num &none
+#define TOTEM_LEFT_EXTRA_NumMirror &none
+#define TOTEM_RIGHT_EXTRA_NumMirror &none
+#define TOTEM_LEFT_EXTRA_Fn &none
+#define TOTEM_RIGHT_EXTRA_Fn &none
+#define TOTEM_LEFT_EXTRA_Mouse &none
+#define TOTEM_RIGHT_EXTRA_Mouse &none
+#define TOTEM_LEFT_EXTRA_System &none
+#define TOTEM_RIGHT_EXTRA_System &none
+
 #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
     ZMK_LAYER(name, \
         LT RT \
         LM RM \
-        ___ LB RB ___ \
+        TOTEM_LEFT_EXTRA(name) LB RB TOTEM_RIGHT_EXTRA(name) \
         LH RH \
     )
 

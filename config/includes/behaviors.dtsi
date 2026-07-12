@@ -31,6 +31,11 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        ak_skip: adaptive_key_skip {
+            compatible = "zmk,behavior-adaptive-key-skip";
+            #binding-cells = <0>;
+        };
+
         minus_slash: minus_and_slash {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;

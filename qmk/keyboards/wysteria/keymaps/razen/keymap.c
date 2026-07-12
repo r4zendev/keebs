@@ -3,7 +3,6 @@
 enum layers {
     L_GRAPHITE,
     L_VESTNIK,
-    L_WHIRLMRL,
     L_SYMBOL,
     L_NAV,
     L_NUM,
@@ -34,6 +33,7 @@ enum custom_keycodes {
     V_COM_EX,
     V_DOT_Q,
     NUM_SHIFT,
+    STICKY_SHIFT,
 };
 
 #define OS_LINUX 1
@@ -129,7 +129,6 @@ static bool shift_active(void);
 static void tap_without_shift(uint16_t keycode);
 static void tap_morph(uint16_t normal, uint16_t shifted);
 static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_t shifted);
-static void handle_caps_combo(void);
 
 static uint16_t last_basic_keycode = KC_NO;
 static uint32_t last_basic_key_timer = 0;
@@ -179,14 +178,6 @@ static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_
         active_tap_hold_morph_keycode = KC_NO;
     }
     return false;
-}
-
-static void handle_caps_combo(void) {
-    if (shift_active()) {
-        tap_without_shift(KC_CAPS);
-    } else {
-        caps_word_on();
-    }
 }
 
 static void tap_repeat_key(keyrecord_t *record) {
@@ -357,15 +348,20 @@ static void remember_basic_key(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return;
     }
-    if (IS_QK_MODS(keycode) || get_mods() || get_oneshot_mods() || get_weak_mods()) {
+    if (get_mods() || get_oneshot_mods() || get_weak_mods()) {
         last_basic_keycode = KC_NO;
+        generated_reset_basic_history();
         return;
     }
 
-    const uint16_t basic = keycode & 0xFF;
+    uint16_t basic = keycode & 0xFF;
+    if (IS_QK_MODS(keycode) && !record->tap.count) {
+        return;
+    }
     if ((basic >= KC_A && basic <= KC_Z) || basic == KC_SPC || basic == KC_COMM || basic == KC_DOT) {
         last_basic_keycode = basic;
         last_basic_key_timer = timer_read32();
+        generated_record_basic_key(basic);
     }
 }
 
@@ -386,6 +382,14 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_generated_sticky_shift(keycode, record)) {
+        return false;
+    }
+
+    if (!process_generated_graphite_yous(keycode, record)) {
+        return false;
+    }
+
     if (!process_generated_adaptive_key(keycode, record)) {
         return false;
     }
@@ -444,6 +448,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    generated_sticky_shift_post_process(keycode, record);
+}
+
+void matrix_scan_user(void) {
+    generated_sticky_shift_task();
+}
+
 void process_combo_event(uint16_t combo_index, bool pressed) {
     process_generated_combo_event(combo_index, pressed);
 }
@@ -485,7 +497,6 @@ static void render_oled_caps(void) {
 static void render_oled_layer(void) {
     switch (get_highest_layer(layer_state)) {
         case L_VESTNIK: oled_write_ln_P(PSTR("Vestnik"), false); break;
-        case L_WHIRLMRL: oled_write_ln_P(PSTR("WhirlMrl"), false); break;
         case L_SYMBOL: oled_write_ln_P(PSTR("Symbol"), false); break;
         case L_NAV: oled_write_ln_P(PSTR("Nav"), false); break;
         case L_NUM: oled_write_ln_P(PSTR("Num"), false); break;

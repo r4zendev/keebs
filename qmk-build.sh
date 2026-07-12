@@ -33,6 +33,11 @@ if [[ -z "${QMK_OUTPUT_KEYBOARD+x}" && ( "$KEYBOARD" == "splitkb/aurora/sweep/re
 fi
 ARTIFACT_DIR="$REPO_ROOT/build/qmk/$OUTPUT_KEYBOARD"
 
+if [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" != "cygnus" ]]; then
+    echo "No QMK Corne target in this repo. Set QMK_OUTPUT_KEYBOARD=cygnus for Cygnus wiring." >&2
+    exit 1
+fi
+
 usage() {
     cat <<EOF
 Usage: $0 [setup|build|flash|clean|distclean]
@@ -140,17 +145,14 @@ patch_klor_keyboard() {
         return
     fi
 
-    python3 - "$QMK_HOME/keyboards/klor/rules.mk" "$QMK_HOME/keyboards/klor/config.h" "$QMK_HOME/keyboards/klor/keyboard.json" "$QMK_HOME/keyboards/klor/klor.c" "$QMK_HOME/keyboards/klor/halconf.h" <<'PY'
-import json
-import os
+    python3 - "$QMK_HOME/keyboards/klor/rules.mk" "$QMK_HOME/keyboards/klor/config.h" "$QMK_HOME/keyboards/klor/klor.c" "$QMK_HOME/keyboards/klor/halconf.h" <<'PY'
 import sys
 from pathlib import Path
 
 rules_path = Path(sys.argv[1])
 config_path = Path(sys.argv[2])
-keyboard_json_path = Path(sys.argv[3])
-klor_c_path = Path(sys.argv[4])
-halconf_path = Path(sys.argv[5])
+klor_c_path = Path(sys.argv[3])
+halconf_path = Path(sys.argv[4])
 
 rules = rules_path.read_text()
 rules = rules.replace("OLED_DRIVER = SSD1306", "OLED_DRIVER = ssd1306")
@@ -184,82 +186,6 @@ if "#    define RGB_MATRIX_DEFAULT_ON true" not in config:
         1,
     )
 config_path.write_text(config)
-
-keyboard_json = {
-    "keyboard_name": "KLOR",
-    "manufacturer": "GEIST",
-    "url": "https://github.com/GEIGEIGEIST/KLOR",
-    "usb": {
-        "vid": "0x3A3C",
-        "pid": "0x0001",
-        "device_version": "1.3.0"
-    },
-    "encoder": {
-        "rotary": [
-            {"pin_a": "F5", "pin_b": "F4", "resolution": 2}
-        ]
-    },
-    "split": {
-        "encoder": {
-            "right": {
-                "rotary": [
-                    {"pin_a": "F4", "pin_b": "F5", "resolution": 2}
-                ]
-            }
-        }
-    },
-    "layouts": {
-        "LAYOUT_polydactyl": {
-            "layout": [
-                {"matrix": [0, 1], "x": 0, "y": 0},
-                {"matrix": [0, 2], "x": 1, "y": 0},
-                {"matrix": [0, 3], "x": 2, "y": 0},
-                {"matrix": [0, 4], "x": 3, "y": 0},
-                {"matrix": [0, 5], "x": 4, "y": 0},
-                {"matrix": [4, 5], "x": 10, "y": 0},
-                {"matrix": [4, 4], "x": 11, "y": 0},
-                {"matrix": [4, 3], "x": 12, "y": 0},
-                {"matrix": [4, 2], "x": 13, "y": 0},
-                {"matrix": [4, 1], "x": 14, "y": 0},
-                {"matrix": [1, 0], "x": 0, "y": 1},
-                {"matrix": [1, 1], "x": 1, "y": 1},
-                {"matrix": [1, 2], "x": 2, "y": 1},
-                {"matrix": [1, 3], "x": 3, "y": 1},
-                {"matrix": [1, 4], "x": 4, "y": 1},
-                {"matrix": [1, 5], "x": 5, "y": 1},
-                {"matrix": [5, 5], "x": 9, "y": 1},
-                {"matrix": [5, 4], "x": 10, "y": 1},
-                {"matrix": [5, 3], "x": 11, "y": 1},
-                {"matrix": [5, 2], "x": 12, "y": 1},
-                {"matrix": [5, 1], "x": 13, "y": 1},
-                {"matrix": [5, 0], "x": 14, "y": 1},
-                {"matrix": [2, 0], "x": 0, "y": 2},
-                {"matrix": [2, 1], "x": 1, "y": 2},
-                {"matrix": [2, 2], "x": 2, "y": 2},
-                {"matrix": [2, 3], "x": 3, "y": 2},
-                {"matrix": [2, 4], "x": 4, "y": 2},
-                {"matrix": [2, 5], "x": 5, "y": 2},
-                {"matrix": [3, 5], "x": 6, "y": 2},
-                {"matrix": [7, 5], "x": 8, "y": 2},
-                {"matrix": [6, 5], "x": 9, "y": 2},
-                {"matrix": [6, 4], "x": 10, "y": 2},
-                {"matrix": [6, 3], "x": 11, "y": 2},
-                {"matrix": [6, 2], "x": 12, "y": 2},
-                {"matrix": [6, 1], "x": 13, "y": 2},
-                {"matrix": [6, 0], "x": 14, "y": 2},
-                {"matrix": [3, 1], "x": 2, "y": 3},
-                {"matrix": [3, 2], "x": 3, "y": 3},
-                {"matrix": [3, 3], "x": 4, "y": 3},
-                {"matrix": [3, 4], "x": 5, "y": 3},
-                {"matrix": [7, 4], "x": 9, "y": 3},
-                {"matrix": [7, 3], "x": 10, "y": 3},
-                {"matrix": [7, 2], "x": 11, "y": 3},
-                {"matrix": [7, 1], "x": 12, "y": 3},
-            ]
-        }
-    }
-}
-keyboard_json_path.write_text(json.dumps(keyboard_json, indent=4) + "\n")
 
 klor_c = klor_c_path.read_text()
 old_oled = """oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
@@ -484,6 +410,10 @@ run_qmk_make() {
     fi
     if [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" == "cygnus" ]]; then
         make_args+=("RAZEN_CYGNUS_QMK=yes")
+    fi
+    if [[ -n "${QMK_MAKE_ARGS:-}" ]]; then
+        read -ra extra_make_args <<< "$QMK_MAKE_ARGS"
+        make_args+=("${extra_make_args[@]}")
     fi
 
     local runtime

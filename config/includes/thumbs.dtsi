@@ -51,3 +51,18 @@ ZMK_HOLD_TAP(num_shift, bindings = <&mo>, <&sk>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
 #define THUMB_MAGIC &thumb_magic_1 LSHFT 0
+
+#ifndef FLOW_SKIP_MS
+#define FLOW_SKIP_MS 400
+#endif
+
+#ifdef ENABLE_ESC_OR_SKIP
+ZMK_ADAPTIVE_KEY(esc_or_skip, bindings = <&esc_tab>;
+    skip_in_flow {
+      trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;
+      max-prior-idle-ms = <FLOW_SKIP_MS>;
+      bindings = <&ak_skip>;
+      strict-modifiers;
+    };
+)
+#endif

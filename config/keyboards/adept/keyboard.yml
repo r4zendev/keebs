@@ -3,3 +3,7 @@ builds:
   adept:
     shield: adept
     snippets: studio-rpc-usb-uart
+  reset:
+    shield: adept
+    label: settings_reset
+    snippets: studio-rpc-usb-uart

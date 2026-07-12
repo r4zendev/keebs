@@ -1,6 +1,4 @@
-/* Charybdis dongle (central) — reuses the Charybdis layout.
- * Lives at the keyboard root (alongside charybdis_nano.keymap) so the
- * build symlinks it next to base.keymap and the include resolves. */
+/* Charybdis dongle (central) — reuses the Charybdis layout. */
 
 #include <zmk-helpers/key-labels/36.h>
 
@@ -12,5 +10,7 @@
 
 #undef RH_NONE
 #define RH_NONE &kp ESC
+
+#define LEADER_COMBO_KEYS LH2 RH1
 
 #include "base.keymap"

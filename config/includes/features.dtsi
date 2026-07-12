@@ -1,40 +1,25 @@
-/* Shared feature flags.
- *
- * Edit this file to toggle behavior that should apply to both ZMK and QMK
- * generation. Layers remain in includes/layers/*.dtsi.
- */
-
-#ifndef GRAPHITE_BIGRAM_SWAPS
-#define GRAPHITE_BIGRAM_SWAPS 0
+#ifndef ADAPTIVE_TIMEOUT_MS
+#define ADAPTIVE_TIMEOUT_MS 1000
 #endif
 
-#ifndef GRAPHITE_BIGRAM_TIMEOUT_MS
-#define GRAPHITE_BIGRAM_TIMEOUT_MS 1000
+#ifndef GRAPHITE_ADAPTIVE
+#define GRAPHITE_ADAPTIVE 0
 #endif
-
-/* Per-layout adaptive fixes (bigram swaps + weak-redirect fixes).
- * Enabling a layout's redirects requires the extended zmk-adaptive-key
- * fork (prior-trigger-keys) wired into config/default.west.yml. */
 #ifndef DUSK_ADAPTIVE
 #define DUSK_ADAPTIVE 0
 #endif
-
 #ifndef NIGHT_ADAPTIVE
 #define NIGHT_ADAPTIVE 0
 #endif
-
 #ifndef TWIRL_ADAPTIVE
 #define TWIRL_ADAPTIVE 0
 #endif
-
 #ifndef WHIRLIE_ADAPTIVE
 #define WHIRLIE_ADAPTIVE 0
 #endif
-
+#ifndef WHIRLMRL_ADAPTIVE
+#define WHIRLMRL_ADAPTIVE 0
+#endif
 #ifndef WHIRLY_ADAPTIVE
 #define WHIRLY_ADAPTIVE 0
-#endif
-
-#ifndef WHIRLMRL_ADAPTIVE
-#define WHIRLMRL_ADAPTIVE 1
 #endif

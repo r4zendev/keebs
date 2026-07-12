@@ -22,7 +22,7 @@ builds:
   dongle:
     board: xiao_ble/nrf52840/zmk
     shield: charybdis_dongle underdongle_adapter
-    cmake_args: -DCONFIG_ZMK_USB_LOGGING=y
+    cmake_args: '-DCONFIG_ZMK_USB_LOGGING=y -DCONFIG_UNDERDONGLE_LAYOUTS="EN,RU,UA" -DCONFIG_ZMK_DISPLAY_TICK_PERIOD_MS=5 -DCONFIG_ZMK_DISPLAY_DEDICATED_THREAD_PRIORITY=3 -DCONFIG_LV_DEF_REFR_PERIOD=16'
     label: charybdis_dongle
   dongle_left:
     shield: charybdis_nano_left

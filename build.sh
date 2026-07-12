@@ -142,7 +142,11 @@ for key in keys:
     if isinstance(snippets, list):
         snippets = " ".join(snippets)
 
-    print(f"{board}|{shield}|{label}|{snippets}")
+    cmake_args = entry.get("cmake_args", "")
+    if isinstance(cmake_args, list):
+        cmake_args = " ".join(cmake_args)
+
+    print(f"{board}|{shield}|{label}|{snippets}|{cmake_args}")
 PY
 }
 
@@ -169,6 +173,7 @@ usage() {
 
 KEYBOARD="$1"
 ACTION="${2:-both}"
+OUTPUT_KEYBOARD="${ZMK_OUTPUT_KEYBOARD:-$KEYBOARD}"
 WORKSPACE="$WORKSPACE_BASE/$KEYBOARD"
 KB_DIR="$(find_keyboard_dir "$KEYBOARD")"
 
@@ -277,6 +282,12 @@ if [[ ! -d "$WORKSPACE/.west" ]]; then
 fi
 
 "$REPO_ROOT/scripts/generate" check
+
+reset_conf="$KB_DIR/$KEYBOARD.reset.conf"
+if [[ "$ACTION" == "reset" && -f "$reset_conf" && -z "${EXTRA_CONF_PATH:-}" ]]; then
+    export EXTRA_CONF_PATH="$reset_conf"
+fi
+
 sync_workspace_config
 
 export ZEPHYR_BASE="$WORKSPACE/zephyr"
@@ -285,7 +296,7 @@ export CMAKE_PREFIX_PATH="$WORKSPACE/zephyr/share/zephyr-package/cmake"
 cd "$WORKSPACE"
 
 build_entry() {
-    local board=$1 shield=${2:-} label=${3:-} entry_snippets=${4:-}
+    local board=$1 shield=${2:-} label=${3:-} entry_snippets=${4:-} entry_cmake_args=${5:-}
     if [[ -z "$label" ]]; then
         if [[ -n "$shield" ]]; then
             read -ra _shield_parts <<< "$shield"
@@ -295,7 +306,7 @@ build_entry() {
         fi
     fi
 
-    if [[ "${CLEAN:-}" == "1" ]]; then
+    if [[ "${CLEAN:-}" == "1" || ( "$ACTION" == "reset" && -n "${EXTRA_CONF_PATH:-}" ) ]]; then
         rm -rf "build/$label"
     fi
 
@@ -314,18 +325,22 @@ build_entry() {
             snippet_args+=("-S" "$snippet")
         done
     fi
+    if [[ -n "$entry_cmake_args" ]]; then
+        read -ra _extra_cmake <<< "$entry_cmake_args"
+        cmake_args+=("${_extra_cmake[@]}")
+    fi
     west build -d "build/$label" -s zmk/app -b "$board" "${snippet_args[@]}" -- "${cmake_args[@]}"
 
-    local out="$REPO_ROOT/build/$KEYBOARD"
+    local out="$REPO_ROOT/build/$OUTPUT_KEYBOARD"
     mkdir -p "$out"
     cp "build/$label/zephyr/zmk.uf2" "$out/${label}.uf2"
-    echo "→ build/$KEYBOARD/${label}.uf2"
+    echo "→ build/$OUTPUT_KEYBOARD/${label}.uf2"
 }
 
 if custom_entries="$(get_custom_build_entries "$ACTION")" && [[ -n "$custom_entries" ]]; then
-    while IFS='|' read -r entry_board entry_shield entry_label entry_snippets; do
+    while IFS='|' read -r entry_board entry_shield entry_label entry_snippets entry_cmake_args; do
         [[ -n "$entry_board" ]] || continue
-        build_entry "$entry_board" "$entry_shield" "$entry_label" "$entry_snippets"
+        build_entry "$entry_board" "$entry_shield" "$entry_label" "$entry_snippets" "$entry_cmake_args"
     done <<< "$custom_entries"
     exit 0
 fi

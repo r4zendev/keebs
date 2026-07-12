@@ -1,81 +1,70 @@
 /* Twirl — left-hand space, right-thumb repeat-magic. Inactive by default. */
 
+/* >>> generated adaptive swaps (do not edit — run ./scripts/generate) >>> */
+#include "../generated/alpha_twirl.dtsi"
+/* <<< end generated adaptive swaps <<< */
+
+/*
+ * Repeat-magic thumb (hand-written; not a two-letter swap). The general
+ * "prior Y -> ing" owns the Y slot (it must, for -ying / -aying / -oying
+ * words), so there is no "...Y + magic -> E" rule here. 2-key redirects first.
+ */
+#if TWIRL_ADAPTIVE
+ZMK_MACRO(twirl_ing, bindings = <&kp I &kp N &kp G>;)
+
+ZMK_ADAPTIVE_KEY(twirl_magic, bindings = <&key_repeat>;
+    twirl_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp S>; strict-modifiers; };
+    twirl_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp S>; strict-modifiers; };
+    twirl_m_yea { trigger-keys = <E>; prior-trigger-keys = <Y>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp A>; strict-modifiers; };
+    twirl_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp R>; };
+    twirl_m_w   { trigger-keys = <W>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp H>; };
+    twirl_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp E>; };
+    twirl_m_y   { trigger-keys = <Y>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&twirl_ing>; };
+)
+ZMK_HOLD_TAP(twirl_magic_ht, bindings = <&mo>, <&twirl_magic>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+#define TWIRL_MAGIC &twirl_magic_ht LAYER_Num 0
+#endif
+
+#ifndef TWIRL_C
+#define TWIRL_C &kp C
+#endif
 #ifndef TWIRL_D
 #define TWIRL_D &kp D
+#endif
+#ifndef TWIRL_G
+#define TWIRL_G &kp G
 #endif
 #ifndef TWIRL_H
 #define TWIRL_H &hml LSHFT H
 #endif
-#ifndef TWIRL_Q
-#define TWIRL_Q &kp Q
+#ifndef TWIRL_L
+#define TWIRL_L &kp L
 #endif
 #ifndef TWIRL_P
 #define TWIRL_P &kp P
+#endif
+#ifndef TWIRL_Q
+#define TWIRL_Q &kp Q
+#endif
+#ifndef TWIRL_S
+#define TWIRL_S &hml LALT S
+#endif
+#ifndef TWIRL_T
+#define TWIRL_T &hml LCTRL T
 #endif
 #ifndef TWIRL_MAGIC
 #define TWIRL_MAGIC &num_repeat LAYER_Num 0
 #endif
 
-#if TWIRL_ADAPTIVE
-ZMK_MACRO(twirl_ing, bindings = <&kp I &kp N &kp G>;)
-
-ZMK_ADAPTIVE_KEY(twirl_bigram_d, bindings = <&kp D>;
-    twirl_d_s { trigger-keys = <S>; max-prior-idle-ms = <800>; bindings = <&kp C>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(twirl_bigram_q, bindings = <&kp Q>;
-    twirl_q_p { trigger-keys = <P>; max-prior-idle-ms = <800>; bindings = <&kp T>; strict-modifiers; };
-    twirl_q_r { trigger-keys = <R>; max-prior-idle-ms = <800>; bindings = <&kp L>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(twirl_bigram_p, bindings = <&kp P>;
-    twirl_p_g { trigger-keys = <G>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(twirl_bigram_h, bindings = <&kp H>;
-    twirl_h_n { trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp G>; strict-modifiers; };
-)
-ZMK_HOLD_TAP(twirl_hml_h, bindings = <&kp>, <&twirl_bigram_h>;
-             flavor = "balanced"; tapping-term-ms = <180>;
-             quick-tap-ms = <QUICK_TAP_MS>; require-prior-idle-ms = <100>;
-             hold-trigger-key-positions = <KEYS_R THUMBS>;
-             hold-trigger-on-release;)
-
-/*
- * Repeat-magic thumb. The general "prior Y -> ing" owns the Y slot (it must, for
- * -ying / -aying / -oying words), so we DON'T put any "...Y + magic -> E" rule
- * here (that would break playing/saying/enjoying). yea uses the E-prior, which
- * -ing never touches, so it is safe. 2-key redirects are listed first.
- */
-ZMK_ADAPTIVE_KEY(twirl_magic, bindings = <&key_repeat>;
-    twirl_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-    twirl_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-    twirl_m_yea { trigger-keys = <E>; prior-trigger-keys = <Y>; max-prior-idle-ms = <800>; bindings = <&kp A>; strict-modifiers; };
-    twirl_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp R>; };
-    twirl_m_w   { trigger-keys = <W>;   max-prior-idle-ms = <800>; bindings = <&kp H>; };
-    twirl_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <800>; bindings = <&kp E>; };
-    twirl_m_y   { trigger-keys = <Y>;   max-prior-idle-ms = <800>; bindings = <&twirl_ing>; };
-)
-ZMK_HOLD_TAP(twirl_magic_ht, bindings = <&mo>, <&twirl_magic>;
-             flavor = "balanced"; tapping-term-ms = <200>;
-             quick-tap-ms = <QUICK_TAP_MS>;)
-
-#undef TWIRL_D
-#undef TWIRL_H
-#undef TWIRL_Q
-#undef TWIRL_P
-#undef TWIRL_MAGIC
-#define TWIRL_D &twirl_bigram_d
-#define TWIRL_H &twirl_hml_h LSHFT 0
-#define TWIRL_Q &twirl_bigram_q
-#define TWIRL_P &twirl_bigram_p
-#define TWIRL_MAGIC &twirl_magic_ht LAYER_Num 0
-#endif
-
 ZMK_BASE_LAYER(Twirl,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp B      &kp C      TWIRL_D    &kp W      &kp K      ,  &kp J      &kp L      &kp U      &kp O      &kp Y      ,
+    &kp B      TWIRL_C    TWIRL_D    &kp W      &kp K      ,  &kp J      TWIRL_L    &kp U      &kp O      &kp Y      ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   &hml LGUI N &hml LALT S &hml LCTRL T TWIRL_H &kp M , &sqt_dqt   &hmr RSHFT R &hmr RCTRL E &hmr RALT A &hmr RGUI I ,
+   &hml LGUI N TWIRL_S    TWIRL_T    TWIRL_H    &kp M , &sqt_dqt   &hmr RSHFT R &hmr RCTRL E &hmr RALT A &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    TWIRL_Q    &kp G      TWIRL_P    &kp F      &kp V      ,  &kp Z      &kp X      &minus_slash &dot_qmark &comma_excl ,
+    TWIRL_Q    TWIRL_G    TWIRL_P    &kp F      &kp V      ,  &kp Z      &kp X      &minus_slash &dot_qmark &comma_excl ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
         LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , TWIRL_MAGIC  &sk LSHFT RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯

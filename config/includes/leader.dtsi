@@ -1,0 +1,25 @@
+/ {
+    behaviors {
+        leader: leader {
+            compatible = "zmk,behavior-leader-key";
+            #binding-cells = <0>;
+
+            caps     { sequence = <C>;    bindings = <&kp CAPS>; };
+
+            graphite { sequence = <G>;    bindings = <&to_graphite>; };
+            vestnik  { sequence = <V>;    bindings = <&to_vestnik>; };
+
+            bt0      { sequence = <B N0>; bindings = <&bt_0>; };
+            bt1      { sequence = <B N1>; bindings = <&bt_1>; };
+            bt2      { sequence = <B N2>; bindings = <&bt_2>; };
+            bt3      { sequence = <B N3>; bindings = <&bt_3>; };
+            btclr    { sequence = <B C>;  bindings = <&bt BT_CLR>; };
+
+            boot     { sequence = <B O O T>; bindings = <&bootloader>; };
+            reset    { sequence = <R E S>;   bindings = <&sys_reset>; };
+            softoff  { sequence = <O F F>;   bindings = <&soft_off>; };
+            outtog   { sequence = <O U T>;   bindings = <&out OUT_TOG>; };
+            usb      { sequence = <U S B>;   bindings = <&out OUT_USB>; };
+        };
+    };
+};

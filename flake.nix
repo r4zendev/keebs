@@ -10,6 +10,8 @@
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages = with pkgs; [
           gnumake
+          go
+          gopls
           keymap-drawer
           (python3.withPackages (p: [
             p.pyyaml

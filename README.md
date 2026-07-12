@@ -75,8 +75,7 @@ The editable source of truth is intentionally small:
 
 - `config/includes/layers/*.dtsi` for layer contents
 - `config/includes/combos.dtsi` for combos
-- `config/includes/adaptive_swaps.dtsi` for adaptive swap tables
-- `config/includes/features.dtsi` for shared feature flags and opt-outs
+- `config/includes/features.dtsi` for shared feature flags and opt-ins
 - `config/includes/behaviors.dtsi` and `config/includes/thumbs.dtsi` for reusable behavior definitions
 
 Normal builds run generation/checks automatically. Use `./scripts/generate check` only when you want a quick validation without building firmware.
@@ -95,16 +94,20 @@ OPERATING_SYSTEM=OS_MACOS make yetis
 
 ## Adaptive swaps
 
-Graphite adaptive bigram swaps live in `config/includes/adaptive_swaps.dtsi`. Each `ADAPTIVE_SWAP(Graphite, S, C, D)` entry makes `C` and `D` interchangeable after `S`. To disable them everywhere, set this in `config/includes/features.dtsi`:
+Adaptive swaps live in `keymap/adaptive_swaps.toml`. Each `[layout]` has `timeout_ms` and `swaps = [["prior", "a", "b"], ...]`; every swap makes `a` and `b` interchangeable after `prior`, and both directions are generated. `scripts/generate_adaptive_swaps.py` expands that data into `config/includes/generated/alpha_*.dtsi`, deriving plain key vs home-row mod from the layout's `#define <LAYOUT>_<KEY>` defaults. Builds run the generator automatically; edit the TOML, not generated files.
+
+Genuinely special behaviors — magic repeat keys, and contextual or symbol/macro redirects (e.g. `night`'s `yq -> y'`, `dusk`'s `ntc -> nts`) — are not two-letter swaps and stay hand-written below the generated block.
+
+The swaps are gated by a per-layout opt-in flag, off by default (`GRAPHITE_ADAPTIVE`, `TWIRL_ADAPTIVE`, …). Enable one in `config/includes/features.dtsi`:
 
 ```c
-#define GRAPHITE_BIGRAM_SWAPS 0
+#define GRAPHITE_ADAPTIVE 1
 ```
 
-To change the window:
+Generic swaps use the per-layout `timeout_ms` from `keymap/adaptive_swaps.toml`. Hand-written adaptive behaviors still use `ADAPTIVE_TIMEOUT_MS`:
 
 ```c
-#define GRAPHITE_BIGRAM_TIMEOUT_MS 750
+#define ADAPTIVE_TIMEOUT_MS 750
 ```
 
 Read more about adaptive swaps [here](https://dario.ca/posts/2026-05-18-keyboard-layout-adaptive-swaps/).

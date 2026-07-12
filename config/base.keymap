@@ -13,6 +13,7 @@
 #include "includes/macros.dtsi"
 #include "includes/behaviors.dtsi"
 #include "includes/thumbs.dtsi"
+#include "includes/leader.dtsi"
 #include "includes/combos.dtsi"
 
 #ifndef ZMK_BASE_LAYER
@@ -24,10 +25,10 @@
 
 #include "includes/layers/alpha_graphite.dtsi"
 #include "includes/layers/alpha_vestnik.dtsi"
-#include "includes/layers/alpha_whirlmrl.dtsi"
 /* Inactive layouts — kept on disk, excluded from the compiled keymap:
- *   alpha_racket.dtsi, alpha_sturdy.dtsi, alpha_night.dtsi, alpha_dusk.dtsi,
- *   alpha_twirl.dtsi, alpha_whirlie.dtsi, alpha_whirly.dtsi
+ *   alpha_bunya.dtsi, alpha_honeypie.dtsi, alpha_whirlmrl.dtsi, alpha_racket.dtsi,
+ *   alpha_sturdy.dtsi, alpha_night.dtsi, alpha_dusk.dtsi, alpha_twirl.dtsi,
+ *   alpha_whirlie.dtsi, alpha_whirly.dtsi
  */
 
 /* ── Utility layers ──────────────────────────────────────────────────── */

@@ -1,3 +1,14 @@
+#ifdef LUNA
+ZMK_LAYER(Nav,
+    &kp ESC &kp LG(O) &kp LG(U) &none &none
+    &kp PG_DN &kp _HOME &kp UP &kp _END &lang_ru
+    &kp LGUI &kp LALT &kp LCTRL &kp LSHFT &none
+    &none &kp LEFT &kp DOWN &kp RIGHT &lang_en
+    &kp _SCR_AREA &kp _SCR_FULL &none
+    &kp TAB &kp BSPC &kp DEL
+    &none &mouse_ht LAYER_Mouse LAYER_Mouse &kp RET &none
+)
+#else
 ZMK_BASE_LAYER(Nav,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
     &kp ESC   &kp LG(O)  &kp LG(U)  &none      &none      , &kp PG_UP   &kp _HOME  &kp UP     &kp _END   &lang_ru  ,
@@ -9,3 +20,4 @@ ZMK_BASE_LAYER(Nav,
                                      LH_NONE &none  &mouse_ht LAYER_Mouse LAYER_Mouse , &kp RET    &none RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
+#endif

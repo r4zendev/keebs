@@ -12,7 +12,6 @@ from pathlib import Path
 LAYER_FILES = [
     "alpha_graphite.dtsi",
     "alpha_vestnik.dtsi",
-    "alpha_whirlmrl.dtsi",
     "symbol.dtsi",
     "nav.dtsi",
     "num.dtsi",
@@ -24,7 +23,7 @@ LAYER_FILES = [
 LAYER_ENUMS = {
     "Graphite": "L_GRAPHITE",
     "Vestnik": "L_VESTNIK",
-    "WhirlMrl": "L_WHIRLMRL",
+    "VestnikDm": "L_VESTNIK",
     "Symbol": "L_SYMBOL",
     "Nav": "L_NAV",
     "Num": "L_NUM",
@@ -37,7 +36,7 @@ LAYER_ENUMS = {
 
 STANDALONE = {
     "THUMB_MAGIC": "MAGIC",
-    "SYS_SLOT1": "TO(L_WHIRLMRL)",
+    "SYS_SLOT1": "TO(L_GRAPHITE)",
     "SYS_SLOT2": "TO(L_VESTNIK)",
     "SYS_SLOT3": "KC_NO",
     "SYS_LIGHT_TOG": "RGB_TOG",
@@ -123,6 +122,7 @@ KEYS = {
     "RET": "KC_ENT",
     "ESC": "KC_ESC",
     "TAB": "KC_TAB",
+    "CAPS": "KC_CAPS",
     "BSPC": "KC_BSPC",
     "DEL": "KC_DEL",
     "PG_UP": "KC_PGUP",
@@ -214,13 +214,6 @@ HRM = {
     ("hmr", "RGUI"): "HMRG",
 }
 
-GRAPHITE_HRM = {
-    "graphite_hml_n": ("HMLG", "KC_N"),
-    "graphite_hml_r": ("HMLA", "KC_R"),
-    "graphite_hml_s": ("HMLS", "KC_S"),
-    "graphite_hmr_h": ("HMRS", "KC_H"),
-    "graphite_hmr_e": ("HMRA", "KC_E"),
-}
 GRAPHITE_ADAPTIVE_QMK_KEYCODE = {
     "graphite_bigram_n": "HMLG(KC_N)",
     "graphite_bigram_r": "HMLA(KC_R)",
@@ -356,20 +349,16 @@ def convert_binding(name: str, args: list[str]) -> str:
         return qmk_key(args[0])
     if name in {"hml", "hmr"}:
         return f"{HRM[(name, args[0])]}({qmk_key(args[1])})"
-    if name.startswith("graphite_bigram_") and len(name) == len("graphite_bigram_x"):
-        return qmk_key(name.removeprefix("graphite_bigram_").upper())
-    if name in GRAPHITE_HRM:
-        hrm, tap = GRAPHITE_HRM[name]
-        return f"{hrm}({tap})"
-    # Whirl-MRL adaptive behaviors are ZMK-only (the 2-key redirects + magic key
-    # need the adaptive-key fork). QMK gets the plain layout: map each adaptive
-    # alpha key to its base key, the home-row shift on H, and the magic thumb to
-    # repeat/Num.
-    if name in {"whirlmrl_bigram_d", "whirlmrl_bigram_w", "whirlmrl_bigram_f", "whirlmrl_bigram_p"}:
-        return qmk_key(name.rsplit("_", 1)[-1].upper())
-    if name == "whirlmrl_hml_h":
-        return f"HMLS({qmk_key('H')})"
-    if name == "whirlmrl_magic_ht":
+    # Generated adaptive behaviors, any layout. A grid cell maps to its base key
+    # (or home-row mod); the swap logic itself is emitted separately for Graphite
+    # and is ZMK-only for the other layouts.
+    m = re.fullmatch(r"[a-z]+_bigram_([a-z])", name)
+    if m:
+        return qmk_key(m.group(1).upper())
+    m = re.fullmatch(r"[a-z]+_(hml|hmr)_([a-z])", name)
+    if m:
+        return f"{HRM[(m.group(1), args[0])]}({qmk_key(m.group(2).upper())})"
+    if re.fullmatch(r"[a-z]+_magic_ht", name):
         return "NUM_REPEAT"
     if name == "lt":
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
@@ -378,7 +367,7 @@ def convert_binding(name: str, args: list[str]) -> str:
     if name == "sk":
         if args[0] != "LSHFT":
             raise ValueError(f"Unsupported sticky key {args!r}")
-        return "OSM(MOD_LSFT)"
+        return "STICKY_SHIFT"
     if name == "mo":
         return f"MO({qmk_layer(args[0])})"
     if name == "nav_ht":
@@ -446,9 +435,9 @@ def convert_binding(name: str, args: list[str]) -> str:
     if name == "sys_reset":
         return "QK_REBOOT"
     if name == "soft_off":
-        return "KC_PWR"
+        return "KC_NO"
     if name == "out":
-        return "RGB_TOG" if args and args[0] == "OUT_TOG" else "KC_NO"
+        return "KC_NO"
     if name == "bt":
         return "KC_NO"
     if name in {"bt_0", "bt_1", "bt_2", "bt_3"}:
@@ -506,7 +495,7 @@ def parse_layers(repo: Path) -> list[tuple[str, list[str]]]:
 
 
 def parse_graphite_adaptive_keys(repo: Path) -> list[dict[str, object]]:
-    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "generated" / "adaptive_swaps.dtsi"))
+    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "layers" / "alpha_graphite.dtsi"))
     adaptive_keys: list[dict[str, object]] = []
 
     for call in macro_calls(text, "ZMK_ADAPTIVE_KEY"):
@@ -575,12 +564,14 @@ def combo_action(action: str) -> tuple[str, str | None]:
         return f"layer_on({layer});", f"layer_off({layer});"
     if bits[0] == "&mouse_ht":
         return "layer_on(L_MOUSE);", "layer_off(L_MOUSE);"
+    if bits[0] == "&leader":
+        return "tap_code16(QK_LEAD);", None
     raise ValueError(f"Unsupported combo action {action!r}")
 
 
 def combo_layer_check(layers: str) -> str:
     if layers in {"ALPHA_LAYERS", "CAPS_LAYERS"}:
-        names = ["L_GRAPHITE", "L_VESTNIK", "L_WHIRLMRL"]
+        names = ["L_GRAPHITE", "L_VESTNIK"]
     elif layers.startswith("LAYER_"):
         names = [qmk_layer(layers)]
     else:
@@ -597,6 +588,8 @@ def parse_combos(repo: Path) -> list[dict[str, object]]:
             raise ValueError(f"Unexpected combo args: {args!r}")
         name, action, positions, layers, term, idle = args
         pressed, released = combo_action(action)
+        if pressed is None:
+            continue
         combos.append(
             {
                 "name": name,
@@ -742,6 +735,14 @@ def emit_tap_hold_helpers(hrm_keycodes: list[str]) -> str:
             "    return false;",
             "}",
             "",
+            "static bool generated_is_flow_tap_predecessor(uint16_t keycode) {",
+            "    switch (get_tap_keycode(keycode)) {",
+            "        case KC_A ... KC_Z:",
+            "            return true;",
+            "    }",
+            "    return false;",
+            "}",
+            "",
             "uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {",
             "    (void)record;",
             "    return generated_is_home_row_mod(keycode) ? RAZEN_HRM_TAPPING_TERM_MS : TAPPING_TERM;",
@@ -754,19 +755,167 @@ def emit_tap_hold_helpers(hrm_keycodes: list[str]) -> str:
             "",
             "uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_keycode) {",
             "    (void)record;",
-            "    (void)prev_keycode;",
-            "    return generated_is_home_row_mod(keycode) ? RAZEN_HRM_PRIOR_IDLE_MS : 0;",
+            "    if (!generated_is_home_row_mod(keycode) || !generated_is_flow_tap_predecessor(prev_keycode) ||",
+            "        get_mods() || get_oneshot_mods() || get_weak_mods()) {",
+            "        return 0;",
+            "    }",
+            "    return RAZEN_HRM_PRIOR_IDLE_MS;",
             "}",
         ]
     )
     return "\n".join(out)
 
 
+def parse_graphite_yous(repo: Path) -> dict[str, object]:
+    text = strip_comments(preprocess_dtsi(repo, repo / "config" / "includes" / "layers" / "alpha_graphite.dtsi"))
+    for call in macro_calls(text, "ZMK_ADAPTIVE_KEY"):
+        args = split_args(call)
+        if len(args) != 2 or args[0].strip() != "graphite_yous":
+            continue
+        body = args[1]
+        trigger = re.search(r"trigger-keys\s*=\s*<\s*([A-Z])\s*>;", body)
+        prior = re.search(r"prior-keys\s*=\s*<\s*([A-Z])\s+([A-Z])\s*>;", body)
+        timeout = re.search(r"max-prior-idle-ms\s*=\s*<\s*([A-Z_0-9]+)\s*>;", body)
+        binding = re.search(r"bindings\s*=\s*<\s*&([a-z_]+)\s*>;", body)
+        if not trigger or not prior or not timeout or not binding:
+            raise ValueError("Unsupported graphite_yous definition")
+        if binding.group(1) != "sqt_dqt":
+            raise ValueError("graphite_yous must emit sqt_dqt")
+        return {
+            "history": [qmk_basic_keycode(prior.group(1)), qmk_basic_keycode(prior.group(2)), qmk_basic_keycode(trigger.group(1))],
+            "timeout_ms": parse_int_expr(repo, timeout.group(1)),
+        }
+    raise ValueError("Missing graphite_yous definition")
+
+
+def emit_graphite_yous(yous: dict[str, object]) -> str:
+    history = yous["history"]
+    timeout_ms = yous["timeout_ms"]
+    return "\n".join(
+        [
+            "#ifndef GRAPHITE_YOUS_TIMEOUT_MS",
+            f"#define GRAPHITE_YOUS_TIMEOUT_MS {timeout_ms}",
+            "#endif",
+            "",
+            "static uint16_t generated_basic_history[3] = {KC_NO, KC_NO, KC_NO};",
+            "static bool generated_yous_suppressed = false;",
+            "",
+            "static void generated_record_basic_key(uint16_t keycode) {",
+            "    generated_basic_history[0] = generated_basic_history[1];",
+            "    generated_basic_history[1] = generated_basic_history[2];",
+            "    generated_basic_history[2] = keycode;",
+            "}",
+            "",
+            "static void generated_reset_basic_history(void) {",
+            "    generated_basic_history[0] = KC_NO;",
+            "    generated_basic_history[1] = KC_NO;",
+            "    generated_basic_history[2] = KC_NO;",
+            "}",
+            "",
+            "static bool process_generated_graphite_yous(uint16_t keycode, keyrecord_t *record) {",
+            "    if (keycode != HMLS(KC_S)) {",
+            "        return true;",
+            "    }",
+            "    if (!record->event.pressed) {",
+            "        if (generated_yous_suppressed) {",
+            "            generated_yous_suppressed = false;",
+            "            return false;",
+            "        }",
+            "        return true;",
+            "    }",
+            "    if (record->tap.count == 0 || get_highest_layer(layer_state) != L_GRAPHITE ||",
+            "        get_mods() || get_oneshot_mods() || get_weak_mods() ||",
+            "        timer_elapsed32(last_basic_key_timer) > GRAPHITE_YOUS_TIMEOUT_MS ||",
+            f"        generated_basic_history[0] != {history[0]} ||",
+            f"        generated_basic_history[1] != {history[1]} ||",
+            f"        generated_basic_history[2] != {history[2]}) {{",
+            "        return true;",
+            "    }",
+            "    generated_yous_suppressed = true;",
+            "    tap_code16(KC_QUOT);",
+            "    last_basic_keycode = KC_QUOT;",
+            "    last_basic_key_timer = timer_read32();",
+            "    generated_record_basic_key(KC_QUOT);",
+            "    return false;",
+            "}",
+        ]
+    )
+
+
+def emit_sticky_shift() -> str:
+    return "\n".join(
+        [
+            "#ifndef RAZEN_STICKY_SHIFT_TIMEOUT_MS",
+            "#define RAZEN_STICKY_SHIFT_TIMEOUT_MS 1200",
+            "#endif",
+            "",
+            "static bool generated_sticky_shift_active = false;",
+            "static bool generated_sticky_shift_clear_after_press = false;",
+            "static uint32_t generated_sticky_shift_timer = 0;",
+            "",
+            "static void generated_clear_sticky_shift(void) {",
+            "    if (!generated_sticky_shift_active) {",
+            "        return;",
+            "    }",
+            "    del_weak_mods(MOD_BIT(KC_LSFT));",
+            "    send_keyboard_report();",
+            "    generated_sticky_shift_active = false;",
+            "    generated_sticky_shift_clear_after_press = false;",
+            "}",
+            "",
+            "static bool generated_sticky_shift_ignores(uint16_t keycode) {",
+            "    return IS_MODIFIER_KEYCODE(keycode) ||",
+            "           (IS_QK_MODS(keycode) && QK_MODS_GET_BASIC_KEYCODE(keycode) == KC_NO) ||",
+            "           IS_QK_ONE_SHOT_MOD(keycode);",
+            "}",
+            "",
+            "static bool process_generated_sticky_shift(uint16_t keycode, keyrecord_t *record) {",
+            "    if (keycode == STICKY_SHIFT) {",
+            "        if (record->event.pressed) {",
+            "            add_weak_mods(MOD_BIT(KC_LSFT));",
+            "            send_keyboard_report();",
+            "            generated_sticky_shift_active = true;",
+            "            generated_sticky_shift_timer = timer_read32();",
+            "        }",
+            "        return false;",
+            "    }",
+            "",
+            "    if (record->event.pressed && generated_sticky_shift_active && !generated_sticky_shift_ignores(keycode)) {",
+            "        generated_sticky_shift_clear_after_press = true;",
+            "    }",
+            "    return true;",
+            "}",
+            "",
+            "static void generated_sticky_shift_post_process(uint16_t keycode, keyrecord_t *record) {",
+            "    (void)keycode;",
+            "    if (record->event.pressed && generated_sticky_shift_clear_after_press) {",
+            "        generated_clear_sticky_shift();",
+            "    }",
+            "}",
+            "",
+            "static void generated_sticky_shift_task(void) {",
+            "    if (generated_sticky_shift_clear_after_press ||",
+            "        (generated_sticky_shift_active && timer_elapsed32(generated_sticky_shift_timer) > RAZEN_STICKY_SHIFT_TIMEOUT_MS)) {",
+            "        generated_clear_sticky_shift();",
+            "    }",
+            "}",
+        ]
+    )
+
+
 def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
-    if adaptive_keys:
-        timeout_ms = max(int(key["timeout_ms"]) for key in adaptive_keys)
-    else:
-        timeout_ms = 1000
+    if not adaptive_keys:
+        return "\n".join(
+            [
+                "static bool process_generated_adaptive_key(uint16_t keycode, keyrecord_t *record) {",
+                "    (void)keycode;",
+                "    (void)record;",
+                "    return true;",
+                "}",
+            ]
+        )
+
+    timeout_ms = max(int(key["timeout_ms"]) for key in adaptive_keys)
 
     out = [
         "#ifndef GRAPHITE_BIGRAM_TIMEOUT_MS",
@@ -818,6 +967,7 @@ def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
                 "set_last_mods(0); "
                 f"last_basic_keycode = {trigger['output']}; "
                 "last_basic_key_timer = timer_read32(); "
+                f"generated_record_basic_key({trigger['output']}); "
                 "return false;"
             )
         out.append("            }")
@@ -834,6 +984,26 @@ def emit_graphite_adaptive(adaptive_keys: list[dict[str, object]]) -> str:
     return "\n".join(out)
 
 
+def emit_leader() -> str:
+    return (
+        "#ifdef LEADER_ENABLE\n"
+        "void leader_end_user(void) {\n"
+        "    if (leader_sequence_one_key(KC_C)) {\n"
+        "        tap_code(KC_CAPS);\n"
+        "    } else if (leader_sequence_one_key(KC_G)) {\n"
+        "        layer_move(L_GRAPHITE);\n"
+        "    } else if (leader_sequence_one_key(KC_V)) {\n"
+        "        layer_move(L_VESTNIK);\n"
+        "    } else if (leader_sequence_four_keys(KC_B, KC_O, KC_O, KC_T)) {\n"
+        "        reset_keyboard();\n"
+        "    } else if (leader_sequence_three_keys(KC_R, KC_E, KC_S)) {\n"
+        "        soft_reset_keyboard();\n"
+        "    }\n"
+        "}\n"
+        "#endif"
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", type=Path, required=True)
@@ -843,6 +1013,7 @@ def main() -> None:
     layers = parse_layers(args.repo)
     combos = parse_combos(args.repo)
     graphite_adaptive = parse_graphite_adaptive_keys(args.repo)
+    graphite_yous = parse_graphite_yous(args.repo)
     hrm_keycodes = collect_hrm_keycodes(layers)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(
@@ -853,7 +1024,13 @@ def main() -> None:
         + "\n\n"
         + emit_combos(combos)
         + "\n\n"
+        + emit_graphite_yous(graphite_yous)
+        + "\n\n"
+        + emit_sticky_shift()
+        + "\n\n"
         + emit_graphite_adaptive(graphite_adaptive)
+        + "\n\n"
+        + emit_leader()
         + "\n"
     )
 

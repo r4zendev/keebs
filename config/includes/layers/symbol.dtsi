@@ -1,3 +1,14 @@
+#ifdef LUNA
+ZMK_LAYER(Symbol,
+    &kp TILDE &kp HASH &kp STAR &kp AMPS &kp DLLR
+    &kp AT &kp LPAR &kp RPAR &kp LBKT &kp RBKT
+    &kp CARET &kp UNDER &kp COLON &kp EQUAL &kp FSLH
+    &kp BSLH &kp PRCNT &kp LBRC &kp RBRC &kp SEMI
+    &kp EXCL &kp PIPE &kp PLUS
+    &kp MINUS &kp LT &kp GT
+    &trans &kp SPACE &kp SPACE &trans
+)
+#else
 ZMK_BASE_LAYER(Symbol,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
     &kp TILDE  &kp HASH   &kp STAR   &kp AMPS   &kp GRAVE  ,  &kp DQT    &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT ,
@@ -9,3 +20,4 @@ ZMK_BASE_LAYER(Symbol,
                                      LH_NONE &trans     &kp SPACE   ,  &kp SPACE  &trans RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
+#endif

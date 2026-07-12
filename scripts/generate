@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-QMK_GENERATED_KEYBOARDS=(yetis wysteria klor crkbd/rev1 splitkb/aurora/sweep/rev1)
+QMK_GENERATED_KEYBOARDS=(yetis wysteria klor crkbd/rev1 splitkb/aurora/sweep/rev1 dartyl choctyl)
 
 usage() {
     cat <<EOF
@@ -10,7 +10,7 @@ Usage: $0 [check|zmk|qmk|all] [output]
 
 Commands:
   check        Validate that shared layers/features can be generated
-  zmk          Generate ZMK include files
+  zmk          Regenerate ZMK include files from the swap list
   qmk [out]    Generate a QMK generated_keymap.inc
   all          Generate repo-local cached artifacts
 
@@ -18,13 +18,26 @@ Normal builds call this automatically.
 EOF
 }
 
-generate_zmk() {
+validate_model() {
+    python3 "$REPO_ROOT/scripts/keymap.py" validate --repo "$REPO_ROOT"
+}
+
+generate_zmk_legacy() {
     python3 "$REPO_ROOT/scripts/generate_adaptive_swaps.py" \
         --repo "$REPO_ROOT"
 }
 
+ensure_zmk_generated() {
+    if [[ "${ZMK_GENERATED:-}" == 1 ]]; then
+        return
+    fi
+    generate_zmk_legacy
+    ZMK_GENERATED=1
+}
+
 generate_qmk() {
-    generate_zmk
+    ensure_zmk_generated
+    validate_model
 
     local out="${1:-}"
     if [[ -z "$out" ]]; then
@@ -41,7 +54,7 @@ generate_qmk() {
 cmd="${1:-all}"
 case "$cmd" in
     check)
-        generate_zmk
+        validate_model
         tmpdir="$(mktemp -d)"
         trap 'rm -rf "$tmpdir"' EXIT
         for keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
@@ -49,13 +62,13 @@ case "$cmd" in
         done
         ;;
     zmk)
-        generate_zmk
+        generate_zmk_legacy
         ;;
     qmk)
         generate_qmk "${2:-}"
         ;;
     all)
-        generate_zmk
+        validate_model
         for keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
             QMK_KEYBOARD="$keyboard" generate_qmk "$REPO_ROOT/.cache/qmk/$keyboard/razen/generated_keymap.inc"
         done

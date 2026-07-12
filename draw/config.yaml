@@ -69,6 +69,8 @@ parse_config:
     '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
     '&alpha_magic_sturdy': {t: '$$mdi:star-four-points$$'}
     '&whirlmrl_magic': {t: '$$mdi:star-four-points$$'}
+    '&honeypie_magic': {t: '$$mdi:star-four-points$$'}
+    '&honeypie_magic_ht LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:apple-keyboard-shift$$'}
     '&whirlmrl_bigram_d': {t: D}
     '&whirlmrl_bigram_w': {t: W}
     '&whirlmrl_bigram_f': {t: F}

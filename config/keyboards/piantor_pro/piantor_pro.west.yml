@@ -18,6 +18,10 @@ manifest:
       remote: urob
       revision: main
       path: modules/zmk/helpers
+    - name: zmk-leader-key
+      remote: urob
+      revision: main
+      path: modules/zmk/leader-key
     - name: zmk-adaptive-key
       remote: r4zendev
       revision: skipmagic

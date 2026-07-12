@@ -1,11 +1,24 @@
-ZMK_BASE_LAYER(Vestnik,
+#ifdef LUNA
+ZMK_LAYER(VestnikDm,
+    &kp C &kp U &kp H &kp COMMA &kp V
+    &kp M &kp G &kp F &kp Z &kp B
+    &kp I &kp N &kp Y &kp R &kp X
+    &kp SEMI &kp D &kp J &kp T &kp DOT
+    &kp P &kp K &kp L
+    &kp Q &kp S &kp E
+    &thumb_bspc LAYER_Nav 0 &thumb_spc LAYER_Symbol SPACE
+    &sk LSHFT &num_repeat LAYER_Num 0
+)
+#else
+ZMK_BASE_LAYER(VestnikDm,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp W      &kp L      &kp H      &kp U      &kp LBKT   ,  &kp A      &kp G      &kp F      &kp Z      &kp SQT  ,
+    &kp W      &kp U      &kp H      &kp COMMA  &kp LBKT   ,  &kp A      &kp G      &kp F      &kp Z      &kp SQT  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &hml LGUI C &hml LALT N &hml LCTRL Y &hml LSHFT R &kp COMMA , &kp M  &hmr RSHFT D &hmr RCTRL J &hmr RALT T &hmr RGUI B ,
+    &hml LGUI C &hml LALT N &hml LCTRL Y &hml LSHFT R &kp V , &kp M  &hmr RSHFT D &hmr RCTRL J &hmr RALT T &hmr RGUI B ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp I      &kp P      &kp K      &kp V      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
+    &kp I      &kp P      &kp K      &kp L      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
             LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
+#endif

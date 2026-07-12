@@ -1,0 +1,31 @@
+/* Honeypie — 3x5, E on home row, right-thumb repeat-magic (SFB/redirect eraser). */
+
+ZMK_ADAPTIVE_KEY(honeypie_magic, bindings = <&sk LSHFT>;
+    honeypie_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    honeypie_m_nk  { trigger-keys = <K>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    honeypie_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
+    honeypie_m_io  { trigger-keys = <O>; prior-trigger-keys = <I>; max-prior-idle-ms = <800>; bindings = <&kp U>; strict-modifiers; };
+    honeypie_m_wh  { trigger-keys = <W>;   max-prior-idle-ms = <800>; bindings = <&kp H>; };
+    honeypie_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp L>; };
+    honeypie_m_y   { trigger-keys = <Y>;   max-prior-idle-ms = <800>; bindings = <&kp S>; };
+    honeypie_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <800>; bindings = <&kp E>; };
+    honeypie_m_h   { trigger-keys = <H>;   max-prior-idle-ms = <800>; bindings = <&kp R>; };
+    honeypie_m_rpt { trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>; max-prior-idle-ms = <800>; bindings = <&key_repeat>; strict-modifiers; };
+)
+ZMK_MOD_MORPH(honeypie_magic_tap, bindings = <&honeypie_magic>, <&caps_word>;
+              mods = <(MOD_LSFT|MOD_RSFT)>;)
+ZMK_HOLD_TAP(honeypie_magic_ht, bindings = <&kp>, <&honeypie_magic_tap>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
+ZMK_BASE_LAYER(Honeypie,
+//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
+    &kp Q      &kp Y      &kp M      &kp P      &kp F      ,  &sqt_dqt   &kp W      &kp O      &kp U      &kp J      ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+   &hml LGUI N &hml LALT S &hml LCTRL T &hml LSHFT D &kp G , &kp H      &hmr RSHFT R &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
+    &kp Z      &kp V      &kp K      &kp C      &kp B      ,  &kp X      &kp L      &dot_qmark &minus_slash &comma_excl ,
+//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
+        LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &honeypie_magic_ht LSHFT 0  &num_shift LAYER_Num LSHFT RH_NONE
+//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+)

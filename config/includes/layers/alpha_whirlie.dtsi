@@ -1,8 +1,36 @@
 /* Whirlie — left-hand space, right-thumb repeat-magic. Inactive by default.
  * (Formerly named "whirl".) */
 
+/* >>> generated adaptive swaps (do not edit — run ./scripts/generate) >>> */
+#include "../generated/alpha_whirlie.dtsi"
+/* <<< end generated adaptive swaps <<< */
+
+/* Repeat-magic thumb (hand-written; not a two-letter swap). */
+#if WHIRLIE_ADAPTIVE
+ZMK_MACRO(whirlie_ing, bindings = <&kp I &kp N &kp G>;)
+
+ZMK_ADAPTIVE_KEY(whirlie_magic, bindings = <&key_repeat>;
+    whirlie_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp S>; strict-modifiers; };
+    whirlie_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp S>; strict-modifiers; };
+    whirlie_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp R>; };
+    whirlie_m_w   { trigger-keys = <W>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp H>; };
+    whirlie_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&kp E>; };
+    whirlie_m_y   { trigger-keys = <Y>;   max-prior-idle-ms = <ADAPTIVE_TIMEOUT_MS>; bindings = <&whirlie_ing>; };
+)
+ZMK_HOLD_TAP(whirlie_magic_ht, bindings = <&mo>, <&whirlie_magic>;
+             flavor = "balanced"; tapping-term-ms = <200>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+#define WHIRLIE_MAGIC &whirlie_magic_ht LAYER_Num 0
+#endif
+
+#ifndef WHIRLIE_C
+#define WHIRLIE_C &kp C
+#endif
 #ifndef WHIRLIE_D
 #define WHIRLIE_D &kp D
+#endif
+#ifndef WHIRLIE_G
+#define WHIRLIE_G &kp G
 #endif
 #ifndef WHIRLIE_H
 #define WHIRLIE_H &hml LSHFT H
@@ -10,75 +38,35 @@
 #ifndef WHIRLIE_J
 #define WHIRLIE_J &kp J
 #endif
-#ifndef WHIRLIE_Q
-#define WHIRLIE_Q &kp Q
+#ifndef WHIRLIE_L
+#define WHIRLIE_L &kp L
 #endif
 #ifndef WHIRLIE_P
 #define WHIRLIE_P &kp P
+#endif
+#ifndef WHIRLIE_Q
+#define WHIRLIE_Q &kp Q
+#endif
+#ifndef WHIRLIE_S
+#define WHIRLIE_S &hml LALT S
+#endif
+#ifndef WHIRLIE_T
+#define WHIRLIE_T &hml LCTRL T
+#endif
+#ifndef WHIRLIE_Y
+#define WHIRLIE_Y &kp Y
 #endif
 #ifndef WHIRLIE_MAGIC
 #define WHIRLIE_MAGIC &num_repeat LAYER_Num 0
 #endif
 
-#if WHIRLIE_ADAPTIVE
-ZMK_MACRO(whirlie_ing, bindings = <&kp I &kp N &kp G>;)
-
-ZMK_ADAPTIVE_KEY(whirlie_bigram_d, bindings = <&kp D>;
-    whirlie_d_s { trigger-keys = <S>; max-prior-idle-ms = <800>; bindings = <&kp C>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(whirlie_bigram_j, bindings = <&kp J>;
-    whirlie_j_r { trigger-keys = <R>; max-prior-idle-ms = <800>; bindings = <&kp Y>; strict-modifiers; };
-    whirlie_j_l { trigger-keys = <L>; max-prior-idle-ms = <800>; bindings = <&kp Y>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(whirlie_bigram_q, bindings = <&kp Q>;
-    whirlie_q_p { trigger-keys = <P>; max-prior-idle-ms = <800>; bindings = <&kp T>; strict-modifiers; };
-    whirlie_q_r { trigger-keys = <R>; max-prior-idle-ms = <800>; bindings = <&kp L>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(whirlie_bigram_p, bindings = <&kp P>;
-    whirlie_p_g { trigger-keys = <G>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-)
-ZMK_ADAPTIVE_KEY(whirlie_bigram_h, bindings = <&kp H>;
-    whirlie_h_n { trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp G>; strict-modifiers; };
-)
-ZMK_HOLD_TAP(whirlie_hml_h, bindings = <&kp>, <&whirlie_bigram_h>;
-             flavor = "balanced"; tapping-term-ms = <180>;
-             quick-tap-ms = <QUICK_TAP_MS>; require-prior-idle-ms = <100>;
-             hold-trigger-key-positions = <KEYS_R THUMBS>;
-             hold-trigger-on-release;)
-
-ZMK_ADAPTIVE_KEY(whirlie_magic, bindings = <&key_repeat>;
-    whirlie_m_nt  { trigger-keys = <T>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-    whirlie_m_nd  { trigger-keys = <D>; prior-trigger-keys = <N>; max-prior-idle-ms = <800>; bindings = <&kp S>; strict-modifiers; };
-    whirlie_m_sqt { trigger-keys = <SQT>; max-prior-idle-ms = <800>; bindings = <&kp R>; };
-    whirlie_m_w   { trigger-keys = <W>;   max-prior-idle-ms = <800>; bindings = <&kp H>; };
-    whirlie_m_u   { trigger-keys = <U>;   max-prior-idle-ms = <800>; bindings = <&kp E>; };
-    whirlie_m_y   { trigger-keys = <Y>;   max-prior-idle-ms = <800>; bindings = <&whirlie_ing>; };
-)
-ZMK_HOLD_TAP(whirlie_magic_ht, bindings = <&mo>, <&whirlie_magic>;
-             flavor = "balanced"; tapping-term-ms = <200>;
-             quick-tap-ms = <QUICK_TAP_MS>;)
-
-#undef WHIRLIE_D
-#undef WHIRLIE_H
-#undef WHIRLIE_J
-#undef WHIRLIE_Q
-#undef WHIRLIE_P
-#undef WHIRLIE_MAGIC
-#define WHIRLIE_D &whirlie_bigram_d
-#define WHIRLIE_H &whirlie_hml_h LSHFT 0
-#define WHIRLIE_J &whirlie_bigram_j
-#define WHIRLIE_Q &whirlie_bigram_q
-#define WHIRLIE_P &whirlie_bigram_p
-#define WHIRLIE_MAGIC &whirlie_magic_ht LAYER_Num 0
-#endif
-
 ZMK_BASE_LAYER(Whirlie,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp B      &kp C      WHIRLIE_D  &kp W      &kp K      ,  &sqt_dqt   &kp L      &kp O      &kp U      WHIRLIE_J  ,
+    &kp B      WHIRLIE_C  WHIRLIE_D  &kp W      &kp K      ,  &sqt_dqt   WHIRLIE_L  &kp O      &kp U      WHIRLIE_J  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-   &hml LGUI N &hml LALT S &hml LCTRL T WHIRLIE_H &kp M , &kp Y      &hmr RSHFT R &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
+   &hml LGUI N WHIRLIE_S  WHIRLIE_T  WHIRLIE_H  &kp M , WHIRLIE_Y  &hmr RSHFT R &hmr RCTRL A &hmr RALT E &hmr RGUI I ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    WHIRLIE_Q  &kp G      WHIRLIE_P  &kp F      &kp V      ,  &kp Z      &kp X      &dot_qmark &minus_slash &comma_excl ,
+    WHIRLIE_Q  WHIRLIE_G  WHIRLIE_P  &kp F      &kp V      ,  &kp Z      &kp X      &dot_qmark &minus_slash &comma_excl ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
         LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , WHIRLIE_MAGIC  &sk LSHFT RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯

@@ -34,6 +34,8 @@ enum custom_keycodes {
     LANG_RU,
     V_COM_EX,
     V_DOT_Q,
+    NUM_SHIFT,
+    STICKY_SHIFT,
 };
 
 #define OS_LINUX 1
@@ -144,7 +146,6 @@ static bool shift_active(void);
 static void tap_without_shift(uint16_t keycode);
 static void tap_morph(uint16_t normal, uint16_t shifted);
 static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_t shifted);
-static void handle_caps_combo(void);
 
 static uint16_t last_basic_keycode = KC_NO;
 static uint32_t last_basic_key_timer = 0;
@@ -196,14 +197,6 @@ static bool process_tap_hold_morph(keyrecord_t *record, uint16_t normal, uint16_
     return false;
 }
 
-static void handle_caps_combo(void) {
-    if (shift_active()) {
-        tap_without_shift(KC_CAPS);
-    } else {
-        caps_word_on();
-    }
-}
-
 static void tap_repeat_key(keyrecord_t *record) {
     keyevent_t event = record->event;
     event.pressed = true;
@@ -232,6 +225,34 @@ static bool process_num_repeat(uint16_t keycode, keyrecord_t *record) {
 
     if (num_repeat_active && record->event.pressed) {
         num_repeat_interrupted = true;
+    }
+    return true;
+}
+
+static bool process_num_shift(uint16_t keycode, keyrecord_t *record) {
+    static bool num_shift_active = false;
+    static bool num_shift_interrupted = false;
+    static uint32_t num_shift_timer = 0;
+
+    if (keycode == NUM_SHIFT) {
+        if (record->event.pressed) {
+            num_shift_active = true;
+            num_shift_interrupted = false;
+            num_shift_timer = timer_read32();
+            layer_on(L_NUM);
+        } else {
+            layer_off(L_NUM);
+            const bool tapped = !num_shift_interrupted && timer_elapsed32(num_shift_timer) < TAPPING_TERM;
+            num_shift_active = false;
+            if (tapped) {
+                add_oneshot_mods(MOD_BIT(KC_LSFT));
+            }
+        }
+        return false;
+    }
+
+    if (num_shift_active && record->event.pressed) {
+        num_shift_interrupted = true;
     }
     return true;
 }
@@ -344,15 +365,20 @@ static void remember_basic_key(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return;
     }
-    if (IS_QK_MODS(keycode) || get_mods() || get_oneshot_mods() || get_weak_mods()) {
+    if (get_mods() || get_oneshot_mods() || get_weak_mods()) {
         last_basic_keycode = KC_NO;
+        generated_reset_basic_history();
         return;
     }
 
-    const uint16_t basic = keycode & 0xFF;
+    uint16_t basic = keycode & 0xFF;
+    if (IS_QK_MODS(keycode) && !record->tap.count) {
+        return;
+    }
     if ((basic >= KC_A && basic <= KC_Z) || basic == KC_SPC || basic == KC_COMM || basic == KC_DOT) {
         last_basic_keycode = basic;
         last_basic_key_timer = timer_read32();
+        generated_record_basic_key(basic);
     }
 }
 
@@ -362,6 +388,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 
     switch (keycode) {
         case NUM_REPEAT:
+        case NUM_SHIFT:
         case MAGIC:
         case RACKET_MAGIC:
         case STURDY_MAGIC:
@@ -372,11 +399,23 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_generated_sticky_shift(keycode, record)) {
+        return false;
+    }
+
+    if (!process_generated_graphite_yous(keycode, record)) {
+        return false;
+    }
+
     if (!process_generated_adaptive_key(keycode, record)) {
         return false;
     }
 
     if (!process_num_repeat(keycode, record)) {
+        return false;
+    }
+
+    if (!process_num_shift(keycode, record)) {
         return false;
     }
 
@@ -424,6 +463,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     remember_basic_key(keycode, record);
     return true;
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    generated_sticky_shift_post_process(keycode, record);
+}
+
+void matrix_scan_user(void) {
+    generated_sticky_shift_task();
 }
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
