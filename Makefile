@@ -179,7 +179,7 @@ LABELS_36        := .cache/zmk-helpers/key-labels/36.h
 all: build draw
 build: luna-build glove80-build cradio-build aurora-build piantor-build corne-build cygnus-build artemis-build ansic-build klotz-build lambbt-build lintilla-build adept-build totem-build cantor_ble-build yetis-build wysteria-build klor-build dartyl-build choctyl-build dactyl-cc-build charybdis_nano-build flake-build
 draw: $(LUNA_SVG) $(GLOVE80_SVG) $(CRADIO_SVG) $(AURORA_SVG) $(TOTEM_SVG) $(ANSIC_SVG) $(CYGNUS_SVG) $(CHARYBDIS_35_SVG) $(CHARYBDIS_36_SVG) $(DARTYL_SVG) $(CHOCTYL_SVG) $(YETIS_SVG) $(WYSTERIA_SVG) $(KLOR_POLYDACTYL_SVG) $(KLOR_KONRAD_SVG) $(KLOR_SAEGEWERK_SVG) $(ARTEMIS_SVG) $(KLOTZ_SVG) $(LAMBBT_SVG) $(PIANTOR_SVG) $(CORNE_SVG) $(CANTOR_BLE_SVG) $(LINTILLA_SVG) $(FLAKE_SVG) $(DACTYL_CC_SVG)
-setup: luna-setup glove80-setup cradio-setup aurora-setup piantor-setup corne-setup cygnus-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup yetis-setup wysteria-setup dactyl-cc-setup
+setup: luna-setup glove80-setup cradio-setup aurora-setup piantor-setup corne-setup cygnus-setup artemis-setup ansic-setup klotz-setup lambbt-setup lintilla-setup adept-setup totem-setup cantor_ble-setup yetis-setup wysteria-setup klor-setup dartyl-setup choctyl-setup dactyl-cc-setup charybdis_nano-setup flake-setup
 
 help:
 	@printf "Commands:\n"
@@ -266,8 +266,8 @@ $(eval $(call ZMK_BUILD_RULES,wysteria))
 $(eval $(call ZMK_BUILD_RULES,klor))
 
 dartyl-build: dartyl-qmk-build
-dartyl-setup: dartyl-qmk-setup
-dartyl-clean: dartyl-qmk-clean
+dartyl-setup: dartyl-qmk-setup ;
+dartyl-clean: dartyl-qmk-clean ;
 dartyl-flash: dartyl-qmk-flash
 dartyl-distclean: dartyl-qmk-distclean
 
@@ -275,8 +275,8 @@ luna-build: ; ./build.sh luna
 
 choctyl: choctyl-build
 choctyl-build: choctyl-qmk-build
-choctyl-setup: choctyl-qmk-setup
-choctyl-clean: choctyl-qmk-clean
+choctyl-setup: choctyl-qmk-setup ;
+choctyl-clean: choctyl-qmk-clean ;
 choctyl-flash: choctyl-qmk-flash
 choctyl-distclean: choctyl-qmk-distclean
 dactyl-cc-build: ; QMK_KEYBOARD=dactyl_cc QMK_KEYMAP=razen ./qmk-build.sh build
@@ -287,8 +287,8 @@ dactyl-cc-distclean: ; QMK_KEYBOARD=dactyl_cc QMK_KEYMAP=razen ./qmk-build.sh di
 glove80-build: ; ./build.sh glove80
 cradio-build:  ; ./build.sh cradio
 aurora-build: aurora-zmk-build aurora-qmk-build
-aurora-setup: aurora-zmk-setup aurora-qmk-setup
-aurora-clean: aurora-zmk-clean aurora-qmk-clean
+aurora-setup: aurora-zmk-setup aurora-qmk-setup ;
+aurora-clean: aurora-zmk-clean aurora-qmk-clean ;
 aurora-distclean: aurora-zmk-clean aurora-qmk-distclean
 aurora-zmk-build: ; ./build.sh splitkb_aurora_sweep
 aurora-zmk-setup: ; ./build.sh splitkb_aurora_sweep setup
@@ -305,8 +305,8 @@ corne-wired corne-qmk corne-qmk-build corne-qmk-setup corne-qmk-clean corne-qmk-
 	@printf "No QMK Corne target in this repo. Use cygnus-build for crkbd/rev1 wiring.\n" >&2
 	@false
 cygnus-build: cygnus-qmk-build
-cygnus-setup: cygnus-qmk-setup
-cygnus-clean: cygnus-qmk-clean
+cygnus-setup: cygnus-qmk-setup ;
+cygnus-clean: cygnus-qmk-clean ;
 cygnus-flash: cygnus-qmk-flash
 cygnus-distclean: cygnus-qmk-distclean
 artemis-build: ; ./build.sh artemis
@@ -324,8 +324,8 @@ yetis-clean:   ; ./qmk-build.sh clean
 yetis-flash:   ; ./qmk-build.sh flash
 yetis-distclean: ; ./qmk-build.sh distclean
 wysteria-build: wysteria-zmk-build wysteria-qmk-build
-wysteria-setup: wysteria-zmk-setup wysteria-qmk-setup
-wysteria-clean: wysteria-zmk-clean wysteria-qmk-clean
+wysteria-setup: wysteria-zmk-setup wysteria-qmk-setup ;
+wysteria-clean: wysteria-zmk-clean wysteria-qmk-clean ;
 wysteria-flash: wysteria-qmk-flash
 wysteria-distclean: wysteria-zmk-clean wysteria-qmk-distclean
 wysteria-wired: wysteria-qmk-build
@@ -336,8 +336,8 @@ wysteria-bodged-qmk-setup: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_buil
 wysteria-bodged-qmk-clean: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh clean
 wysteria-bodged-qmk-flash: ; QMK_HOME="$(CURDIR)/.qmk/qmk_firmware_wysteria_build" QMK_KEYBOARD=wysteria QMK_KEYMAP=razen_bodged ./qmk-build.sh flash
 klor-build: klor-zmk-build klor-qmk-build
-klor-setup: klor-zmk-setup klor-qmk-setup
-klor-clean: klor-zmk-clean klor-qmk-clean
+klor-setup: klor-zmk-setup klor-qmk-setup ;
+klor-clean: klor-zmk-clean klor-qmk-clean ;
 klor-flash: klor-qmk-flash
 klor-distclean: klor-zmk-clean klor-qmk-distclean
 klor-wired: klor-qmk-build
@@ -536,5 +536,5 @@ $(KLOR_KONRAD_SVG): $(KLOR_KONRAD_YAML) $(CONF)
 	keymap -c $(CONF) draw -n '$(KLOR_KONRAD_NOTATION)' $< > $@
 
 # ─── Clean ──────────────────────────────────────────────────────────
-clean: luna-clean glove80-clean cradio-clean aurora-clean piantor-clean corne-clean cygnus-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean adept-clean totem-clean cantor_ble-clean yetis-clean wysteria-clean klor-clean dactyl-cc-clean charybdis_nano-clean
+clean: luna-clean glove80-clean cradio-clean aurora-clean piantor-clean corne-clean cygnus-clean artemis-clean ansic-clean klotz-clean lambbt-clean lintilla-clean adept-clean totem-clean cantor_ble-clean yetis-clean wysteria-clean klor-clean dartyl-clean choctyl-clean dactyl-cc-clean charybdis_nano-clean flake-clean
 	rm -rf .cache

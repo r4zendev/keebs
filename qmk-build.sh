@@ -2,6 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+source "$REPO_ROOT/scripts/qmk_generated_keyboards.sh"
 QMK_HOME="${QMK_HOME:-$REPO_ROOT/.qmk/qmk_firmware}"
 QMK_REF="${QMK_REF:-c26449e64f18940c0a57e459eeae465b26502b64}"
 QMK_REPO="${QMK_REPO:-https://github.com/qmk/qmk_firmware.git}"
@@ -379,7 +380,15 @@ generate_keymap() {
         exit 1
     fi
 
-    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && ( "$KEYBOARD" == "yetis" || "$KEYBOARD" == "wysteria" || "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "dartyl" || "$KEYBOARD" == "choctyl" || "$KEYBOARD" == "dactyl_cc" ) ) ]]; then
+    local keyboard_supported=false
+    for generated_keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
+        if [[ "$KEYBOARD" == "$generated_keyboard" ]]; then
+            keyboard_supported=true
+            break
+        fi
+    done
+
+    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && "$keyboard_supported" == true ) ]]; then
         "$REPO_ROOT/scripts/generate" qmk "$GENERATED_KEYMAP"
     else
         echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
