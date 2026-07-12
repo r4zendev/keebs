@@ -58,48 +58,27 @@ parse_config:
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&lt LAYER_Nav BSPC': {t: '$$mdi:backspace$$', h: Nav}
     '&num_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
-    '&sturdy_num_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
     '&thumb_magic_1 LSHFT 0': {t: '$$mdi:arrow-up-bold$$'}
     '&nav_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
     '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&mouse_ht LAYER_Mouse LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&to_graphite': {t: Graphite, type: layer-activator}
-    '&thumb_r LAYER_Symbol R': {t: R, h: Symbol}
     '&nav_repeat LAYER_Nav 0': {t: '$$mdi:repeat$$', h: Nav}
-    '&alpha_magic_racket_1': {t: '$$mdi:star-four-points$$'}
-    '&alpha_magic_sturdy': {t: '$$mdi:star-four-points$$'}
-    '&whirlmrl_magic': {t: '$$mdi:star-four-points$$'}
-    '&honeypie_magic': {t: '$$mdi:star-four-points$$'}
-    '&honeypie_magic_ht LSHFT 0': {t: '$$mdi:star-four-points$$', h: '$$mdi:apple-keyboard-shift$$'}
-    '&whirlmrl_bigram_d': {t: D}
-    '&whirlmrl_bigram_w': {t: W}
-    '&whirlmrl_bigram_f': {t: F}
-    '&whirlmrl_bigram_p': {t: P}
-    '&whirlmrl_bigram_h': {t: H}
     '&key_repeat': {t: '$$mdi:repeat$$'}
-    '&to_whirlmrl': {t: WhirlMrl, type: layer-activator}
     '&graphite_bigram_d': {t: D}
-    '&graphite_bigram_b': {t: B}
     '&graphite_bigram_c': {t: C}
     '&graphite_bigram_l': {t: L}
     '&graphite_bigram_o': {t: O}
     '&graphite_bigram_w': {t: W}
     '&graphite_bigram_x': {t: X}
-    '&graphite_bigram_y': {t: Y}
-    '&graphite_bigram_q': {t: Q}
-    '&graphite_bigram_z': {t: Z}
     '&graphite_hml_n LGUI': {t: N, h: ❖}
     '&graphite_hml_n LGUI 0': {t: N, h: ❖}
-    '&graphite_hml_r LALT': {t: R, h: ⌥}
-    '&graphite_hml_r LALT 0': {t: R, h: ⌥}
     '&graphite_hml_s LSHFT': {t: S, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hml_s LSHFT 0': {t: S, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_h RSHFT': {t: H, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_h RSHFT 0': {t: H, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_e RALT': {t: E, h: ⌥}
     '&graphite_hmr_e RALT 0': {t: E, h: ⌥}
-    '&to_racket': {t: Racket, type: layer-activator}
-    '&to_sturdy': {t: Sturdy, type: layer-activator}
     '&to_vestnik': {t: Vestnik, type: layer-activator}
     '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}

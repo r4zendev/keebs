@@ -1,25 +1,3 @@
 #ifndef ADAPTIVE_TIMEOUT_MS
 #define ADAPTIVE_TIMEOUT_MS 1000
 #endif
-
-#ifndef GRAPHITE_ADAPTIVE
-#define GRAPHITE_ADAPTIVE 0
-#endif
-#ifndef DUSK_ADAPTIVE
-#define DUSK_ADAPTIVE 0
-#endif
-#ifndef NIGHT_ADAPTIVE
-#define NIGHT_ADAPTIVE 0
-#endif
-#ifndef TWIRL_ADAPTIVE
-#define TWIRL_ADAPTIVE 0
-#endif
-#ifndef WHIRLIE_ADAPTIVE
-#define WHIRLIE_ADAPTIVE 0
-#endif
-#ifndef WHIRLMRL_ADAPTIVE
-#define WHIRLMRL_ADAPTIVE 0
-#endif
-#ifndef WHIRLY_ADAPTIVE
-#define WHIRLY_ADAPTIVE 0
-#endif

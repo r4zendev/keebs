@@ -80,8 +80,8 @@ def main() -> None:
     model = load(repo / "keymap" / "model.json")
     profiles = load(repo / "keymap" / "profiles.json")["profiles"]
     profile = profiles[args.profile]
-    if "qmk" not in profile or "qmk_info" not in profile:
-        raise ValueError(f"{args.profile} has no committed QMK layout source")
+    if "qmk" not in profile:
+        raise ValueError(f"{args.profile} has no QMK layout source")
 
     slots = profile_slots(model, profile)
     core_roles = model["position_sets"]["core_34"]

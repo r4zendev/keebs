@@ -1,11 +1,5 @@
-/*
- * Shared base keymap — included by all board-specific wrappers.
- *
- * Board wrappers can override before including this file:
- *   THUMBS            — key positions for HRM hold-trigger (default: LH2 LH1 RH1 RH2)
- *   LH_NONE / RH_NONE — set to &none for boards with >4 thumbs (pads inner thumbs)
- *   SKIP_SYSTEM_LAYER — define to omit the System layer (for boards with custom system layers)
- */
+/* Shared base keymap, included by all board-specific wrappers.
+ * Override before including: THUMBS, LH_NONE/RH_NONE, SKIP_SYSTEM_LAYER. */
 
 #include "includes/features.dtsi"
 #include "includes/defines.dtsi"
@@ -21,25 +15,15 @@
     ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
 #endif
 
-/* ── Alpha layers ────────────────────────────────────────────────────── */
-
 #include "includes/layers/alpha_graphite.dtsi"
 #include "includes/layers/alpha_vestnik.dtsi"
-/* Inactive layouts — kept on disk, excluded from the compiled keymap:
- *   alpha_bunya.dtsi, alpha_honeypie.dtsi, alpha_whirlmrl.dtsi, alpha_racket.dtsi,
- *   alpha_sturdy.dtsi, alpha_night.dtsi, alpha_dusk.dtsi, alpha_twirl.dtsi,
- *   alpha_whirlie.dtsi, alpha_whirly.dtsi
- */
-
-/* ── Utility layers ──────────────────────────────────────────────────── */
+/* alpha_bunya.dtsi, alpha_dusk.dtsi kept on disk, not compiled in. */
 
 #include "includes/layers/symbol.dtsi"
 #include "includes/layers/nav.dtsi"
 #include "includes/layers/num.dtsi"
 #include "includes/layers/fn.dtsi"
 #include "includes/layers/mouse.dtsi"
-
-/* ── System layer ────────────────────────────────────────────────────── */
 
 #ifndef SKIP_SYSTEM_LAYER
 #include "includes/layers/system.dtsi"

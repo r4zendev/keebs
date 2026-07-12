@@ -1,4 +1,5 @@
 [graphite]
+enabled = false
 timeout_ms = 1000
 swaps = [
   ["S", "C", "D"],
@@ -22,57 +23,10 @@ swaps = [
 ]
 
 [dusk]
+enabled = false
 timeout_ms = 1000
 swaps = [
   ["U", "O", "E"],
   ["SQT", "O", "L"],
   ["SQT", "U", "M"],
-]
-
-[night]
-timeout_ms = 1000
-swaps = [
-  ["U", "O", "E"],
-]
-
-[twirl]
-timeout_ms = 1000
-swaps = [
-  ["S", "D", "C"],
-  ["P", "Q", "T"],
-  ["R", "Q", "L"],
-  ["G", "P", "S"],
-  ["N", "H", "G"],
-]
-
-[whirlie]
-timeout_ms = 1000
-swaps = [
-  ["S", "D", "C"],
-  ["R", "J", "Y"],
-  ["L", "J", "Y"],
-  ["P", "Q", "T"],
-  ["R", "Q", "L"],
-  ["G", "P", "S"],
-  ["N", "H", "G"],
-]
-
-[whirlmrl]
-timeout_ms = 1000
-swaps = [
-  ["S", "D", "C"],
-  ["R", "W", "L"],
-  ["P", "F", "T"],
-  ["G", "P", "S"],
-  ["N", "H", "G"],
-  ["R", "H", "M"],
-]
-
-[whirly]
-timeout_ms = 1000
-swaps = [
-  ["S", "D", "C"],
-  ["R", "X", "L"],
-  ["G", "P", "S"],
-  ["N", "H", "G"],
 ]

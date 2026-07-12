@@ -1,0 +1,2 @@
+board: xiao_ble/nrf52840/zmk
+shield_prefix: anywhy_flake

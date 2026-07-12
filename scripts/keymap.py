@@ -44,10 +44,19 @@ def validate_position_sets(model: dict) -> None:
     if totem_38 - standard_36 != {"L_BOTTOM_EXTRA", "R_BOTTOM_EXTRA"} or standard_36 - totem_38:
         fail("totem_38 must be standard_36 plus only the two outer-pinky extras")
 
+    cantor_ble_42 = set(position_sets.get("cantor_ble_42", []))
+    cantor_extras = {"L_TOP_OUTER", "R_TOP_OUTER", "L_MID_OUTER", "R_MID_OUTER", "L_BOTTOM_OUTER", "R_BOTTOM_OUTER"}
+    if cantor_ble_42 - standard_36 != cantor_extras or standard_36 - cantor_ble_42:
+        fail("cantor_ble_42 must be standard_36 plus only the six outer-column extras")
+
     klor_konrad_42 = set(position_sets.get("klor_konrad_42", []))
     klor_polydactyl_44 = set(position_sets.get("klor_polydactyl_44", []))
     if klor_polydactyl_44 - klor_konrad_42 != {"L_THUMB_OUTER", "R_THUMB_OUTER"} or klor_konrad_42 - klor_polydactyl_44:
         fail("klor_polydactyl_44 must be klor_konrad_42 plus only the two outer thumbs")
+
+    klor_saegewerk_38 = set(position_sets.get("klor_saegewerk_38", []))
+    if klor_konrad_42 - klor_saegewerk_38 != {"L_MID_OUTER", "R_MID_OUTER", "L_BOTTOM_OUTER", "R_BOTTOM_OUTER"} or klor_saegewerk_38 - klor_konrad_42:
+        fail("klor_saegewerk_38 must be klor_konrad_42 minus only the outer/mid pinky columns")
 
 
 def validate_alphas(model: dict) -> None:

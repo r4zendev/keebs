@@ -1,12 +1,3 @@
-/* ANSIC wireless wrapper.
- *
- * The ANSIC PCB has 42 switch positions. This wrapper maps the shared
- * 34-key layout onto the primary alpha columns and inner thumb keys:
- *   - top row skips the duplicated inner key on each half
- *   - bottom alpha row skips the outer modifier on each half
- *   - thumb row uses the two inner keys per half
- */
-
 #define ___ &none
 
 #define LT4  0
@@ -33,17 +24,17 @@
 #define RM3 20
 #define RM4 21
 
-#define LB4 23
-#define LB3 24
-#define LB2 25
-#define LB1 26
-#define LB0 27
+#define LB4 22
+#define LB3 23
+#define LB2 24
+#define LB1 25
+#define LB0 26
 
-#define RB0 28
-#define RB1 29
-#define RB2 30
-#define RB3 31
-#define RB4 32
+#define RB0 29
+#define RB1 30
+#define RB2 31
+#define RB3 32
+#define RB4 33
 
 #define LH2 36
 #define LH1 37
@@ -56,7 +47,7 @@
     ZMK_LAYER(name, \
         LT ___       ___ RT \
         LM RM \
-        ___ LB       RB ___ \
+        LB ___       ___ RB \
         ___ ___ LH   RH ___ ___ \
     )
 

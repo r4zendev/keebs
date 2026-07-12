@@ -17,15 +17,6 @@ ZMK_HOLD_TAP(thumb_spc, bindings = <&mo>, <&kp>;
              flavor = "tap-preferred"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
-ZMK_HOLD_TAP(thumb_r, bindings = <&mo>, <&kp>;
-             flavor = "tap-preferred"; tapping-term-ms = <175>;
-             quick-tap-ms = <QUICK_TAP_MS>;)
-
-/* ── Thumb magic (adaptive repeat/shift) ─────────────────────────────── */
-
-#define AK(name, k, b) \
-    name { trigger-keys = <k>; max-prior-idle-ms = <800>; bindings = <b>; };
-
 ZMK_ADAPTIVE_KEY(thumb_magic_1_adaptive, bindings = <&sk LSHFT>;
     repeat {
       trigger-keys = <A B C D E F G H I J K L M N O P Q R S T U V W X Y Z>;

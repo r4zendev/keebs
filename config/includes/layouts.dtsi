@@ -1,5 +1,3 @@
-/* ── Layer indices ────────────────────────────────────────────────────── */
-
 /* Indices follow the compiled order in base.keymap (graphite, vestnik-dm,
  * then the utility layers). Toggling which alpha layers are included means
  * updating these to match. */
@@ -17,11 +15,7 @@
 #define ALPHA_LAYERS LAYER_Graphite LAYER_VestnikDm
 #define CAPS_LAYERS  LAYER_Graphite LAYER_VestnikDm
 
-/* ── Layout macros ───────────────────────────────────────────────────── */
-
 ZMK_MACRO(to_vestnik,  bindings = <&to LAYER_VestnikDm>;)
-
-/* ── System layer helpers ────────────────────────────────────────────── */
 
 #define SYS_SLOT1 &to_graphite
 #define SYS_SLOT2 &to_vestnik
