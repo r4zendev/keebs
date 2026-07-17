@@ -6,8 +6,8 @@ ZMK_LAYER(VestnikDm,
     &kp SEMI &kp D &kp J &kp T &kp DOT
     &kp P &kp K &kp L
     &kp Q &kp S &kp E
-    &thumb_bspc LAYER_Nav 0 &thumb_spc LAYER_Symbol SPACE
-    &sk LSHFT &num_repeat LAYER_Num 0
+    ALPHA_THUMBS_L
+    ALPHA_THUMBS_R
 )
 #else
 ZMK_BASE_LAYER(VestnikDm,
@@ -18,7 +18,7 @@ ZMK_BASE_LAYER(VestnikDm,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     &kp I      &kp P      &kp K      &kp L      &kp X      ,  &kp SEMI   &kp Q      &kp S      &kp E      &kp DOT  ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-            LH_NONE &thumb_bspc LAYER_Nav 0  &thumb_spc LAYER_Symbol SPACE , &sk LSHFT  &num_repeat LAYER_Num 0 RH_NONE
+            LH_NONE ALPHA_THUMBS_L , ALPHA_THUMBS_R RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 #endif

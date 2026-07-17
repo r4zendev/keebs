@@ -4,8 +4,8 @@ manifest:
       url-base: https://github.com/moergo-sc
     - name: urob
       url-base: https://github.com/urob
-    - name: r4zendev
-      url-base: https://github.com/r4zendev
+    - name: rzssh
+      url-base: https://github.com/rzssh
 
   projects:
     - name: zmk
@@ -19,7 +19,7 @@ manifest:
       remote: urob
       revision: main
     - name: zmk-adaptive-key
-      remote: r4zendev
+      remote: rzssh
       revision: skipmagic
 
   self:

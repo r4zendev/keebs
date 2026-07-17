@@ -44,6 +44,11 @@ STANDALONE = {
     "SYS_LIGHT_INC": "RGB_VAI",
 }
 
+MACRO_EXPANSIONS = {
+    "ALPHA_THUMBS_L": "&thumb_spc LAYER_Nav SPACE &kp RET",
+    "ALPHA_THUMBS_R": "&num_shift LAYER_Num LSHFT THUMB_MAGIC",
+}
+
 POSITION_ENUMS = {
     "LT1": "P_LT1",
     "LT2": "P_LT2",
@@ -453,6 +458,8 @@ def convert_binding(name: str, args: list[str]) -> str:
 
 def parse_binding_list(s: str) -> list[str]:
     bindings: list[str] = []
+    for name, expansion in MACRO_EXPANSIONS.items():
+        s = s.replace(name, expansion)
     tokens = s.replace("\n", " ").split()
     i = 0
     while i < len(tokens):

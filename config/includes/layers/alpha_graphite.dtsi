@@ -67,8 +67,8 @@ ZMK_LAYER(Graphite,
     &kp K GRAPHITE_H &hmr RCTRL A GRAPHITE_E &hmr RGUI I
     GRAPHITE_X &kp M GRAPHITE_C
     &kp P &dot_qmark &comma_excl
-    &thumb_bspc LAYER_Nav 0 THUMB_MAGIC
-    &thumb_spc LAYER_Symbol SPACE &num_shift LAYER_Num LSHFT
+    ALPHA_THUMBS_L
+    ALPHA_THUMBS_R
 )
 #else
 ZMK_BASE_LAYER(Graphite,
@@ -79,7 +79,7 @@ ZMK_BASE_LAYER(Graphite,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
     GRAPHITE_Q GRAPHITE_X &kp M      GRAPHITE_C &kp V      ,  &kp K      &kp P      &dot_qmark &minus_slash &comma_excl ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                    LH_NONE &thumb_bspc LAYER_Nav 0  THUMB_MAGIC , &thumb_spc LAYER_Symbol SPACE  &num_shift LAYER_Num LSHFT RH_NONE
+                    LH_NONE ALPHA_THUMBS_L , ALPHA_THUMBS_R RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 #endif

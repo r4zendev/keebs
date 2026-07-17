@@ -43,6 +43,9 @@ ZMK_HOLD_TAP(num_shift, bindings = <&mo>, <&sk>;
 
 #define THUMB_MAGIC &thumb_magic_1 LSHFT 0
 
+#define ALPHA_THUMBS_L &thumb_spc LAYER_Nav SPACE &kp RET
+#define ALPHA_THUMBS_R &num_shift LAYER_Num LSHFT THUMB_MAGIC
+
 #ifndef FLOW_SKIP_MS
 #define FLOW_SKIP_MS 400
 #endif

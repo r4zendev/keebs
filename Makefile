@@ -11,12 +11,12 @@ GLOVE80_LAYERS   := Graphite Honeypie Symbol Nav Num NumMirror Fn Mouse Magic Ve
 CRADIO_KEYMAP   := config/keyboards/cradio/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
-CRADIO_LAYERS   := Graphite Honeypie Symbol Nav Num NumMirror Fn Mouse System Vestnik
+CRADIO_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 
 AURORA_KEYMAP   := config/keyboards/splitkb_aurora_sweep/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
-AURORA_LAYERS   := Graphite Honeypie Symbol Nav Num NumMirror Fn Mouse System Vestnik
+AURORA_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
 
 # Boards sharing includes/34key.dtsi (same role order as Cradio, just wired
 # to different real matrix positions) draw with Cradio's real geometry.

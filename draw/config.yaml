@@ -58,7 +58,7 @@ parse_config:
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
     '&lt LAYER_Nav BSPC': {t: '$$mdi:backspace$$', h: Nav}
     '&num_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
-    '&thumb_magic_1 LSHFT 0': {t: '$$mdi:arrow-up-bold$$'}
+    '&thumb_magic_1 LSHFT 0': {t: '$$mdi:repeat$$', h: '$$mdi:arrow-up-bold$$'}
     '&nav_repeat LAYER_Num 0': {t: '$$mdi:repeat$$', h: Num}
     '&tog LAYER_Mouse': {t: Mouse, type: layer-activator}
     '&mouse_ht LAYER_Mouse LAYER_Mouse': {t: Mouse, type: layer-activator}
@@ -73,8 +73,8 @@ parse_config:
     '&graphite_bigram_x': {t: X}
     '&graphite_hml_n LGUI': {t: N, h: ❖}
     '&graphite_hml_n LGUI 0': {t: N, h: ❖}
-    '&graphite_hml_s LSHFT': {t: S, h: '$$mdi:arrow-up-bold$$'}
-    '&graphite_hml_s LSHFT 0': {t: S, h: '$$mdi:arrow-up-bold$$'}
+    '&yous_hml_s LSHFT': {t: S, h: '$$mdi:arrow-up-bold$$'}
+    '&yous_hml_s LSHFT 0': {t: S, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_h RSHFT': {t: H, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_h RSHFT 0': {t: H, h: '$$mdi:arrow-up-bold$$'}
     '&graphite_hmr_e RALT': {t: E, h: ⌥}

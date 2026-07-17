@@ -267,7 +267,7 @@ path.combo {
 </g>
 <g transform="translate(210, 84)" class="key keypos-13">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<text x="0" y="0" class="key tap"><tspan style="font-size: 64%">&amp;graphite_…</tspan></text>
+<text x="0" y="0" class="key tap">S</text>
 <use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold"/>
 </g>
 <g transform="translate(270, 112)" class="key keypos-14">
@@ -326,27 +326,25 @@ path.combo {
 </g>
 <g transform="translate(210, 196)" class="key keypos-26">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:backspace" xlink:href="#mdi:backspace" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:backspace"/>
+<use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
 <a href="#Nav">
 <text x="0" y="24" class="key hold layer-activator">Nav</text>
-</a><use href="#mdi:backspace-reverse" xlink:href="#mdi:backspace-reverse" x="-5" y="-24" height="10" width="10.0" class="key shifted glyph mdi:backspace-reverse"/>
-</g>
+</a></g>
 <g transform="translate(270, 196)" class="key keypos-27">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:arrow-up-bold"/>
+<use href="#mdi:keyboard-return" xlink:href="#mdi:keyboard-return" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-return"/>
 </g>
 <g transform="translate(360, 196)" class="key keypos-28">
-<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
-<a href="#Symbol">
-<text x="0" y="24" class="key hold layer-activator">Symbol</text>
-</a></g>
-<g transform="translate(420, 196)" class="key keypos-29">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
 <use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:arrow-up-bold"/>
 <a href="#Num">
 <text x="0" y="24" class="key hold layer-activator">Num</text>
 </a></g>
+<g transform="translate(420, 196)" class="key keypos-29">
+<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
+<use href="#mdi:repeat" xlink:href="#mdi:repeat" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:repeat"/>
+<use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold"/>
+</g>
 <g class="combo combopos-0">
 <rect rx="6" ry="6" x="166" y="127" width="28" height="26" class="combo"/>
 <text x="180" y="140" class="combo tap">Tmux</text>
@@ -468,27 +466,25 @@ path.combo {
 </g>
 <g transform="translate(210, 196)" class="key keypos-26">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:backspace" xlink:href="#mdi:backspace" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:backspace"/>
+<use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
 <a href="#Nav">
 <text x="0" y="24" class="key hold layer-activator">Nav</text>
-</a><use href="#mdi:backspace-reverse" xlink:href="#mdi:backspace-reverse" x="-5" y="-24" height="10" width="10.0" class="key shifted glyph mdi:backspace-reverse"/>
-</g>
+</a></g>
 <g transform="translate(270, 196)" class="key keypos-27">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
-<a href="#Symbol">
-<text x="0" y="24" class="key hold layer-activator">Symbol</text>
-</a></g>
+<use href="#mdi:keyboard-return" xlink:href="#mdi:keyboard-return" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-return"/>
+</g>
 <g transform="translate(360, 196)" class="key keypos-28">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
 <use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:arrow-up-bold"/>
-</g>
-<g transform="translate(420, 196)" class="key keypos-29">
-<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<use href="#mdi:repeat" xlink:href="#mdi:repeat" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:repeat"/>
 <a href="#Num">
 <text x="0" y="24" class="key hold layer-activator">Num</text>
 </a></g>
+<g transform="translate(420, 196)" class="key keypos-29">
+<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
+<use href="#mdi:repeat" xlink:href="#mdi:repeat" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:repeat"/>
+<use href="#mdi:arrow-up-bold" xlink:href="#mdi:arrow-up-bold" x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold"/>
+</g>
 <g class="combo combopos-0">
 <rect rx="6" ry="6" x="166" y="127" width="28" height="26" class="combo"/>
 <text x="180" y="140" class="combo tap">Tmux</text>
@@ -628,8 +624,9 @@ path.combo {
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
 <use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
 </g>
-<g transform="translate(360, 196)" class="key held keypos-28">
-<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key held"/>
+<g transform="translate(360, 196)" class="key keypos-28">
+<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
+<use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
 </g>
 <g transform="translate(420, 196)" class="key trans keypos-29">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key trans"/>
@@ -877,13 +874,12 @@ path.combo {
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
 <use href="#mdi:keyboard-space" xlink:href="#mdi:keyboard-space" x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space"/>
 </g>
-<g transform="translate(360, 196)" class="key keypos-28">
-<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key"/>
-<a href="#Fn">
-<text x="0" y="0" class="key tap layer-activator">Fn</text>
-</a></g>
-<g transform="translate(420, 196)" class="key held keypos-29">
+<g transform="translate(360, 196)" class="key held keypos-28">
 <rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key held"/>
+</g>
+<g transform="translate(420, 196)" class="key trans keypos-29">
+<rect rx="6" ry="6" x="-28" y="-26" width="56" height="52" class="key trans"/>
+<text x="0" y="0" class="key trans tap">▽</text>
 </g>
 </g>
 </g>
