@@ -27,5 +27,9 @@ manifest:
       remote: hailee0710
       revision: main
 
+    - name: zmk-tri-state
+      remote: urob
+      revision: main
+
   self:
     path: config

@@ -7,10 +7,9 @@
 #define LAYER_Symbol    2
 #define LAYER_Nav       3
 #define LAYER_Num       4
-#define LAYER_NumMirror 5
-#define LAYER_Fn        6
-#define LAYER_Mouse     7
-#define LAYER_Magic     8
+#define LAYER_VestnikX  5
+#define LAYER_Mouse     6
+#define LAYER_Magic     7
 
 #define ALPHA_LAYERS LAYER_Graphite LAYER_VestnikDm
 #define CAPS_LAYERS  LAYER_Graphite LAYER_VestnikDm

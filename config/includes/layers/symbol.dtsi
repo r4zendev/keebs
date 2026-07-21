@@ -1,23 +1,23 @@
 #ifdef LUNA
 ZMK_LAYER(Symbol,
-    &kp TILDE &kp HASH &kp STAR &kp AMPS &kp DLLR
-    &kp AT &kp LPAR &kp RPAR &kp LBKT &kp RBKT
-    &kp CARET &kp UNDER &kp COLON &kp EQUAL &kp FSLH
-    &kp BSLH &kp PRCNT &kp LBRC &kp RBRC &kp SEMI
-    &kp EXCL &kp PIPE &kp PLUS
-    &kp MINUS &kp LT &kp GT
-    &trans &kp SPACE &kp SPACE &trans
+    &none &kp DLLR &kp PRCNT &kp CARET &none
+    &kp TILDE &kp LBRC &kp RBRC &kp AT &kp GRAVE
+    &kp LGUI &kp LALT &kp LCTRL &kp LSHFT &none
+    &kp COLON &kp LPAR &kp RPAR &kp SEMI &kp DQT
+    &kp AMPS &kp PIPE &kp BSLH
+    &kp LBKT &kp RBKT &kp QMARK
+    &trans &trans &kp SPACE &trans
 )
 #else
 ZMK_BASE_LAYER(Symbol,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp TILDE  &kp HASH   &kp STAR   &kp AMPS   &kp GRAVE  ,  &kp DQT    &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT ,
+    &none      &kp DLLR   &kp PRCNT  &kp CARET  &none      ,  &kp TILDE  &kp LBRC   &kp RBRC   &kp AT     &kp GRAVE ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp CARET  &kp UNDER  &kp COLON  &kp EQUAL  &kp DLLR   ,  &kp AT     &kp PRCNT  &kp LBRC   &kp RBRC   &kp SEMI ,
+    &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none      ,  &kp COLON  &kp LPAR   &kp RPAR   &kp SEMI   &kp DQT   ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp QMARK  &kp EXCL   &kp PIPE   &kp PLUS   &kp FSLH   ,  &kp BSLH   &kp MINUS  &kp LT     &kp GT     &kp SQT  ,
+    &none      &kp AMPS   &kp PIPE   &kp BSLH   &none      ,  &kp EXCL   &kp LBKT   &kp RBKT   &kp QMARK  &kp SQT   ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     LH_NONE &trans     &kp SPACE   ,  &kp SPACE  &trans RH_NONE
+                                     LH_NONE &trans     &trans      ,  &kp SPACE  &trans RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 #endif

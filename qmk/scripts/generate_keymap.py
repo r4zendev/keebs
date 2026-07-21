@@ -15,7 +15,6 @@ LAYER_FILES = [
     "symbol.dtsi",
     "nav.dtsi",
     "num.dtsi",
-    "fn.dtsi",
     "mouse.dtsi",
     "system.dtsi",
 ]
@@ -45,8 +44,9 @@ STANDALONE = {
 }
 
 MACRO_EXPANSIONS = {
-    "ALPHA_THUMBS_L": "&thumb_spc LAYER_Nav SPACE &kp RET",
-    "ALPHA_THUMBS_R": "&num_shift LAYER_Num LSHFT THUMB_MAGIC",
+    "ALPHA_THUMBS_L": "&thumb_spc LAYER_Nav SPACE &nav_ht LAYER_Symbol ESC",
+    "VESTNIK_THUMBS_L": "&thumb_spc LAYER_Nav SPACE &sym_alpha2 LAYER_Symbol LAYER_VestnikX",
+    "ALPHA_THUMBS_R": "&lt LAYER_Num RET THUMB_MAGIC",
 }
 
 POSITION_ENUMS = {
@@ -312,6 +312,9 @@ def layer_const(name: str) -> str:
 
 def qmk_key(token: str) -> str:
     token = token.strip()
+    match = re.fullmatch(r"_C\((.*)\)", token)
+    if match:
+        return f"C({qmk_key(match.group(1))})"
     match = re.fullmatch(r"([A-Z][A-Z])\((.*)\)", token)
     if match and match.group(1) in MODS:
         return f"{MODS[match.group(1)]}({qmk_key(match.group(2))})"
@@ -367,6 +370,8 @@ def convert_binding(name: str, args: list[str]) -> str:
         return "NUM_REPEAT"
     if name == "lt":
         return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
+    if name == "fnum":
+        return qmk_key(args[1])
     if name == "sl":
         return f"OSL({qmk_layer(args[0])})"
     if name == "sk":
@@ -376,7 +381,9 @@ def convert_binding(name: str, args: list[str]) -> str:
     if name == "mo":
         return f"MO({qmk_layer(args[0])})"
     if name == "nav_ht":
-        return "NAV_ESC"
+        return f"LT({qmk_layer(args[0])}, {qmk_key(args[1])})"
+    if name == "sym_alpha2":
+        return "LT(L_SYMBOL, KC_ESC)"
     if name == "num_repeat":
         return "NUM_REPEAT"
     if name == "num_shift":
@@ -573,14 +580,26 @@ def combo_action(action: str) -> tuple[str, str | None]:
         return "layer_on(L_MOUSE);", "layer_off(L_MOUSE);"
     if bits[0] == "&leader":
         return "tap_code16(QK_LEAD);", None
+    if bits[0] == "&lpar_lt":
+        return "tap_morph(S(KC_9), S(KC_COMM));", None
+    if bits[0] == "&rpar_gt":
+        return "tap_morph(S(KC_0), S(KC_DOT));", None
+    if bits[0] == "&lbkt_lbrc":
+        return "tap_morph(KC_LBRC, S(KC_LBRC));", None
+    if bits[0] == "&rbkt_rbrc":
+        return "tap_morph(KC_RBRC, S(KC_RBRC));", None
+    if bits[0] == "&sk" and bits[1] == "LSHFT":
+        return "set_oneshot_mods(MOD_BIT(KC_LSFT));", None
+    if bits[0] == "&bspc_del":
+        return "tap_morph(KC_BSPC, KC_DEL);", None
+    if bits[0] == "&smart_mouse":
+        return "generated_smart_mouse_toggle();", None
     raise ValueError(f"Unsupported combo action {action!r}")
 
 
 def combo_layer_check(layers: str) -> str:
     if layers in {"ALPHA_LAYERS", "CAPS_LAYERS"}:
         names = ["L_GRAPHITE", "L_VESTNIK"]
-    elif layers.startswith("LAYER_"):
-        names = [qmk_layer(layers)]
     else:
         names = [qmk_layer(layer) for layer in layers.split()]
     return " || ".join(f"generated_combo_layer_is({name})" for name in names)
@@ -650,8 +669,42 @@ def emit_layers(layers: list[tuple[str, list[str]]]) -> str:
     return "\n".join(out)
 
 
+SMART_MOUSE_HELPERS = """\
+static bool generated_smart_mouse_active = false;
+
+static void generated_smart_mouse_toggle(void) {
+    if (generated_smart_mouse_active) {
+        generated_smart_mouse_active = false;
+        layer_off(L_MOUSE);
+    } else {
+        generated_smart_mouse_active = true;
+        layer_on(L_MOUSE);
+    }
+}
+
+bool process_generated_smart_mouse(uint16_t keycode, keyrecord_t *record) {
+    if (!generated_smart_mouse_active || !record->event.pressed) {
+        return true;
+    }
+    switch (keycode) {
+        case MS_UP: case MS_DOWN: case MS_LEFT: case MS_RGHT:
+        case MS_WHLU: case MS_WHLD: case MS_WHLL: case MS_WHLR:
+        case MS_BTN1: case MS_BTN2: case MS_BTN3: case MS_BTN4: case MS_BTN5:
+        case KC_PGUP: case KC_PGDN:
+        case KC_LGUI: case KC_LALT: case KC_LCTL: case KC_LSFT:
+        case MOUSE_T:
+            return true;
+    }
+    generated_smart_mouse_active = false;
+    layer_off(L_MOUSE);
+    return true;
+}
+"""
+
+
 def emit_combos(combos: list[dict[str, object]]) -> str:
-    out = ["enum combo_events {"]
+    out = [SMART_MOUSE_HELPERS]
+    out.append("enum combo_events {")
     for combo in combos:
         out.append(f"    {combo['enum']},")
     out.append("};")

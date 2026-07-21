@@ -35,5 +35,9 @@ manifest:
       remote: zzeneg
       revision: main
 
+    - name: zmk-tri-state
+      remote: urob
+      revision: main
+
   self:
     path: config

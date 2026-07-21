@@ -6,58 +6,58 @@ GLOVE80_KEYMAP   := config/keyboards/glove80/glove80.keymap
 GLOVE80_YAML     := draw/glove80.yaml
 GLOVE80_SVG      := draw/glove80.svg
 GLOVE80_KEYBOARD := glove80
-GLOVE80_LAYERS   := Graphite Honeypie Symbol Nav Num NumMirror Fn Mouse Magic Vestnik
+GLOVE80_LAYERS   := Graphite Honeypie Symbol Nav Num VestnikX Mouse Magic Vestnik
 
 CRADIO_KEYMAP   := config/keyboards/cradio/cradio.keymap
 CRADIO_YAML     := draw/cradio.yaml
 CRADIO_SVG      := draw/cradio.svg
-CRADIO_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+CRADIO_LAYERS   := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 AURORA_KEYMAP   := config/keyboards/splitkb_aurora_sweep/splitkb_aurora_sweep.keymap
 AURORA_YAML     := draw/splitkb_aurora_sweep.yaml
 AURORA_SVG      := draw/splitkb_aurora_sweep.svg
-AURORA_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+AURORA_LAYERS   := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 # Boards sharing includes/34key.dtsi (same role order as Cradio, just wired
 # to different real matrix positions) draw with Cradio's real geometry.
 ARTEMIS_KEYMAP := config/keyboards/artemis/artemis.keymap
 ARTEMIS_YAML   := draw/artemis.yaml
 ARTEMIS_SVG    := draw/artemis.svg
-ARTEMIS_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+ARTEMIS_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 KLOTZ_KEYMAP := config/keyboards/klotz/klotz.keymap
 KLOTZ_YAML   := draw/klotz.yaml
 KLOTZ_SVG    := draw/klotz.svg
-KLOTZ_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+KLOTZ_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 LAMBBT_KEYMAP := config/keyboards/lambbt/lambbt.keymap
 LAMBBT_YAML   := draw/lambbt.yaml
 LAMBBT_SVG    := draw/lambbt.svg
-LAMBBT_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+LAMBBT_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 PIANTOR_KEYMAP := config/keyboards/piantor_pro/piantor_pro.keymap
 PIANTOR_YAML   := draw/piantor.yaml
 PIANTOR_SVG    := draw/piantor.svg
-PIANTOR_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+PIANTOR_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 # Corne shares the same foostan 5-column shape as Cygnus's real crkbd/rev1
 # geometry.
 CORNE_KEYMAP := config/keyboards/corne/corne.keymap
 CORNE_YAML   := draw/corne.yaml
 CORNE_SVG    := draw/corne.svg
-CORNE_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+CORNE_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 CANTOR_BLE_KEYMAP := config/keyboards/cantor_ble/cantor_ble.keymap
 CANTOR_BLE_YAML   := draw/cantor_ble.yaml
 CANTOR_BLE_SVG    := draw/cantor_ble.svg
 CANTOR_BLE_LAYOUT := 333333+3 3+333333
-CANTOR_BLE_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+CANTOR_BLE_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 LINTILLA_KEYMAP := config/keyboards/lintilla/lintilla.keymap
 LINTILLA_YAML   := draw/lintilla.yaml
 LINTILLA_SVG    := draw/lintilla.svg
 LINTILLA_LAYOUT := 1^^2^33333+3 3+333332^1^^
-LINTILLA_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+LINTILLA_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 DACTYL_CC_YAML    := draw/dactyl_cc.yaml
 DACTYL_CC_SVG     := draw/dactyl_cc.svg
@@ -68,13 +68,13 @@ DACTYL_CC_LAYOUT  := LAYOUT
 FLAKE_KEYMAP := config/keyboards/flake/flake.keymap
 FLAKE_YAML   := draw/flake.yaml
 FLAKE_SVG    := draw/flake.svg
-FLAKE_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+FLAKE_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 FLAKE_PHYSICAL_LAYOUT := .cache/anywhy_flake.dtsi
 
 LUNA_KEYMAP   := config/keyboards/luna/luna.keymap
 LUNA_YAML     := draw/luna.yaml
 LUNA_SVG      := draw/luna.svg
-LUNA_LAYERS   := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+LUNA_LAYERS   := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 TOTEM_KEYMAP := config/keyboards/totem/totem.keymap
 TOTEM_YAML   := draw/totem.yaml
@@ -82,14 +82,14 @@ TOTEM_SVG    := draw/totem.svg
 SHAPE_36 := 33333+3 3+33333
 
 TOTEM_LAYOUT := 133333+3 3+333331
-TOTEM_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+TOTEM_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 ANSIC_KEYMAP := config/keyboards/ansic/ansic.keymap
 ANSIC_YAML   := draw/ansic.yaml
 ANSIC_SVG    := draw/ansic.svg
 ANSIC_INFO   := draw/ansic_layout.json
 ANSIC_LAYOUT := LAYOUT_ansic
-ANSIC_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+ANSIC_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 CYGNUS_YAML    := draw/cygnus.yaml
 CYGNUS_SVG     := draw/cygnus.svg
@@ -102,7 +102,7 @@ CHARYBDIS_35_LAYOUT := 33333+3 2+33333
 CHARYBDIS_36_YAML := draw/charybdis_36.yaml
 CHARYBDIS_36_SVG := draw/charybdis_36.svg
 CHARYBDIS_36_LAYOUT := $(SHAPE_36)
-CHARYBDIS_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+CHARYBDIS_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 DARTYL_YAML    := draw/dartyl.yaml
 DARTYL_SVG     := draw/dartyl.svg
@@ -144,7 +144,7 @@ KLOR_SAEGEWERK_KEYMAP := config/keyboards/klor/saegewerk.keymap
 KLOR_SAEGEWERK_YAML   := draw/klor_saegewerk.yaml
 KLOR_SAEGEWERK_SVG    := draw/klor_saegewerk.svg
 KLOR_SAEGEWERK_LAYOUT := $(SHAPE_36)
-KLOR_SAEGEWERK_LAYERS := Graphite VestnikDm Symbol Nav Num NumMirror Fn Mouse System
+KLOR_SAEGEWERK_LAYERS := Graphite VestnikDm Symbol Nav Num VestnikX Mouse System
 
 ZMK_HELPERS_BASE := https://raw.githubusercontent.com/urob/zmk-helpers/main/include
 ZMK_HELPERS_H    := .cache/zmk-helpers/helper.h

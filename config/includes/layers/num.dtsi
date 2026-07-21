@@ -1,47 +1,23 @@
 #ifdef LUNA
 ZMK_LAYER(Num,
-    &trans &trans &trans &trans &trans
-    &trans &trans &trans &trans &trans
-    &kp N6 &kp N4 &kp N0 &kp N2 &trans
-    &trans &kp N3 &kp N1 &kp N5 &kp N7
-    &trans &trans &kp N8
-    &kp N9 &trans &trans
-    &kp BSPC &kp SPACE &sl LAYER_Fn &trans
+    &kp UNDER &fnum F7 N7 &fnum F8 N8 &fnum F9 N9 &kp PLUS
+    &kp F11 &kp F12 &none &none &none
+    &kp DOT &fnum F4 N4 &fnum F5 N5 &fnum F6 N6 &kp COLON
+    &none &kp RSHFT &kp RCTRL &kp RALT &kp RGUI
+    &fnum F1 N1 &fnum F2 N2 &fnum F3 N3
+    &kp COMMA &kp EQUAL &kp MINUS
+    &trans &fnum F10 N0 &trans &trans
 )
 #else
 ZMK_BASE_LAYER(Num,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &trans     &trans     &trans     &trans     &trans     ,  &trans     &trans     &trans     &trans     &trans    ,
+    &kp UNDER  &fnum F7 N7 &fnum F8 N8 &fnum F9 N9 &kp PLUS ,  &kp F11    &kp F12    &none      &none      &none     ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp N6     &kp N4     &kp N0     &kp N2     &trans     ,  &trans     &kp N3     &kp N1     &kp N5     &kp N7    ,
+    &kp DOT    &fnum F4 N4 &fnum F5 N5 &fnum F6 N6 &kp COLON , &none      &kp RSHFT  &kp RCTRL  &kp RALT   &kp RGUI  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &trans     &trans     &trans     &kp N8     &trans     ,  &trans     &kp N9     &trans     &trans     &trans    ,
+    &kp STAR   &fnum F1 N1 &fnum F2 N2 &fnum F3 N3 &kp FSLH ,  &kp COMMA  &kp EQUAL  &kp PRCNT  &kp MINUS  &none     ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     LH_NONE &kp BSPC  &kp SPACE   ,  &sl LAYER_Fn &trans RH_NONE
-//                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
-)
-#endif
-
-#ifdef LUNA
-ZMK_LAYER(NumMirror,
-    &none &none &none &none &kp EQUAL
-    &kp DOT &kp N7 &kp N8 &kp N9 &kp MINUS
-    &kp LGUI &kp LALT &kp LCTRL &kp LSHFT &kp PRCNT
-    &kp STAR &kp N4 &kp N5 &kp N6 &kp COLON
-    &none &none &none
-    &kp N1 &kp N2 &kp N3
-    &none &none &kp N0 &kp COMMA
-)
-#else
-ZMK_BASE_LAYER(NumMirror,
-//╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &none      &none      &none      &none      &kp UNDER  ,  &kp PLUS   &kp N7     &kp N8     &kp N9     &kp MINUS ,
-//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &kp EQUAL  ,  &kp DOT    &kp N4     &kp N5     &kp N6     &kp COLON ,
-//├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &none      &none      &none      &none      &kp PRCNT  ,  &kp STAR   &kp N1     &kp N2     &kp N3     &kp FSLH  ,
-//╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                     LH_NONE &none      &none       ,  &kp N0     &kp COMMA RH_NONE
+                                     LH_NONE &trans     &fnum F10 N0 ,  &trans     &trans RH_NONE
 //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
 )
 #endif

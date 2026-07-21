@@ -34,6 +34,9 @@ VESTNIK_MAP = {
     "S": "Ы",
     "E": "У",
     ".": "Ю",
+    "O": "Щ",
+    "`": "Ё",
+    "]": "Ъ",
 }
 
 
@@ -105,7 +108,7 @@ with open(path) as f:
 data.pop("layout", None)
 
 layers = data["layers"]
-for name in ("Vestnik", "VestnikDm"):
+for name in ("Vestnik", "VestnikDm", "VestnikX"):
     if name in layers:
         layers[name] = [translate_vestnik_key(k) for k in layers[name]]
 

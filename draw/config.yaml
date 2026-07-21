@@ -53,6 +53,12 @@ parse_config:
     '&v_dot_qmark': {t: '.', s: '?'}
     '&thumb_bspc LSHFT 0': {t: '$$mdi:backspace$$', h: '$$mdi:arrow-up-bold$$', s: '$$mdi:backspace-reverse$$'}
     '&nav_ht LAYER_Nav 0': {t: '$$mdi:keyboard-esc$$', h: Nav, s: '$$mdi:keyboard-tab$$'}
+    '&nav_ht LAYER_Symbol ESC': {t: '$$mdi:keyboard-esc$$', h: Symbol}
+    '&sym_alpha2 LAYER_Symbol LAYER_VestnikX': {t: VestnikX, h: Symbol}
+    '&smart_mouse': {t: '$$mdi:mouse$$'}
+    '&leader': {t: '$$mdi:star-four-points$$'}
+    '&paste_morph': {t: '$$mdi:content-paste$$', s: '⌃V'}
+    '&thumb_spc LAYER_Nav SPACE': {t: '$$mdi:keyboard-space$$', h: Nav}
     '&thumb_spc LAYER_Symbol SPACE': {t: '$$mdi:keyboard-space$$', h: Symbol}
     '&sk LSHFT': {t: '$$mdi:arrow-up-bold$$'}
     '&lt LAYER_Num RET': {t: '$$mdi:keyboard-return$$', h: Num}
@@ -80,7 +86,6 @@ parse_config:
     '&graphite_hmr_e RALT': {t: E, h: ⌥}
     '&graphite_hmr_e RALT 0': {t: E, h: ⌥}
     '&to_vestnik': {t: Vestnik, type: layer-activator}
-    '&sl LAYER_Fn': {t: Fn}
     '&sl LAYER_Magic': {t: System, type: layer-activator}
     '&soft_off': {t: '$$mdi:keyboard-off-outline$$'}
     '&rgb_ug_status_macro': {t: RGB}
@@ -107,7 +112,6 @@ parse_config:
     '&kp LC(TAB)': {t: Tab →}
     '&kp LC(Z)': {t: Undo}
     '&kp LC(LS(Z))': {t: Redo}
-    '&kp LC(A)': {t: Tmux}
     '&kp _SCR_AREA': {t: '$$mdi:crop$$', s: Scr}
     '&kp _SCR_FULL': {t: '$$mdi:monitor-screenshot$$', s: Scr}
     '&kp _SHUTDOWN': {t: '$$mdi:power$$'}
@@ -251,18 +255,13 @@ parse_config:
     CAPSLOCK: Caps
     CAPS: Caps
   zmk_combos:
-    combo_undo_redo: {key: {t: '$$mdi:undo$$', s: '$$mdi:redo$$'}}
-    combo_qm_paste: {key: {t: '$$mdi:content-paste$$'}}
-    combo_mc_copy_cut: {key: {t: '$$mdi:content-copy$$', s: '$$mdi:content-cut$$'}}
-    combo_shcha: {key: {t: Щ}}
-    combo_hard_sign: {key: {t: Ъ/Ї}}
-    combo_yo_apos: {key: {t: Ё/'}}
+    combo_cut: {key: {t: '$$mdi:content-cut$$'}}
     combo_v_comma_excl: {key: {t: ',', s: '!'}}
     combo_v_dot_qmark: {key: {t: '.', s: '?'}}
-    combo_system_combo: {key: {t: System}}
-    combo_mouse_combo: {key: {t: Mouse}}
-    combo_caps: {key: {t: CapsWrd, s: CapsLck}}
-    combo_fn_combo: {key: {t: Fn}}
+    combo_lpar: {key: {t: '(', s: '<'}}
+    combo_rpar: {key: {t: ')', s: '>'}}
+    combo_lbkt: {key: {t: '[', s: '{'}}
+    combo_rbkt: {key: {t: ']', s: '}'}}
   zmk_preamble: '#define KEYMAP_DRAWER'
   zmk_additional_includes:
     - .cache

@@ -416,6 +416,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
+    if (!process_generated_smart_mouse(keycode, record)) {
+        return false;
+    }
+
     switch (keycode) {
         case NAV_BSPC_DEL:
             if (record->tap.count) {

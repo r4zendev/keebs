@@ -1,8 +1,8 @@
 #ifdef LUNA
 ZMK_LAYER(Nav,
-    &kp ESC &kp LG(O) &kp LG(U) &none &none
+    &kp ESC &kp LG(O) &kp LG(U) &kp C_PREV &kp C_PP
     &kp PG_DN &kp _HOME &kp UP &kp _END &lang_ru
-    &kp LGUI &kp LALT &kp LCTRL &kp LSHFT &none
+    &kp LGUI &kp LALT &kp LCTRL &kp LSHFT &kp C_NEXT
     &none &kp LEFT &kp DOWN &kp RIGHT &lang_en
     &kp _SCR_AREA &kp _SCR_FULL &none
     &kp TAB &kp BSPC &kp DEL
@@ -11,9 +11,9 @@ ZMK_LAYER(Nav,
 #else
 ZMK_BASE_LAYER(Nav,
 //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-    &kp ESC   &kp LG(O)  &kp LG(U)  &none      &none      , &kp PG_UP   &kp _HOME  &kp UP     &kp _END   &lang_ru  ,
+    &kp ESC   &kp LG(O)  &kp LG(U)  &kp C_PREV &kp C_PP   , &kp PG_UP   &kp _HOME  &kp UP     &kp _END   &lang_ru  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-    &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &none      ,  &kp PG_DN  &kp LEFT   &kp DOWN   &kp RIGHT  &lang_en  ,
+    &kp LGUI   &kp LALT   &kp LCTRL  &kp LSHFT  &kp C_NEXT ,  &kp PG_DN  &kp LEFT   &kp DOWN   &kp RIGHT  &lang_en  ,
 //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
    &kp LG(LA(S)) &kp _SCR_AREA &kp _SCR_FULL &none     &none , &none      &kp TAB    &kp BSPC   &kp DEL    &none     ,
 //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯

@@ -72,10 +72,8 @@
 #define TOTEM_RIGHT_EXTRA_Nav &none
 #define TOTEM_LEFT_EXTRA_Num &none
 #define TOTEM_RIGHT_EXTRA_Num &none
-#define TOTEM_LEFT_EXTRA_NumMirror &none
-#define TOTEM_RIGHT_EXTRA_NumMirror &none
-#define TOTEM_LEFT_EXTRA_Fn &none
-#define TOTEM_RIGHT_EXTRA_Fn &none
+#define TOTEM_LEFT_EXTRA_VestnikX &none
+#define TOTEM_RIGHT_EXTRA_VestnikX &none
 #define TOTEM_LEFT_EXTRA_Mouse &none
 #define TOTEM_RIGHT_EXTRA_Mouse &none
 #define TOTEM_LEFT_EXTRA_System &none

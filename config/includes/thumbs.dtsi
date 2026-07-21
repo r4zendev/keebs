@@ -1,4 +1,4 @@
-ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&esc_tab>;
+ZMK_HOLD_TAP(nav_ht, bindings = <&mo>, <&kp>;
              flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
@@ -41,10 +41,15 @@ ZMK_HOLD_TAP(num_shift, bindings = <&mo>, <&sk>;
              flavor = "balanced"; tapping-term-ms = <175>;
              quick-tap-ms = <QUICK_TAP_MS>;)
 
+ZMK_HOLD_TAP(sym_alpha2, bindings = <&mo>, <&sl>;
+             flavor = "balanced"; tapping-term-ms = <175>;
+             quick-tap-ms = <QUICK_TAP_MS>;)
+
 #define THUMB_MAGIC &thumb_magic_1 LSHFT 0
 
-#define ALPHA_THUMBS_L &thumb_spc LAYER_Nav SPACE &kp RET
-#define ALPHA_THUMBS_R &num_shift LAYER_Num LSHFT THUMB_MAGIC
+#define ALPHA_THUMBS_L &thumb_spc LAYER_Nav SPACE &nav_ht LAYER_Symbol ESC
+#define VESTNIK_THUMBS_L &thumb_spc LAYER_Nav SPACE &sym_alpha2 LAYER_Symbol LAYER_VestnikX
+#define ALPHA_THUMBS_R &lt LAYER_Num RET THUMB_MAGIC
 
 #ifndef FLOW_SKIP_MS
 #define FLOW_SKIP_MS 400

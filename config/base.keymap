@@ -22,7 +22,7 @@
 #include "includes/layers/symbol.dtsi"
 #include "includes/layers/nav.dtsi"
 #include "includes/layers/num.dtsi"
-#include "includes/layers/fn.dtsi"
+#include "includes/layers/vestnik_x.dtsi"
 #include "includes/layers/mouse.dtsi"
 
 #ifndef SKIP_SYSTEM_LAYER
