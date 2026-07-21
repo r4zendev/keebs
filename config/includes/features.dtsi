@@ -1,3 +1,0 @@
-#ifndef ADAPTIVE_TIMEOUT_MS
-#define ADAPTIVE_TIMEOUT_MS 1000
-#endif

@@ -12,6 +12,7 @@
           gnumake
           go
           gopls
+          just
           keymap-drawer
           (python3.withPackages (p: [
             p.pyyaml

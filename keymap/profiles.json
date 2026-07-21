@@ -1,23 +1,132 @@
 {
   "version": 1,
+  "targets": {
+    "luna": {"profile": "luna_30"},
+    "glove80": {"profile": "glove80_80"},
+    "cradio": {"profile": "cradio_34"},
+    "aurora": {"profile": "aurora_34"},
+    "piantor": {"profile": "piantor_pro_34"},
+    "corne": {"profile": "corne_36", "backends": ["zmk"]},
+    "cygnus": {"profile": "cygnus_36", "default_backends": ["qmk"]},
+    "artemis": {"profile": "artemis_34"},
+    "ansic": {"profile": "ansic_40"},
+    "klotz": {"profile": "klotz_34"},
+    "lambbt": {"profile": "lambbt_34"},
+    "lintilla": {"profile": "lintilla_42"},
+    "adept": {"zmk_keyboard": "adept"},
+    "totem": {"profile": "totem_38"},
+    "cantor_ble": {"profile": "cantor_ble_42"},
+    "yetis": {"profile": "yetis_34"},
+    "wysteria": {"profile": "wysteria_38"},
+    "wysteria-bodged": {"profile": "wysteria_bodged_38", "all": false},
+    "klor": {"profile": "klor_polydactyl_42", "aliases": ["klor-polydactyl"]},
+    "klor-konrad": {"profile": "klor_konrad_40", "all": false},
+    "klor-saegewerk": {"profile": "klor_saegewerk_36", "all": false},
+    "dartyl": {"profile": "dartyl_34", "default_backends": ["qmk"]},
+    "choctyl": {"profile": "choctyl_36"},
+    "dactyl-cc": {"profile": "dactyl_cc_68", "aliases": ["dactyl_cc"]},
+    "charybdis": {"profile": "charybdis_35", "aliases": ["charybdis_nano"], "draw_profiles": ["charybdis_35", "charybdis_36"]},
+    "flake": {"profile": "flake_medium_46"}
+  },
+  "topologies": {
+    "core_30": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM",
+      "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B"
+    ],
+    "core_34": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+      "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B"
+    ],
+    "standard_36": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
+    "totem_38": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_BOTTOM_EXTRA", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_EXTRA",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
+    "cantor_ble_42": [
+      "L_TOP_OUTER", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_TOP_OUTER",
+      "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
+      "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
+    "flake_medium_46": [
+      "L_TOP_OUTER", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_TOP_OUTER",
+      "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
+      "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
+      "L_THUMB_SPARE_0", "L_THUMB_SPARE_1", "L_THUMB_SPARE_2", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_SPARE_0", "R_THUMB_SPARE_1", "R_THUMB_SPARE_2"
+    ],
+    "klor_konrad_42": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
+      "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "ENC_L_PRESS", "ENC_R_PRESS", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
+    "klor_saegewerk_38": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "ENC_L_PRESS", "ENC_R_PRESS", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
+    "klor_polydactyl_44": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
+      "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "ENC_L_PRESS", "ENC_R_PRESS", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
+      "L_THUMB_OUTER", "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL", "R_THUMB_OUTER"
+    ],
+    "dactyl_cc_68": [
+      "L_EXTRA_1", "L_EXTRA_2", "L_EXTRA_3", "L_EXTRA_4", "L_EXTRA_5", "L_EXTRA_6", "L_EXTRA_7", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "L_EXTRA_8", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "L_EXTRA_9", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "L_EXTRA_10", "L_EXTRA_11", "L_EXTRA_12", "L_EXTRA_13", "L_EXTRA_14", "L_EXTRA_15", "L_THUMB_A", "L_THUMB_B", "L_EXTRA_16", "L_EXTRA_17",
+      "R_EXTRA_1", "R_EXTRA_2", "R_EXTRA_3", "R_EXTRA_4", "R_EXTRA_5", "R_EXTRA_6", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_EXTRA_7", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_EXTRA_8", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_EXTRA_9", "R_EXTRA_10", "R_EXTRA_11", "R_EXTRA_12", "R_EXTRA_13", "R_EXTRA_14", "R_EXTRA_15", "R_THUMB_A", "R_THUMB_B", "R_EXTRA_16", "R_EXTRA_17"
+    ],
+    "ansic_42": [
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "ANSIC_TOP_0", "ANSIC_TOP_1", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "ANSIC_BOTTOM_0", "ANSIC_BOTTOM_1", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+      "ANSIC_THUMB_0", "ANSIC_THUMB_1", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "ANSIC_THUMB_2", "ANSIC_THUMB_3"
+    ],
+    "lintilla_42": [
+      "LINTILLA_TOP_0", "LINTILLA_TOP_1", "LINTILLA_TOP_2", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "LINTILLA_TOP_3", "LINTILLA_TOP_4",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "LINTILLA_HOME_0",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+      "L_THUMB_A", "L_THUMB_B", "LINTILLA_THUMB_0", "LINTILLA_THUMB_1", "R_THUMB_A", "R_THUMB_B"
+    ],
+    "glove80_80": [
+      "GLOVE_00", "GLOVE_01", "GLOVE_02", "GLOVE_03", "GLOVE_04", "GLOVE_05", "GLOVE_06", "GLOVE_07", "GLOVE_08", "GLOVE_09", "GLOVE_10", "GLOVE_11", "GLOVE_12", "GLOVE_13", "GLOVE_14", "GLOVE_15", "GLOVE_16", "GLOVE_17", "GLOVE_18", "GLOVE_19", "GLOVE_20", "GLOVE_21", "GLOVE_22",
+      "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "GLOVE_33", "GLOVE_34",
+      "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "GLOVE_45", "GLOVE_46",
+      "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "GLOVE_52", "GLOVE_53", "GLOVE_54", "GLOVE_55", "GLOVE_56", "GLOVE_57", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "GLOVE_63",
+      "GLOVE_MAGIC_LEFT", "GLOVE_65", "GLOVE_66", "GLOVE_67", "GLOVE_68", "L_THUMB_A", "L_THUMB_B", "GLOVE_71", "GLOVE_72", "R_THUMB_A", "R_THUMB_B", "GLOVE_75", "GLOVE_76", "GLOVE_77", "GLOVE_78", "GLOVE_MAGIC_RIGHT"
+    ]
+  },
   "profiles": {
     "luna_30": {
       "physical_keys": 30,
       "binding_positions": 30,
       "geometry": "23332+2 2+23332",
+      "draw_notation": "23332+2 2+23332",
       "layout_source": "cols_thumbs",
       "position_set": "core_30",
       "zmk_transform": "config/keyboards/luna/shields/luna/luna.dtsi",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
+      "zmk": {"keyboard": "luna", "board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
       "alpha_capacity": 30
     },
     "cradio_34": {
       "physical_keys": 34,
       "binding_positions": 34,
       "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
       "layout_source": "zmk_dts",
       "position_set": "core_34",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["cradio_left", "cradio_right"]},
+      "zmk": {"keyboard": "cradio", "board": "nice_nano/nrf52840/zmk", "shields": ["cradio_left", "cradio_right"]},
       "alpha_capacity": 34
     },
     "charybdis_35": {
@@ -25,29 +134,34 @@
       "binding_positions": 36,
       "board_only_positions": ["R_THUMB_OPTIONAL"],
       "geometry": "3x5+3 2+3x5",
+      "draw_notation": "33333+3 2+33333",
       "layout_source": "custom",
       "position_set": "standard_36",
       "zmk_transform": "config/keyboards/charybdis_nano/shields/charybdis_nano/charybdis_nano.dtsi",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
+      "zmk": {"keyboard": "charybdis_nano", "board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
+      "defaults": {"L_THUMB_OPTIONAL": {"layer": "Num", "mode": "momentary"}, "R_THUMB_OPTIONAL": "ESC"},
       "alpha_capacity": 34
     },
     "charybdis_36": {
       "physical_keys": 36,
       "binding_positions": 36,
       "geometry": "3x5+3 3+3x5",
+      "draw_notation": "33333+3 3+33333",
       "layout_source": "custom",
       "position_set": "standard_36",
       "zmk_transform": "config/keyboards/charybdis_nano/shields/charybdis_nano/charybdis_nano.dtsi",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
+      "zmk": {"keyboard": "charybdis_nano", "board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
+      "defaults": {"L_THUMB_OPTIONAL": {"layer": "Num", "mode": "momentary"}, "R_THUMB_OPTIONAL": "ESC"},
       "alpha_capacity": 34
     },
     "corne_36": {
       "physical_keys": 36,
       "binding_positions": 36,
       "geometry": "3x5+3 3+3x5",
+      "draw_notation": "33333+3 3+33333",
       "layout_source": "zmk_dts",
       "position_set": "standard_36",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["corne_left", "corne_right"]},
+      "zmk": {"keyboard": "corne", "board": "nice_nano/nrf52840/zmk", "shields": ["corne_left", "corne_right"], "physical_layout_include": "layouts/foostan/corne/5column.dtsi", "physical_layout": "foostan_corne_5col_layout"},
       "qmk": {"keyboard": "crkbd/rev1", "layout": "LAYOUT_split_3x5_3"},
       "alpha_capacity": 34
     },
@@ -55,20 +169,23 @@
       "physical_keys": 38,
       "binding_positions": 38,
       "geometry": "3x5+3 3+3x5",
+      "draw_notation": "133333+3 3+333331",
       "layout_source": "custom",
       "position_set": "totem_38",
       "zmk_transform": "config/keyboards/totem/shields/totem/totem.dtsi",
-      "zmk": {"board": "xiao_ble/nrf52840/zmk", "shields": ["totem_left", "totem_right"]},
+      "zmk": {"keyboard": "totem", "board": "xiao_ble/nrf52840/zmk", "shields": ["totem_left", "totem_right"]},
+      "overlays": {"VestnikDm": {"L_BOTTOM_EXTRA": "COMMA", "R_BOTTOM_EXTRA": "DOT"}},
       "alpha_capacity": 38
     },
     "cantor_ble_42": {
       "physical_keys": 42,
       "binding_positions": 42,
       "geometry": "3x6+3 3+3x6",
+      "draw_notation": "333333+3 3+333333",
       "layout_source": "zmk_dts",
       "position_set": "cantor_ble_42",
       "zmk_transform": "config/keyboards/cantor_ble/shields/cantor_ble/cantor_ble.dtsi",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["cantor_ble_left", "cantor_ble_right"]},
+      "zmk": {"keyboard": "cantor_ble", "board": "nice_nano/nrf52840/zmk", "shields": ["cantor_ble_left", "cantor_ble_right"]},
       "alpha_capacity": 38
     },
     "klor_konrad_40": {
@@ -76,13 +193,24 @@
       "binding_positions": 42,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
       "geometry": "vendor_konrad",
+      "draw_notation": "233333+3 3+333332",
       "layout_source": "qmk_info",
       "position_set": "klor_konrad_42",
-      "zmk_transform": "config/keyboards/klor/konrad.keymap",
       "qmk_info": "qmk/keyboards/klor/keyboard.json",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["klor_left", "klor_right"]},
-      "qmk": {"keyboard": "klor", "layout": "LAYOUT_konrad"},
-      "qmk_define": "RAZEN_KLOR_KONRAD",
+      "zmk": {
+        "keyboard": "klor",
+        "keymap": "konrad",
+        "board": "nice_nano/nrf52840/zmk",
+        "shields": ["klor_left", "klor_right"],
+        "output_keyboard": "klor_konrad",
+        "transform": [
+          [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [0, 10],
+          [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [1, 9], [1, 10], [1, 11],
+          [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 5], [3, 6], [2, 6], [2, 7], [2, 8], [2, 9], [2, 10], [2, 11],
+          [3, 1], [3, 2], [3, 3], [3, 8], [3, 9], [3, 10]
+        ]
+      },
+      "qmk": {"keyboard": "klor", "layout": "LAYOUT_konrad", "output_keyboard": "klor_konrad", "convert_to": "rp2040_ce"},
       "qmk_draw_order": [
         "L_MID_OUTER", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP",
         "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_MID_OUTER",
@@ -99,10 +227,22 @@
       "binding_positions": 38,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
       "geometry": "3x5+3 3+3x5",
+      "draw_notation": "33333+3 3+33333",
       "layout_source": "zmk_dts",
       "position_set": "klor_saegewerk_38",
-      "zmk_transform": "config/keyboards/klor/saegewerk.keymap",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["klor_left", "klor_right"]},
+      "zmk": {
+        "keyboard": "klor",
+        "keymap": "saegewerk",
+        "board": "nice_nano/nrf52840/zmk",
+        "shields": ["klor_left", "klor_right"],
+        "output_keyboard": "klor_saegewerk",
+        "transform": [
+          [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8], [0, 9], [0, 10],
+          [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [1, 8], [1, 9], [1, 10],
+          [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 5], [3, 6], [2, 6], [2, 7], [2, 8], [2, 9], [2, 10],
+          [3, 1], [3, 2], [3, 3], [3, 8], [3, 9], [3, 10]
+        ]
+      },
       "alpha_capacity": 34
     },
     "klor_polydactyl_42": {
@@ -110,12 +250,13 @@
       "binding_positions": 44,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
       "geometry": "vendor_polydactyl",
+      "draw_notation": "233333+4 4+333332",
       "layout_source": "qmk_info",
       "position_set": "klor_polydactyl_44",
       "zmk_transform": "config/keyboards/klor/shields/klor/klor.dtsi",
       "qmk_info": "qmk/keyboards/klor/keyboard.json",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["klor_left", "klor_right"]},
-      "qmk": {"keyboard": "klor", "layout": "LAYOUT_polydactyl"},
+      "zmk": {"keyboard": "klor", "keymap": "klor", "board": "nice_nano/nrf52840/zmk", "shields": ["klor_left", "klor_right"]},
+      "qmk": {"keyboard": "klor", "layout": "LAYOUT_polydactyl", "output_keyboard": "klor", "convert_to": "rp2040_ce"},
       "qmk_draw_order": [
         "L_MID_OUTER", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP",
         "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_MID_OUTER",
@@ -132,9 +273,10 @@
       "physical_keys": 46,
       "binding_positions": 46,
       "geometry": "3x6+5 5+3x6",
+      "draw_notation": "333333+5 5+333333",
       "layout_source": "zmk_dts",
       "position_set": "flake_medium_46",
-      "zmk": {"board": "xiao_ble/nrf52840/zmk", "shields": ["anywhy_flake_left", "anywhy_flake_right"]},
+      "zmk": {"keyboard": "flake", "board": "xiao_ble/nrf52840/zmk", "shields": ["anywhy_flake_left", "anywhy_flake_right"], "physical_layout": "medium_layout"},
       "alpha_capacity": 38
     },
     "lintilla_42": {
@@ -142,8 +284,9 @@
       "binding_positions": 42,
       "geometry": "lintilla",
       "layout_source": "zmk_dts",
+      "position_set": "lintilla_42",
       "zmk_transform": "config/keyboards/lintilla/shields/lintilla/lintilla.dtsi",
-      "zmk": {"board": "xiao_ble/nrf52840/zmk", "shields": ["lintilla_left_central", "lintilla_right_peripheral"]},
+      "zmk": {"keyboard": "lintilla", "board": "xiao_ble/nrf52840/zmk", "shields": ["lintilla_left_central", "lintilla_right_peripheral"]},
       "alpha_capacity": 38
     },
     "dactyl_cc_68": {
@@ -162,17 +305,23 @@
       "physical_keys": 80,
       "binding_positions": 80,
       "geometry": "glove80",
+      "zmk_draw_keyboard": "glove80",
       "layout_source": "zmk_dts",
-      "zmk": {"board": "glove80", "shields": ["glove80_lh", "glove80_rh"]},
+      "position_set": "glove80_80",
+      "zmk": {"keyboard": "glove80", "board": "glove80", "shields": ["glove80_lh", "glove80_rh"]},
+      "layers": ["Graphite", "VestnikDm", "Symbol", "Nav", "Num", "VestnikX", "Mouse", "Magic"],
+      "defaults": {"GLOVE_MAGIC_LEFT": {"use": "glove_magic"}, "GLOVE_MAGIC_RIGHT": {"use": "glove_magic"}},
       "alpha_capacity": 38
     },
     "cygnus_36": {
       "physical_keys": 36,
       "binding_positions": 36,
       "geometry": "3x5+3 3+3x5",
+      "draw_notation": "33333+3 3+33333",
       "layout_source": "qmk_info",
       "position_set": "standard_36",
-      "qmk": {"keyboard": "crkbd/rev1", "layout": "LAYOUT_split_3x5_3"},
+      "zmk": {"keyboard": "cygnus", "board": "nice_nano/nrf52840/zmk", "shields": ["corne_left", "corne_right"], "physical_layout_include": "layouts/foostan/corne/5column.dtsi", "physical_layout": "foostan_corne_5col_layout"},
+      "qmk": {"keyboard": "crkbd/rev1", "layout": "LAYOUT_split_3x5_3", "output_keyboard": "cygnus"},
       "alpha_capacity": 34
     },
     "dartyl_34": {
@@ -183,6 +332,7 @@
       "layout_source": "qmk_info",
       "position_set": "standard_36",
       "qmk_info": "qmk/keyboards/dartyl/keyboard.json",
+      "zmk": {"keyboard": "dartyl", "board": "nice_nano/nrf52840/zmk", "shields": ["dartyl_left", "dartyl_right"]},
       "qmk": {"keyboard": "dartyl", "layout": "LAYOUT_split_3x5_3"},
       "qmk_draw_layout": "LAYOUT_dartyl_34",
       "alpha_capacity": 34
@@ -201,9 +351,11 @@
       "physical_keys": 34,
       "binding_positions": 34,
       "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
       "layout_source": "qmk_info",
       "position_set": "core_34",
-      "qmk": {"keyboard": "splitkb/aurora/sweep/rev1", "layout": "LAYOUT_split_3x5_2"},
+      "zmk": {"keyboard": "splitkb_aurora_sweep", "board": "nice_nano/nrf52840/zmk", "shields": ["splitkb_aurora_sweep_left", "splitkb_aurora_sweep_right"]},
+      "qmk": {"keyboard": "splitkb/aurora/sweep/rev1", "layout": "LAYOUT_split_3x5_2", "output_keyboard": "splitkb_aurora_sweep", "convert_to": "liatris"},
       "alpha_capacity": 34
     },
     "yetis_34": {
@@ -212,7 +364,7 @@
       "geometry": "yetis",
       "layout_source": "qmk_info",
       "qmk_info": "qmk/keyboards/yetis/keyboard.json",
-      "qmk": {"keyboard": "yetis", "layout": "LAYOUT"},
+      "qmk": {"keyboard": "yetis", "layout": "LAYOUT", "convert_to": "rp2040_ce"},
       "qmk_slots": [
         "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP",
         "L_PINKY_TOP", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_PINKY_TOP",
@@ -220,6 +372,76 @@
         "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B"
       ],
       "alpha_capacity": 34
+    },
+    "artemis_34": {
+      "physical_keys": 34,
+      "binding_positions": 34,
+      "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
+      "layout_source": "zmk_dts",
+      "position_set": "core_34",
+      "zmk": {"keyboard": "artemis", "board": "nice_nano/nrf52840/zmk", "shields": ["artemis_left", "artemis_right"]},
+      "alpha_capacity": 34
+    },
+    "klotz_34": {
+      "physical_keys": 34,
+      "binding_positions": 34,
+      "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
+      "layout_source": "zmk_dts",
+      "position_set": "core_34",
+      "zmk": {"keyboard": "klotz", "board": "nice_nano/nrf52840/zmk", "shields": ["klotz_left", "klotz_right"]},
+      "capabilities": {"lighting": "backlight", "sensor_bindings": [["C_VOL_UP", "C_VOL_DN"]]},
+      "alpha_capacity": 34
+    },
+    "lambbt_34": {
+      "physical_keys": 34,
+      "binding_positions": 34,
+      "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
+      "layout_source": "zmk_dts",
+      "position_set": "core_34",
+      "zmk": {"keyboard": "lambbt", "board": "nice_nano/nrf52840/zmk", "shields": ["lambbt_left", "lambbt_right"]},
+      "alpha_capacity": 34
+    },
+    "piantor_pro_34": {
+      "physical_keys": 34,
+      "binding_positions": 34,
+      "geometry": "3x5+2 2+3x5",
+      "draw_notation": "33333+2 2+33333",
+      "layout_source": "zmk_dts",
+      "position_set": "core_34",
+      "zmk": {"keyboard": "piantor_pro", "board": "rpi_pico/rp2040/zmk", "shields": ["piantor_pro_left", "piantor_pro_right"]},
+      "alpha_capacity": 34
+    },
+    "ansic_40": {
+      "physical_keys": 41,
+      "binding_positions": 42,
+      "board_only_positions": ["ANSIC_THUMB_1"],
+      "geometry": "ansic",
+      "qmk_info": "config/keyboards/ansic/ansic_layout.json",
+      "qmk_draw_layout": "LAYOUT_ansic",
+      "layout_source": "custom",
+      "position_set": "ansic_42",
+      "zmk": {"keyboard": "ansic", "board": "nice_nano/nrf52840/zmk", "shields": ["ansic_left", "ansic_right"]},
+      "alpha_capacity": 34
+    },
+    "wysteria_bodged_38": {
+      "physical_keys": 36,
+      "binding_positions": 38,
+      "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
+      "geometry": "wysteria",
+      "layout_source": "qmk_info",
+      "qmk_info": "qmk/keyboards/wysteria/keyboard.json",
+      "qmk": {"keyboard": "wysteria", "keymap": "razen_bodged", "layout": "LAYOUT_wyst_custom"},
+      "qmk_draw_layout": "LAYOUT_wyst_draw_36",
+      "qmk_slots": [
+        "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+        "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+        "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+        "L_THUMB_A", "L_THUMB_B", "L_THUMB_OPTIONAL_1", "ENC_L_PRESS", "ENC_R_PRESS", "R_THUMB_OPTIONAL_1", "R_THUMB_A", "R_THUMB_B"
+      ],
+      "alpha_capacity": 38
     },
     "wysteria_38": {
       "physical_keys": 36,
@@ -229,7 +451,7 @@
       "layout_source": "qmk_info",
       "zmk_transform": "config/keyboards/wysteria/shields/wysteria/wysteria.dtsi",
       "qmk_info": "qmk/keyboards/wysteria/keyboard.json",
-      "zmk": {"board": "nice_nano/nrf52840/zmk", "shields": ["wysteria_left", "wysteria_right"]},
+      "zmk": {"keyboard": "wysteria", "board": "nice_nano/nrf52840/zmk", "shields": ["wysteria_left", "wysteria_right"]},
       "qmk": {"keyboard": "wysteria", "layout": "LAYOUT_wyst_custom"},
       "qmk_draw_layout": "LAYOUT_wyst_draw_36",
       "zmk_slots": [

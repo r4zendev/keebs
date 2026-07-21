@@ -2,328 +2,1465 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
+import tomllib
 from pathlib import Path
+from typing import Any
 
 
-def load(path: Path) -> dict:
-    return json.loads(path.read_text())
+ROOT_FILES = ("keymap.toml", "layers.toml", "behaviors.toml", "profiles.json")
+ROW_COUNTS = {"core30": [10, 10, 6, 4], "core34": [10, 10, 10, 4]}
+QMK_LAYERS = {
+    "Graphite": "L_GRAPHITE",
+    "VestnikDm": "L_VESTNIK",
+    "Symbol": "L_SYMBOL",
+    "Nav": "L_NAV",
+    "Num": "L_NUM",
+    "VestnikX": "L_VESTNIK_X",
+    "Mouse": "L_MOUSE",
+    "System": "L_SYSTEM",
+}
+MOD_ALIASES = {"LSHIFT": "LSHFT", "RSHIFT": "RSHFT"}
+MODS = {"LGUI", "LALT", "LCTRL", "LSHFT", "RSHFT", "RCTRL", "RALT", "RGUI"} | set(MOD_ALIASES)
+KEYS = {
+    "SPACE", "RET", "ESC", "TAB", "CAPS", "BSPC", "DEL", "INS",
+    "PG_UP", "PG_DN", "UP", "DOWN", "LEFT", "RIGHT", "HOME", "END",
+    "C_PREV", "C_PP", "C_NEXT", "C_MUTE", "POWER", "SLEEP",
+    "COMMA", "DOT", "SEMI", "SQT", "MINUS", "EQUAL", "FSLH", "BSLH",
+    "LBKT", "RBKT", "GRAVE",
+} | MODS | {chr(value) for value in range(ord("A"), ord("Z") + 1)} | {
+    f"N{value}" for value in range(10)
+} | {f"F{value}" for value in range(1, 25)}
+SHIFTED = {
+    "AMPS": "N7", "AT": "N2", "CARET": "N6", "COLON": "SEMI",
+    "DLLR": "N4", "DQT": "SQT", "EXCL": "N1", "GT": "DOT",
+    "HASH": "N3", "LBRC": "LBKT", "LPAR": "N9", "LT": "COMMA",
+    "PIPE": "BSLH", "PLUS": "EQUAL", "PRCNT": "N5", "QMARK": "FSLH",
+    "RBRC": "RBKT", "RPAR": "N0", "STAR": "N8", "TILDE": "GRAVE",
+    "UNDER": "MINUS",
+}
+QMK_KEYS = {
+    "SPACE": "KC_SPC", "RET": "KC_ENT", "ESC": "KC_ESC", "TAB": "KC_TAB",
+    "CAPS": "KC_CAPS", "BSPC": "KC_BSPC", "DEL": "KC_DEL", "INS": "KC_INS",
+    "PG_UP": "KC_PGUP", "PG_DN": "KC_PGDN", "UP": "KC_UP", "DOWN": "KC_DOWN",
+    "LEFT": "KC_LEFT", "RIGHT": "KC_RGHT", "HOME": "KC_HOME", "END": "KC_END",
+    "C_PREV": "KC_MPRV", "C_PP": "KC_MPLY", "C_NEXT": "KC_MNXT", "C_MUTE": "KC_MUTE",
+    "POWER": "KC_PWR", "SLEEP": "KC_SLEP", "COMMA": "KC_COMM", "DOT": "KC_DOT",
+    "SEMI": "KC_SCLN", "SQT": "KC_QUOT", "MINUS": "KC_MINS", "EQUAL": "KC_EQL",
+    "FSLH": "KC_SLSH", "BSLH": "KC_BSLS", "LBKT": "KC_LBRC", "RBKT": "KC_RBRC",
+    "GRAVE": "KC_GRV", "LGUI": "KC_LGUI", "LALT": "KC_LALT", "LCTRL": "KC_LCTL",
+    "LSHFT": "KC_LSFT", "RSHFT": "KC_RSFT", "RCTRL": "KC_RCTL", "RALT": "KC_RALT",
+    "RGUI": "KC_RGUI",
+}
+QMK_MODS = {
+    "LGUI": "G", "LALT": "A", "LCTRL": "C", "LSHFT": "S",
+    "RGUI": "G", "RALT": "A", "RCTRL": "C", "RSHFT": "S",
+}
+ZMK_MODS = {
+    "LGUI": "LG", "LALT": "LA", "LCTRL": "LC", "LSHFT": "LS",
+    "RGUI": "RG", "RALT": "RA", "RCTRL": "RC", "RSHFT": "RS",
+}
+MOUSE_ZMK = {
+    "MOVE_UP": "&mmv MOVE_UP", "MOVE_DOWN": "&mmv MOVE_DOWN",
+    "MOVE_LEFT": "&mmv MOVE_LEFT", "MOVE_RIGHT": "&mmv MOVE_RIGHT",
+    "SCRL_UP": "&msc SCRL_UP", "SCRL_DOWN": "&msc SCRL_DOWN",
+    "SCRL_LEFT": "&msc SCRL_LEFT", "SCRL_RIGHT": "&msc SCRL_RIGHT",
+    "LCLK": "&mkp LCLK", "RCLK": "&mkp RCLK", "MCLK": "&mkp MCLK",
+    "MB4": "&mkp MB4", "MB5": "&mkp MB5",
+}
+MOUSE_QMK = {
+    "MOVE_UP": "MS_UP", "MOVE_DOWN": "MS_DOWN", "MOVE_LEFT": "MS_LEFT",
+    "MOVE_RIGHT": "MS_RGHT", "SCRL_UP": "MS_WHLU", "SCRL_DOWN": "MS_WHLD",
+    "SCRL_LEFT": "MS_WHLL", "SCRL_RIGHT": "MS_WHLR", "LCLK": "MS_BTN1",
+    "RCLK": "MS_BTN2", "MCLK": "MS_BTN3", "MB4": "MS_BTN4", "MB5": "MS_BTN5",
+}
+RGB_ZMK = {
+    "hue_decrease": "RGB_HUD", "hue_increase": "RGB_HUI",
+    "effect_reverse": "RGB_EFR", "effect_forward": "RGB_EFF",
+    "brightness_decrease": "RGB_BRD", "brightness_increase": "RGB_BRI",
+    "toggle": "RGB_TOG", "speed_decrease": "RGB_SPD", "speed_increase": "RGB_SPI",
+    "saturation_decrease": "RGB_SAD", "saturation_increase": "RGB_SAI",
+}
+ZMK_KEYS = {"SLEEP": "C_SLEEP", "POWER": "C_POWER"}
+
+
+def mdi(name: str) -> str:
+    return f"$$mdi:{name}$$"
+
+
+DISPLAY = {
+    "SPACE": mdi("keyboard-space"), "RET": mdi("keyboard-return"), "ESC": mdi("keyboard-esc"),
+    "TAB": mdi("keyboard-tab"), "BSPC": mdi("backspace"), "DEL": mdi("backspace-reverse"),
+    "PG_UP": mdi("arrow-collapse-up"), "PG_DN": mdi("arrow-collapse-down"), "UP": mdi("arrow-up"),
+    "DOWN": mdi("arrow-down"), "LEFT": mdi("arrow-left"), "RIGHT": mdi("arrow-right"),
+    "HOME": mdi("arrow-collapse-left"), "END": mdi("arrow-collapse-right"),
+    "C_PREV": mdi("skip-previous"), "C_PP": mdi("play-pause"), "C_NEXT": mdi("skip-next"),
+    "C_MUTE": mdi("volume-mute"), "POWER": mdi("power"), "SLEEP": mdi("moon-waning-crescent"),
+    "COMMA": ",", "DOT": ".", "SEMI": ";", "SQT": "'", "MINUS": "-", "EQUAL": "=",
+    "FSLH": "/", "BSLH": "\\", "LBKT": "[", "RBKT": "]", "GRAVE": "`",
+    "AMPS": "&", "AT": "@", "CARET": "^", "COLON": ":", "DLLR": "$", "DQT": '"',
+    "EXCL": "!", "GT": ">", "HASH": "#", "LBRC": "{", "LPAR": "(", "LT": "<",
+    "PIPE": "|", "PLUS": "+", "PRCNT": "%", "QMARK": "?", "RBRC": "}", "RPAR": ")",
+    "STAR": "*", "TILDE": "~", "UNDER": "_", "CAPS": "Caps", "LGUI": "❖", "RGUI": "❖",
+    "LALT": "⌥", "RALT": "⌥", "LCTRL": "⌃", "RCTRL": "⌃", "LSHFT": mdi("arrow-up-bold"),
+    "RSHFT": mdi("arrow-up-bold"),
+}
+DRAW_SHORTCUTS = {
+    ("C", "LCTRL"): mdi("content-copy"),
+    ("O", "LGUI"): "Space ←",
+    ("S", "LALT", "LGUI"): "STT",
+    ("U", "LGUI"): "Space →",
+    ("V", "LCTRL"): "⌃V",
+    ("X", "LCTRL"): mdi("content-cut"),
+    ("Z", "LCTRL"): mdi("undo"),
+    ("Z", "LCTRL", "LSHFT"): mdi("redo"),
+}
+OS_DISPLAY = {
+    "home": mdi("arrow-collapse-left"),
+    "end": mdi("arrow-collapse-right"),
+    "lock": mdi("lock"),
+    "shutdown": mdi("power"),
+    "sleep": mdi("moon-waning-crescent"),
+    "paste": mdi("content-paste"),
+    "screenshot_full": {"t": mdi("monitor-screenshot"), "s": "Scr"},
+    "screenshot_area": {"t": mdi("crop"), "s": "Scr"},
+}
+MOUSE_DISPLAY = {
+    "MOVE_UP": "Mouse ↑", "MOVE_DOWN": "Mouse ↓", "MOVE_LEFT": "Mouse ←", "MOVE_RIGHT": "Mouse →",
+    "SCRL_UP": "Scroll ↑", "SCRL_DOWN": "Scroll ↓", "SCRL_LEFT": "Scroll ←", "SCRL_RIGHT": "Scroll →",
+    "LCLK": "LMB", "RCLK": "RMB", "MCLK": "MMB", "MB4": "MB4", "MB5": "MB5",
+}
+RGB_DISPLAY = {
+    "hue_decrease": "RGB HUD", "hue_increase": "RGB HUI", "effect_reverse": "RGB EFR",
+    "effect_forward": "RGB EFF", "brightness_decrease": "RGB BRD", "brightness_increase": "RGB BRI",
+    "toggle": "RGB TOG", "speed_decrease": "RGB SPD", "speed_increase": "RGB SPI",
+    "saturation_decrease": "RGB SAD", "saturation_increase": "RGB SAI",
+}
+
+
+class KeymapError(ValueError):
+    pass
 
 
 def fail(message: str) -> None:
-    raise ValueError(message)
+    raise KeymapError(message)
 
 
-def cells(layout: dict) -> list[str]:
-    return [cell for row in layout["rows"] for cell in row]
-
-
-def validate_position_sets(model: dict) -> None:
-    expected = {"core_30": 30, "core_34": 34, "standard_36": 36}
-    position_sets = model["position_sets"]
-    for name, count in expected.items():
-        positions = position_sets.get(name)
-        if not isinstance(positions, list) or len(positions) != count:
-            fail(f"{name} must have {count} positions")
-        if len(set(positions)) != len(positions):
-            fail(f"{name} repeats logical positions")
-
-    core_30 = set(position_sets["core_30"])
-    core_34 = set(position_sets["core_34"])
-    omitted = {"L_INNER_TOP", "R_INNER_TOP", "L_PINKY_BOTTOM", "R_PINKY_BOTTOM"}
-    if core_34 - core_30 != omitted or core_30 - core_34:
-        fail("core_30 must omit only the two inner tops and two pinky bottoms")
-
-    standard_36 = set(position_sets["standard_36"])
-    if standard_36 - core_34 != {"L_THUMB_OPTIONAL", "R_THUMB_OPTIONAL"} or core_34 - standard_36:
-        fail("standard_36 must add only optional outer thumbs")
-
-    totem_38 = set(position_sets.get("totem_38", []))
-    if totem_38 - standard_36 != {"L_BOTTOM_EXTRA", "R_BOTTOM_EXTRA"} or standard_36 - totem_38:
-        fail("totem_38 must be standard_36 plus only the two outer-pinky extras")
-
-    cantor_ble_42 = set(position_sets.get("cantor_ble_42", []))
-    cantor_extras = {"L_TOP_OUTER", "R_TOP_OUTER", "L_MID_OUTER", "R_MID_OUTER", "L_BOTTOM_OUTER", "R_BOTTOM_OUTER"}
-    if cantor_ble_42 - standard_36 != cantor_extras or standard_36 - cantor_ble_42:
-        fail("cantor_ble_42 must be standard_36 plus only the six outer-column extras")
-
-    klor_konrad_42 = set(position_sets.get("klor_konrad_42", []))
-    klor_polydactyl_44 = set(position_sets.get("klor_polydactyl_44", []))
-    if klor_polydactyl_44 - klor_konrad_42 != {"L_THUMB_OUTER", "R_THUMB_OUTER"} or klor_konrad_42 - klor_polydactyl_44:
-        fail("klor_polydactyl_44 must be klor_konrad_42 plus only the two outer thumbs")
-
-    klor_saegewerk_38 = set(position_sets.get("klor_saegewerk_38", []))
-    if klor_konrad_42 - klor_saegewerk_38 != {"L_MID_OUTER", "R_MID_OUTER", "L_BOTTOM_OUTER", "R_BOTTOM_OUTER"} or klor_saegewerk_38 - klor_konrad_42:
-        fail("klor_saegewerk_38 must be klor_konrad_42 minus only the outer/mid pinky columns")
-
-
-def validate_alphas(model: dict) -> None:
-    if model["active_alphas"] != ["graphite", "vestnik_dm"]:
-        fail("active alpha set must be graphite and vestnik_dm")
-
-    graphite = model["alphas"]["graphite"]
-    graphite_30 = cells(graphite["30"])
-    graphite_34 = cells(graphite["34"])
-    if len(graphite_30) != 26:
-        fail("graphite 30 must have 26 non-thumb bindings")
-    if len(graphite_34) != 30:
-        fail("graphite 34 must have 30 non-thumb bindings")
-    if len(set(graphite_30)) != len(graphite_30):
-        fail("graphite 30 contains duplicate bindings")
-    if len(set(graphite_34)) != len(graphite_34):
-        fail("graphite 34 contains duplicate bindings")
-    if graphite["30"]["deferred"] != ["Q", "Z", "SQT", "MINUS"]:
-        fail("graphite 30 deferred roles changed")
-
-    vestnik = model["alphas"]["vestnik_dm"]
-    expected = {"30": 26, "34": 30, "38": 32, "extended": 36}
-    for capacity, count in expected.items():
-        values = cells(vestnik[capacity])
-        if len(values) != count:
-            fail(f"vestnik_dm {capacity} must have {count} non-thumb bindings")
-        if len(set(values)) != len(values):
-            fail(f"vestnik_dm {capacity} contains duplicate bindings")
-    if vestnik["30"]["deferred"] != ["Ц", "Х", "Ф", "Э", "Щ", "Ъ", "Ё"]:
-        fail("vestnik_dm 30 deferred letters changed")
-    if vestnik["34"]["deferred"] != ["Щ", "Ъ", "Ё"]:
-        fail("vestnik_dm 34 deferred letters changed")
-    if vestnik["38"]["deferred"] != ["Щ", "Ъ", "Ё"]:
-        fail("vestnik_dm 38 deferred letters changed")
-    if vestnik["extended"]["deferred"]:
-        fail("vestnik_dm extended must expose all deferred letters")
-
-    for name in model["active_alphas"]:
-        alpha = model["alphas"][name]
-        core_30 = model["position_sets"]["core_30"][:-4]
-        core_34 = model["position_sets"]["core_34"][:-4]
-        values_30 = dict(zip(core_30, cells(alpha["30"])))
-        values_34 = dict(zip(core_34, cells(alpha["34"])))
-        changed = [position for position in core_30 if values_30[position] != values_34[position]]
-        allowed = model["capacity_overrides"].get(name, {}).get("30_to_34", [])
-        if changed != allowed:
-            fail(f"{name} 30-to-34 role changes must be explicit: {changed}")
-
-
-def profile_positions(model: dict, profile: dict) -> list[str] | None:
-    position_set = profile.get("position_set")
-    positions = profile.get("logical_positions")
-    if position_set and positions:
-        fail("profile cannot use position_set and logical_positions")
-    if position_set:
-        try:
-            return model["position_sets"][position_set]
-        except KeyError:
-            fail(f"unknown position set {position_set}")
-    return positions
-
-
-def profile_firmware_positions(model: dict, profile: dict, firmware: str) -> list[str] | None:
-    positions = profile.get(f"{firmware}_slots")
-    if positions is not None:
-        return positions
-    return profile_positions(model, profile)
-
-
-def validate_profiles(model: dict, profiles: dict) -> None:
-    core_34 = set(model["position_sets"]["core_34"])
-    for name, profile in profiles["profiles"].items():
-        physical = profile["physical_keys"]
-        bindings = profile["binding_positions"]
-        board_only = profile.get("board_only_positions", [])
-        if physical <= 0 or bindings <= 0:
-            fail(f"{name} has invalid key count")
-        if len(board_only) != len(set(board_only)):
-            fail(f"{name} repeats board-only positions")
-        if bindings < physical:
-            fail(f"{name} has fewer binding positions than physical keys")
-        if bindings - physical != len(board_only):
-            fail(f"{name} must name every non-physical binding position")
-        matrix_positions = profile.get("matrix_positions", bindings)
-        unbound_matrix = profile.get("unbound_matrix_positions", [])
-        if matrix_positions < bindings:
-            fail(f"{name} has fewer matrix positions than bindings")
-        if matrix_positions - bindings != len(unbound_matrix):
-            fail(f"{name} must name every unbound matrix position")
-        if len(unbound_matrix) != len(set(unbound_matrix)):
-            fail(f"{name} repeats unbound matrix positions")
-        if profile["alpha_capacity"] not in {30, 34, 38}:
-            fail(f"{name} has unsupported alpha capacity")
-        if profile["layout_source"] not in {"cols_thumbs", "zmk_dts", "qmk_info", "custom"}:
-            fail(f"{name} has unsupported layout source")
-        if "qmk" in profile and not profile["qmk"]["layout"]:
-            fail(f"{name} lacks a QMK layout")
-        positions = profile_positions(model, profile)
-        if positions is not None:
-            if len(positions) != bindings:
-                fail(f"{name} logical positions has {len(positions)}, expected {bindings}")
-            if len(set(positions)) != len(positions):
-                fail(f"{name} repeats logical positions")
-        for firmware in ("zmk", "qmk"):
-            slots = profile.get(f"{firmware}_slots")
-            if slots is None:
-                continue
-            if firmware not in profile:
-                fail(f"{name} has {firmware.upper()} slots without a {firmware.upper()} target")
-            if len(slots) != bindings:
-                fail(f"{name} {firmware.upper()} slots has {len(slots)}, expected {bindings}")
-            if len(set(slots)) != len(slots):
-                fail(f"{name} repeats {firmware.upper()} slots")
-            if profile["alpha_capacity"] >= 34 and set(slots) & core_34 != core_34:
-                fail(f"{name} {firmware.upper()} slots must map every 34-key core role")
-            if firmware == "qmk" and not set(board_only).issubset(slots):
-                fail(f"{name} {firmware.upper()} slots must name board-only positions")
-
-
-def zmk_positions(path: Path) -> list[str]:
-    text = path.read_text()
-    match = re.search(r"\bmap\s*=\s*<(?P<map>.*?)>;", text, re.S)
-    if not match:
-        fail(f"{path} has no matrix transform map")
-    return re.findall(r"RC\(\s*\d+\s*,\s*\d+\s*\)", match.group("map"))
-
-
-def qmk_positions(path: Path, layout: str) -> list[str]:
-    data = load(path)
-    try:
-        entries = data["layouts"][layout]["layout"]
-    except KeyError as error:
-        fail(f"{path} has no {layout} layout")
-        raise error
-    positions = []
-    for entry in entries:
-        matrix = entry.get("matrix")
-        if matrix is None:
-            positions.append("visual")
-        else:
-            positions.append(",".join(str(value) for value in matrix))
-    return positions
-
-
-def select_qmk_variant(text: str, define: str | None) -> str:
-    marker = "#ifdef RAZEN_KLOR_KONRAD"
-    if marker not in text:
-        return text
-    before, conditional = text.split(marker, 1)
-    konrad, polydactyl = conditional.split("#else", 1)
-    polydactyl, after = polydactyl.split("#endif", 1)
-    return before + (konrad if define == "RAZEN_KLOR_KONRAD" else polydactyl) + after
-
-
-def qmk_adapter_positions(repo: Path, model: dict, profile: dict) -> list[str | None] | None:
-    if "qmk" not in profile:
-        return None
-    path = repo / "qmk" / "keyboards" / profile["qmk"]["keyboard"] / "keymaps" / "razen" / "keymap.c"
-    if not path.exists():
-        return None
-    text = select_qmk_variant(path.read_text(), profile.get("qmk_define"))
-    text = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-    text = re.sub(r"\\\s*\n", " ", text)
-    match = re.search(
-        r"#\s*define\s+RAZEN_LAYOUT\s*\((?P<params>[^)]*)\)\s*(?P<body>LAYOUT(?:_[A-Za-z0-9_]+)?\s*\((?P<slots>[^)]*)\))",
-        text,
-        re.S,
-    )
-    if not match:
-        fail(f"{path} has no RAZEN_LAYOUT")
-    params = [value.strip() for value in match.group("params").split(",") if value.strip()]
-    roles = model["position_sets"]["core_34"]
-    if len(params) != len(roles):
-        fail(f"{path} RAZEN_LAYOUT has {len(params)} parameters, expected {len(roles)}")
-    parameter_roles = dict(zip(params, roles))
-    slots = [value.strip() for value in match.group("slots").split(",") if value.strip()]
-    return [parameter_roles.get(value) for value in slots]
-
-
-def source_positions(repo: Path, profile: dict) -> dict[str, list[str]]:
-    result: dict[str, list[str]] = {}
-    if "zmk_transform" in profile:
-        result["zmk"] = zmk_positions(repo / profile["zmk_transform"])
-    if "qmk_info" in profile:
-        result["qmk"] = qmk_positions(repo / profile["qmk_info"], profile["qmk"]["layout"])
+def ident(value: str) -> str:
+    result = re.sub(r"[^A-Za-z0-9]+", "_", value).strip("_")
+    if not result:
+        fail(f"invalid identifier {value!r}")
     return result
 
 
-def validate_profile_sources(repo: Path, model: dict, profiles: dict) -> None:
-    for name, profile in profiles["profiles"].items():
-        positions = source_positions(repo, profile)
-        if profile.get("matrix_confirmation_required"):
+def stable_json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def load_sources(repo: Path) -> dict[str, Any]:
+    base = repo / "keymap"
+    missing = [name for name in ROOT_FILES if not (base / name).is_file()]
+    if missing:
+        fail(f"missing source files: {', '.join(missing)}")
+    with (base / "keymap.toml").open("rb") as source:
+        root = tomllib.load(source)
+    with (base / "layers.toml").open("rb") as source:
+        layers = tomllib.load(source)
+    with (base / "behaviors.toml").open("rb") as source:
+        behaviors = tomllib.load(source)
+    profiles = json.loads((base / "profiles.json").read_text())
+    model = {"root": root, "layers": layers, "behaviors": behaviors, "profiles": profiles}
+    validate(model)
+    return model
+
+
+def flattened(variant: dict[str, Any]) -> list[Any]:
+    if "bindings" in variant:
+        return variant["bindings"]
+    return [cell for row in variant.get("rows", []) for cell in row]
+
+
+def profile_slots(model: dict[str, Any], profile: dict[str, Any], backend: str) -> list[str]:
+    slots = profile.get(f"{backend}_slots")
+    if slots is not None:
+        return slots
+    topology = profile.get("position_set")
+    if topology is None:
+        fail(f"profile has no {backend} slots or position_set")
+    try:
+        return model["profiles"]["topologies"][topology]
+    except KeyError:
+        fail(f"unknown topology {topology!r}")
+
+
+def key_alias(model: dict[str, Any], token: str) -> dict[str, Any] | None:
+    value = model["behaviors"].get("keys", {}).get(token)
+    return value if isinstance(value, dict) else None
+
+
+def valid_key(model: dict[str, Any], token: str) -> bool:
+    return token in KEYS or token in SHIFTED or key_alias(model, token) is not None
+
+
+def validate_action(model: dict[str, Any], value: Any, context: str) -> None:
+    if isinstance(value, str):
+        if value not in {"none", "trans"} and not valid_key(model, value):
+            fail(f"{context}: unknown key {value!r}")
+        return
+    if not isinstance(value, dict):
+        fail(f"{context}: action must be a string or table")
+    if "tap" in value or "hold" in value:
+        if "tap" not in value or "hold" not in value:
+            fail(f"{context}: tap-hold requires tap and hold")
+        validate_action(model, value["tap"], f"{context}.tap")
+        hold = value["hold"]
+        if isinstance(hold, str):
+            if not valid_key(model, hold):
+                fail(f"{context}: unknown hold key {hold!r}")
+        else:
+            validate_action(model, hold, f"{context}.hold")
+        timing = value.get("timing")
+        if timing and timing not in model["behaviors"].get("timings", {}):
+            fail(f"{context}: unknown timing {timing!r}")
+        if "hand" in value and value["hand"] not in {"left", "right"}:
+            fail(f"{context}: hand must be left or right")
+        if "adaptive" in value and value["adaptive"] not in model["behaviors"].get("adaptives", {}):
+            fail(f"{context}: unknown adaptive set {value['adaptive']!r}")
+        return
+    kinds = [name for name in ("use", "key", "os", "layer", "mouse", "light", "rgb", "platform") if name in value]
+    if len(kinds) != 1:
+        fail(f"{context}: action needs exactly one action kind")
+    kind = kinds[0]
+    if kind == "use":
+        if value["use"] not in model["behaviors"].get("behaviors", {}):
+            fail(f"{context}: unknown behavior {value['use']!r}")
+    elif kind == "key":
+        if not valid_key(model, value["key"]):
+            fail(f"{context}: unknown key {value['key']!r}")
+        unknown = set(value.get("mods", [])) - MODS
+        if unknown:
+            fail(f"{context}: unknown modifiers {sorted(unknown)}")
+    elif kind == "os":
+        for os_name, os_actions in model["root"].get("operating_systems", {}).items():
+            if value["os"] not in os_actions:
+                fail(f"{context}: OS action {value['os']!r} missing for {os_name}")
+    elif kind == "layer":
+        if value["layer"] not in model["root"]["layers"]:
+            fail(f"{context}: unknown layer {value['layer']!r}")
+        if value.get("mode", "momentary") not in {"momentary", "toggle", "sticky", "move"}:
+            fail(f"{context}: invalid layer mode")
+    elif kind == "mouse" and value["mouse"] not in MOUSE_ZMK:
+        fail(f"{context}: unknown mouse action {value['mouse']!r}")
+    elif kind == "light" and value["light"] not in {"toggle", "decrease", "increase"}:
+        fail(f"{context}: unknown light action {value['light']!r}")
+    elif kind == "rgb" and value["rgb"] not in RGB_ZMK:
+        fail(f"{context}: unknown RGB action {value['rgb']!r}")
+
+
+def validate(model: dict[str, Any]) -> None:
+    root = model["root"]
+    layer_source = model["layers"].get("layers", {})
+    behavior_source = model["behaviors"]
+    profile_source = model["profiles"]
+    if root.get("version") != 1 or profile_source.get("version") != 1:
+        fail("source version must be 1")
+    if root.get("layer_source") != "layers.toml" or root.get("behavior_source") != "behaviors.toml" or root.get("profile_source") != "profiles.json":
+        fail("keymap.toml source entry points changed")
+    if root.get("default_os") not in root.get("operating_systems", {}):
+        fail("default_os is not declared")
+    declared_layers = root.get("layers", [])
+    if len(declared_layers) != len(set(declared_layers)):
+        fail("layer order contains duplicates")
+    if not declared_layers or root.get("default_layer") != declared_layers[0]:
+        fail("default_layer must be first in layer order")
+    alpha_layers = root.get("alpha_layers", [])
+    if len(alpha_layers) != len(set(alpha_layers)) or not set(alpha_layers).issubset(declared_layers):
+        fail("alpha_layers must uniquely reference declared layers")
+    if set(layer_source) != set(declared_layers):
+        fail("layers.toml must define every declared layer exactly once")
+    for name, variants in layer_source.items():
+        if name == "Magic":
+            if set(variants) != {"glove80_80"} or len(flattened(variants["glove80_80"])) != 80:
+                fail("Magic must define exactly glove80_80 with 80 bindings")
+            for index, cell in enumerate(flattened(variants["glove80_80"])):
+                validate_action(model, cell, f"Magic.glove80_80[{index}]")
             continue
-        for firmware, order in positions.items():
-            if len(order) != profile["binding_positions"]:
-                fail(f"{name} {firmware} order has {len(order)} positions, expected {profile['binding_positions']}")
-            firmware_positions = profile_firmware_positions(model, profile, firmware)
-            if firmware_positions is not None and len(order) != len(firmware_positions):
-                fail(f"{name} {firmware} order does not match logical positions")
-        adapter_positions = qmk_adapter_positions(repo, model, profile)
-        expected = profile_firmware_positions(model, profile, "qmk")
-        if adapter_positions is not None and expected is not None:
-            if len(adapter_positions) != len(expected):
-                fail(f"{name} QMK adapter has {len(adapter_positions)} slots, expected {len(expected)}")
-            core_34 = set(model["position_sets"]["core_34"])
-            for index, (actual, wanted) in enumerate(zip(adapter_positions, expected)):
-                if wanted in core_34 and actual != wanted:
-                    fail(f"{name} QMK adapter slot {index} maps {actual}, expected {wanted}")
-                if wanted not in core_34 and actual in core_34:
-                    fail(f"{name} QMK adapter slot {index} unexpectedly maps {actual}")
+        if set(variants) != set(ROW_COUNTS):
+            fail(f"{name} must define full core30 and core34 matrices")
+        for variant_name, row_counts in ROW_COUNTS.items():
+            rows = variants[variant_name].get("rows")
+            if not isinstance(rows, list) or [len(row) for row in rows] != row_counts:
+                fail(f"{name}.{variant_name} rows must be {row_counts}")
+            for index, cell in enumerate(flattened(variants[variant_name])):
+                validate_action(model, cell, f"{name}.{variant_name}[{index}]")
+            adaptive_names = {cell["adaptive"] for cell in flattened(variants[variant_name]) if isinstance(cell, dict) and cell.get("adaptive")}
+            if len(adaptive_names) > 1:
+                fail(f"{name}.{variant_name} uses multiple adaptive sets")
+            if adaptive_names and name not in alpha_layers:
+                fail(f"{name}.{variant_name} uses adaptives outside alpha_layers")
+    behaviors = behavior_source.get("behaviors", {})
+    allowed_recipes = {"shift_morph", "repeat_magic", "tap_hold", "smart_mouse", "leader", "macro", "layer_action", "platform"}
+    for name, behavior in behaviors.items():
+        if behavior.get("recipe") not in allowed_recipes:
+            fail(f"behavior {name}: unknown recipe {behavior.get('recipe')!r}")
+        for target in behavior.get("targets", []):
+            if target not in {"zmk", "qmk"}:
+                fail(f"behavior {name}: unknown target {target!r}")
+        if behavior["recipe"] == "shift_morph":
+            validate_action(model, behavior["tap"], f"behavior {name}.tap")
+            validate_action(model, behavior["shifted"], f"behavior {name}.shifted")
+        if behavior["recipe"] == "tap_hold":
+            validate_action(model, behavior["tap"], f"behavior {name}.tap")
+            validate_action(model, behavior["hold"], f"behavior {name}.hold")
+        if behavior["recipe"] == "macro":
+            for index, step in enumerate(behavior.get("steps", [])):
+                validate_action(model, step, f"behavior {name}.steps[{index}]")
+        if behavior["recipe"] == "repeat_magic":
+            if behavior.get("timing") not in behavior_source.get("timings", {}):
+                fail(f"behavior {name}: unknown timing")
+            if resolved_key(model, behavior.get("hold", "")) not in MODS:
+                fail(f"behavior {name}: hold must be a modifier")
+            if behavior.get("fallback") != "sticky_shift" or behavior.get("shifted") != "caps_word":
+                fail(f"behavior {name}: unsupported fallback or shifted action")
+            if behavior.get("repeat_timeout_ms", 0) <= 0:
+                fail(f"behavior {name}: repeat timeout must be positive")
+    if not isinstance(behavior_source.get("timings", {}).get("home_row", {}).get("opposite_hand_hold"), bool):
+        fail("home_row.opposite_hand_hold must be a boolean")
+    for name, adaptive in behavior_source.get("adaptives", {}).items():
+        if not isinstance(adaptive.get("enabled"), bool) or not isinstance(adaptive.get("swaps_enabled", False), bool):
+            fail(f"adaptive {name}: enabled flags must be booleans")
+        if adaptive.get("timeout_ms", 0) <= 0:
+            fail(f"adaptive {name}: timeout must be positive")
+        seen: set[tuple[str, tuple[str, ...]]] = set()
+        for rule in adaptive.get("rules", []):
+            after = rule.get("after", [])
+            if not 1 <= len(after) <= 6:
+                fail(f"adaptive {name}: suffix length must be 1 through 6")
+            if not 1 <= len(rule.get("emit", [])) <= 6:
+                fail(f"adaptive {name}: output length must be 1 through 6")
+            for token in [rule.get("input"), *after, *rule.get("emit", [])]:
+                if not isinstance(token, str) or not valid_key(model, token):
+                    fail(f"adaptive {name}: invalid key {token!r}")
+            signature = (rule["input"], tuple(after))
+            if signature in seen:
+                fail(f"adaptive {name}: duplicate rule {signature}")
+            seen.add(signature)
+        for swap in adaptive.get("swaps", []):
+            if len(swap) != 3 or any(not valid_key(model, token) for token in swap):
+                fail(f"adaptive {name}: invalid swap {swap!r}")
+            if swap[1] == swap[2]:
+                fail(f"adaptive {name}: swap maps a key to itself")
+        if adaptive["enabled"] and not any(
+            isinstance(cell, dict) and cell.get("adaptive") == name
+            for variants in layer_source.values()
+            for variant in variants.values()
+            for cell in flattened(variant)
+        ):
+            fail(f"adaptive {name}: enabled but unused")
+    topologies = profile_source.get("topologies", {})
+    if not topologies:
+        fail("profiles.json has no topologies")
+    for name, slots in topologies.items():
+        if not isinstance(slots, list) or len(slots) != len(set(slots)):
+            fail(f"topology {name}: slots must be a unique list")
+    if len(topologies.get("core_30", [])) != 30 or len(topologies.get("core_34", [])) != 34:
+        fail("core topologies must contain 30 and 34 slots")
+    core30 = set(topologies["core_30"])
+    core34 = set(topologies["core_34"])
+    if core34 - core30 != {"L_INNER_TOP", "R_INNER_TOP", "L_PINKY_BOTTOM", "R_PINKY_BOTTOM"} or core30 - core34:
+        fail("core_30 must omit only inner tops and pinky bottoms from core_34")
+    profiles = profile_source.get("profiles", {})
+    if not profiles:
+        fail("profiles.json has no profiles")
+    targets = profile_source.get("targets", {})
+    if not isinstance(targets, dict) or not targets:
+        fail("profiles.json has no targets")
+    target_aliases: dict[str, str] = {}
+    for target_name, target in targets.items():
+        if not isinstance(target, dict) or re.fullmatch(r"[a-z0-9][a-z0-9_-]*", target_name) is None:
+            fail(f"invalid target {target_name!r}")
+        profile_name = target.get("profile")
+        zmk_keyboard = target.get("zmk_keyboard")
+        if profile_name is None and not isinstance(zmk_keyboard, str):
+            fail(f"target {target_name}: needs profile or zmk_keyboard")
+        if profile_name is not None and profile_name not in profiles:
+            fail(f"target {target_name}: unknown profile {profile_name!r}")
+        available = {backend for backend in ("zmk", "qmk") if profile_name and backend in profiles[profile_name]}
+        if zmk_keyboard:
+            available.add("zmk")
+        backends = target.get("backends", list(available))
+        defaults = target.get("default_backends", backends)
+        if not isinstance(backends, list) or len(backends) != len(set(backends)) or not set(backends).issubset(available):
+            fail(f"target {target_name}: invalid backends")
+        if not isinstance(defaults, list) or len(defaults) != len(set(defaults)) or not set(defaults).issubset(backends):
+            fail(f"target {target_name}: invalid default backends")
+        draw_profiles = target.get("draw_profiles", [profile_name] if profile_name else [])
+        if not isinstance(draw_profiles, list) or not draw_profiles or not set(draw_profiles).issubset(profiles):
+            if profile_name or draw_profiles:
+                fail(f"target {target_name}: invalid drawing profiles")
+        if not isinstance(target.get("all", True), bool):
+            fail(f"target {target_name}: all must be boolean")
+        aliases = target.get("aliases", [])
+        if not isinstance(aliases, list) or any(not isinstance(alias, str) or not alias for alias in aliases):
+            fail(f"target {target_name}: invalid aliases")
+        for alias in [target_name, *aliases]:
+            normalized = alias.replace("-", "_")
+            owner = target_aliases.setdefault(normalized, target_name)
+            if owner != target_name:
+                fail(f"target alias {alias!r} belongs to both {owner} and {target_name}")
+    for name, profile in profiles.items():
+        if profile.get("physical_keys", 0) < 30:
+            fail(f"profile {name}: fewer than 30 physical keys")
+        if profile.get("binding_positions", 0) < profile["physical_keys"]:
+            fail(f"profile {name}: fewer bindings than physical keys")
+        board_only = profile.get("board_only_positions", [])
+        if profile["binding_positions"] - profile["physical_keys"] != len(board_only):
+            fail(f"profile {name}: board-only positions do not explain binding count")
+        if profile.get("alpha_capacity") not in {30, 34, 38}:
+            fail(f"profile {name}: unsupported alpha capacity")
+        zmk = profile.get("zmk")
+        if zmk is not None:
+            if not isinstance(zmk, dict):
+                fail(f"profile {name}: zmk target must be an object")
+            physical_layout = zmk.get("physical_layout")
+            if physical_layout is not None and (not isinstance(physical_layout, str) or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", physical_layout) is None):
+                fail(f"profile {name}: invalid ZMK physical layout")
+            physical_layout_include = zmk.get("physical_layout_include")
+            if physical_layout_include is not None and (not isinstance(physical_layout_include, str) or not physical_layout_include or any(character in physical_layout_include for character in "<>\r\n")):
+                fail(f"profile {name}: invalid ZMK physical layout include")
+            if physical_layout_include and not physical_layout:
+                fail(f"profile {name}: ZMK physical layout include needs a layout")
+            transform = zmk.get("transform")
+            if transform is not None:
+                valid_transform = isinstance(transform, list) and len(transform) == profile["binding_positions"]
+                valid_transform = valid_transform and all(isinstance(coordinate, list) and len(coordinate) == 2 and all(type(value) is int and value >= 0 for value in coordinate) for coordinate in transform)
+                if not valid_transform or len({tuple(coordinate) for coordinate in transform}) != len(transform):
+                    fail(f"profile {name}: ZMK transform must uniquely match binding positions")
+        if "layers" in profile:
+            unknown = set(profile["layers"]) - set(declared_layers)
+            if unknown:
+                fail(f"profile {name}: unknown layers {sorted(unknown)}")
+        for backend in ("zmk", "qmk"):
+            if backend not in profile:
+                continue
+            slots = profile_slots(model, profile, backend)
+            if len(slots) != profile["binding_positions"] or len(slots) != len(set(slots)):
+                fail(f"profile {name}: {backend} slots must be unique and match binding_positions")
+            expected = core30 if profile["alpha_capacity"] == 30 else core34
+            if not expected.issubset(slots):
+                fail(f"profile {name}: {backend} slots do not cover its alpha core")
+            if backend == "qmk" and not set(board_only).issubset(slots):
+                fail(f"profile {name}: qmk slots omit board-only positions")
+        for layer_name, overlay in profile.get("overlays", {}).items():
+            if layer_name not in declared_layers:
+                fail(f"profile {name}: overlay names unknown layer {layer_name}")
+            for position, cell in overlay.items():
+                if not any(position in profile_slots(model, profile, backend) for backend in ("zmk", "qmk") if backend in profile):
+                    fail(f"profile {name}: overlay position {position} does not exist")
+                validate_action(model, cell, f"profile {name}.{layer_name}.{position}")
+        for position, cell in profile.get("defaults", {}).items():
+            if not any(position in profile_slots(model, profile, backend) for backend in ("zmk", "qmk") if backend in profile):
+                fail(f"profile {name}: default position {position} does not exist")
+            validate_action(model, cell, f"profile {name}.defaults.{position}")
+    for index, combo in enumerate(behavior_source.get("combos", [])):
+        if not combo.get("name") or len(combo.get("positions", [])) < 2:
+            fail(f"combo {index}: needs name and at least two positions")
+        if not set(combo.get("layers", [])).issubset(declared_layers):
+            fail(f"combo {combo['name']}: unknown layer")
+        if not set(combo["positions"]).issubset(core34):
+            fail(f"combo {combo['name']}: position outside core34")
+        validate_action(model, combo["action"], f"combo {combo['name']}")
+    for index, leader in enumerate(behavior_source.get("leader", [])):
+        if not 1 <= len(leader.get("sequence", [])) <= 5:
+            fail(f"leader {index}: sequence length must be 1 through 5")
+        for token in leader["sequence"]:
+            if not valid_key(model, token):
+                fail(f"leader {index}: unknown key {token!r}")
+        validate_action(model, leader["action"], f"leader {index}")
 
 
-def manifest(repo: Path, model: dict, profiles: dict, name: str) -> dict:
-    profile = profiles["profiles"][name]
-    capacity = str(profile["alpha_capacity"])
-    graphite_capacity = "34" if capacity == "38" else capacity
-    vestnik_capacity = "extended" if capacity == "38" and profile["physical_keys"] >= 42 else capacity
+def active_layers(model: dict[str, Any], profile: dict[str, Any]) -> list[str]:
+    if "layers" in profile:
+        return profile["layers"]
+    return [name for name in model["root"]["layers"] if name != "Magic"]
+
+
+def compile_profile(model: dict[str, Any], profile_name: str, backend: str, os_name: str) -> dict[str, Any]:
+    profiles = model["profiles"]["profiles"]
+    if profile_name not in profiles:
+        fail(f"unknown profile {profile_name!r}")
+    profile = profiles[profile_name]
+    if backend not in profile:
+        fail(f"profile {profile_name!r} has no {backend} target")
+    if os_name not in model["root"]["operating_systems"]:
+        fail(f"unknown operating system {os_name!r}")
+    slots = list(profile_slots(model, profile, backend))
+    layers = active_layers(model, profile)
+    variant = "core30" if profile["alpha_capacity"] == 30 else "core34"
+    core_name = "core_30" if variant == "core30" else "core_34"
+    core_slots = model["profiles"]["topologies"][core_name]
+    compiled_layers: dict[str, list[Any]] = {}
+    for layer_name in layers:
+        variants = model["layers"]["layers"][layer_name]
+        direct_name = f"{profile_name}_80"
+        if layer_name == "Magic":
+            direct = variants.get(direct_name) or variants.get(profile_name)
+            if direct is None:
+                fail(f"profile {profile_name}: Magic has no direct matrix")
+            cells = list(flattened(direct))
+            if len(cells) != len(slots):
+                fail(f"profile {profile_name}: Magic binding count mismatch")
+            compiled_layers[layer_name] = cells
+            continue
+        values = dict(zip(core_slots, flattened(variants[variant])))
+        defaults = profile.get("defaults", {})
+        overlay = profile.get("overlays", {}).get(layer_name, {})
+        compiled_layers[layer_name] = [overlay.get(slot, values.get(slot, defaults.get(slot, "none"))) for slot in slots]
+    layer_index = {name: index for index, name in enumerate(layers)}
+    combos = []
+    slot_index = {slot: index for index, slot in enumerate(slots)}
+    for combo in model["behaviors"].get("combos", []):
+        if "core34" in combo.get("variants", []) and variant != "core34":
+            continue
+        if not set(combo["layers"]).intersection(layers):
+            continue
+        if not set(combo["positions"]).issubset(slot_index):
+            continue
+        item = dict(combo)
+        item["indices"] = [slot_index[position] for position in combo["positions"]]
+        item["layers"] = [layer for layer in combo["layers"] if layer in layers]
+        combos.append(item)
     return {
-        "profile": name,
-        "physical_keys": profile["physical_keys"],
-        "binding_positions": profile["binding_positions"],
-        "matrix_positions": profile.get("matrix_positions", profile["binding_positions"]),
-        "board_only_positions": profile.get("board_only_positions", []),
-        "unbound_matrix_positions": profile.get("unbound_matrix_positions", []),
-        "layout_source": profile["layout_source"],
-        "firmware_order": source_positions(repo, profile),
-        "logical_positions": profile_positions(model, profile),
-        "firmware_logical_positions": {
-            firmware: profile_firmware_positions(model, profile, firmware)
-            for firmware in source_positions(repo, profile)
-        },
-        "matrix_confirmation_required": profile.get("matrix_confirmation_required", False),
-        "graphite": model["alphas"]["graphite"][graphite_capacity],
-        "vestnik_dm": model["alphas"]["vestnik_dm"][vestnik_capacity],
+        "version": 1,
+        "profile_name": profile_name,
+        "backend": backend,
+        "os": os_name,
+        "profile": profile,
+        "slots": slots,
+        "variant": variant,
+        "layers": compiled_layers,
+        "layer_index": layer_index,
+        "combos": combos,
+        "source_hash": source_hash(model),
     }
 
 
+def source_hash(model: dict[str, Any]) -> str:
+    return hashlib.sha256(stable_json(model).encode()).hexdigest()
+
+
+def resolved_key(model: dict[str, Any], token: str) -> str:
+    alias = key_alias(model, token)
+    return MOD_ALIASES.get(alias["key"] if alias else token, alias["key"] if alias else token)
+
+
+def with_mods(expression: str, mods: list[str], wrappers: dict[str, str]) -> str:
+    for mod in reversed(mods):
+        expression = f"{wrappers[MOD_ALIASES.get(mod, mod)]}({expression})"
+    return expression
+
+
+def zmk_key(model: dict[str, Any], token: str) -> str:
+    token = resolved_key(model, token)
+    if token in SHIFTED:
+        return f"LS({SHIFTED[token]})"
+    return ZMK_KEYS.get(token, token)
+
+
+def qmk_key(model: dict[str, Any], token: str) -> str:
+    token = resolved_key(model, token)
+    if token in SHIFTED:
+        return f"S({qmk_key(model, SHIFTED[token])})"
+    if len(token) == 1 and "A" <= token <= "Z":
+        return f"KC_{token}"
+    if re.fullmatch(r"N[0-9]", token):
+        return f"KC_{token[1]}"
+    if re.fullmatch(r"F(?:[1-9]|1[0-9]|2[0-4])", token):
+        return f"KC_{token}"
+    try:
+        return QMK_KEYS[token]
+    except KeyError:
+        fail(f"no QMK keycode for {token!r}")
+
+
+def resolve_os(model: dict[str, Any], os_name: str, action: str) -> Any:
+    return model["root"]["operating_systems"][os_name][action]
+
+
+def behavior(model: dict[str, Any], name: str) -> dict[str, Any]:
+    return model["behaviors"]["behaviors"][name]
+
+
+def behavior_available(value: dict[str, Any], backend: str) -> bool:
+    return backend in value.get("targets", ["zmk", "qmk"])
+
+
+def zmk_layer_action(layer: str, mode: str) -> str:
+    return {
+        "momentary": f"&mo LAYER_{layer}",
+        "toggle": f"&tog LAYER_{layer}",
+        "sticky": f"&sl LAYER_{layer}",
+        "move": f"&to LAYER_{layer}",
+    }[mode]
+
+
+def adaptive_rules(model: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    config = model["behaviors"].get("adaptives", {}).get(name, {})
+    if not config.get("enabled"):
+        return []
+    rules = [dict(rule) for rule in config.get("rules", [])]
+    if config.get("swaps_enabled"):
+        for prior, left, right in config.get("swaps", []):
+            rules.append({"input": right, "after": [prior], "emit": [left]})
+            rules.append({"input": left, "after": [prior], "emit": [right]})
+    for rule in rules:
+        rule.setdefault("timeout_ms", config["timeout_ms"])
+        rule.setdefault("strict_modifiers", config.get("strict_modifiers", True))
+    return sorted(rules, key=lambda item: (-len(item["after"]), item["input"], item["after"]))
+
+
+def adaptive_inputs(model: dict[str, Any], name: str) -> set[str]:
+    return {rule["input"] for rule in adaptive_rules(model, name)}
+
+
+def cell_tap(value: Any) -> str | None:
+    if isinstance(value, str) and value not in {"none", "trans"}:
+        return value
+    if isinstance(value, dict) and isinstance(value.get("tap"), str):
+        return value["tap"]
+    return None
+
+
+def adaptive_layers(ir: dict[str, Any], name: str) -> list[str]:
+    return [
+        layer_name
+        for layer_name, cells in ir["layers"].items()
+        if any(isinstance(cell, dict) and cell.get("adaptive") == name for cell in cells)
+    ]
+
+
+def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_name: str | None = None) -> str:
+    if isinstance(value, str):
+        if value == "none":
+            return "&none"
+        if value == "trans":
+            return "&trans"
+        if adaptive_name and resolved_key(model, value) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive_name)}:
+            return f"&adaptive_{ident(adaptive_name).lower()}_{ident(resolved_key(model, value)).lower()}"
+        return f"&kp {zmk_key(model, value)}"
+    if "tap" in value:
+        tap = value["tap"]
+        hold = value["hold"]
+        adaptive = value.get("adaptive", adaptive_name)
+        if adaptive and resolved_key(model, tap) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive)}:
+            base = f"adaptive_{ident(adaptive).lower()}_{ident(resolved_key(model, tap)).lower()}"
+            if value.get("hand"):
+                return f"&{base}_{'hml' if value['hand'] == 'left' else 'hmr'} {zmk_key(model, hold)} 0"
+            return f"&{base}"
+        if value.get("hand"):
+            return f"&{'hml' if value['hand'] == 'left' else 'hmr'} {zmk_key(model, hold)} {zmk_key(model, tap)}"
+        if isinstance(hold, str):
+            return f"&fnum {zmk_key(model, hold)} {zmk_key(model, tap)}"
+        if "layer" in hold and hold.get("mode", "momentary") == "momentary":
+            timing = value.get("timing", "thumb")
+            name = "thumb_tp" if model["behaviors"]["timings"][timing].get("flavor") == "tap-preferred" else "thumb_ht"
+            return f"&{name} LAYER_{hold['layer']} {zmk_key(model, tap)}"
+        fail(f"cannot render ZMK tap-hold {value!r}")
+    if "use" in value:
+        name = value["use"]
+        item = behavior(model, name)
+        if not behavior_available(item, "zmk"):
+            return "&none"
+        recipe = item["recipe"]
+        if recipe in {"shift_morph", "macro", "layer_action", "smart_mouse", "leader"}:
+            return f"&{name}"
+        if recipe == "repeat_magic":
+            return f"&{name} {zmk_key(model, item['hold'])} 0"
+        if recipe == "tap_hold":
+            if name == "mouse_ht":
+                return f"&{name} LAYER_{item['hold']['layer']} LAYER_{item['tap']['layer']}"
+            if name == "sym_alpha2":
+                return f"&{name} LAYER_{item['hold']['layer']} LAYER_{item['tap']['layer']}"
+            if name == "glove_magic":
+                return f"&{name} LAYER_{item['hold']['layer']} 0"
+            return f"&{name}"
+        if recipe == "platform":
+            action = item["action"]
+            if action == "bootloader":
+                return "&bootloader"
+            if action == "reset":
+                return "&sys_reset"
+            if action == "soft_off":
+                return "&soft_off"
+            if action == "output_toggle":
+                return "&out OUT_TOG"
+            if action == "bt_clear":
+                return "&bt BT_CLR"
+            if action == "bt_clear_all":
+                return "&bt BT_CLR_ALL"
+            if action == "caps_word":
+                return "&caps_word"
+            if action == "key_repeat":
+                return "&key_repeat"
+            if action == "bt_select":
+                return f"&{name}"
+        fail(f"cannot render ZMK behavior {name!r}")
+    if "key" in value:
+        return f"&kp {with_mods(zmk_key(model, value['key']), value.get('mods', []), ZMK_MODS)}"
+    if "os" in value:
+        return zmk_action(model, ir, resolve_os(model, ir["os"], value["os"]))
+    if "layer" in value:
+        return zmk_layer_action(value["layer"], value.get("mode", "momentary"))
+    if "mouse" in value:
+        return MOUSE_ZMK[value["mouse"]]
+    if "light" in value:
+        lighting = ir["profile"].get("capabilities", {}).get("lighting")
+        if lighting != "backlight":
+            return "&none"
+        return {"toggle": "&bl BL_TOG", "decrease": "&bl BL_DEC", "increase": "&bl BL_INC"}[value["light"]]
+    if "rgb" in value:
+        return f"&rgb_ug {RGB_ZMK[value['rgb']]}"
+    if "platform" in value:
+        return {"output_usb": "&out OUT_USB"}.get(value["platform"], "&none")
+    fail(f"cannot render ZMK action {value!r}")
+
+
+def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]:
+    timings = model["behaviors"]["timings"]
+    h = timings["home_row"]
+    left_positions = [index for index, slot in enumerate(ir["slots"]) if slot.startswith("L_") and "THUMB" not in slot]
+    right_positions = [index for index, slot in enumerate(ir["slots"]) if slot.startswith("R_") and "THUMB" not in slot]
+    thumbs = [index for index, slot in enumerate(ir["slots"]) if "THUMB" in slot]
+    left_trigger = f'; hold-trigger-key-positions = <{" ".join(map(str, right_positions + thumbs))}>; hold-trigger-on-release' if h["opposite_hand_hold"] else ""
+    right_trigger = f'; hold-trigger-key-positions = <{" ".join(map(str, left_positions + thumbs))}>; hold-trigger-on-release' if h["opposite_hand_hold"] else ""
+    lines = [
+        f'ZMK_HOLD_TAP(hml, bindings = <&kp>, <&kp>; flavor = "{h["flavor"]}"; tapping-term-ms = <{h["tapping_term_ms"]}>; quick-tap-ms = <{h["quick_tap_ms"]}>; require-prior-idle-ms = <{h["prior_idle_ms"]}>{left_trigger};)',
+        f'ZMK_HOLD_TAP(hmr, bindings = <&kp>, <&kp>; flavor = "{h["flavor"]}"; tapping-term-ms = <{h["tapping_term_ms"]}>; quick-tap-ms = <{h["quick_tap_ms"]}>; require-prior-idle-ms = <{h["prior_idle_ms"]}>{right_trigger};)',
+    ]
+    for name, timing_name in (("thumb_ht", "thumb"), ("thumb_tp", "thumb_tap_preferred")):
+        timing = timings[timing_name]
+        lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&kp>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; quick-tap-ms = <{timing["quick_tap_ms"]}>;)')
+    fnum = timings["function_number"]
+    lines.append(f'ZMK_HOLD_TAP(fnum, bindings = <&kp>, <&kp>; flavor = "{fnum["flavor"]}"; tapping-term-ms = <{fnum["tapping_term_ms"]}>;)')
+    for name, item in model["behaviors"]["behaviors"].items():
+        if not behavior_available(item, "zmk"):
+            continue
+        recipe = item["recipe"]
+        if recipe == "shift_morph":
+            lines.append(f"ZMK_MOD_MORPH({name}, bindings = <{zmk_action(model, ir, item['tap'])}>, <{zmk_action(model, ir, item['shifted'])}>; mods = <(MOD_LSFT|MOD_RSFT)>;)")
+        elif recipe == "macro":
+            bindings = ", ".join(f"<{zmk_action(model, ir, step)}>" for step in item["steps"])
+            lines.append(f"ZMK_MACRO({name}, bindings = {bindings};)")
+        elif recipe == "layer_action":
+            lines.append(f"ZMK_MACRO({name}, bindings = <{zmk_layer_action(item['layer'], item['mode'])}>;)")
+        elif recipe == "platform" and item["action"] == "bt_select":
+            lines.append(f"ZMK_MACRO({name}, bindings = <&out OUT_BLE>, <&bt BT_SEL {item['value']}>;)")
+        elif recipe == "tap_hold" and name == "mouse_ht":
+            timing = timings[item["timing"]]
+            lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&tog>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>;)')
+        elif recipe == "tap_hold" and name == "sym_alpha2":
+            timing = timings[item["timing"]]
+            lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&sl>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; quick-tap-ms = <{timing["quick_tap_ms"]}>;)')
+        elif recipe == "tap_hold" and name == "glove_magic" and name in {cell.get("use") for cells in ir["layers"].values() for cell in cells if isinstance(cell, dict)}:
+            timing = timings[item["timing"]]
+            lines.append("ZMK_MACRO(rgb_status, bindings = <&rgb_ug RGB_STATUS>;)")
+            lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&rgb_status>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; quick-tap-ms = <{timing["quick_tap_ms"]}>;)')
+    magic = behavior(model, "thumb_magic")
+    repeat_keys = " ".join(chr(value) for value in range(ord("A"), ord("Z") + 1))
+    lines.extend([
+        f"ZMK_ADAPTIVE_KEY(thumb_magic_adaptive, bindings = <&sk LSHFT>; repeat {{ trigger-keys = <{repeat_keys}>; bindings = <&key_repeat>; max-prior-idle-ms = <{magic['repeat_timeout_ms']}>; strict-modifiers; }};)",
+        "ZMK_MOD_MORPH(thumb_magic_tap, bindings = <&thumb_magic_adaptive>, <&caps_word>; mods = <(MOD_LSFT|MOD_RSFT)>;)",
+        f'ZMK_HOLD_TAP(thumb_magic, bindings = <&kp>, <&thumb_magic_tap>; flavor = "{timings[magic["timing"]]["flavor"]}"; tapping-term-ms = <{timings[magic["timing"]]["tapping_term_ms"]}>; quick-tap-ms = <{timings[magic["timing"]]["quick_tap_ms"]}>;)',
+    ])
+    for adaptive_name in model["behaviors"].get("adaptives", {}):
+        rules = adaptive_rules(model, adaptive_name)
+        by_input: dict[str, list[dict[str, Any]]] = {}
+        for rule in rules:
+            by_input.setdefault(rule["input"], []).append(rule)
+        for input_key, input_rules in sorted(by_input.items()):
+            base = f"adaptive_{ident(adaptive_name).lower()}_{ident(resolved_key(model, input_key)).lower()}"
+            body = [f"ZMK_ADAPTIVE_KEY({base}, bindings = <&kp {zmk_key(model, input_key)}>;"]
+            for index, rule in enumerate(input_rules):
+                after = [zmk_key(model, token) for token in rule["after"]]
+                emit = " ".join(zmk_action(model, ir, token) for token in rule["emit"])
+                properties = [f"trigger-keys = <{after[-1]}>;"]
+                if len(after) > 1:
+                    properties.append(f"prior-keys = <{' '.join(after[:-1])}>;")
+                properties.append(f"max-prior-idle-ms = <{rule['timeout_ms']}>;")
+                properties.append(f"bindings = <{emit}>;")
+                if rule["strict_modifiers"]:
+                    properties.append("strict-modifiers;")
+                body.append(f"r{index} {{ {' '.join(properties)} }};")
+            body.append(")")
+            lines.append(" ".join(body))
+            used_cells = [
+                cell
+                for layer_name in adaptive_layers(ir, adaptive_name)
+                for cell in ir["layers"][layer_name]
+                if cell_tap(cell) is not None and resolved_key(model, cell_tap(cell)) == resolved_key(model, input_key)
+            ]
+            for hand in sorted({cell.get("hand") for cell in used_cells if isinstance(cell, dict) and cell.get("hand")}):
+                side = "hml" if hand == "left" else "hmr"
+                positions = right_positions + thumbs if hand == "left" else left_positions + thumbs
+                trigger = f'; hold-trigger-key-positions = <{" ".join(map(str, positions))}>; hold-trigger-on-release' if h["opposite_hand_hold"] else ""
+                lines.append(f'ZMK_HOLD_TAP({base}_{side}, bindings = <&kp>, <&{base}>; flavor = "{h["flavor"]}"; tapping-term-ms = <{h["tapping_term_ms"]}>; quick-tap-ms = <{h["quick_tap_ms"]}>; require-prior-idle-ms = <{h["prior_idle_ms"]}>{trigger};)')
+    smart = behavior(model, "smart_mouse")
+    ignored = [str(ir["slots"].index(position)) for position in smart["ignored_positions"] if position in ir["slots"]]
+    ignored_layers = " ".join(f"LAYER_{layer}" for layer in smart["ignored_layers"] if layer in ir["layer_index"])
+    lines.append(f"ZMK_TRI_STATE(smart_mouse, bindings = <&tog LAYER_{smart['layer']}>, <&none>, <&tog LAYER_{smart['layer']}>; ignored-key-positions = <{' '.join(ignored)}>; ignored-layers = <{ignored_layers}>;)")
+    return lines
+
+
+def render_zmk_leader(model: dict[str, Any], ir: dict[str, Any]) -> str:
+    children = []
+    for index, item in enumerate(model["behaviors"].get("leader", [])):
+        action = zmk_action(model, ir, item["action"])
+        sequence = " ".join(zmk_key(model, token) for token in item["sequence"])
+        children.append(f"s{index} {{ sequence = <{sequence}>; bindings = <{action}>; }};")
+    return f'/ {{ behaviors {{ leader: leader {{ compatible = "zmk,behavior-leader-key"; #binding-cells = <0>; {" ".join(children)} }}; }}; }};'
+
+
+def render_zmk(model: dict[str, Any], ir: dict[str, Any]) -> str:
+    zmk = ir["profile"]["zmk"]
+    move = model["behaviors"]["timings"]["mouse_move"]
+    scroll = model["behaviors"]["timings"]["mouse_scroll"]
+    includes = [
+        "#include <behaviors.dtsi>",
+        "#include <dt-bindings/zmk/keys.h>",
+        "#include <dt-bindings/zmk/bt.h>",
+        "#include <dt-bindings/zmk/outputs.h>",
+        f"#define ZMK_POINTING_DEFAULT_MOVE_VAL {move['value']}",
+        f"#define ZMK_POINTING_DEFAULT_SCRL_VAL {scroll['value']}",
+        "#include <dt-bindings/zmk/mouse.h>",
+        "#include <zmk-helpers/helper.h>",
+    ]
+    if zmk.get("physical_layout_include"):
+        includes.append(f'#include <{zmk["physical_layout_include"]}>')
+    if zmk.get("transform"):
+        includes.append("#include <dt-bindings/zmk/matrix_transform.h>")
+    if any("rgb" in cell for cells in ir["layers"].values() for cell in cells if isinstance(cell, dict)):
+        includes.append("#include <dt-bindings/zmk/rgb.h>")
+    if ir["profile"].get("capabilities", {}).get("lighting") == "backlight":
+        includes.append("#include <dt-bindings/zmk/backlight.h>")
+    lines = includes + [""]
+    if zmk.get("physical_layout"):
+        lines.extend([
+            "/ {",
+            "    chosen {",
+            f'        zmk,physical-layout = &{zmk["physical_layout"]};',
+            "    };",
+            "};",
+            "",
+        ])
+    if zmk.get("transform"):
+        coordinates = [f"RC({row},{column})" for row, column in zmk["transform"]]
+        lines.extend(["&default_transform {", "    map = <"])
+        for index in range(0, len(coordinates), 12):
+            lines.append("        " + " ".join(coordinates[index:index + 12]))
+        lines.extend(["    >;", "};", ""])
+    for name, index in ir["layer_index"].items():
+        lines.append(f"#define LAYER_{name} {index}")
+    lines.append("")
+    lines.extend(render_zmk_behaviors(model, ir))
+    lines.extend([
+        "",
+        render_zmk_leader(model, ir),
+        "",
+        "/ {",
+        "    behaviors {",
+        "        behavior_caps_word { continue-list = <UNDERSCORE MINUS BACKSPACE DELETE N1 N2 N3 N4 N5 N6 N7 N8 N9 N0>; };",
+        "    };",
+        "};",
+        "",
+    ])
+    sticky_mod = model["behaviors"]["timings"]["sticky_mod"]
+    sticky_layer = model["behaviors"]["timings"]["sticky_layer"]
+    lines.extend([
+        f"&mmv {{ trigger-period-ms = <{move['interval_ms']}>; time-to-max-speed-ms = <{move['time_to_max_ms']}>; delay-ms = <{move['delay_ms']}>; }};",
+        f"&msc {{ trigger-period-ms = <{scroll['interval_ms']}>; time-to-max-speed-ms = <{scroll['time_to_max_ms']}>; delay-ms = <{scroll['delay_ms']}>; }};",
+        f"&sk {{ release-after-ms = <{sticky_mod['release_after_ms']}>; quick-release; ignore-modifiers; }};",
+        f"&sl {{ release-after-ms = <{sticky_layer['release_after_ms']}>; ignore-modifiers; }};",
+        "",
+        "/ {",
+        "    combos {",
+        '        compatible = "zmk,combos";',
+    ])
+    combo_default = model["behaviors"]["timings"]["combo"]
+    for combo in ir["combos"]:
+        layers = " ".join(f"LAYER_{layer}" for layer in combo["layers"])
+        positions = " ".join(map(str, combo["indices"]))
+        action = zmk_action(model, ir, combo["action"])
+        term = combo.get("term_ms", combo_default["term_ms"])
+        idle = combo.get("prior_idle_ms", combo_default["prior_idle_ms"])
+        node = ident(combo["name"]).lower()
+        lines.append(f"        {node} {{ timeout-ms = <{term}>; require-prior-idle-ms = <{idle}>; key-positions = <{positions}>; layers = <{layers}>; bindings = <{action}>; }};")
+    lines.extend(["    };", "", "    keymap {", '        compatible = "zmk,keymap";'])
+    sensor_bindings = ir["profile"].get("capabilities", {}).get("sensor_bindings", [])
+    for layer_name, cells in ir["layers"].items():
+        lines.append(f"        layer_{ident(layer_name)} {{")
+        lines.append(f'            display-name = "{layer_name}";')
+        lines.append("            bindings = <")
+        layer_adaptives = [name for name in model["behaviors"].get("adaptives", {}) if layer_name in adaptive_layers(ir, name)]
+        adaptive_name = layer_adaptives[0] if layer_adaptives else None
+        rendered = [zmk_action(model, ir, cell, adaptive_name) for cell in cells]
+        for index in range(0, len(rendered), 10):
+            lines.append("                " + "  ".join(rendered[index:index + 10]))
+        lines.append("            >;")
+        for sensor in sensor_bindings:
+            lines.append(f"            sensor-bindings = <&inc_dec_kp {sensor[0]} {sensor[1]}>;")
+        lines.append("        };")
+    lines.extend(["    };", "};", ""])
+    return "\n".join(lines)
+
+
+def qmk_layer(name: str) -> str:
+    try:
+        return QMK_LAYERS[name]
+    except KeyError:
+        fail(f"QMK does not support layer {name!r}")
+
+
+def custom_name(prefix: str, name: str) -> str:
+    return f"RK_{prefix}_{ident(name).upper()}"
+
+
+def qmk_layer_action(layer: str, mode: str) -> str:
+    return {
+        "momentary": f"MO({qmk_layer(layer)})",
+        "toggle": f"TG({qmk_layer(layer)})",
+        "sticky": f"OSL({qmk_layer(layer)})",
+        "move": f"TO({qmk_layer(layer)})",
+    }[mode]
+
+
+def tap_dance_spec(model: dict[str, Any], value: Any) -> dict[str, Any] | None:
+    timings = model["behaviors"]["timings"]
+    if isinstance(value, dict) and "use" in value:
+        name = value["use"]
+        item = behavior(model, name)
+        if item["recipe"] == "repeat_magic":
+            return {"name": name, "tap_kind": "RAZEN_TAP_MAGIC", "tap": "KC_NO", "hold_kind": "RAZEN_HOLD_KEY", "hold": qmk_key(model, item["hold"]), "timing": item["timing"]}
+        if name == "mouse_ht":
+            return {"name": name, "tap_kind": "RAZEN_TAP_MOUSE_TOGGLE", "tap": "KC_NO", "hold_kind": "RAZEN_HOLD_LAYER", "hold": qmk_layer(item["hold"]["layer"]), "timing": item["timing"]}
+        if name == "sym_alpha2":
+            return {"name": name, "tap_kind": "RAZEN_TAP_ONESHOT_LAYER", "tap": qmk_layer(item["tap"]["layer"]), "hold_kind": "RAZEN_HOLD_LAYER", "hold": qmk_layer(item["hold"]["layer"]), "timing": item["timing"]}
+    if isinstance(value, dict) and "tap" in value and isinstance(value["hold"], str) and not value.get("hand"):
+        timing_name = value.get("timing", "function_number")
+        timing = timings[timing_name]
+        return {"name": f"{value['hold']}_{value['tap']}", "tap_kind": "RAZEN_TAP_KEY", "tap": qmk_key(model, value["tap"]), "hold_kind": "RAZEN_HOLD_KEY", "hold": qmk_key(model, value["hold"]), "timing": timing_name, "hold_on_interrupt": timing.get("flavor") != "tap-preferred"}
+    return None
+
+
+def collect_tap_dances(model: dict[str, Any], ir: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], dict[str, str]]:
+    specs: dict[str, dict[str, Any]] = {}
+    keys: dict[str, str] = {}
+    for cells in ir["layers"].values():
+        for cell in cells:
+            spec = tap_dance_spec(model, cell)
+            if spec is None:
+                continue
+            signature = stable_json(spec)
+            if signature not in keys:
+                base = f"TD_{ident(spec['name']).upper()}"
+                name = base
+                suffix = 2
+                while name in specs:
+                    name = f"{base}_{suffix}"
+                    suffix += 1
+                keys[signature] = name
+                specs[name] = spec
+    return specs, keys
+
+
+def qmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, td_keys: dict[str, str]) -> str:
+    spec = tap_dance_spec(model, value)
+    if spec is not None:
+        return f"TD({td_keys[stable_json(spec)]})"
+    if isinstance(value, str):
+        if value == "none":
+            return "KC_NO"
+        if value == "trans":
+            return "KC_TRNS"
+        return qmk_key(model, value)
+    if "tap" in value:
+        if value.get("hand"):
+            mod = resolved_key(model, value["hold"])
+            wrapper = {"LGUI": "LGUI_T", "LALT": "LALT_T", "LCTRL": "LCTL_T", "LSHFT": "LSFT_T", "RSHFT": "RSFT_T", "RCTRL": "RCTL_T", "RALT": "RALT_T", "RGUI": "RGUI_T"}[mod]
+            return f"{wrapper}({qmk_key(model, value['tap'])})"
+        hold = value["hold"]
+        if isinstance(hold, dict) and "layer" in hold and hold.get("mode", "momentary") == "momentary":
+            return f"LT({qmk_layer(hold['layer'])}, {qmk_key(model, value['tap'])})"
+        fail(f"cannot render QMK tap-hold {value!r}")
+    if "use" in value:
+        name = value["use"]
+        item = behavior(model, name)
+        if not behavior_available(item, "qmk"):
+            return "KC_NO"
+        recipe = item["recipe"]
+        if recipe == "shift_morph":
+            return custom_name("MORPH", name)
+        if recipe == "macro":
+            return custom_name("MACRO", name)
+        if recipe == "layer_action":
+            return qmk_layer_action(item["layer"], item["mode"])
+        if recipe == "smart_mouse":
+            return "RK_SMART_MOUSE"
+        if recipe == "leader":
+            return "QK_LEAD"
+        if recipe == "platform":
+            return {
+                "bootloader": "QK_BOOT", "reset": "QK_RBT", "caps_word": "CW_TOGG",
+                "key_repeat": "QK_REP",
+            }.get(item["action"], "KC_NO")
+        fail(f"cannot render QMK behavior {name!r}")
+    if "key" in value:
+        return with_mods(qmk_key(model, value["key"]), value.get("mods", []), QMK_MODS)
+    if "os" in value:
+        return qmk_action(model, ir, resolve_os(model, ir["os"], value["os"]), td_keys)
+    if "layer" in value:
+        return qmk_layer_action(value["layer"], value.get("mode", "momentary"))
+    if "mouse" in value:
+        return MOUSE_QMK[value["mouse"]]
+    if "light" in value:
+        return {"toggle": "RGB_TOG", "decrease": "RGB_VAD", "increase": "RGB_VAI"}[value["light"]]
+    if "rgb" in value or "platform" in value:
+        return "KC_NO"
+    fail(f"cannot render QMK action {value!r}")
+
+
+def qmk_basic(model: dict[str, Any], ir: dict[str, Any], value: Any) -> str:
+    if isinstance(value, str):
+        return qmk_key(model, value)
+    if isinstance(value, dict) and "key" in value:
+        return with_mods(qmk_key(model, value["key"]), value.get("mods", []), QMK_MODS)
+    if isinstance(value, dict) and "os" in value:
+        return qmk_basic(model, ir, resolve_os(model, ir["os"], value["os"]))
+    fail(f"expected basic QMK action, got {value!r}")
+
+
+def qmk_custom_ids(model: dict[str, Any]) -> list[str]:
+    result = ["RK_SMART_MOUSE"]
+    for name, item in model["behaviors"]["behaviors"].items():
+        if not behavior_available(item, "qmk"):
+            continue
+        if item["recipe"] == "shift_morph":
+            result.append(custom_name("MORPH", name))
+        elif item["recipe"] == "macro":
+            result.append(custom_name("MACRO", name))
+    return result
+
+
+def qmk_leader_statement(model: dict[str, Any], ir: dict[str, Any], value: Any) -> str:
+    if isinstance(value, str):
+        return f"tap_code16({qmk_key(model, value)});"
+    if "key" in value:
+        return f"tap_code16({with_mods(qmk_key(model, value['key']), value.get('mods', []), QMK_MODS)});"
+    if "use" in value:
+        item = behavior(model, value["use"])
+        if not behavior_available(item, "qmk"):
+            return ""
+        if item["recipe"] == "layer_action":
+            return f"layer_move({qmk_layer(item['layer'])});"
+        if item["recipe"] == "macro":
+            statements = []
+            for step in item["steps"]:
+                if "layer" in step and step.get("mode") == "move":
+                    statements.append(f"layer_move({qmk_layer(step['layer'])});")
+                else:
+                    statements.append(qmk_leader_statement(model, ir, step))
+            return " ".join(statements)
+        if item["recipe"] == "platform":
+            return {"bootloader": "reset_keyboard();", "reset": "soft_reset_keyboard();"}.get(item["action"], "")
+    if "platform" in value:
+        return ""
+    return ""
+
+
+def render_qmk(model: dict[str, Any], ir: dict[str, Any]) -> str:
+    specs, td_keys = collect_tap_dances(model, ir)
+    custom_ids = qmk_custom_ids(model)
+    position_ids = [f"P_{ident(slot).upper()}" for slot in ir["slots"]]
+    layout = ir["profile"]["qmk"]["layout"]
+    lines = ["#include QMK_KEYBOARD_H", '#include "razen.h"', "", "enum generated_keycodes {"]
+    for index, name in enumerate(custom_ids + position_ids):
+        lines.append(f"    {name}{' = SAFE_RANGE' if index == 0 else ''},")
+    magic = behavior(model, "thumb_magic")
+    lines.extend(["};", "", "const uint16_t razen_smart_mouse_keycode = RK_SMART_MOUSE;", f"const uint16_t razen_magic_hold_keycode = {qmk_key(model, magic['hold'])};", "", "enum generated_tap_dances {"])
+    for name in specs:
+        lines.append(f"    {name},")
+    lines.extend(["};", "", "const razen_morph_t razen_morphs[] = {"])
+    for name, item in model["behaviors"]["behaviors"].items():
+        if item["recipe"] == "shift_morph" and behavior_available(item, "qmk"):
+            lines.append(f"    {{{custom_name('MORPH', name)}, {qmk_basic(model, ir, item['tap'])}, {qmk_basic(model, ir, item['shifted'])}}},")
+    lines.extend(["};", "const uint8_t razen_morph_count = sizeof(razen_morphs) / sizeof(razen_morphs[0]);", "", "const razen_macro_t razen_macros[] = {"])
+    for name, item in model["behaviors"]["behaviors"].items():
+        if item["recipe"] != "macro" or not behavior_available(item, "qmk"):
+            continue
+        layer_step = next((step for step in item["steps"] if "layer" in step), None)
+        key_step = next((step for step in item["steps"] if "key" in step), None)
+        if layer_step is None or key_step is None:
+            fail(f"QMK macro {name} must contain one layer and one key step")
+        lines.append(f"    {{{custom_name('MACRO', name)}, {qmk_layer(layer_step['layer'])}, {qmk_basic(model, ir, key_step)}}},")
+    lines.extend(["};", "const uint8_t razen_macro_count = sizeof(razen_macros) / sizeof(razen_macros[0]);", "", "const razen_adaptive_rule_t razen_adaptive_rules[] = {"])
+    adaptive_count = 0
+    for adaptive_name in model["behaviors"].get("adaptives", {}):
+        for matching_layer in adaptive_layers(ir, adaptive_name):
+            for rule in adaptive_rules(model, adaptive_name):
+                after = [qmk_key(model, token) for token in rule["after"]]
+                emit = [qmk_key(model, token) for token in rule["emit"]]
+                lines.append(f"    {{{qmk_layer(matching_layer)}, {qmk_key(model, rule['input'])}, {{{', '.join(after)}}}, {len(after)}, {{{', '.join(emit)}}}, {len(emit)}, {rule['timeout_ms']}, {'true' if rule['strict_modifiers'] else 'false'}}},")
+                adaptive_count += 1
+    lines.extend(["};", f"const uint8_t razen_adaptive_rule_count = {adaptive_count};", "", "razen_tap_dance_t razen_tap_dance_data[] = {"])
+    for name, spec in specs.items():
+        timing = model["behaviors"]["timings"][spec["timing"]]
+        lines.append(f"    [{name}] = {{{spec['tap_kind']}, {spec['tap']}, {spec['hold_kind']}, {spec['hold']}, {timing['tapping_term_ms']}, {'true' if spec.get('hold_on_interrupt', timing.get('flavor') != 'tap-preferred') else 'false'}, false}},")
+    lines.extend(["};", "", "tap_dance_action_t tap_dance_actions[] = {"])
+    for name in specs:
+        lines.append(f"    [{name}] = RAZEN_TAP_DANCE(&razen_tap_dance_data[{name}]),")
+    lines.extend(["};", "", "const uint16_t razen_home_row_keys[] = {"])
+    home_keys = []
+    for cells in ir["layers"].values():
+        for cell in cells:
+            if isinstance(cell, dict) and cell.get("hand"):
+                keycode = qmk_action(model, ir, cell, td_keys)
+                if keycode not in home_keys:
+                    home_keys.append(keycode)
+    lines.append("    " + ", ".join(home_keys))
+    lines.extend(["};", "const uint8_t razen_home_row_key_count = sizeof(razen_home_row_keys) / sizeof(razen_home_row_keys[0]);", "", "const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {"])
+    for layer_name, cells in ir["layers"].items():
+        lines.append(f"    [{qmk_layer(layer_name)}] = {layout}(")
+        rendered = [qmk_action(model, ir, cell, td_keys) for cell in cells]
+        for index in range(0, len(rendered), 10):
+            comma = "," if index + 10 < len(rendered) else ""
+            lines.append("        " + ", ".join(rendered[index:index + 10]) + comma)
+        lines.append("    ),")
+    lines.append(f"    [L_COMBO_REF] = {layout}(")
+    for index in range(0, len(position_ids), 10):
+        comma = "," if index + 10 < len(position_ids) else ""
+        lines.append("        " + ", ".join(position_ids[index:index + 10]) + comma)
+    lines.extend(["    ),", "};", "", f"const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = {layout}("])
+    hands = ["'L'" if slot.startswith("L_") else "'R'" if slot.startswith("R_") else "'*'" for slot in ir["slots"]]
+    for index in range(0, len(hands), 12):
+        comma = "," if index + 12 < len(hands) else ""
+        lines.append("    " + ", ".join(hands[index:index + 12]) + comma)
+    lines.extend([");", "", "uint8_t combo_ref_from_layer(uint8_t layer) {", "    (void)layer;", "    return L_COMBO_REF;", "}", "", "enum generated_combos {"])
+    for combo in ir["combos"]:
+        lines.append(f"    CB_{ident(combo['name']).upper()},")
+    lines.extend(["};", ""])
+    for combo in ir["combos"]:
+        positions = ", ".join(position_ids[index] for index in combo["indices"])
+        lines.append(f"const uint16_t PROGMEM combo_{ident(combo['name']).lower()}[] = {{{positions}, COMBO_END}};")
+    lines.extend(["", "combo_t key_combos[] = {"])
+    for combo in ir["combos"]:
+        action = qmk_action(model, ir, combo["action"], td_keys)
+        lines.append(f"    [CB_{ident(combo['name']).upper()}] = COMBO(combo_{ident(combo['name']).lower()}, {action}),")
+    lines.extend(["};", "", "const razen_combo_t razen_combos[] = {"])
+    combo_timing = model["behaviors"]["timings"]["combo"]
+    for combo in ir["combos"]:
+        mask = " | ".join(f"(1UL << {qmk_layer(layer)})" for layer in combo["layers"])
+        lines.append(f"    {{{mask}, {combo.get('term_ms', combo_timing['term_ms'])}, {combo.get('prior_idle_ms', combo_timing['prior_idle_ms'])}}},")
+    lines.extend(["};", "const uint8_t razen_combo_count = sizeof(razen_combos) / sizeof(razen_combos[0]);", "", "void leader_end_user(void) {"])
+    leader_count = 0
+    for item in model["behaviors"].get("leader", []):
+        sequence = ", ".join(qmk_key(model, token) for token in item["sequence"])
+        condition = f"leader_sequence_{['one', 'two', 'three', 'four', 'five'][len(item['sequence']) - 1]}_key{'s' if len(item['sequence']) > 1 else ''}({sequence})"
+        statement = qmk_leader_statement(model, ir, item["action"])
+        if not statement:
+            continue
+        lines.append(f"    {'if' if leader_count == 0 else 'else if'} ({condition}) {{ {statement} }}")
+        leader_count += 1
+    lines.extend(["}", ""])
+    return "\n".join(lines)
+
+
+def render_qmk_config(model: dict[str, Any]) -> str:
+    timing = model["behaviors"]["timings"]
+    magic = behavior(model, "thumb_magic")
+    lines = [
+        "#pragma once",
+        f"#define RAZEN_HOME_ROW_TAPPING_TERM {timing['home_row']['tapping_term_ms']}",
+        f"#define RAZEN_HOME_ROW_QUICK_TAP_TERM {timing['home_row']['quick_tap_ms']}",
+        f"#define RAZEN_MAGIC_REPEAT_TIMEOUT {magic['repeat_timeout_ms']}",
+        f"#define TAPPING_TERM {timing['thumb']['tapping_term_ms']}",
+        "#define TAPPING_TERM_PER_KEY",
+        f"#define QUICK_TAP_TERM {timing['thumb']['quick_tap_ms']}",
+        "#define QUICK_TAP_TERM_PER_KEY",
+        f"#define FLOW_TAP_TERM {timing['home_row']['prior_idle_ms']}",
+        "#define PERMISSIVE_HOLD_PER_KEY",
+        f"#define ONESHOT_TIMEOUT {timing['sticky_mod']['release_after_ms']}",
+        "#define ONESHOT_TAP_TOGGLE 0",
+        f"#define COMBO_TERM {timing['combo']['term_ms']}",
+        "#define COMBO_TERM_PER_COMBO",
+        "#define COMBO_SHOULD_TRIGGER",
+        "#define LEADER_PER_KEY_TIMING",
+        f"#define LEADER_TIMEOUT {timing['leader']['timeout_ms']}",
+        f"#define MOUSEKEY_DELAY {timing['mouse_move']['delay_ms']}",
+        f"#define MOUSEKEY_INTERVAL {timing['mouse_move']['interval_ms']}",
+        "#define MOUSEKEY_MOVE_DELTA 16",
+        "#define MOUSEKEY_MAX_SPEED 8",
+        "#define MOUSEKEY_TIME_TO_MAX 40",
+        f"#define MOUSEKEY_WHEEL_DELAY {timing['mouse_scroll']['delay_ms']}",
+        f"#define MOUSEKEY_WHEEL_INTERVAL {timing['mouse_scroll']['interval_ms']}",
+        "#define MOUSEKEY_WHEEL_MAX_SPEED 4",
+        "#define MOUSEKEY_WHEEL_TIME_TO_MAX 40",
+        "",
+    ]
+    if timing["home_row"]["opposite_hand_hold"]:
+        lines.insert(9, "#define CHORDAL_HOLD")
+    return "\n".join(lines)
+
+
+def label_key(model: dict[str, Any], token: str) -> str:
+    alias = key_alias(model, token)
+    if alias:
+        return alias.get("label", token)
+    if re.fullmatch(r"N[0-9]", token):
+        return token[1:]
+    return DISPLAY.get(token, token)
+
+
+def label_action(model: dict[str, Any], ir: dict[str, Any], value: Any) -> Any:
+    if isinstance(value, str):
+        if value == "none":
+            return ""
+        if value == "trans":
+            return {"t": "▽", "type": "trans"}
+        return label_key(model, value)
+    if "tap" in value:
+        hold = value["hold"]
+        hold_label = label_key(model, hold) if isinstance(hold, str) else hold.get("layer", "Hold")
+        return {"t": label_action(model, ir, value["tap"]), "h": hold_label}
+    if "use" in value:
+        name = value["use"]
+        item = behavior(model, name)
+        if item["recipe"] == "shift_morph":
+            return {"t": label_action(model, ir, item["tap"]), "s": label_action(model, ir, item["shifted"])}
+        if item["recipe"] == "macro":
+            return "EN" if name == "lang_en" else "RU" if name == "lang_ru" else name
+        if item["recipe"] == "layer_action":
+            return {"t": "Vestnik" if item["layer"] == "VestnikDm" else item["layer"], "type": "layer-activator"}
+        if item["recipe"] == "repeat_magic":
+            return {"t": mdi("repeat"), "h": mdi("arrow-up-bold")}
+        if name == "mouse_ht":
+            return {"t": "Mouse", "type": "layer-activator"}
+        if name == "sym_alpha2":
+            return {"t": "VestnikX", "h": "Symbol"}
+        if name == "glove_magic":
+            return {"t": "RGB", "h": "Magic"}
+        if item["recipe"] == "smart_mouse":
+            return mdi("mouse")
+        if item["recipe"] == "leader":
+            return mdi("star-four-points")
+        if item["recipe"] == "platform":
+            return {
+                "bootloader": {"t": mdi("progress-download"), "s": "Boot"},
+                "reset": {"t": mdi("restart"), "s": "Reset"},
+                "soft_off": mdi("keyboard-off-outline"),
+                "output_toggle": "OUT TOG",
+                "bt_clear": "BT CLR",
+                "bt_clear_all": "BT CLR ALL",
+                "caps_word": "Caps Word",
+                "key_repeat": mdi("repeat"),
+                "bt_select": f"BT {item.get('value', '')}",
+            }.get(item["action"], name)
+    if "key" in value:
+        mods = sorted(MOD_ALIASES.get(mod, mod) for mod in value.get("mods", []))
+        shortcut = DRAW_SHORTCUTS.get((value["key"], *mods))
+        if shortcut:
+            return shortcut
+        key = label_key(model, value["key"])
+        return f"{''.join(label_key(model, mod) for mod in mods)}{key}" if mods else key
+    if "os" in value:
+        return OS_DISPLAY.get(value["os"], value["os"].replace("_", " ").title())
+    if "layer" in value:
+        return {"t": value["layer"], "type": "layer-activator"}
+    if "mouse" in value:
+        return MOUSE_DISPLAY[value["mouse"]]
+    if "light" in value:
+        return {"toggle": "Light", "decrease": "Light −", "increase": "Light +"}[value["light"]]
+    if "rgb" in value:
+        return RGB_DISPLAY[value["rgb"]]
+    if "platform" in value:
+        return value["platform"].replace("_", " ").title()
+    return ""
+
+
+def draw_ir(ir: dict[str, Any]) -> dict[str, Any]:
+    result = dict(ir)
+    profile = ir["profile"]
+    slots = profile.get("qmk_draw_order") or [slot for slot in ir["slots"] if slot not in profile.get("board_only_positions", [])]
+    indices = {slot: index for index, slot in enumerate(ir["slots"])}
+    if len(slots) != profile["physical_keys"] or len(slots) != len(set(slots)) or not set(slots).issubset(indices):
+        fail(f"profile {ir['profile_name']}: draw slots must uniquely match physical keys")
+    result["slots"] = slots
+    result["layers"] = {name: [cells[indices[slot]] for slot in slots] for name, cells in ir["layers"].items()}
+    draw_slot_indices = {slot: index for index, slot in enumerate(slots)}
+    result["combos"] = [
+        {**combo, "indices": [draw_slot_indices[position] for position in combo["positions"]]}
+        for combo in ir["combos"]
+        if set(combo["positions"]).issubset(draw_slot_indices)
+    ]
+    return result
+
+
+def render_draw(model: dict[str, Any], ir: dict[str, Any]) -> str:
+    data: dict[str, Any] = {"layers": {name: [label_action(model, ir, cell) for cell in cells] for name, cells in ir["layers"].items()}}
+    combos = []
+    for combo in ir["combos"]:
+        combos.append({"p": combo["indices"], "k": label_action(model, ir, combo["action"]), "l": combo["layers"]})
+    if combos:
+        data["combos"] = combos
+    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+
+
+def manifest(ir: dict[str, Any]) -> str:
+    value = {key: ir[key] for key in ("version", "profile_name", "backend", "os", "slots", "variant", "layers", "layer_index", "combos", "source_hash")}
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
+
+
+def write_output(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content)
+
+
+def backend_output(model: dict[str, Any], ir: dict[str, Any], directory: Path) -> list[Path]:
+    outputs = []
+    if ir["backend"] == "zmk":
+        path = directory / "keymap.keymap"
+        write_output(path, render_zmk(model, ir))
+        outputs.append(path)
+    elif ir["backend"] == "qmk":
+        path = directory / "keymap.c"
+        config = directory / "razen_config.h"
+        write_output(path, render_qmk(model, ir))
+        write_output(config, render_qmk_config(model))
+        outputs.extend([path, config])
+    elif ir["backend"] == "draw":
+        path = directory / "keymap.yaml"
+        write_output(path, render_draw(model, ir))
+        outputs.append(path)
+    else:
+        fail(f"unknown backend {ir['backend']!r}")
+    manifest_path = directory / "manifest.json"
+    write_output(manifest_path, manifest(ir))
+    outputs.append(manifest_path)
+    return outputs
+
+
+def render_svg(repo: Path, ir: dict[str, Any], yaml_path: Path, svg_path: Path) -> None:
+    command = ["keymap", "-c", str(repo / "draw" / "config.yaml"), "draw", str(yaml_path), "-o", str(svg_path)]
+    profile = ir["profile"]
+    if profile.get("draw_notation"):
+        command.extend(["-n", profile["draw_notation"]])
+    elif profile.get("qmk_info"):
+        command.extend(["-j", str(repo / profile["qmk_info"]), "-l", profile.get("qmk_draw_layout", profile.get("qmk", {}).get("layout", "LAYOUT"))])
+    elif profile.get("zmk_transform"):
+        command.extend(["-d", str(repo / profile["zmk_transform"])])
+    elif profile.get("zmk_draw_keyboard"):
+        command.extend(["-z", profile["zmk_draw_keyboard"]])
+    elif profile.get("qmk"):
+        command.extend(["-k", profile["qmk"]["keyboard"], "-l", profile.get("qmk_draw_layout", profile["qmk"]["layout"])])
+    else:
+        fail(f"profile {ir['profile_name']}: no draw geometry")
+    subprocess.run(command, check=True)
+
+
+def generate_one(model: dict[str, Any], repo: Path, backend: str, profile: str, os_name: str, output: Path | None, svg: bool) -> list[Path]:
+    profiles = model["profiles"]["profiles"]
+    if profile not in profiles:
+        fail(f"unknown profile {profile!r}")
+    profile_data = profiles[profile]
+    source_backend = "qmk" if backend == "draw" and profile_data.get("qmk_info") and "qmk" in profile_data else "zmk" if backend == "draw" and "zmk" in profile_data else "qmk" if backend == "draw" else backend
+    ir = compile_profile(model, profile, source_backend, os_name)
+    if backend == "draw":
+        ir = draw_ir(ir)
+    ir["backend"] = backend
+    directory = output or repo / ".cache" / "keymap" / os_name / backend / profile
+    outputs = backend_output(model, ir, directory)
+    if backend == "draw" and svg:
+        svg_path = directory / "keymap.svg" if output else repo / "draw" / "generated" / f"{profile}.svg"
+        svg_path.parent.mkdir(parents=True, exist_ok=True)
+        render_svg(repo, ir, directory / "keymap.yaml", svg_path)
+        outputs.append(svg_path)
+    return outputs
+
+
+def check_all(model: dict[str, Any], repo: Path, os_name: str) -> None:
+    with tempfile.TemporaryDirectory(prefix="keymap-check-") as temporary:
+        root = Path(temporary)
+        first: dict[tuple[str, str], list[str]] = {}
+        for profile_name, profile in model["profiles"]["profiles"].items():
+            for backend in ("zmk", "qmk"):
+                if backend not in profile:
+                    continue
+                out = root / "first" / backend / profile_name
+                files = generate_one(model, repo, backend, profile_name, os_name, out, False)
+                first[(backend, profile_name)] = [path.read_text() for path in files]
+                second = root / "second" / backend / profile_name
+                files2 = generate_one(model, repo, backend, profile_name, os_name, second, False)
+                if first[(backend, profile_name)] != [path.read_text() for path in files2]:
+                    fail(f"{backend}/{profile_name}: nondeterministic output")
+            if "zmk" in profile or "qmk" in profile:
+                generate_one(model, repo, "draw", profile_name, os_name, root / "draw" / profile_name, False)
+
+
+def parser() -> argparse.ArgumentParser:
+    result = argparse.ArgumentParser()
+    result.add_argument("command", choices=["check", "all", "zmk", "qmk", "draw", "profiles"])
+    result.add_argument("--repo", type=Path, default=Path.cwd())
+    result.add_argument("--profile")
+    result.add_argument("--os", dest="os_name")
+    result.add_argument("--out", type=Path)
+    result.add_argument("--no-svg", action="store_true")
+    return result
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["validate", "manifest"])
-    parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--profile")
-    parser.add_argument("--out", type=Path)
-    args = parser.parse_args()
-
+    args = parser().parse_args()
     repo = args.repo.resolve()
-    model = load(repo / "keymap" / "model.json")
-    profiles = load(repo / "keymap" / "profiles.json")
-    validate_position_sets(model)
-    validate_alphas(model)
-    validate_profiles(model, profiles)
-    validate_profile_sources(repo, model, profiles)
-
-    if args.command == "validate":
+    model = load_sources(repo)
+    os_name = args.os_name or model["root"]["default_os"]
+    if args.command == "profiles":
+        for name, profile in model["profiles"]["profiles"].items():
+            targets = ",".join(backend for backend in ("zmk", "qmk") if backend in profile)
+            print(f"{name}\t{targets}")
         return
-
-    if not args.profile or not args.out:
-        parser.error("manifest requires --profile and --out")
-    if args.profile not in profiles["profiles"]:
-        parser.error(f"unknown profile: {args.profile}")
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(manifest(repo, model, profiles, args.profile), ensure_ascii=False, indent=2) + "\n")
+    if args.command == "check":
+        check_all(model, repo, os_name)
+        return
+    if args.command in {"zmk", "qmk", "draw"}:
+        if args.command == "draw" and not args.profile:
+            if args.out:
+                fail("draw --out requires --profile")
+            for profile_name, profile in model["profiles"]["profiles"].items():
+                if "zmk" not in profile and "qmk" not in profile:
+                    continue
+                for path in generate_one(model, repo, "draw", profile_name, os_name, args.out, not args.no_svg):
+                    print(path)
+            return
+        if not args.profile:
+            fail(f"{args.command} requires --profile")
+        outputs = generate_one(model, repo, args.command, args.profile, os_name, args.out, not args.no_svg)
+        for path in outputs:
+            print(path)
+        return
+    for profile_name, profile in model["profiles"]["profiles"].items():
+        for backend in ("zmk", "qmk"):
+            if backend in profile:
+                generate_one(model, repo, backend, profile_name, os_name, None, False)
+        if "zmk" in profile or "qmk" in profile:
+            generate_one(model, repo, "draw", profile_name, os_name, None, not args.no_svg)
 
 
 if __name__ == "__main__":
     try:
         main()
-    except ValueError as error:
+    except (KeymapError, json.JSONDecodeError, tomllib.TOMLDecodeError, subprocess.CalledProcessError) as error:
         print(f"keymap: {error}", file=sys.stderr)
         raise SystemExit(1)

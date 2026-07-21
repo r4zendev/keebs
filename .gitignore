@@ -8,11 +8,8 @@ build/
 WIRED_ZMK_NOTES.md
 __pycache__/
 *.py[cod]
+/tests/
 
-config/includes/generated/
-
+draw/generated/
 draw/*.yaml
-!draw/config.yaml
 draw/*.svg
-!draw/cradio.svg
-!draw/luna.svg

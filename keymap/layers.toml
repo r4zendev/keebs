@@ -1,0 +1,137 @@
+[layers.Graphite.core30]
+rows = [
+  ["B", "L", "D", "W", "G", "Y", "F", "O", "U", "J"],
+  [{ tap = "N", hold = "LGUI", hand = "left" }, { tap = "R", hold = "LALT", hand = "left" }, { tap = "T", hold = "LCTRL", hand = "left" }, { tap = "S", hold = "LSHFT", hand = "left", adaptive = "graphite" }, "V", "K", { tap = "H", hold = "RSHFT", hand = "right" }, { tap = "A", hold = "RCTRL", hand = "right" }, { tap = "E", hold = "RALT", hand = "right" }, { tap = "I", hold = "RGUI", hand = "right" }],
+  ["X", "M", "C", "P", { use = "dot_qmark" }, { use = "comma_excl" }],
+  [{ tap = "SPACE", hold = { layer = "Nav", mode = "momentary" }, timing = "thumb_tap_preferred" }, { tap = "ESC", hold = { layer = "Symbol", mode = "momentary" }, timing = "thumb" }, { tap = "RET", hold = { layer = "Num", mode = "momentary" }, timing = "thumb" }, { use = "thumb_magic" }],
+]
+
+[layers.Graphite.core34]
+rows = [
+  ["B", "L", "D", "W", "Z", { use = "sqt_dqt" }, "F", "O", "U", "J"],
+  [{ tap = "N", hold = "LGUI", hand = "left" }, { tap = "R", hold = "LALT", hand = "left" }, { tap = "T", hold = "LCTRL", hand = "left" }, { tap = "S", hold = "LSHFT", hand = "left", adaptive = "graphite" }, "G", "Y", { tap = "H", hold = "RSHFT", hand = "right" }, { tap = "A", hold = "RCTRL", hand = "right" }, { tap = "E", hold = "RALT", hand = "right" }, { tap = "I", hold = "RGUI", hand = "right" }],
+  ["Q", "X", "M", "C", "V", "K", "P", { use = "dot_qmark" }, { use = "minus_slash" }, { use = "comma_excl" }],
+  [{ tap = "SPACE", hold = { layer = "Nav", mode = "momentary" }, timing = "thumb_tap_preferred" }, { tap = "ESC", hold = { layer = "Symbol", mode = "momentary" }, timing = "thumb" }, { tap = "RET", hold = { layer = "Num", mode = "momentary" }, timing = "thumb" }, { use = "thumb_magic" }],
+]
+
+[layers.VestnikDm.core30]
+rows = [
+  ["Ш", "Г", "Р", "Б", "М", "Ь", "П", "А", "Я", "Ю"],
+  ["С", "Т", "Н", "К", "Ч", "Ж", "В", "О", "Е", "И"],
+  ["З", "Л", "Д", "Й", "Ы", "У"],
+  [{ tap = "SPACE", hold = { layer = "Nav", mode = "momentary" }, timing = "thumb_tap_preferred" }, { use = "sym_alpha2" }, { tap = "RET", hold = { layer = "Num", mode = "momentary" }, timing = "thumb" }, { use = "thumb_magic" }],
+]
+
+[layers.VestnikDm.core34]
+rows = [
+  ["Ц", "Г", "Р", "Б", "Х", "Ф", "П", "А", "Я", "Э"],
+  [{ tap = "С", hold = "LGUI", hand = "left" }, { tap = "Т", hold = "LALT", hand = "left" }, { tap = "Н", hold = "LCTRL", hand = "left" }, { tap = "К", hold = "LSHFT", hand = "left" }, "М", "Ь", { tap = "В", hold = "RSHFT", hand = "right" }, { tap = "О", hold = "RCTRL", hand = "right" }, { tap = "Е", hold = "RALT", hand = "right" }, { tap = "И", hold = "RGUI", hand = "right" }],
+  ["Ш", "З", "Л", "Д", "Ч", "Ж", "Й", "Ы", "У", "Ю"],
+  [{ tap = "SPACE", hold = { layer = "Nav", mode = "momentary" }, timing = "thumb_tap_preferred" }, { use = "sym_alpha2" }, { tap = "RET", hold = { layer = "Num", mode = "momentary" }, timing = "thumb" }, { use = "thumb_magic" }],
+]
+
+[layers.Symbol.core30]
+rows = [
+  ["none", "DLLR", "PRCNT", "CARET", "none", "TILDE", "LBRC", "RBRC", "AT", "GRAVE"],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "none", "COLON", "LPAR", "RPAR", "SEMI", "DQT"],
+  ["AMPS", "PIPE", "BSLH", "LBKT", "RBKT", "QMARK"],
+  ["trans", "trans", "SPACE", "trans"],
+]
+
+[layers.Symbol.core34]
+rows = [
+  ["none", "DLLR", "PRCNT", "CARET", "none", "TILDE", "LBRC", "RBRC", "AT", "GRAVE"],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "none", "COLON", "LPAR", "RPAR", "SEMI", "DQT"],
+  ["none", "AMPS", "PIPE", "BSLH", "none", "EXCL", "LBKT", "RBKT", "QMARK", "SQT"],
+  ["trans", "trans", "SPACE", "trans"],
+]
+
+[layers.Nav.core30]
+rows = [
+  ["ESC", { key = "O", mods = ["LGUI"] }, { key = "U", mods = ["LGUI"] }, "C_PREV", "C_PP", "PG_DN", { os = "home" }, "UP", { os = "end" }, { use = "lang_ru" }],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "C_NEXT", "none", "LEFT", "DOWN", "RIGHT", { use = "lang_en" }],
+  [{ os = "screenshot_area" }, { os = "screenshot_full" }, "none", "TAB", "BSPC", "DEL"],
+  ["none", { use = "mouse_ht" }, "RET", "none"],
+]
+
+[layers.Nav.core34]
+rows = [
+  ["ESC", { key = "O", mods = ["LGUI"] }, { key = "U", mods = ["LGUI"] }, "C_PREV", "C_PP", "PG_UP", { os = "home" }, "UP", { os = "end" }, { use = "lang_ru" }],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "C_NEXT", "PG_DN", "LEFT", "DOWN", "RIGHT", { use = "lang_en" }],
+  [{ key = "S", mods = ["LGUI", "LALT"] }, { os = "screenshot_area" }, { os = "screenshot_full" }, "none", "none", "none", "TAB", "BSPC", "DEL", "none"],
+  ["none", { use = "mouse_ht" }, "RET", "none"],
+]
+
+[layers.Num.core30]
+rows = [
+  ["UNDER", { tap = "N7", hold = "F7", timing = "function_number" }, { tap = "N8", hold = "F8", timing = "function_number" }, { tap = "N9", hold = "F9", timing = "function_number" }, "PLUS", "F11", "F12", "none", "none", "none"],
+  ["DOT", { tap = "N4", hold = "F4", timing = "function_number" }, { tap = "N5", hold = "F5", timing = "function_number" }, { tap = "N6", hold = "F6", timing = "function_number" }, "COLON", "none", "RSHFT", "RCTRL", "RALT", "RGUI"],
+  [{ tap = "N1", hold = "F1", timing = "function_number" }, { tap = "N2", hold = "F2", timing = "function_number" }, { tap = "N3", hold = "F3", timing = "function_number" }, "COMMA", "EQUAL", "MINUS"],
+  ["trans", { tap = "N0", hold = "F10", timing = "function_number" }, "trans", "trans"],
+]
+
+[layers.Num.core34]
+rows = [
+  ["UNDER", { tap = "N7", hold = "F7", timing = "function_number" }, { tap = "N8", hold = "F8", timing = "function_number" }, { tap = "N9", hold = "F9", timing = "function_number" }, "PLUS", "F11", "F12", "none", "none", "none"],
+  ["DOT", { tap = "N4", hold = "F4", timing = "function_number" }, { tap = "N5", hold = "F5", timing = "function_number" }, { tap = "N6", hold = "F6", timing = "function_number" }, "COLON", "none", "RSHFT", "RCTRL", "RALT", "RGUI"],
+  ["STAR", { tap = "N1", hold = "F1", timing = "function_number" }, { tap = "N2", hold = "F2", timing = "function_number" }, { tap = "N3", hold = "F3", timing = "function_number" }, "FSLH", "COMMA", "EQUAL", "PRCNT", "MINUS", "none"],
+  ["trans", { tap = "N0", hold = "F10", timing = "function_number" }, "trans", "trans"],
+]
+
+[layers.VestnikX.core30]
+rows = [
+  ["none", "none", "none", "none", "none", "none", "А", "Ъ", "none", "none"],
+  ["none", "none", "none", "none", "none", "Ё", "Х", "Щ", "Ц", "Э"],
+  ["none", "none", "none", "none", "none", "none"],
+  ["trans", "trans", "trans", "trans"],
+]
+
+[layers.VestnikX.core34]
+rows = [
+  ["none", "none", "none", "none", "none", "none", "none", "Ъ", "none", "none"],
+  ["none", "none", "none", "none", "none", "Ё", "none", "Щ", "none", "none"],
+  ["none", "none", "none", "none", "none", "none", "none", "none", "none", "none"],
+  ["trans", "trans", "trans", "trans"],
+]
+
+[layers.Mouse.core30]
+rows = [
+  ["none", "none", "none", "none", "none", { mouse = "SCRL_DOWN" }, { mouse = "SCRL_LEFT" }, { mouse = "MOVE_UP" }, { mouse = "SCRL_RIGHT" }, "PG_UP"],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "none", "none", { mouse = "MOVE_LEFT" }, { mouse = "MOVE_DOWN" }, { mouse = "MOVE_RIGHT" }, "PG_DN"],
+  ["none", "none", "none", { mouse = "MCLK" }, "none", { mouse = "MB4" }],
+  ["none", { use = "mouse_ht" }, { mouse = "LCLK" }, { mouse = "RCLK" }],
+]
+
+[layers.Mouse.core34]
+rows = [
+  ["none", "none", "none", "none", "none", { mouse = "SCRL_UP" }, { mouse = "SCRL_LEFT" }, { mouse = "MOVE_UP" }, { mouse = "SCRL_RIGHT" }, "PG_UP"],
+  ["LGUI", "LALT", "LCTRL", "LSHFT", "none", { mouse = "SCRL_DOWN" }, { mouse = "MOVE_LEFT" }, { mouse = "MOVE_DOWN" }, { mouse = "MOVE_RIGHT" }, "PG_DN"],
+  ["none", "none", "none", "none", "none", "none", { mouse = "MCLK" }, "none", { mouse = "MB4" }, { mouse = "MB5" }],
+  ["none", { use = "mouse_ht" }, { mouse = "LCLK" }, { mouse = "RCLK" }],
+]
+
+[layers.System.core30]
+rows = [
+  [{ use = "bootloader" }, { use = "to_graphite" }, { use = "to_graphite" }, { use = "to_vestnik" }, { use = "bt_3" }, { use = "soft_off" }, { light = "decrease" }, { light = "increase" }, "none", { use = "bootloader" }],
+  [{ use = "bt_clear" }, { use = "bt_0" }, { use = "bt_1" }, { use = "bt_2" }, "none", "none", { os = "lock" }, { os = "shutdown" }, { os = "sleep" }, { use = "output_toggle" }],
+  ["none", "none", "CAPS", "none", "none", "none"],
+  ["none", "none", "none", "none"],
+]
+
+[layers.System.core34]
+rows = [
+  [{ use = "bootloader" }, { use = "to_graphite" }, { use = "to_graphite" }, { use = "to_vestnik" }, "none", { light = "toggle" }, { light = "decrease" }, { light = "increase" }, "none", { use = "bootloader" }],
+  [{ use = "bt_clear" }, { use = "bt_0" }, { use = "bt_1" }, { use = "bt_2" }, { use = "bt_3" }, { use = "soft_off" }, { os = "lock" }, { os = "shutdown" }, { os = "sleep" }, { use = "output_toggle" }],
+  [{ use = "reset" }, "none", "none", "CAPS", "none", "none", "none", "none", "none", { use = "reset" }],
+  ["none", "none", "none", "none"],
+]
+
+[layers.Magic.glove80_80]
+bindings = [
+  "none", "none", "none", "none", "none", "none", "none", "none", "none", "none",
+  "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none",
+  { use = "bt_clear_all" }, "none", { rgb = "hue_decrease" }, { rgb = "hue_increase" }, "none", "none", "none", { os = "lock" }, { os = "shutdown" }, { os = "sleep" }, "none", { use = "bt_clear" },
+  { use = "bootloader" }, { rgb = "effect_reverse" }, { rgb = "brightness_decrease" }, { rgb = "brightness_increase" }, { rgb = "effect_forward" }, { rgb = "toggle" }, "none", { use = "bt_0" }, { use = "bt_1" }, { use = "bt_2" }, { use = "bt_3" }, { use = "bootloader" },
+  { use = "reset" }, { rgb = "speed_decrease" }, { rgb = "saturation_decrease" }, { rgb = "saturation_increase" }, { rgb = "speed_increase" }, "none", "none", "none", "none", "none", "none", "none", "none", { rgb = "hue_increase" }, { rgb = "hue_decrease" }, "none", { use = "output_toggle" }, { use = "reset" },
+  "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", "none",
+]

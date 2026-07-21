@@ -1,0 +1,38 @@
+version = 1
+layers = ["Graphite", "VestnikDm", "Symbol", "Nav", "Num", "VestnikX", "Mouse", "System", "Magic"]
+alpha_layers = ["Graphite", "VestnikDm"]
+default_layer = "Graphite"
+default_os = "linux"
+layer_source = "layers.toml"
+behavior_source = "behaviors.toml"
+profile_source = "profiles.json"
+
+[operating_systems.linux]
+home = { key = "HOME" }
+end = { key = "END" }
+lock = { key = "L", mods = ["LGUI", "LSHIFT"] }
+shutdown = { key = "Q", mods = ["LGUI", "LCTRL", "LSHIFT"] }
+sleep = { key = "SLEEP" }
+paste = { key = "V", mods = ["LCTRL", "LSHIFT"] }
+screenshot_full = { key = "P", mods = ["LGUI", "LSHIFT"] }
+screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }
+
+[operating_systems.macos]
+home = { key = "LEFT", mods = ["LGUI"] }
+end = { key = "RIGHT", mods = ["LGUI"] }
+lock = { key = "Q", mods = ["LGUI", "LCTRL"] }
+shutdown = { key = "POWER" }
+sleep = { key = "SLEEP" }
+paste = { key = "V", mods = ["LGUI"] }
+screenshot_full = { key = "N3", mods = ["LGUI", "LSHIFT"] }
+screenshot_area = { key = "N4", mods = ["LGUI", "LSHIFT"] }
+
+[operating_systems.windows]
+home = { key = "HOME" }
+end = { key = "END" }
+lock = { key = "L", mods = ["LGUI"] }
+shutdown = { key = "POWER" }
+sleep = { key = "SLEEP" }
+paste = { key = "V", mods = ["LCTRL"] }
+screenshot_full = { key = "S", mods = ["LGUI", "LSHIFT"] }
+screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }

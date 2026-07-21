@@ -2,7 +2,6 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
-source "$REPO_ROOT/scripts/qmk_generated_keyboards.sh"
 QMK_HOME="${QMK_HOME:-$REPO_ROOT/.qmk/qmk_firmware}"
 QMK_REF="${QMK_REF:-c26449e64f18940c0a57e459eeae465b26502b64}"
 QMK_REPO="${QMK_REPO:-https://github.com/qmk/qmk_firmware.git}"
@@ -11,27 +10,21 @@ KEYBOARD="${QMK_KEYBOARD:-yetis}"
 KEYMAP="${QMK_KEYMAP:-razen}"
 KEYBOARD_ROOT="${QMK_KEYBOARD_ROOT:-${KEYBOARD%%/*}}"
 OUTPUT_KEYBOARD="${QMK_OUTPUT_KEYBOARD:-$KEYBOARD_ROOT}"
-if [[ -z "${QMK_CONVERT_TO+x}" && -z "${CONVERT_TO+x}" ]]; then
-    if [[ "$KEYBOARD" == "yetis" ]]; then
-        QMK_CONVERT_TO="rp2040_ce"
-    elif [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" == "cygnus" ]]; then
-        QMK_CONVERT_TO="none"
-    elif [[ "$KEYBOARD" == "klor" || "$KEYBOARD" == "crkbd/rev1" ]]; then
-        QMK_CONVERT_TO="rp2040_ce"
-    elif [[ "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep" ]]; then
-        QMK_CONVERT_TO="liatris"
-    else
-        QMK_CONVERT_TO="none"
-    fi
-else
-    QMK_CONVERT_TO="${QMK_CONVERT_TO:-${CONVERT_TO:-none}}"
-fi
+QMK_CONVERT_TO="${QMK_CONVERT_TO:-${CONVERT_TO:-none}}"
 KEYBOARD_SRC="$REPO_ROOT/qmk/keyboards/$KEYBOARD_ROOT"
 KEYMAP_SRC="$REPO_ROOT/qmk/keyboards/$KEYBOARD/keymaps/$KEYMAP"
-GENERATED_KEYMAP="$REPO_ROOT/.cache/qmk/$KEYBOARD/$KEYMAP/generated_keymap.inc"
-if [[ -z "${QMK_OUTPUT_KEYBOARD+x}" && ( "$KEYBOARD" == "splitkb/aurora/sweep/rev1" || "$KEYBOARD" == "splitkb/aurora/sweep" ) ]]; then
-    OUTPUT_KEYBOARD="splitkb_aurora_sweep"
+KEYMAP_PROFILE="${KEYMAP_PROFILE:-}"
+if [[ -z "$KEYMAP_PROFILE" ]]; then
+    echo "KEYMAP_PROFILE is required. Use 'just qmk <target>'." >&2
+    exit 1
 fi
+case "${KEYMAP_OS:-${OPERATING_SYSTEM:-1}}" in
+    1|linux) KEYMAP_OS=linux ;;
+    2|macos) KEYMAP_OS=macos ;;
+    3|windows) KEYMAP_OS=windows ;;
+    *) echo "Unknown KEYMAP_OS: ${KEYMAP_OS:-${OPERATING_SYSTEM:-}}" >&2; exit 1 ;;
+esac
+GENERATED_KEYMAP_DIR="$REPO_ROOT/.cache/keymap/$KEYMAP_OS/qmk/$KEYMAP_PROFILE"
 ARTIFACT_DIR="$REPO_ROOT/build/qmk/$OUTPUT_KEYBOARD"
 
 if [[ "$KEYBOARD" == "crkbd/rev1" && "$OUTPUT_KEYBOARD" != "cygnus" ]]; then
@@ -94,9 +87,13 @@ link_keymap() {
     rm -rf "$dest"
     mkdir -p "$dest"
     cp -a "$KEYMAP_SRC/." "$dest/"
-    if [[ -f "$GENERATED_KEYMAP" ]]; then
-        cp "$GENERATED_KEYMAP" "$dest/generated_keymap.inc"
-    fi
+    cp "$GENERATED_KEYMAP_DIR/keymap.c" "$dest/keymap.c"
+
+    local user_dest="$QMK_HOME/users/razen"
+    rm -rf "$user_dest"
+    mkdir -p "$user_dest"
+    cp -a "$REPO_ROOT/qmk/users/razen/." "$user_dest/"
+    cp "$GENERATED_KEYMAP_DIR/razen_config.h" "$user_dest/razen_config.h"
 }
 
 link_keyboard_definition() {
@@ -359,41 +356,11 @@ PY
 }
 
 generate_keymap() {
-    local generated_keymaps=(razen razen_bodged)
-    local should_generate=false
-    for generated_keymap in "${generated_keymaps[@]}"; do
-        if [[ "$KEYMAP" == "$generated_keymap" ]]; then
-            should_generate=true
-            break
-        fi
-    done
-
-    if [[ "$should_generate" != true ]]; then
-        if [[ -f "$KEYMAP_SRC/generated_keymap.inc" ]]; then
-            return
-        fi
-        return
-    fi
-
-    if [[ "$KEYMAP" == "razen_bodged" && "$KEYBOARD" != "wysteria" ]]; then
+    if [[ -z "$KEYMAP_PROFILE" ]]; then
         echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
         exit 1
     fi
-
-    local keyboard_supported=false
-    for generated_keyboard in "${QMK_GENERATED_KEYBOARDS[@]}"; do
-        if [[ "$KEYBOARD" == "$generated_keyboard" ]]; then
-            keyboard_supported=true
-            break
-        fi
-    done
-
-    if [[ "$KEYMAP" == "razen_bodged" || ( "$KEYMAP" == "razen" && "$keyboard_supported" == true ) ]]; then
-        "$REPO_ROOT/scripts/generate" qmk "$GENERATED_KEYMAP"
-    else
-        echo "No generator configured for $KEYBOARD:$KEYMAP" >&2
-        exit 1
-    fi
+    "$REPO_ROOT/scripts/generate" qmk --profile "$KEYMAP_PROFILE" --os "$KEYMAP_OS"
 }
 
 container_runtime() {
@@ -411,9 +378,6 @@ run_qmk_make() {
     local target="$1"
     local mode="${2:-build}"
     local make_args=("$target")
-    if [[ -n "${OPERATING_SYSTEM:-}" ]]; then
-        make_args+=("OPERATING_SYSTEM=$OPERATING_SYSTEM")
-    fi
     if [[ -n "$QMK_CONVERT_TO" && "$QMK_CONVERT_TO" != "none" ]]; then
         make_args+=("CONVERT_TO=$QMK_CONVERT_TO")
     fi

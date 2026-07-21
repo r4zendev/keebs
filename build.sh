@@ -177,8 +177,18 @@ OUTPUT_KEYBOARD="${ZMK_OUTPUT_KEYBOARD:-$KEYBOARD}"
 WORKSPACE="$WORKSPACE_BASE/$KEYBOARD"
 KB_DIR="$(find_keyboard_dir "$KEYBOARD")"
 
-DEFAULT_KEYMAP_PATH="$KB_DIR/$KEYBOARD.keymap"
+KEYMAP_PROFILE="${KEYMAP_PROFILE:-}"
+KEYMAP_OS="${KEYMAP_OS:-linux}"
+if [[ -n "${EXTRA_KEYMAP_PATH:-}" ]]; then
+    DEFAULT_KEYMAP_PATH="$EXTRA_KEYMAP_PATH"
+elif [[ -n "$KEYMAP_PROFILE" ]]; then
+    "$REPO_ROOT/scripts/generate" zmk --profile "$KEYMAP_PROFILE" --os "$KEYMAP_OS" >/dev/null
+    DEFAULT_KEYMAP_PATH="$REPO_ROOT/.cache/keymap/$KEYMAP_OS/zmk/$KEYMAP_PROFILE/keymap.keymap"
+else
+    DEFAULT_KEYMAP_PATH="$KB_DIR/$KEYBOARD.keymap"
+fi
 [[ ! -f "$DEFAULT_KEYMAP_PATH" ]] && echo "No $KEYBOARD.keymap found" && exit 1
+DEFAULT_KEYMAP_PATH="$(realpath "$DEFAULT_KEYMAP_PATH")"
 
 sync_workspace_config() {
     rm -rf "$WORKSPACE/config"
@@ -194,18 +204,17 @@ sync_workspace_config() {
     }
     keymap_source="$(realpath "$keymap_source")"
 
-    # Shared config
-    for f in "$CONFIG_DIR"/base.keymap "$CONFIG_DIR"/includes "$CONFIG_DIR"/default.west.yml; do
-        [[ -e "$f" ]] && ln -sf "$f" "$WORKSPACE/config/"
-    done
+    [[ -f "$CONFIG_DIR/default.west.yml" ]] && ln -sf "$CONFIG_DIR/default.west.yml" "$WORKSPACE/config/"
 
     # Keyboard-specific files
     for f in "$KB_DIR"/*; do
         [[ -e "$f" && "$(basename "$f")" != "shields" && "$(basename "$f")" != "$KEYBOARD.conf" ]] && ln -sf "$f" "$WORKSPACE/config/"
     done
 
-    # Allow alternate probe/minimal keymaps without touching the production keymap.
     ln -sf "$keymap_source" "$WORKSPACE/config/$KEYBOARD.keymap"
+    if [[ "$KEYBOARD" == "charybdis_nano" ]]; then
+        ln -sf "$keymap_source" "$WORKSPACE/config/charybdis_dongle.keymap"
+    fi
 
     if [[ -f "$kb_conf" ]]; then
         {
@@ -295,6 +304,16 @@ export CMAKE_PREFIX_PATH="$WORKSPACE/zephyr/share/zephyr-package/cmake"
 [[ -d "$WORKSPACE/.venv" ]] && source "$WORKSPACE/.venv/bin/activate"
 cd "$WORKSPACE"
 
+missing_projects=()
+while IFS='|' read -r project project_path; do
+    [[ -d "$project_path" ]] || missing_projects+=("$project")
+done < <(west list -f '{name}|{abspath}')
+if ((${#missing_projects[@]})); then
+    echo "Workspace is missing manifest projects: ${missing_projects[*]}" >&2
+    echo "Run: $0 $KEYBOARD setup" >&2
+    exit 1
+fi
+
 build_entry() {
     local board=$1 shield=${2:-} label=${3:-} entry_snippets=${4:-} entry_cmake_args=${5:-}
     if [[ -z "$label" ]]; then
@@ -310,7 +329,7 @@ build_entry() {
         rm -rf "build/$label"
     fi
 
-    local cmake_args=("-DZMK_CONFIG=$WORKSPACE/config")
+    local cmake_args=("-DZMK_CONFIG=$WORKSPACE/config" "-DKEYMAP_FILE=$DEFAULT_KEYMAP_PATH")
     local snippet_args=()
     if [[ -n "$shield" ]]; then
         cmake_args+=("-DSHIELD=$shield")

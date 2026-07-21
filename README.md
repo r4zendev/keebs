@@ -1,52 +1,47 @@
 # keebs
 
-<details>
-<summary>Layout preview</summary>
+Personal Graphite and Vestnik keymap compiled from one semantic model to ZMK, QMK, and keymap-drawer.
 
-<img src="draw/luna.svg" alt="Luna layout preview">
+## Authoring
 
-</details>
+Only four files define generated keymaps:
 
-Personal ZMK + QMK configs: one shared keymap (Graphite layout, Vestnik Cyrillic, adaptive swaps, magic key, home row mods) generated across ~20 boards.
+- `keymap/keymap.toml`: layer order and OS-specific actions
+- `keymap/layers.toml`: complete 30-key, 34-key, and Glove80 layer matrices
+- `keymap/behaviors.toml`: timings, morphs, tap-holds, adaptives, combos, leader sequences, and platform actions
+- `keymap/profiles.json`: physical slot order, firmware targets, capabilities, defaults, and overlays
 
-## Structure
+Change keys and layer contents in `layers.toml`. Change timing, triggers, emitted keys, combos, or leader sequences in `behaviors.toml`. Map physical slots and firmware capabilities in `profiles.json`. Renderer and runtime code hold stable behavior mechanics.
 
+Generated compiler files live under `.cache/keymap/<os>/<backend>/<profile>/` and must not be edited. Drawings are written to `draw/generated/<profile>.svg` using the shared `draw/config.yaml`.
+
+## Generation
+
+```sh
+just check
+just generate
+just render zmk cradio_34
+just render qmk yetis_34
+just draw luna
+just draw
+just profiles
 ```
-config/                  ZMK: base.keymap + shared layers/behaviors/combos, per-board keymaps/shields
-keymap/                  shared layout model: model.json, profiles.json, adaptive_swaps.toml
-qmk/                     QMK keyboards + shared generator (qmk/scripts/generate_keymap.py)
-draw/                    keymap-drawer config + generated previews (svg/yaml gitignored except cradio/luna)
-scripts/                 generate, generate_adaptive_swaps.py, keymap.py (validate/manifest), render_qmk_draw.py
-build.sh / qmk-build.sh  ZMK / QMK build entry points
-Makefile                 shortcuts around the above
-```
 
-Board list: see `BOARD_TARGETS` in `Makefile`, or `make help`.
+`check` validates every source and profile, renders every backend twice in temporary directories, and rejects nondeterministic output. `render` accepts `linux`, `macos`, or `windows` as its final argument.
 
 ## Commands
 
-```
-make help                 list all targets
-make setup                init all board workspaces
-make <board>              build firmware + drawing, e.g. make cradio / make klor
-make <board>-wired        QMK build only (dual-firmware boards)
-make <board>-wireless     ZMK build only
-make <board>-left/-right  build one half
-make <board>-reset        settings_reset firmware
-make draw                 regenerate all layout previews
-make clean                remove build outputs + draw cache
-
-python3 scripts/keymap.py validate --repo .   # cross-check model.json + profiles.json
-./scripts/generate check                      # validate without building firmware
+```sh
+just
+just targets
+just setup luna
+just build luna
+just build aurora wired
+just build aurora wireless
+just left cradio
+just flash yetis
 ```
 
-## Editing
+`just build <target> [default|all|zmk|qmk|wired|wireless]` selects firmware backends from `keymap/profiles.json`. `just zmk <target> [action]` and `just qmk <target> [action]` expose backend-specific actions. `build.sh` and `qmk-build.sh` remain internal firmware mechanics. ZMK dependencies remain branch-based in west manifests. QMK uses the commit pinned in `qmk-build.sh`.
 
-- Layers: `config/includes/layers/*.dtsi`
-- Combos: `config/includes/combos.dtsi`
-- Feature flags / adaptive-swap opt-ins: `config/includes/features.dtsi`
-- Adaptive swaps: `keymap/adaptive_swaps.toml`, generated into `config/includes/generated/` (gitignored, don't hand-edit)
-
-QMK generation is strict: an unmapped ZMK behavior fails generation instead of emitting stale QMK output. Add new behavior mappings in `qmk/scripts/generate_keymap.py`.
-
-Don't hand-edit `.cache/`, `.qmk/`, or `config/includes/generated/` — all regenerated on build.
+Adept and Cantor diagnostic probe keymaps remain standalone because they are hardware diagnostics, not generated user layouts.

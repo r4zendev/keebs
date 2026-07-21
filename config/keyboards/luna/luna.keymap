@@ -1,5 +1,0 @@
-/* Luna 30-key wrapper: 5+5 top, 5+5 home, 3+3 bottom, 2+2 thumbs.
- * The 30-key footprint (positions, KEYS_L/R, THUMBS, the LUNA flag) lives in
- * includes/30key.dtsi; layouts switch to their reduced grid on LUNA. */
-#include "includes/30key.dtsi"
-#include "base.keymap"
