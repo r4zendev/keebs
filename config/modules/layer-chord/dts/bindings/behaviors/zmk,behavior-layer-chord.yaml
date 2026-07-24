@@ -1,0 +1,19 @@
+description: Momentary layer chord with independently released layers
+
+compatible: "zmk,behavior-layer-chord"
+
+include: zero_param.yaml
+
+properties:
+  parent-layer:
+    type: int
+    required: true
+  child-layer:
+    type: int
+    required: true
+  parent-position:
+    type: int
+    required: true
+  child-position:
+    type: int
+    required: true

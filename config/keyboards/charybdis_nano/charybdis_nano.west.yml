@@ -19,9 +19,6 @@ manifest:
     - name: zmk-helpers
       remote: urob
       revision: main
-    - name: zmk-leader-key
-      remote: urob
-      revision: main
     - name: zmk-adaptive-key
       remote: rzssh
       revision: skipmagic
@@ -33,10 +30,6 @@ manifest:
       revision: main
     - name: zmk-raw-hid
       remote: zzeneg
-      revision: main
-
-    - name: zmk-tri-state
-      remote: urob
       revision: main
 
   self:

@@ -329,7 +329,7 @@ build_entry() {
         rm -rf "build/$label"
     fi
 
-    local cmake_args=("-DZMK_CONFIG=$WORKSPACE/config" "-DKEYMAP_FILE=$DEFAULT_KEYMAP_PATH")
+    local cmake_args=("-DZMK_CONFIG=$WORKSPACE/config" "-DKEYMAP_FILE=$DEFAULT_KEYMAP_PATH" "-DZMK_EXTRA_MODULES=$CONFIG_DIR/modules/layer-chord")
     local snippet_args=()
     if [[ -n "$shield" ]]; then
         cmake_args+=("-DSHIELD=$shield")

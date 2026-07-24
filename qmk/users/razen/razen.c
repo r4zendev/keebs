@@ -7,10 +7,12 @@ static uint16_t history[6];
 static uint8_t history_len;
 static uint32_t history_timer;
 static uint16_t suppressed_keycode = KC_NO;
-static bool smart_mouse_active;
 static uint32_t last_keypress_timer;
 static uint32_t current_keypress_idle = UINT32_MAX;
 static uint32_t repeat_timer;
+#ifdef RAZEN_SMART_LAYER_ENABLE
+static bool smart_layer_active;
+#endif
 
 static bool shift_active(void) {
     return (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_SHIFT;
@@ -59,7 +61,7 @@ static void pop_history(void) {
 }
 
 static bool text_key(uint16_t keycode) {
-    if (keycode >= KC_A && keycode <= KC_Z) {
+    if ((keycode >= KC_A && keycode <= KC_Z) || (keycode >= KC_1 && keycode <= KC_0)) {
         return true;
     }
     switch (keycode) {
@@ -119,7 +121,11 @@ static bool process_adaptive(uint16_t keycode, keyrecord_t *record) {
         suppressed_keycode = keycode;
         for (uint8_t output = 0; output < rule->emit_len; output++) {
             tap_code16(rule->emit[output]);
-            append_history(rule->emit[output]);
+            if (rule->emit[output] == KC_BSPC) {
+                pop_history();
+            } else {
+                append_history(rule->emit[output]);
+            }
         }
         if (rule->emit_len) {
             set_last_keycode(rule->emit[rule->emit_len - 1]);
@@ -152,45 +158,6 @@ static void repeat_magic(void) {
     repeat_timer = timer_read32();
 }
 
-static void smart_mouse_toggle(void) {
-    smart_mouse_active = !smart_mouse_active;
-    if (smart_mouse_active) {
-        layer_on(L_MOUSE);
-    } else {
-        layer_off(L_MOUSE);
-    }
-}
-
-static bool mouse_key(uint16_t keycode) {
-    switch (keycode) {
-        case MS_UP:
-        case MS_DOWN:
-        case MS_LEFT:
-        case MS_RGHT:
-        case MS_WHLU:
-        case MS_WHLD:
-        case MS_WHLL:
-        case MS_WHLR:
-        case MS_BTN1:
-        case MS_BTN2:
-        case MS_BTN3:
-        case MS_BTN4:
-        case MS_BTN5:
-        case KC_PGUP:
-        case KC_PGDN:
-        case KC_LGUI:
-        case KC_LALT:
-        case KC_LCTL:
-        case KC_LSFT:
-            return true;
-    }
-    if (IS_QK_TAP_DANCE(keycode)) {
-        razen_tap_dance_t *data = &razen_tap_dance_data[QK_TAP_DANCE_GET_INDEX(keycode)];
-        return data->tap_kind == RAZEN_TAP_MOUSE_TOGGLE;
-    }
-    return false;
-}
-
 static void execute_tap(razen_tap_dance_t *data) {
     switch (data->tap_kind) {
         case RAZEN_TAP_KEY:
@@ -198,9 +165,6 @@ static void execute_tap(razen_tap_dance_t *data) {
             break;
         case RAZEN_TAP_MAGIC:
             repeat_magic();
-            break;
-        case RAZEN_TAP_MOUSE_TOGGLE:
-            smart_mouse_toggle();
             break;
         case RAZEN_TAP_ONESHOT_LAYER:
             set_oneshot_layer(data->tap, ONESHOT_START);
@@ -256,9 +220,18 @@ static void process_tap_dance_release(uint16_t keycode, keyrecord_t *record) {
 }
 
 static bool custom_keycode(uint16_t keycode) {
-    if (keycode == razen_smart_mouse_keycode) {
+#ifdef RAZEN_SMART_LAYER_ENABLE
+    if (keycode == razen_smart_layer_keycode) {
         return true;
     }
+#endif
+#ifdef RAZEN_LAYER_CHORD_ENABLE
+    for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
+        if (razen_layer_chords[index].trigger == keycode) {
+            return true;
+        }
+    }
+#endif
     for (uint8_t index = 0; index < razen_morph_count; index++) {
         if (razen_morphs[index].trigger == keycode) {
             return true;
@@ -269,11 +242,36 @@ static bool custom_keycode(uint16_t keycode) {
             return true;
         }
     }
+    for (uint8_t index = 0; index < razen_sequence_count; index++) {
+        if (razen_sequences[index].trigger == keycode) {
+            return true;
+        }
+    }
     return false;
 }
 
+#ifdef RAZEN_SMART_LAYER_ENABLE
+static bool smart_layer_position(keyrecord_t *record) {
+    uint16_t position = keymap_key_to_keycode(L_COMBO_REF, record->event.key);
+    for (uint8_t index = 0; index < razen_smart_layer_position_count; index++) {
+        if (razen_smart_layer_positions[index] == position) {
+            return true;
+        }
+    }
+    return false;
+}
+#endif
+
 bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    (void)keycode;
+#ifdef RAZEN_SMART_LAYER_ENABLE
+    if (smart_layer_active && !(layer_state & (1UL << razen_smart_layer))) {
+        smart_layer_active = false;
+    }
+    if (record->event.pressed && smart_layer_active && keycode != razen_smart_layer_keycode && !smart_layer_position(record)) {
+        layer_off(razen_smart_layer);
+        smart_layer_active = false;
+    }
+#endif
     if (record->event.pressed) {
         current_keypress_idle = last_keypress_timer ? timer_elapsed32(last_keypress_timer) : UINT32_MAX;
         last_keypress_timer = timer_read32();
@@ -284,19 +282,52 @@ bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     process_tap_dance_release(keycode, record);
 
+#ifdef RAZEN_LAYER_CHORD_ENABLE
+    for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
+        if (razen_layer_chords[index].trigger != keycode) {
+            continue;
+        }
+        if (record->event.pressed) {
+            layer_on(razen_layer_chords[index].parent_layer);
+            layer_on(razen_layer_chords[index].child_layer);
+            clear_history();
+        }
+        return false;
+    }
+#endif
+
+#ifdef RAZEN_SMART_LAYER_ENABLE
+    if (keycode == razen_smart_layer_keycode) {
+        if (record->event.pressed) {
+            layer_on(razen_smart_layer);
+            smart_layer_active = true;
+            clear_history();
+        }
+        return false;
+    }
+#endif
+
+    if (keycode == razen_magic_keycode && record->tap.count) {
+        if (record->event.pressed) {
+            repeat_magic();
+        }
+        return false;
+    }
+
+    for (uint8_t index = 0; index < razen_oneshot_layer_count; index++) {
+        if (razen_oneshot_layers[index].keycode != keycode || !record->tap.count) {
+            continue;
+        }
+        if (record->event.pressed) {
+            set_oneshot_layer(razen_oneshot_layers[index].layer, ONESHOT_START);
+        } else {
+            clear_oneshot_layer_state(ONESHOT_PRESSED);
+        }
+        return false;
+    }
+
     if (!record->event.pressed) {
         return process_adaptive(keycode, record);
-    }
-
-    if (smart_mouse_active && keycode != razen_smart_mouse_keycode && !mouse_key(keycode)) {
-        smart_mouse_active = false;
-        layer_off(L_MOUSE);
-    }
-
-    if (keycode == razen_smart_mouse_keycode) {
-        smart_mouse_toggle();
-        clear_history();
-        return false;
     }
 
     for (uint8_t index = 0; index < razen_morph_count; index++) {
@@ -325,14 +356,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
+    for (uint8_t index = 0; index < razen_sequence_count; index++) {
+        if (razen_sequences[index].trigger != keycode) {
+            continue;
+        }
+        for (uint8_t key = 0; key < razen_sequences[index].length; key++) {
+            tap_code16_delay(razen_sequences[index].keys[key], RAZEN_SEQUENCE_DELAY);
+        }
+        clear_history();
+        return false;
+    }
+
     return process_adaptive(keycode, record);
 }
 
 bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *remembered_mods) {
     (void)remembered_mods;
-    bool remember = !IS_QK_TAP_DANCE(keycode) && !custom_keycode(keycode);
+    uint16_t basic = tap_keycode(keycode, record);
+    bool remember = keycode != razen_magic_keycode && !IS_QK_TAP_DANCE(keycode) && !custom_keycode(keycode) && basic != KC_NO;
     if (remember && record->event.pressed) {
-        repeat_timer = timer_read32();
+        repeat_timer = basic >= KC_A && basic <= KC_Z ? timer_read32() : 0;
     }
     return remember;
 }
@@ -346,28 +389,57 @@ static bool home_row_key(uint16_t keycode) {
     return false;
 }
 
+static bool balanced_key(uint16_t keycode) {
+    for (uint8_t index = 0; index < razen_balanced_key_count; index++) {
+        if (razen_balanced_keys[index] == keycode) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool hold_preferred_key(uint16_t keycode) {
+    for (uint8_t index = 0; index < razen_hold_preferred_key_count; index++) {
+        if (razen_hold_preferred_keys[index] == keycode) {
+            return true;
+        }
+    }
+    return false;
+}
+
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     (void)record;
     if (IS_QK_TAP_DANCE(keycode)) {
         return razen_tap_dance_data[QK_TAP_DANCE_GET_INDEX(keycode)].term_ms;
+    }
+    if (keycode == razen_magic_keycode) {
+        return RAZEN_MAGIC_TAPPING_TERM;
     }
     return home_row_key(keycode) ? RAZEN_HOME_ROW_TAPPING_TERM : TAPPING_TERM;
 }
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     (void)record;
+    if (keycode == razen_magic_keycode) {
+        return RAZEN_MAGIC_QUICK_TAP_TERM;
+    }
     return home_row_key(keycode) ? RAZEN_HOME_ROW_QUICK_TAP_TERM : QUICK_TAP_TERM;
 }
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     (void)record;
-    return home_row_key(keycode);
+    return home_row_key(keycode) || balanced_key(keycode);
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    (void)record;
+    return hold_preferred_key(keycode);
 }
 
 uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t previous_keycode) {
     (void)record;
     uint16_t previous = get_tap_keycode(previous_keycode);
-    if (!home_row_key(keycode) || previous < KC_A || previous > KC_Z || get_mods() || get_oneshot_mods() || get_weak_mods()) {
+    if (!home_row_key(keycode) || !text_key(previous) || get_mods() || get_oneshot_mods() || get_weak_mods()) {
         return 0;
     }
     return FLOW_TAP_TERM;
@@ -389,6 +461,46 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     return idle && (meta->layers & (1UL << layer));
 }
 
+#ifdef RAZEN_LAYER_CHORD_ENABLE
+bool process_combo_key_release(uint16_t combo_index, combo_t *combo, uint8_t key_index, uint16_t keycode) {
+    (void)combo_index;
+    (void)key_index;
+    for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
+        const razen_layer_chord_t *chord = &razen_layer_chords[index];
+        if (combo->keycode != chord->trigger) {
+            continue;
+        }
+        if (keycode == chord->parent_position) {
+            layer_off(chord->parent_layer);
+        } else if (keycode == chord->child_position) {
+            layer_off(chord->child_layer);
+        }
+        break;
+    }
+    return false;
+}
+
+bool process_combo_key_repress(uint16_t combo_index, combo_t *combo, uint8_t key_index, uint16_t keycode) {
+    (void)combo_index;
+    (void)key_index;
+    for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
+        const razen_layer_chord_t *chord = &razen_layer_chords[index];
+        if (combo->keycode != chord->trigger) {
+            continue;
+        }
+        if (keycode == chord->parent_position) {
+            layer_on(chord->parent_layer);
+        } else if (keycode == chord->child_position) {
+            layer_on(chord->child_layer);
+        } else {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+#endif
+
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     (void)index;
@@ -403,9 +515,9 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 bool oled_task_user(void) {
-    static const char *const names[] = {"Graphite", "Vestnik", "Symbol", "Nav", "Num", "VestnikX", "Mouse", "System"};
+    static const char *const names[] = RAZEN_LAYER_NAMES;
     uint8_t layer = get_highest_layer(layer_state | default_layer_state);
-    oled_write_ln(layer < 8 ? names[layer] : "", false);
+    oled_write_ln(layer < sizeof(names) / sizeof(names[0]) ? names[layer] : "", false);
     return false;
 }
 #endif

@@ -1,28 +1,40 @@
 version = 1
-layers = ["Graphite", "VestnikDm", "Symbol", "Nav", "Num", "VestnikX", "Mouse", "System", "Magic"]
-alpha_layers = ["Graphite", "VestnikDm"]
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Game", "GameExtra", "Magic"]
+alpha_layers = ["Graphite", "VestnikDm", "Game"]
 default_layer = "Graphite"
 default_os = "linux"
 layer_source = "layers.toml"
 behavior_source = "behaviors.toml"
 profile_source = "profiles.json"
+draw_combo_reference_layer = false
+draw_hidden_layers = ["Vestnik2", "GameExtra"]
+
+[[conditional_layers]]
+if_layers = ["Nav", "Sym"]
+then_layer = "Num"
 
 [operating_systems.linux]
 home = { key = "HOME" }
 end = { key = "END" }
-lock = { key = "L", mods = ["LGUI", "LSHIFT"] }
-shutdown = { key = "Q", mods = ["LGUI", "LCTRL", "LSHIFT"] }
-sleep = { key = "SLEEP" }
-paste = { key = "V", mods = ["LCTRL", "LSHIFT"] }
+delete_word_left = { key = "BSPC", mods = ["LCTRL"] }
+delete_word_right = { key = "DEL", mods = ["LCTRL"] }
+undo = { key = "Z", mods = ["LCTRL"] }
+redo = { key = "Z", mods = ["LCTRL", "LSHIFT"] }
+cut = { key = "X", mods = ["LCTRL"] }
+copy = { key = "INS", mods = ["LCTRL"] }
+paste = { key = "INS", mods = ["LSHIFT"] }
 screenshot_full = { key = "P", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }
 
 [operating_systems.macos]
 home = { key = "LEFT", mods = ["LGUI"] }
 end = { key = "RIGHT", mods = ["LGUI"] }
-lock = { key = "Q", mods = ["LGUI", "LCTRL"] }
-shutdown = { key = "POWER" }
-sleep = { key = "SLEEP" }
+delete_word_left = { key = "BSPC", mods = ["LALT"] }
+delete_word_right = { key = "DEL", mods = ["LALT"] }
+undo = { key = "Z", mods = ["LGUI"] }
+redo = { key = "Z", mods = ["LGUI", "LSHIFT"] }
+cut = { key = "X", mods = ["LGUI"] }
+copy = { key = "C", mods = ["LGUI"] }
 paste = { key = "V", mods = ["LGUI"] }
 screenshot_full = { key = "N3", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "N4", mods = ["LGUI", "LSHIFT"] }
@@ -30,9 +42,12 @@ screenshot_area = { key = "N4", mods = ["LGUI", "LSHIFT"] }
 [operating_systems.windows]
 home = { key = "HOME" }
 end = { key = "END" }
-lock = { key = "L", mods = ["LGUI"] }
-shutdown = { key = "POWER" }
-sleep = { key = "SLEEP" }
-paste = { key = "V", mods = ["LCTRL"] }
+delete_word_left = { key = "BSPC", mods = ["LCTRL"] }
+delete_word_right = { key = "DEL", mods = ["LCTRL"] }
+undo = { key = "Z", mods = ["LCTRL"] }
+redo = { key = "Y", mods = ["LCTRL"] }
+cut = { key = "X", mods = ["LCTRL"] }
+copy = { key = "INS", mods = ["LCTRL"] }
+paste = { key = "INS", mods = ["LSHIFT"] }
 screenshot_full = { key = "S", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }

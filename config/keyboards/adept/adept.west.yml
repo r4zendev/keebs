@@ -4,8 +4,6 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: badjeff
       url-base: https://github.com/badjeff
-    - name: urob
-      url-base: https://github.com/urob
 
   projects:
     - name: zmk
@@ -14,13 +12,6 @@ manifest:
       import: app/west.yml
     - name: zmk-pmw3610-driver
       remote: badjeff
-      revision: main
-    - name: zmk-leader-key
-      remote: urob
-      revision: main
-
-    - name: zmk-tri-state
-      remote: urob
       revision: main
 
   self:

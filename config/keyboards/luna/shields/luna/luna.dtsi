@@ -13,6 +13,12 @@
 		zmk,matrix_transform = &default_transform;
 	};
 
+	soft_off_wakers {
+		compatible = "zmk,soft-off-wakeup-sources";
+		status = "okay";
+		wakeup-sources = <&kscan0>;
+	};
+
 	default_transform: keymap_transform_0 {
 		compatible = "zmk,matrix-transform";
 		columns = <30>;
@@ -28,6 +34,7 @@
 	kscan0: kscan {
 		compatible = "zmk,kscan-gpio-direct";
 		label = "KSCAN";
+		wakeup-source;
 		input-gpios
 		= <&pro_micro  2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
 		, <&pro_micro 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>

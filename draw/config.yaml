@@ -6,7 +6,7 @@ draw_config:
   combo_h: 26.0
   key_rx: 6.0
   key_ry: 6.0
-  dark_mode: false
+  dark_mode: true
   n_columns: 1
   separate_combo_diagrams: false
   combo_diagrams_scale: 2
@@ -27,3 +27,41 @@ draw_config:
   glyph_shifted_size: 10
   glyph_urls:
     mdi: https://raw.githubusercontent.com/Templarian/MaterialDesign-SVG/master/svg/{}.svg
+  svg_extra_style: |
+    svg.keymap { background-color: #1e1e2e; }
+    text.layer-activator { display: none; text-decoration: none; }
+    rect.key { fill: #313244; }
+    rect.key, rect.combo { stroke: #45475a; }
+    rect.combo, rect.combo-separate { fill: #181825; }
+    path.combo { stroke: #6c7086; stroke-width: 2; stroke-dasharray: 2 3; opacity: 0.7; fill: none; }
+    rect.mod { fill: #181825; }
+    text.label { stroke: none; }
+    .layer-Graphite text, .layer-Graphite .glyph, .layer-Graphite rect.held { fill: #cdd6f4; }
+    .layer-VestnikDm text, .layer-VestnikDm .glyph, .layer-VestnikDm rect.held { fill: #cba6f7; }
+    .layer-VestnikDm .key.shifted { fill: #ff6b6b; }
+    .layer-Nav text, .layer-Nav .glyph, .layer-Nav rect.held { fill: #89b4fa; }
+    .layer-Sym text, .layer-Sym .glyph, .layer-Sym rect.held { fill: #a6e3a1; }
+    .layer-Num text, .layer-Num .glyph, .layer-Num rect.held { fill: #fab387; }
+    .layer-Fn text, .layer-Fn .glyph, .layer-Fn rect.held { fill: #f9e2af; }
+    .layer-Mouse text, .layer-Mouse .glyph, .layer-Mouse rect.held { fill: #94e2d5; }
+    .layer-Game text, .layer-Game .glyph, .layer-Game rect.held { fill: #ff4d6d; }
+    .layer-Game .key.shifted { fill: #c7f464; }
+    text.held { fill: #1e1e2e; }
+    text.trans { fill: #6c7086; }
+    rect.num-activator { stroke: #fab387; stroke-width: 2; }
+    rect:has(~ a[href="#Nav"]) { stroke: #89b4fa; stroke-width: 2; }
+    rect:has(~ a[href="#Sym"]) { stroke: #a6e3a1; stroke-width: 2; }
+    rect.key:has(~ a[href="#Mouse"]) { stroke: #94e2d5; stroke-width: 2; }
+    rect.key:has(~ a[href="#Fn"]) { stroke: #f9e2af; stroke-width: 2; }
+    rect:has(~ a[href="#Game"]) { stroke: #ff4d6d; stroke-width: 2; }
+    rect.gameextra-activator { stroke: #c7f464; stroke-width: 2; }
+    rect.vestnik2-activator { stroke: #89b4fa; stroke-width: 2; }
+    rect.vestnik2-inner { fill: none; stroke: #ff6b6b !important; stroke-width: 2; }
+    rect.combo:has(~ a[href="#Mouse"]) { fill: #94e2d5; stroke: #94e2d5; }
+    rect.combo:has(~ a[href="#Fn"]) { fill: #f9e2af; stroke: #f9e2af; }
+    a[href="#Mouse"] text.combo.layer-activator { fill: #94e2d5; font-size: 9px; }
+    a[href="#Fn"] text.combo.layer-activator { fill: #f9e2af; }
+    text.vestnik2-activator.tap { display: none; }
+    text.vestnik2-activator { font-size: 12px; }
+    text.gameextra-activator.tap { display: none; }
+    text.gameextra-activator { font-size: 12px; }

@@ -8,10 +8,10 @@ Only four files define generated keymaps:
 
 - `keymap/keymap.toml`: layer order and OS-specific actions
 - `keymap/layers.toml`: complete 30-key, 34-key, and Glove80 layer matrices
-- `keymap/behaviors.toml`: timings, morphs, tap-holds, adaptives, combos, leader sequences, and platform actions
+- `keymap/behaviors.toml`: timings, morphs, tap-holds, adaptives, combos, and platform actions
 - `keymap/profiles.json`: physical slot order, firmware targets, capabilities, defaults, and overlays
 
-Change keys and layer contents in `layers.toml`. Change timing, triggers, emitted keys, combos, or leader sequences in `behaviors.toml`. Map physical slots and firmware capabilities in `profiles.json`. Renderer and runtime code hold stable behavior mechanics.
+Change keys and layer contents in `layers.toml`. Change timing, triggers, emitted keys, or combos in `behaviors.toml`. Map physical slots and firmware capabilities in `profiles.json`. Renderer and runtime code hold stable behavior mechanics.
 
 Generated compiler files live under `.cache/keymap/<os>/<backend>/<profile>/` and must not be edited. Drawings are written to `draw/generated/<profile>.svg` using the shared `draw/config.yaml`.
 

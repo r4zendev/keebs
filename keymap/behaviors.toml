@@ -7,8 +7,13 @@ opposite_hand_hold = true
 
 [timings.thumb]
 tapping_term_ms = 175
-quick_tap_ms = 175
+quick_tap_ms = 0
 flavor = "balanced"
+
+[timings.layer_thumb]
+tapping_term_ms = 175
+quick_tap_ms = 0
+flavor = "hold-preferred"
 
 [timings.thumb_tap_preferred]
 tapping_term_ms = 175
@@ -20,20 +25,17 @@ tapping_term_ms = 200
 quick_tap_ms = 175
 flavor = "balanced"
 
-[timings.mouse]
-tapping_term_ms = 200
-flavor = "balanced"
-
 [timings.function_number]
 tapping_term_ms = 250
 flavor = "tap-preferred"
 
 [timings.combo]
-term_ms = 30
-prior_idle_ms = 50
+term_ms = 18
+prior_idle_ms = 150
 
-[timings.leader]
-timeout_ms = 250
+[timings.sequence]
+wait_ms = 30
+tap_ms = 30
 
 [timings.sticky_mod]
 release_after_ms = 1200
@@ -45,7 +47,7 @@ release_after_ms = 3000
 delay_ms = 0
 interval_ms = 8
 time_to_max_ms = 120
-value = 1200
+value = 1250
 
 [timings.mouse_scroll]
 delay_ms = 0
@@ -87,7 +89,10 @@ value = 20
 "Щ" = { key = "O", label = "Щ" }
 "Ё" = { key = "GRAVE", label = "Ё" }
 "Ъ" = { key = "RBKT", label = "Ъ" }
-
+"RU_DOT" = { key = "FSLH", label = "." }
+"RU_COMMA" = { key = "QMARK", label = "," }
+"RU_QMARK" = { key = "AMPS", label = "?" }
+"RU_EXCL" = { key = "EXCL", label = "!" }
 [behaviors.sqt_dqt]
 recipe = "shift_morph"
 tap = "SQT"
@@ -108,60 +113,110 @@ recipe = "shift_morph"
 tap = "COMMA"
 shifted = "EXCL"
 
-[behaviors.lpar_lt]
-recipe = "shift_morph"
-tap = "LPAR"
-shifted = "LT"
+[behaviors.not_equal]
+recipe = "sequence"
+keys = ["EXCL", "EQUAL"]
+label = "!="
 
-[behaviors.rpar_gt]
-recipe = "shift_morph"
-tap = "RPAR"
-shifted = "GT"
+[behaviors.less_equal]
+recipe = "sequence"
+keys = ["LT", "EQUAL"]
+label = "<="
 
-[behaviors.lbkt_lbrc]
-recipe = "shift_morph"
-tap = "LBKT"
-shifted = "LBRC"
+[behaviors.greater_equal]
+recipe = "sequence"
+keys = ["GT", "EQUAL"]
+label = ">="
 
-[behaviors.rbkt_rbrc]
+[behaviors.thin_arrow]
+recipe = "sequence"
+keys = ["MINUS", "GT"]
+label = "->"
+
+[behaviors.fat_arrow]
+recipe = "sequence"
+keys = ["EQUAL", "GT"]
+label = "=>"
+
+[behaviors.dot_brace]
+recipe = "sequence"
+keys = ["DOT", "LBRC"]
+label = ".{"
+
+[behaviors.dot_slash]
+recipe = "sequence"
+keys = ["DOT", "FSLH"]
+label = "./"
+
+[behaviors.dollar_brace]
+recipe = "sequence"
+keys = ["DLLR", "LBRC"]
+label = "${"
+
+[behaviors.plus_equal]
+recipe = "sequence"
+keys = ["PLUS", "EQUAL"]
+label = "+="
+
+[behaviors.logical_and]
+recipe = "sequence"
+keys = ["AMPS", "AMPS"]
+label = "&&"
+
+[behaviors.logical_or]
+recipe = "sequence"
+keys = ["PIPE", "PIPE"]
+label = "||"
+
+[behaviors.code_fence]
+recipe = "sequence"
+keys = ["GRAVE", "GRAVE", "GRAVE"]
+label = "```"
+
+[behaviors.pair_paren]
+recipe = "sequence"
+keys = ["LPAR", "RPAR", "LEFT"]
+label = "()←"
+
+[behaviors.pair_brace]
+recipe = "sequence"
+keys = ["LBRC", "RBRC", "LEFT"]
+label = "{}←"
+
+[behaviors.pair_square]
+recipe = "sequence"
+keys = ["LBKT", "RBKT", "LEFT"]
+label = "[]←"
+
+[behaviors.pair_angle]
+recipe = "sequence"
+keys = ["LT", "GT", "LEFT"]
+label = "<>←"
+
+[behaviors.bspc_word]
 recipe = "shift_morph"
-tap = "RBKT"
-shifted = "RBRC"
+tap = "BSPC"
+shifted = { os = "delete_word_left" }
+
+[behaviors.del_word]
+recipe = "shift_morph"
+tap = "DEL"
+shifted = { os = "delete_word_right" }
 
 [behaviors.undo_redo]
 recipe = "shift_morph"
-tap = { key = "Z", mods = ["LCTRL"] }
-shifted = { key = "Z", mods = ["LCTRL", "LSHIFT"] }
-
-[behaviors.paste_morph]
-recipe = "shift_morph"
-tap = { os = "paste" }
-shifted = { key = "V", mods = ["LCTRL"] }
-
-[behaviors.copy_cut]
-recipe = "shift_morph"
-tap = { key = "C", mods = ["LCTRL"] }
-shifted = { key = "X", mods = ["LCTRL"] }
-
-[behaviors.bspc_del]
-recipe = "shift_morph"
-tap = "BSPC"
-shifted = "DEL"
-
-[behaviors.esc_tab]
-recipe = "shift_morph"
-tap = "ESC"
-shifted = "TAB"
+tap = { os = "undo" }
+shifted = { os = "redo" }
 
 [behaviors.v_comma_excl]
 recipe = "shift_morph"
-tap = "QMARK"
-shifted = "EXCL"
+tap = "RU_COMMA"
+shifted = "RU_EXCL"
 
 [behaviors.v_dot_qmark]
 recipe = "shift_morph"
-tap = "FSLH"
-shifted = "AMPS"
+tap = "RU_DOT"
+shifted = "RU_QMARK"
 
 [behaviors.thumb_magic]
 recipe = "repeat_magic"
@@ -171,17 +226,58 @@ fallback = "sticky_shift"
 shifted = "caps_word"
 repeat_timeout_ms = 800
 
-[behaviors.mouse_ht]
-recipe = "tap_hold"
-timing = "mouse"
-hold = { layer = "Mouse", mode = "momentary" }
-tap = { layer = "Mouse", mode = "toggle" }
+[behaviors.mouse_chord]
+recipe = "layer_chord"
+parent_layer = "Nav"
+child_layer = "Mouse"
+parent_position = "L_THUMB_A"
+child_position = "L_THUMB_B"
 
-[behaviors.sym_alpha2]
+[behaviors.fn_chord]
+recipe = "layer_chord"
+parent_layer = "Sym"
+child_layer = "Fn"
+parent_position = "R_THUMB_B"
+child_position = "R_THUMB_A"
+
+[behaviors.to_game]
+recipe = "layer_action"
+layer = "Game"
+mode = "move"
+
+[behaviors.to_graphite]
+recipe = "layer_action"
+layer = "Graphite"
+mode = "move"
+
+[behaviors.game_extra]
+recipe = "layer_action"
+layer = "GameExtra"
+mode = "momentary"
+draw_on = "Game"
+
+[behaviors.osm_gui]
+recipe = "sticky_key"
+key = "LGUI"
+
+[behaviors.osm_alt]
+recipe = "sticky_key"
+key = "LALT"
+
+[behaviors.osm_shift]
+recipe = "sticky_key"
+key = "LSHFT"
+
+[behaviors.osm_ctrl]
+recipe = "sticky_key"
+key = "LCTRL"
+
+[behaviors.vestnik2_nav]
 recipe = "tap_hold"
-timing = "thumb"
-hold = { layer = "Symbol", mode = "momentary" }
-tap = { layer = "VestnikX", mode = "sticky" }
+timing = "layer_thumb"
+hold = { layer = "Nav", mode = "momentary" }
+tap = { layer = "Vestnik2", mode = "sticky" }
+draw_on = "VestnikDm"
 
 [behaviors.glove_magic]
 recipe = "tap_hold"
@@ -189,15 +285,6 @@ timing = "magic"
 targets = ["zmk"]
 hold = { layer = "Magic", mode = "momentary" }
 tap = { platform = "rgb_status" }
-
-[behaviors.smart_mouse]
-recipe = "smart_mouse"
-layer = "Mouse"
-ignored_layers = ["Mouse", "Nav"]
-ignored_positions = ["R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B"]
-
-[behaviors.leader]
-recipe = "leader"
 
 [behaviors.lang_en]
 recipe = "macro"
@@ -213,15 +300,12 @@ steps = [
   { key = "N2", mods = ["LCTRL", "LSHIFT", "LGUI"] },
 ]
 
-[behaviors.to_graphite]
-recipe = "layer_action"
-layer = "Graphite"
-mode = "move"
-
-[behaviors.to_vestnik]
-recipe = "layer_action"
-layer = "VestnikDm"
-mode = "move"
+[behaviors.lang_ua]
+recipe = "macro"
+steps = [
+  { layer = "VestnikDm", mode = "move" },
+  { key = "N3", mods = ["LCTRL", "LSHIFT", "LGUI"] },
+]
 
 [behaviors.bt_0]
 recipe = "platform"
@@ -255,11 +339,6 @@ action = "bootloader"
 recipe = "platform"
 action = "reset"
 
-[behaviors.soft_off]
-recipe = "platform"
-targets = ["zmk"]
-action = "soft_off"
-
 [behaviors.output_toggle]
 recipe = "platform"
 targets = ["zmk"]
@@ -274,14 +353,6 @@ action = "bt_clear"
 recipe = "platform"
 targets = ["zmk"]
 action = "bt_clear_all"
-
-[behaviors.caps_word]
-recipe = "platform"
-action = "caps_word"
-
-[behaviors.key_repeat]
-recipe = "platform"
-action = "key_repeat"
 
 [adaptives.graphite]
 enabled = true
@@ -299,6 +370,7 @@ swaps = [
 ]
 rules = [
   { input = "S", after = ["Y", "O", "U"], emit = ["SQT"] },
+  { input = "O", after = ["I", "U"], emit = ["BSPC", "O", "U"] },
 ]
 
 [adaptives.dusk]
@@ -314,124 +386,378 @@ swaps = [
 rules = []
 
 [[combos]]
-name = "grave"
-positions = ["L_INDEX_TOP", "L_INDEX_HOME"]
-layers = ["Graphite", "Num"]
-action = "GRAVE"
+name = "core30_q"
+positions = ["L_PINKY_HOME", "L_RING_BOTTOM"]
+layers = ["Graphite"]
+variants = ["core30"]
+action = "Q"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "at"
-positions = ["L_MIDDLE_TOP", "L_MIDDLE_HOME"]
-layers = ["Graphite", "Num"]
-action = "AT"
+name = "core30_z"
+positions = ["L_INNER_HOME", "L_INNER_BOTTOM"]
+layers = ["Graphite"]
+variants = ["core30"]
+action = "Z"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "hash"
-positions = ["L_RING_TOP", "L_RING_HOME"]
-layers = ["Graphite", "Num"]
-action = "HASH"
+name = "core30_j"
+positions = ["R_INNER_HOME", "R_INNER_BOTTOM"]
+layers = ["Graphite"]
+variants = ["core30"]
+action = "J"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "dollar"
-positions = ["L_PINKY_TOP", "L_PINKY_HOME"]
-layers = ["Graphite", "Num"]
-action = "DLLR"
+name = "undo_redo_core30"
+positions = ["L_PINKY_HOME", "L_MIDDLE_BOTTOM"]
+layers = ["Graphite", "VestnikDm", "Nav"]
+variants = ["core30"]
+action = { use = "undo_redo" }
+term_ms = 35
+prior_idle_ms = 150
+draw = { layers = ["Graphite", "VestnikDm"], align = "bottom", offset = 0.20 }
 
 [[combos]]
-name = "semi"
-positions = ["R_INDEX_TOP", "R_INDEX_HOME"]
-layers = ["Graphite", "Num"]
-action = "SEMI"
+name = "undo_redo_core34"
+positions = ["L_PINKY_BOTTOM", "L_RING_BOTTOM"]
+layers = ["Graphite", "VestnikDm", "Nav"]
+variants = ["core34"]
+action = { use = "undo_redo" }
+term_ms = 35
+prior_idle_ms = 150
+draw = { layers = ["Graphite", "VestnikDm"] }
 
 [[combos]]
-name = "amps"
-positions = ["R_MIDDLE_TOP", "R_MIDDLE_HOME"]
-layers = ["Graphite", "Num"]
-action = "AMPS"
-
-[[combos]]
-name = "pipe"
-positions = ["R_RING_TOP", "R_RING_HOME"]
-layers = ["Graphite", "Num"]
-action = "PIPE"
-
-[[combos]]
-name = "bslh"
-positions = ["R_PINKY_TOP", "R_PINKY_HOME"]
-layers = ["Graphite", "Num"]
-action = "BSLH"
-
-[[combos]]
-name = "lpar"
-positions = ["R_INDEX_HOME", "R_MIDDLE_HOME"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "lpar_lt" }
-
-[[combos]]
-name = "rpar"
-positions = ["R_MIDDLE_HOME", "R_RING_HOME"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "rpar_gt" }
-
-[[combos]]
-name = "lbkt"
-positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
-layers = ["Graphite", "Num"]
-action = { use = "lbkt_lbrc" }
-
-[[combos]]
-name = "rbkt"
+name = "core30_minus"
 positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
-layers = ["Graphite", "Num"]
-action = { use = "rbkt_rbrc" }
+layers = ["Graphite"]
+variants = ["core30"]
+action = "MINUS"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "copy"
-positions = ["L_RING_BOTTOM", "L_MIDDLE_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "copy_cut" }
+name = "vestnik_minus_core30"
+positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
+layers = ["VestnikDm"]
+variants = ["core30"]
+action = "MINUS"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "paste"
-positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "paste_morph" }
+name = "vestnik_minus_core34"
+positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
+layers = ["VestnikDm"]
+variants = ["core34"]
+action = "MINUS"
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "cut"
-positions = ["L_RING_BOTTOM", "L_INDEX_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { key = "X", mods = ["LCTRL"] }
+name = "mouse"
+positions = ["L_THUMB_A", "L_THUMB_B"]
+layers = ["Graphite", "VestnikDm"]
+action = { use = "mouse_chord" }
+term_ms = 60
+prior_idle_ms = 0
+slow_release = true
+
+[[combos]]
+name = "fn"
+positions = ["R_THUMB_A", "R_THUMB_B"]
+layers = ["Graphite", "VestnikDm"]
+action = { use = "fn_chord" }
+term_ms = 60
+prior_idle_ms = 0
+slow_release = true
+
+[[combos]]
+name = "exit_game"
+positions = ["R_THUMB_A", "R_THUMB_B"]
+layers = ["Game"]
+action = { use = "to_graphite" }
+term_ms = 60
+prior_idle_ms = 0
+
+[[combos]]
+name = "game_alt_core30"
+positions = ["L_PINKY_TOP", "L_PINKY_HOME"]
+layers = ["Game", "GameExtra"]
+variants = ["core30"]
+action = "LALT"
+term_ms = 35
+prior_idle_ms = 0
+draw = { layers = ["Game"] }
+
+[[combos]]
+name = "game_alt_core34"
+positions = ["L_PINKY_HOME", "L_PINKY_BOTTOM"]
+layers = ["Game", "GameExtra"]
+variants = ["core34"]
+action = "LALT"
+term_ms = 35
+prior_idle_ms = 0
+draw = { layers = ["Game"] }
 
 [[combos]]
 name = "backspace"
 positions = ["R_MIDDLE_TOP", "R_RING_TOP"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "bspc_del" }
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
+action = { use = "bspc_word" }
+draw = { action = "BSPC", layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "delete"
+positions = ["R_RING_TOP", "R_PINKY_TOP"]
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
+action = { use = "del_word" }
+draw = { action = "DEL", layers = ["Graphite", "VestnikDm"] }
 
 [[combos]]
 name = "escape"
 positions = ["L_RING_TOP", "L_MIDDLE_TOP"]
-layers = ["Graphite", "VestnikDm", "Num"]
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
 action = "ESC"
+draw = { layers = ["Graphite", "VestnikDm"] }
 
 [[combos]]
 name = "tab"
 positions = ["L_RING_HOME", "L_MIDDLE_HOME"]
-layers = ["Graphite", "VestnikDm", "Num"]
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
 action = "TAB"
+draw = { layers = ["Graphite", "VestnikDm"] }
 
 [[combos]]
-name = "leader"
+name = "enter"
+positions = ["R_MIDDLE_HOME", "R_RING_HOME"]
+layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
+action = "RET"
+term_ms = 35
+prior_idle_ms = 0
+draw = { layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "cut"
+positions = ["L_RING_BOTTOM", "L_INDEX_BOTTOM"]
+layers = ["Graphite", "VestnikDm", "Nav"]
+action = { os = "cut" }
+draw = { layers = ["Graphite", "VestnikDm"], align = "bottom", offset = -0.15 }
+
+[[combos]]
+name = "copy"
+positions = ["L_RING_BOTTOM", "L_MIDDLE_BOTTOM"]
+layers = ["Graphite", "VestnikDm", "Nav"]
+action = { os = "copy" }
+draw = { layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "paste"
+positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
+layers = ["Graphite", "VestnikDm", "Nav"]
+action = { os = "paste" }
+draw = { layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "open_square"
+positions = ["L_RING_TOP", "L_RING_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "LBKT"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "open_paren"
+positions = ["L_MIDDLE_TOP", "L_MIDDLE_HOME"]
+layers = ["Graphite", "VestnikDm", "Sym", "Num"]
+action = "LPAR"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "open_brace"
+positions = ["L_INDEX_TOP", "L_INDEX_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "LBRC"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "open_angle"
+positions = ["L_PINKY_TOP", "L_PINKY_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "LT"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "close_angle"
+positions = ["R_PINKY_TOP", "R_PINKY_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "GT"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "close_brace"
+positions = ["R_INDEX_TOP", "R_INDEX_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "RBRC"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "close_paren"
+positions = ["R_MIDDLE_TOP", "R_MIDDLE_HOME"]
+layers = ["Graphite", "VestnikDm", "Sym", "Num"]
+action = "RPAR"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite", "VestnikDm"] }
+
+[[combos]]
+name = "close_square"
+positions = ["R_RING_TOP", "R_RING_HOME"]
+layers = ["Graphite", "Sym", "Num"]
+action = "RBKT"
+term_ms = 18
+prior_idle_ms = 0
+slow_release = true
+draw = { layers = ["Graphite"] }
+
+[[combos]]
+name = "not_equal"
 positions = ["L_MIDDLE_HOME", "L_INDEX_HOME"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "leader" }
+layers = ["Sym"]
+action = { use = "not_equal" }
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
-name = "mouse"
+name = "less_equal"
+positions = ["L_PINKY_TOP", "L_RING_TOP"]
+layers = ["Sym"]
+action = { use = "less_equal" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "greater_equal"
+positions = ["L_PINKY_HOME", "L_RING_HOME"]
+layers = ["Sym"]
+action = { use = "greater_equal" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "thin_arrow"
+positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
+layers = ["Sym"]
+action = { use = "thin_arrow" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "fat_arrow"
+positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
+layers = ["Sym"]
+action = { use = "fat_arrow" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "dot_brace"
+positions = ["R_INDEX_TOP", "R_MIDDLE_TOP"]
+layers = ["Sym"]
+action = { use = "dot_brace" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "dot_slash"
 positions = ["L_MIDDLE_TOP", "L_INDEX_TOP"]
-layers = ["Graphite", "VestnikDm", "Num"]
-action = { use = "smart_mouse" }
+layers = ["Sym"]
+action = { use = "dot_slash" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "dollar_brace_core30"
+positions = ["R_INNER_HOME", "R_INNER_BOTTOM"]
+layers = ["Sym"]
+variants = ["core30"]
+action = { use = "dollar_brace" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "dollar_brace_core34"
+positions = ["R_INNER_TOP", "R_INNER_HOME"]
+layers = ["Sym"]
+variants = ["core34"]
+action = { use = "dollar_brace" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "plus_equal"
+positions = ["L_INDEX_HOME", "L_INDEX_BOTTOM"]
+layers = ["Sym"]
+action = { use = "plus_equal" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "logical_and"
+positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
+layers = ["Sym"]
+action = { use = "logical_and" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "logical_or"
+positions = ["L_RING_BOTTOM", "L_MIDDLE_BOTTOM"]
+layers = ["Sym"]
+action = { use = "logical_or" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "code_fence_core30"
+positions = ["L_INNER_HOME", "L_INNER_BOTTOM"]
+layers = ["Sym"]
+variants = ["core30"]
+action = { use = "code_fence" }
+term_ms = 35
+prior_idle_ms = 0
+
+[[combos]]
+name = "code_fence_core34"
+positions = ["L_INNER_TOP", "L_INNER_HOME"]
+layers = ["Sym"]
+variants = ["core34"]
+action = { use = "code_fence" }
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
 name = "vestnik_comma"
@@ -440,6 +766,7 @@ layers = ["VestnikDm"]
 variants = ["core34"]
 action = { use = "v_comma_excl" }
 term_ms = 50
+prior_idle_ms = 0
 
 [[combos]]
 name = "vestnik_dot"
@@ -448,55 +775,4 @@ layers = ["VestnikDm"]
 variants = ["core34"]
 action = { use = "v_dot_qmark" }
 term_ms = 50
-
-[[leader]]
-sequence = ["C"]
-action = "CAPS"
-
-[[leader]]
-sequence = ["G"]
-action = { use = "to_graphite" }
-
-[[leader]]
-sequence = ["V"]
-action = { use = "to_vestnik" }
-
-[[leader]]
-sequence = ["B", "N0"]
-action = { use = "bt_0" }
-
-[[leader]]
-sequence = ["B", "N1"]
-action = { use = "bt_1" }
-
-[[leader]]
-sequence = ["B", "N2"]
-action = { use = "bt_2" }
-
-[[leader]]
-sequence = ["B", "N3"]
-action = { use = "bt_3" }
-
-[[leader]]
-sequence = ["B", "C"]
-action = { use = "bt_clear" }
-
-[[leader]]
-sequence = ["B", "O", "O", "T"]
-action = { use = "bootloader" }
-
-[[leader]]
-sequence = ["R", "E", "S"]
-action = { use = "reset" }
-
-[[leader]]
-sequence = ["O", "F", "F"]
-action = { use = "soft_off" }
-
-[[leader]]
-sequence = ["O", "U", "T"]
-action = { use = "output_toggle" }
-
-[[leader]]
-sequence = ["U", "S", "B"]
-action = { platform = "output_usb", targets = ["zmk"] }
+prior_idle_ms = 0

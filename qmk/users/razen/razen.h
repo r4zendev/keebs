@@ -2,22 +2,9 @@
 
 #include QMK_KEYBOARD_H
 
-enum razen_layers {
-    L_GRAPHITE,
-    L_VESTNIK,
-    L_SYMBOL,
-    L_NAV,
-    L_NUM,
-    L_VESTNIK_X,
-    L_MOUSE,
-    L_SYSTEM,
-    L_COMBO_REF,
-};
-
 enum razen_tap_kind {
     RAZEN_TAP_KEY,
     RAZEN_TAP_MAGIC,
-    RAZEN_TAP_MOUSE_TOGGLE,
     RAZEN_TAP_ONESHOT_LAYER,
 };
 
@@ -37,6 +24,12 @@ typedef struct {
     uint8_t layer;
     uint16_t keycode;
 } razen_macro_t;
+
+typedef struct {
+    uint16_t trigger;
+    uint16_t keys[4];
+    uint8_t length;
+} razen_sequence_t;
 
 typedef struct {
     uint8_t layer;
@@ -65,20 +58,51 @@ typedef struct {
     bool held;
 } razen_tap_dance_t;
 
+typedef struct {
+    uint16_t keycode;
+    uint8_t layer;
+} razen_oneshot_layer_t;
+
+typedef struct {
+    uint16_t trigger;
+    uint8_t parent_layer;
+    uint8_t child_layer;
+    uint16_t parent_position;
+    uint16_t child_position;
+} razen_layer_chord_t;
+
 extern const razen_morph_t razen_morphs[];
 extern const uint8_t razen_morph_count;
 extern const razen_macro_t razen_macros[];
 extern const uint8_t razen_macro_count;
+extern const razen_sequence_t razen_sequences[];
+extern const uint8_t razen_sequence_count;
 extern const razen_adaptive_rule_t razen_adaptive_rules[];
 extern const uint8_t razen_adaptive_rule_count;
 extern const razen_combo_t razen_combos[];
 extern const uint8_t razen_combo_count;
-extern const uint16_t razen_smart_mouse_keycode;
+extern const uint16_t razen_magic_keycode;
 extern const uint16_t razen_magic_hold_keycode;
+#ifdef RAZEN_SMART_LAYER_ENABLE
+extern const uint16_t razen_smart_layer_keycode;
+extern const uint8_t razen_smart_layer;
+extern const uint16_t razen_smart_layer_positions[];
+extern const uint8_t razen_smart_layer_position_count;
+#endif
 extern razen_tap_dance_t razen_tap_dance_data[];
 extern tap_dance_action_t tap_dance_actions[];
 extern const uint16_t razen_home_row_keys[];
 extern const uint8_t razen_home_row_key_count;
+extern const uint16_t razen_balanced_keys[];
+extern const uint8_t razen_balanced_key_count;
+extern const uint16_t razen_hold_preferred_keys[];
+extern const uint8_t razen_hold_preferred_key_count;
+extern const razen_oneshot_layer_t razen_oneshot_layers[];
+extern const uint8_t razen_oneshot_layer_count;
+#ifdef RAZEN_LAYER_CHORD_ENABLE
+extern const razen_layer_chord_t razen_layer_chords[];
+extern const uint8_t razen_layer_chord_count;
+#endif
 
 void razen_tap_dance_finished(tap_dance_state_t *state, void *user_data);
 void razen_tap_dance_reset(tap_dance_state_t *state, void *user_data);

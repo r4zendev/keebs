@@ -18,18 +18,10 @@ manifest:
       remote: urob
       revision: main
       path: modules/zmk/helpers
-    - name: zmk-leader-key
-      remote: urob
-      revision: main
-      path: modules/zmk/leader-key
     - name: zmk-adaptive-key
       remote: rzssh
       revision: skipmagic
       path: modules/zmk/adaptive-key
-
-    - name: zmk-tri-state
-      remote: urob
-      revision: main
 
   self:
     path: config
