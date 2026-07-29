@@ -112,9 +112,7 @@
     "luna_30": {
       "physical_keys": 30,
       "binding_positions": 30,
-      "geometry": "23332+2 2+23332",
       "draw_notation": "23332+2 2+23332",
-      "layout_source": "cols_thumbs",
       "position_set": "core_30",
       "zmk_transform": "config/keyboards/luna/shields/luna/luna.dtsi",
       "zmk": {"keyboard": "luna", "board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
@@ -123,9 +121,7 @@
     "rommana_30": {
       "physical_keys": 30,
       "binding_positions": 30,
-      "geometry": "23332+2 2+23332",
       "draw_notation": "23332+2 2+23332",
-      "layout_source": "cols_thumbs",
       "position_set": "core_30",
       "zmk_transform": "config/keyboards/rommana/shields/rommana/rommana.dtsi",
       "zmk": {"keyboard": "rommana", "board": "nice_nano/nrf52840/zmk", "shields": ["rommana_left", "rommana_right"]},
@@ -134,9 +130,7 @@
     "cradio_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "zmk_draw_keyboard": "cradio",
-      "layout_source": "zmk_dts",
       "position_set": "core_34",
       "zmk": {"keyboard": "cradio", "board": "nice_nano/nrf52840/zmk", "shields": ["cradio_left", "cradio_right"]},
       "alpha_capacity": 34
@@ -145,9 +139,7 @@
       "physical_keys": 35,
       "binding_positions": 36,
       "board_only_positions": ["R_THUMB_OPTIONAL"],
-      "geometry": "3x5+3 2+3x5",
       "draw_notation": "33333+3 2+33333",
-      "layout_source": "custom",
       "position_set": "standard_36",
       "zmk_transform": "config/keyboards/charybdis_nano/shields/charybdis_nano/charybdis_nano.dtsi",
       "zmk": {"keyboard": "charybdis_nano", "board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
@@ -157,9 +149,7 @@
     "charybdis_36": {
       "physical_keys": 36,
       "binding_positions": 36,
-      "geometry": "3x5+3 3+3x5",
       "draw_notation": "33333+3 3+33333",
-      "layout_source": "custom",
       "position_set": "standard_36",
       "zmk_transform": "config/keyboards/charybdis_nano/shields/charybdis_nano/charybdis_nano.dtsi",
       "zmk": {"keyboard": "charybdis_nano", "board": "nice_nano/nrf52840/zmk", "shields": ["charybdis_nano_left", "charybdis_nano_right"]},
@@ -169,9 +159,7 @@
     "corne_36": {
       "physical_keys": 36,
       "binding_positions": 36,
-      "geometry": "3x5+3 3+3x5",
       "draw_notation": "33333+3 3+33333",
-      "layout_source": "zmk_dts",
       "position_set": "standard_36",
       "zmk": {"keyboard": "corne", "board": "nice_nano/nrf52840/zmk", "shields": ["corne_left", "corne_right"], "physical_layout_include": "layouts/foostan/corne/5column.dtsi", "physical_layout": "foostan_corne_5col_layout"},
       "qmk": {"keyboard": "crkbd/rev1", "layout": "LAYOUT_split_3x5_3"},
@@ -180,9 +168,7 @@
     "totem_38": {
       "physical_keys": 38,
       "binding_positions": 38,
-      "geometry": "3x5+3 3+3x5",
       "draw_notation": "133333+3 3+333331",
-      "layout_source": "custom",
       "position_set": "totem_38",
       "zmk_transform": "config/keyboards/totem/shields/totem/totem.dtsi",
       "zmk": {"keyboard": "totem", "board": "xiao_ble/nrf52840/zmk", "shields": ["totem_left", "totem_right"]},
@@ -192,9 +178,7 @@
     "cantor_ble_42": {
       "physical_keys": 42,
       "binding_positions": 42,
-      "geometry": "3x6+3 3+3x6",
       "draw_notation": "333333+3 3+333333",
-      "layout_source": "zmk_dts",
       "position_set": "cantor_ble_42",
       "zmk_transform": "config/keyboards/cantor_ble/shields/cantor_ble/cantor_ble.dtsi",
       "zmk": {"keyboard": "cantor_ble", "board": "nice_nano/nrf52840/zmk", "shields": ["cantor_ble_left", "cantor_ble_right"]},
@@ -204,9 +188,7 @@
       "physical_keys": 40,
       "binding_positions": 42,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
-      "geometry": "vendor_konrad",
       "draw_notation": "233333+3 3+333332",
-      "layout_source": "qmk_info",
       "position_set": "klor_konrad_42",
       "qmk_info": "qmk/keyboards/klor/keyboard.json",
       "zmk": {
@@ -238,9 +220,7 @@
       "physical_keys": 36,
       "binding_positions": 38,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
-      "geometry": "3x5+3 3+3x5",
       "draw_notation": "33333+3 3+33333",
-      "layout_source": "zmk_dts",
       "position_set": "klor_saegewerk_38",
       "zmk": {
         "keyboard": "klor",
@@ -261,9 +241,7 @@
       "physical_keys": 42,
       "binding_positions": 44,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
-      "geometry": "vendor_polydactyl",
       "draw_notation": "233333+4 4+333332",
-      "layout_source": "qmk_info",
       "position_set": "klor_polydactyl_44",
       "zmk_transform": "config/keyboards/klor/shields/klor/klor.dtsi",
       "qmk_info": "qmk/keyboards/klor/keyboard.json",
@@ -284,9 +262,7 @@
     "flake_medium_46": {
       "physical_keys": 46,
       "binding_positions": 46,
-      "geometry": "3x6+5 5+3x6",
       "draw_notation": "333333+5 5+333333",
-      "layout_source": "zmk_dts",
       "position_set": "flake_medium_46",
       "zmk": {"keyboard": "flake", "board": "xiao_ble/nrf52840/zmk", "shields": ["anywhy_flake_left", "anywhy_flake_right"], "physical_layout": "medium_layout"},
       "alpha_capacity": 38
@@ -294,8 +270,6 @@
     "lintilla_42": {
       "physical_keys": 42,
       "binding_positions": 42,
-      "geometry": "lintilla",
-      "layout_source": "zmk_dts",
       "position_set": "lintilla_42",
       "zmk_transform": "config/keyboards/lintilla/shields/lintilla/lintilla.dtsi",
       "zmk": {"keyboard": "lintilla", "board": "xiao_ble/nrf52840/zmk", "shields": ["lintilla_left_central", "lintilla_right_peripheral"]},
@@ -304,10 +278,6 @@
     "dactyl_cc_68": {
       "physical_keys": 68,
       "binding_positions": 68,
-      "matrix_positions": 72,
-      "unbound_matrix_positions": ["L_ROW4_COL0", "L_ROW4_COL5", "R_ROW4_COL0", "R_ROW4_COL5"],
-      "geometry": "6+6+6+6+4+6 6+6+6+6+4+6",
-      "layout_source": "custom",
       "position_set": "dactyl_cc_68",
       "qmk_info": "qmk/keyboards/dactyl_cc/keyboard.json",
       "qmk": {"keyboard": "dactyl_cc", "layout": "LAYOUT"},
@@ -316,9 +286,7 @@
     "glove80_80": {
       "physical_keys": 80,
       "binding_positions": 80,
-      "geometry": "glove80",
       "zmk_draw_keyboard": "glove80",
-      "layout_source": "zmk_dts",
       "position_set": "glove80_80",
       "zmk": {"keyboard": "glove80", "board": "glove80", "shields": ["glove80_lh", "glove80_rh"]},
       "layers": ["Graphite", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Magic"],
@@ -328,9 +296,7 @@
     "cygnus_36": {
       "physical_keys": 36,
       "binding_positions": 36,
-      "geometry": "3x5+3 3+3x5",
       "draw_notation": "33333+3 3+33333",
-      "layout_source": "qmk_info",
       "position_set": "standard_36",
       "zmk": {"keyboard": "cygnus", "board": "nice_nano/nrf52840/zmk", "shields": ["corne_left", "corne_right"], "physical_layout_include": "layouts/foostan/corne/5column.dtsi", "physical_layout": "foostan_corne_5col_layout"},
       "qmk": {"keyboard": "crkbd/rev1", "layout": "LAYOUT_split_3x5_3", "output_keyboard": "cygnus"},
@@ -340,8 +306,6 @@
       "physical_keys": 34,
       "binding_positions": 36,
       "board_only_positions": ["L_THUMB_OPTIONAL", "R_THUMB_OPTIONAL"],
-      "geometry": "3x5+2 2+3x5",
-      "layout_source": "qmk_info",
       "position_set": "standard_36",
       "qmk_info": "qmk/keyboards/dartyl/keyboard.json",
       "zmk": {"keyboard": "dartyl", "board": "nice_nano/nrf52840/zmk", "shields": ["dartyl_left", "dartyl_right"]},
@@ -352,8 +316,6 @@
     "choctyl_36": {
       "physical_keys": 36,
       "binding_positions": 36,
-      "geometry": "3x5+3 3+3x5",
-      "layout_source": "qmk_info",
       "position_set": "standard_36",
       "qmk_info": "qmk/keyboards/choctyl/keyboard.json",
       "qmk": {"keyboard": "choctyl", "layout": "LAYOUT_split_3x5_3"},
@@ -362,9 +324,7 @@
     "aurora_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "draw_notation": "33333+2 2+33333",
-      "layout_source": "qmk_info",
       "position_set": "core_34",
       "zmk": {"keyboard": "splitkb_aurora_sweep", "board": "nice_nano/nrf52840/zmk", "shields": ["splitkb_aurora_sweep_left", "splitkb_aurora_sweep_right"]},
       "qmk": {"keyboard": "splitkb/aurora/sweep/rev1", "layout": "LAYOUT_split_3x5_2", "output_keyboard": "splitkb_aurora_sweep", "convert_to": "liatris"},
@@ -373,8 +333,6 @@
     "yetis_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "yetis",
-      "layout_source": "qmk_info",
       "qmk_info": "qmk/keyboards/yetis/keyboard.json",
       "qmk": {"keyboard": "yetis", "layout": "LAYOUT", "convert_to": "rp2040_ce"},
       "qmk_slots": [
@@ -388,9 +346,7 @@
     "artemis_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "draw_notation": "33333+2 2+33333",
-      "layout_source": "zmk_dts",
       "position_set": "core_34",
       "zmk": {"keyboard": "artemis", "board": "nice_nano/nrf52840/zmk", "shields": ["artemis_left", "artemis_right"]},
       "alpha_capacity": 34
@@ -398,9 +354,7 @@
     "klotz_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "draw_notation": "33333+2 2+33333",
-      "layout_source": "zmk_dts",
       "position_set": "core_34",
       "zmk": {"keyboard": "klotz", "board": "nice_nano/nrf52840/zmk", "shields": ["klotz_left", "klotz_right"]},
       "capabilities": {"lighting": "backlight", "sensor_bindings": [["C_VOL_UP", "C_VOL_DN"]]},
@@ -409,9 +363,7 @@
     "lambbt_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "draw_notation": "33333+2 2+33333",
-      "layout_source": "zmk_dts",
       "position_set": "core_34",
       "zmk": {"keyboard": "lambbt", "board": "nice_nano/nrf52840/zmk", "shields": ["lambbt_left", "lambbt_right"]},
       "alpha_capacity": 34
@@ -419,9 +371,7 @@
     "piantor_pro_34": {
       "physical_keys": 34,
       "binding_positions": 34,
-      "geometry": "3x5+2 2+3x5",
       "draw_notation": "33333+2 2+33333",
-      "layout_source": "zmk_dts",
       "position_set": "core_34",
       "zmk": {"keyboard": "piantor_pro", "board": "rpi_pico/rp2040/zmk", "shields": ["piantor_pro_left", "piantor_pro_right"]},
       "alpha_capacity": 34
@@ -430,10 +380,8 @@
       "physical_keys": 41,
       "binding_positions": 42,
       "board_only_positions": ["ANSIC_THUMB_1"],
-      "geometry": "ansic",
       "qmk_info": "config/keyboards/ansic/ansic_layout.json",
       "qmk_draw_layout": "LAYOUT_ansic",
-      "layout_source": "custom",
       "position_set": "ansic_42",
       "zmk": {"keyboard": "ansic", "board": "nice_nano/nrf52840/zmk", "shields": ["ansic_left", "ansic_right"]},
       "alpha_capacity": 34
@@ -442,8 +390,6 @@
       "physical_keys": 36,
       "binding_positions": 38,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
-      "geometry": "wysteria",
-      "layout_source": "qmk_info",
       "qmk_info": "qmk/keyboards/wysteria/keyboard.json",
       "qmk": {"keyboard": "wysteria", "keymap": "razen_bodged", "layout": "LAYOUT_wyst_custom"},
       "qmk_draw_layout": "LAYOUT_wyst_draw_36",
@@ -459,8 +405,6 @@
       "physical_keys": 36,
       "binding_positions": 38,
       "board_only_positions": ["ENC_L_PRESS", "ENC_R_PRESS"],
-      "geometry": "wysteria",
-      "layout_source": "qmk_info",
       "zmk_transform": "config/keyboards/wysteria/shields/wysteria/wysteria.dtsi",
       "qmk_info": "qmk/keyboards/wysteria/keyboard.json",
       "zmk": {"keyboard": "wysteria", "board": "nice_nano/nrf52840/zmk", "shields": ["wysteria_left", "wysteria_right"]},
