@@ -1,0 +1,11 @@
+file_format: "2"
+id: rommana
+name: ROMMANA
+type: shield
+requires:
+  - pro_micro
+features:
+  - keys
+siblings:
+  - rommana_left
+  - rommana_right

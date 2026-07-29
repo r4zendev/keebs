@@ -2,6 +2,7 @@
   "version": 1,
   "targets": {
     "luna": {"profile": "luna_30"},
+    "rommana": {"profile": "rommana_30"},
     "glove80": {"profile": "glove80_80"},
     "cradio": {"profile": "cradio_34"},
     "aurora": {"profile": "aurora_34"},
@@ -117,6 +118,17 @@
       "position_set": "core_30",
       "zmk_transform": "config/keyboards/luna/shields/luna/luna.dtsi",
       "zmk": {"keyboard": "luna", "board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
+      "alpha_capacity": 30
+    },
+    "rommana_30": {
+      "physical_keys": 30,
+      "binding_positions": 30,
+      "geometry": "23332+2 2+23332",
+      "draw_notation": "23332+2 2+23332",
+      "layout_source": "cols_thumbs",
+      "position_set": "core_30",
+      "zmk_transform": "config/keyboards/rommana/shields/rommana/rommana.dtsi",
+      "zmk": {"keyboard": "rommana", "board": "nice_nano/nrf52840/zmk", "shields": ["rommana_left", "rommana_right"]},
       "alpha_capacity": 30
     },
     "cradio_34": {
