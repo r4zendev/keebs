@@ -747,6 +747,10 @@ def is_key_layer_tap_hold(value: dict[str, Any]) -> bool:
     return value.get("recipe") == "tap_hold" and isinstance(value.get("tap"), str) and isinstance(value.get("hold"), dict) and "layer" in value["hold"]
 
 
+def is_key_key_tap_hold(value: dict[str, Any]) -> bool:
+    return value.get("recipe") == "tap_hold" and isinstance(value.get("tap"), str) and isinstance(value.get("hold"), dict) and "key" in value["hold"]
+
+
 def zmk_layer_action(layer: str, mode: str) -> str:
     return {
         "momentary": f"&mo LAYER_{layer}",
@@ -839,6 +843,9 @@ def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_n
                 return f"&{name} LAYER_{item['hold']['layer']} LAYER_{item['tap']['layer']}"
             if is_key_layer_tap_hold(item):
                 return f"&{name} LAYER_{item['hold']['layer']} {zmk_key(model, item['tap'])}"
+            if is_key_key_tap_hold(item):
+                hold = with_mods(zmk_key(model, item["hold"]["key"]), item["hold"].get("mods", []), ZMK_MODS)
+                return f"&{name} {hold} {zmk_key(model, item['tap'])}"
             if name == "glove_magic":
                 return f"&{name} LAYER_{item['hold']['layer']} 0"
             return f"&{name}"
@@ -933,6 +940,10 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
                 fail(f"unsupported key layer tap-hold {name!r}")
             quick_tap = f'; quick-tap-ms = <{timing["quick_tap_ms"]}>' if "quick_tap_ms" in timing else ""
             lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&kp>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>{quick_tap};)')
+        elif is_key_key_tap_hold(item):
+            timing = timings[item["timing"]]
+            quick_tap = f'; quick-tap-ms = <{timing["quick_tap_ms"]}>' if "quick_tap_ms" in timing else ""
+            lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&kp>, <&kp>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>{quick_tap};)')
         elif recipe == "tap_hold" and name == "glove_magic" and name in {cell.get("use") for cells in ir["layers"].values() for cell in cells if isinstance(cell, dict)}:
             timing = timings[item["timing"]]
             lines.append("ZMK_MACRO(rgb_status, bindings = <&rgb_ug RGB_STATUS>;)")
@@ -1173,10 +1184,21 @@ def qmk_native_tap_hold_spec(model: dict[str, Any], value: Any) -> dict[str, Any
 
 def tap_dance_spec(model: dict[str, Any], value: Any) -> dict[str, Any] | None:
     timings = model["behaviors"]["timings"]
-    if isinstance(value, dict) and "tap" in value and isinstance(value["hold"], str) and not value.get("hand"):
+    if isinstance(value, dict) and "use" in value:
+        item = behavior(model, value["use"])
+        if item["recipe"] == "tap_hold":
+            value = item
+    if isinstance(value, dict) and "tap" in value and not value.get("hand"):
+        hold = value["hold"]
+        if isinstance(hold, str):
+            hold_key = qmk_key(model, hold)
+        elif isinstance(hold, dict) and "key" in hold:
+            hold_key = with_mods(qmk_key(model, hold["key"]), hold.get("mods", []), QMK_MODS)
+        else:
+            return None
         timing_name = value.get("timing", "function_number")
         timing = timings[timing_name]
-        return {"name": f"{value['hold']}_{value['tap']}", "tap_kind": "RAZEN_TAP_KEY", "tap": qmk_key(model, value["tap"]), "hold_kind": "RAZEN_HOLD_KEY", "hold": qmk_key(model, value["hold"]), "timing": timing_name, "hold_on_interrupt": timing.get("flavor") != "tap-preferred"}
+        return {"name": f"{hold_key}_{value['tap']}", "tap_kind": "RAZEN_TAP_KEY", "tap": qmk_key(model, value["tap"]), "hold_kind": "RAZEN_HOLD_KEY", "hold": hold_key, "timing": timing_name, "hold_on_interrupt": timing.get("flavor") != "tap-preferred"}
     return None
 
 
@@ -1638,6 +1660,8 @@ def label_action(model: dict[str, Any], ir: dict[str, Any], value: Any) -> Any:
             return {"t": mdi("repeat"), "h": mdi("arrow-up-bold")}
         if is_key_layer_tap_hold(item):
             return {"t": label_action(model, ir, item["tap"]), "h": item["hold"]["layer"]}
+        if is_key_key_tap_hold(item):
+            return {"t": label_action(model, ir, item["tap"]), "h": label_action(model, ir, item["hold"])}
         if is_layer_tap_hold(item):
             tap_layer = item["tap"]["layer"]
             hold_layer = item["hold"]["layer"]

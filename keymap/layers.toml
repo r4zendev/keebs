@@ -65,16 +65,16 @@ rows = [
 [layers.Num.core30]
 rows = [
   [{ key = "G", mods = ["LSHFT"] }, "N7", "N8", "N9", "UP", "PRCNT", "STAR", "FSLH", "EQUAL", "DOT"],
-  ["N0", "N1", "N2", "N3", "DOWN", "COLON", { use = "osm_shift" }, { use = "osm_ctrl" }, { use = "osm_alt" }, { use = "osm_gui" }],
-  ["N4", "N5", "N6", "PLUS", "MINUS", "COMMA"],
+  ["N0", "N4", "N5", "N6", "DOWN", "COLON", { use = "osm_shift" }, { use = "osm_ctrl" }, { use = "osm_alt" }, { use = "osm_gui" }],
+  ["N1", "N2", "N3", "PLUS", "MINUS", "COMMA"],
   ["none", "none", "none", "none"],
 ]
 
 [layers.Num.core34]
 rows = [
   [{ key = "G", mods = ["LSHFT"] }, "N7", "N8", "N9", "UP", "PRCNT", "STAR", "FSLH", "EQUAL", "DOT"],
-  ["N0", "N1", "N2", "N3", "DOWN", "COLON", { use = "osm_shift" }, { use = "osm_ctrl" }, { use = "osm_alt" }, { use = "osm_gui" }],
-  ["none", "N4", "N5", "N6", "none", "none", "PLUS", "MINUS", "COMMA", "none"],
+  ["N0", "N4", "N5", "N6", "DOWN", "COLON", { use = "osm_shift" }, { use = "osm_ctrl" }, { use = "osm_alt" }, { use = "osm_gui" }],
+  ["none", "N1", "N2", "N3", "none", "none", "PLUS", "MINUS", "COMMA", "none"],
   ["none", "none", "none", "none"],
 ]
 
