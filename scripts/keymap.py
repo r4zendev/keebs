@@ -131,6 +131,7 @@ OS_DISPLAY = {
     "cut": mdi("content-cut"),
     "copy": mdi("content-copy"),
     "paste": mdi("content-paste"),
+    "select_all": mdi("select-all"),
     "screenshot_full": {"t": mdi("monitor-screenshot"), "s": "Scr"},
     "screenshot_area": {"t": mdi("crop"), "s": "Scr"},
 }
@@ -373,6 +374,8 @@ def validate(model: dict[str, Any]) -> None:
                 fail(f"behavior {name}: keep_positions must be unique")
         if behavior["recipe"] == "sticky_key" and resolved_key(model, behavior.get("key", "")) not in MODS:
             fail(f"behavior {name}: key must be a modifier")
+        if behavior["recipe"] == "sticky_key" and behavior.get("timing") not in behavior_source.get("timings", {}):
+            fail(f"behavior {name}: unknown timing")
         if behavior["recipe"] == "repeat_magic":
             if behavior.get("timing") not in behavior_source.get("timings", {}):
                 fail(f"behavior {name}: unknown timing")
@@ -419,7 +422,10 @@ def validate(model: dict[str, Any]) -> None:
             if signature in seen:
                 fail(f"adaptive {name}: duplicate rule {signature}")
             seen.add(signature)
-        for swap in adaptive.get("swaps", []):
+        variant_swaps = adaptive.get("variant_swaps", {})
+        if not set(variant_swaps).issubset(ROW_COUNTS):
+            fail(f"adaptive {name}: invalid swap variants")
+        for swap in [*adaptive.get("swaps", []), *(swap for swaps in variant_swaps.values() for swap in swaps)]:
             if len(swap) != 3 or any(not valid_key(model, token) for token in swap):
                 fail(f"adaptive {name}: invalid swap {swap!r}")
             if swap[1] == swap[2]:
@@ -582,6 +588,10 @@ def validate(model: dict[str, Any]) -> None:
                 fail(f"combo {combo['name']}: position outside {variant}")
         validate_action(model, combo["action"], f"combo {combo['name']}")
         drawing = combo.get("draw", {})
+        if drawing is False:
+            continue
+        if not isinstance(drawing, dict):
+            fail(f"combo {combo['name']}: draw must be an object or false")
         if "action" in drawing:
             validate_action(model, drawing["action"], f"combo {combo['name']}.draw")
         draw_layers = drawing.get("layers", combo["layers"])
@@ -599,7 +609,10 @@ def validate(model: dict[str, Any]) -> None:
 def active_layers(model: dict[str, Any], profile: dict[str, Any]) -> list[str]:
     if "layers" in profile:
         return profile["layers"]
-    return [name for name in model["root"]["layers"] if name != "Magic"]
+    excluded = {"Magic", "Game", "GameExtra"}
+    if profile["alpha_capacity"] >= 34:
+        excluded.add("Vestnik2")
+    return [name for name in model["root"]["layers"] if name not in excluded]
 
 
 def compile_profile(model: dict[str, Any], profile_name: str, backend: str, os_name: str) -> dict[str, Any]:
@@ -644,6 +657,7 @@ def compile_profile(model: dict[str, Any], profile_name: str, backend: str, os_n
         if not set(combo["positions"]).issubset(slot_index):
             continue
         item = dict(combo)
+        item.update(profile.get("combo_overrides", {}).get(combo["name"], {}))
         item["indices"] = [slot_index[position] for position in combo["positions"]]
         item["layers"] = [layer for layer in combo["layers"] if layer in layers]
         combos.append(item)
@@ -760,13 +774,14 @@ def zmk_layer_action(layer: str, mode: str) -> str:
     }[mode]
 
 
-def adaptive_rules(model: dict[str, Any], name: str) -> list[dict[str, Any]]:
+def adaptive_rules(model: dict[str, Any], name: str, variant: str) -> list[dict[str, Any]]:
     config = model["behaviors"].get("adaptives", {}).get(name, {})
     if not config.get("enabled"):
         return []
     rules = [dict(rule) for rule in config.get("rules", [])]
     if config.get("swaps_enabled"):
-        for prior, left, right in config.get("swaps", []):
+        swaps = [*config.get("swaps", []), *config.get("variant_swaps", {}).get(variant, [])]
+        for prior, left, right in swaps:
             rules.append({"input": right, "after": [prior], "emit": [left]})
             rules.append({"input": left, "after": [prior], "emit": [right]})
     for rule in rules:
@@ -775,8 +790,8 @@ def adaptive_rules(model: dict[str, Any], name: str) -> list[dict[str, Any]]:
     return sorted(rules, key=lambda item: (-len(item["after"]), item["input"], item["after"]))
 
 
-def adaptive_inputs(model: dict[str, Any], name: str) -> set[str]:
-    return {rule["input"] for rule in adaptive_rules(model, name)}
+def adaptive_inputs(model: dict[str, Any], name: str, variant: str) -> set[str]:
+    return {rule["input"] for rule in adaptive_rules(model, name, variant)}
 
 
 def cell_tap(value: Any) -> str | None:
@@ -801,14 +816,14 @@ def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_n
             return "&none"
         if value == "trans":
             return "&trans"
-        if adaptive_name and resolved_key(model, value) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive_name)}:
+        if adaptive_name and resolved_key(model, value) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive_name, ir["variant"])}:
             return f"&adaptive_{ident(adaptive_name).lower()}_{ident(resolved_key(model, value)).lower()}"
         return f"&kp {zmk_key(model, value)}"
     if "tap" in value:
         tap = value["tap"]
         hold = value["hold"]
         adaptive = value.get("adaptive", adaptive_name)
-        if adaptive and resolved_key(model, tap) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive)}:
+        if adaptive and resolved_key(model, tap) in {resolved_key(model, item) for item in adaptive_inputs(model, adaptive, ir["variant"])}:
             base = f"adaptive_{ident(adaptive).lower()}_{ident(resolved_key(model, tap)).lower()}"
             if value.get("hand"):
                 return f"&{base}_{'hml' if value['hand'] == 'left' else 'hmr'} {zmk_key(model, hold)} 0"
@@ -835,7 +850,8 @@ def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_n
         if recipe == "layer_chord":
             return f"&{name}"
         if recipe == "sticky_key":
-            return f"&sk {zmk_key(model, item['key'])}"
+            key = zmk_key(model, item["key"])
+            return f"&{name} {key} {key}"
         if recipe == "repeat_magic":
             return f"&{name} {zmk_key(model, item['hold'])} 0"
         if recipe == "tap_hold":
@@ -892,7 +908,7 @@ def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_n
 
 def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]:
     timings = model["behaviors"]["timings"]
-    h = timings["home_row"]
+    h = timings["home_row"] | ir["profile"].get("timing_overrides", {}).get("home_row", {})
     left_positions = [index for index, slot in enumerate(ir["slots"]) if slot.startswith("L_") and "THUMB" not in slot]
     right_positions = [index for index, slot in enumerate(ir["slots"]) if slot.startswith("R_") and "THUMB" not in slot]
     thumbs = [index for index, slot in enumerate(ir["slots"]) if "THUMB" in slot]
@@ -915,6 +931,9 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
         recipe = item["recipe"]
         if recipe == "shift_morph":
             lines.append(f"ZMK_MOD_MORPH({name}, bindings = <{zmk_action(model, ir, item['tap'])}>, <{zmk_action(model, ir, item['shifted'])}>; mods = <(MOD_LSFT|MOD_RSFT)>;)")
+        elif recipe == "sticky_key":
+            timing = timings[item["timing"]]
+            lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&kp>, <&sk>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; hold-while-undecided; hold-while-undecided-linger;)')
         elif recipe == "sequence":
             timing = timings["sequence"]
             bindings = ", ".join(f"<&kp {zmk_key(model, token)}>" for token in item["keys"])
@@ -927,6 +946,8 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
         elif recipe == "platform" and item["action"] == "bt_select":
             lines.append(f"ZMK_MACRO({name}, bindings = <&out OUT_BLE>, <&bt BT_SEL {item['value']}>;)")
         elif is_layer_tap_hold(item):
+            if item["hold"]["layer"] not in ir["layer_index"] or item["tap"]["layer"] not in ir["layer_index"]:
+                continue
             timing = timings[item["timing"]]
             hold_binding = {"momentary": "&mo"}.get(item["hold"].get("mode", "momentary"))
             tap_binding = {"sticky": "&sl", "toggle": "&tog"}.get(item["tap"].get("mode", "momentary"))
@@ -965,12 +986,13 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
     magic = behavior(model, "thumb_magic")
     repeat_keys = " ".join(chr(value) for value in range(ord("A"), ord("Z") + 1))
     lines.extend([
-        f"ZMK_ADAPTIVE_KEY(thumb_magic_adaptive, bindings = <&sk LSHFT>; repeat {{ trigger-keys = <{repeat_keys}>; bindings = <&key_repeat>; max-prior-idle-ms = <{magic['repeat_timeout_ms']}>; strict-modifiers; }};)",
+        '/ { behaviors { alpha_repeat: alpha_repeat { compatible = "zmk,behavior-alpha-repeat"; #binding-cells = <0>; }; }; };',
+        f"ZMK_ADAPTIVE_KEY(thumb_magic_adaptive, bindings = <&sk LSHFT>; repeat {{ trigger-keys = <{repeat_keys}>; bindings = <&alpha_repeat>; max-prior-idle-ms = <{magic['repeat_timeout_ms']}>; strict-modifiers; }};)",
         "ZMK_MOD_MORPH(thumb_magic_tap, bindings = <&thumb_magic_adaptive>, <&caps_word>; mods = <(MOD_LSFT|MOD_RSFT)>;)",
         f'ZMK_HOLD_TAP(thumb_magic, bindings = <&kp>, <&thumb_magic_tap>; flavor = "{timings[magic["timing"]]["flavor"]}"; tapping-term-ms = <{timings[magic["timing"]]["tapping_term_ms"]}>; quick-tap-ms = <{timings[magic["timing"]]["quick_tap_ms"]}>;)',
     ])
     for adaptive_name in model["behaviors"].get("adaptives", {}):
-        rules = adaptive_rules(model, adaptive_name)
+        rules = adaptive_rules(model, adaptive_name, ir["variant"])
         by_input: dict[str, list[dict[str, Any]]] = {}
         for rule in rules:
             by_input.setdefault(rule["input"], []).append(rule)
@@ -1188,6 +1210,17 @@ def tap_dance_spec(model: dict[str, Any], value: Any) -> dict[str, Any] | None:
         item = behavior(model, value["use"])
         if item["recipe"] == "tap_hold":
             value = item
+        elif item["recipe"] == "sticky_key":
+            key = resolved_key(model, item["key"])
+            return {
+                "name": f"sticky_{key}",
+                "tap_kind": "RAZEN_TAP_ONESHOT_MOD",
+                "tap": QMK_ONESHOT_MODS[key],
+                "hold_kind": "RAZEN_HOLD_KEY",
+                "hold": qmk_key(model, key),
+                "timing": item["timing"],
+                "hold_on_interrupt": True,
+            }
     if isinstance(value, dict) and "tap" in value and not value.get("hand"):
         hold = value["hold"]
         if isinstance(hold, str):
@@ -1395,7 +1428,7 @@ def render_qmk(model: dict[str, Any], ir: dict[str, Any]) -> str:
         ])
     if layer_chords:
         slot_positions = dict(zip(ir["slots"], position_ids))
-        lines.append("const razen_layer_chord_t razen_layer_chords[] = {")
+        lines.append("razen_layer_chord_t razen_layer_chords[] = {")
         for name, item in layer_chords:
             lines.append(
                 f"    {{{custom_name('LAYER_CHORD', name)}, {qmk_layer(item['parent_layer'])}, "
@@ -1432,7 +1465,7 @@ def render_qmk(model: dict[str, Any], ir: dict[str, Any]) -> str:
     adaptive_count = 0
     for adaptive_name in model["behaviors"].get("adaptives", {}):
         for matching_layer in adaptive_layers(ir, adaptive_name):
-            for rule in adaptive_rules(model, adaptive_name):
+            for rule in adaptive_rules(model, adaptive_name, ir["variant"]):
                 after = [qmk_key(model, token) for token in rule["after"]]
                 emit = [qmk_key(model, token) for token in rule["emit"]]
                 lines.append(f"    {{{qmk_layer(matching_layer)}, {qmk_key(model, rule['input'])}, {{{', '.join(after)}}}, {len(after)}, {{{', '.join(emit)}}}, {len(emit)}, {rule['timeout_ms']}, {'true' if rule['strict_modifiers'] else 'false'}}},")
@@ -1523,8 +1556,15 @@ def render_qmk(model: dict[str, Any], ir: dict[str, Any]) -> str:
         mask = " | ".join(f"(1UL << {qmk_layer(layer)})" for layer in combo["layers"])
         lines.append(f"    {{{mask}, {combo.get('term_ms', combo_timing['term_ms'])}, {combo.get('prior_idle_ms', combo_timing['prior_idle_ms'])}}},")
     lines.extend(["};", "const uint8_t razen_combo_count = sizeof(razen_combos) / sizeof(razen_combos[0]);", ""])
-    if ir["conditional_layers"]:
+    if ir["conditional_layers"] or layer_chords:
         lines.append("layer_state_t layer_state_set_user(layer_state_t state) {")
+        if layer_chords:
+            lines.extend([
+                "    for (uint8_t index = 0; index < razen_layer_chord_count; index++) {",
+                "        if (razen_layer_chords[index].parent_pressed) state |= 1UL << razen_layer_chords[index].parent_layer;",
+                "        if (razen_layer_chords[index].child_pressed) state |= 1UL << razen_layer_chords[index].child_layer;",
+                "    }",
+            ])
         for conditional in ir["conditional_layers"]:
             first, second = conditional["if_layers"]
             lines.append(f"    state = update_tri_layer_state(state, {qmk_layer(first)}, {qmk_layer(second)}, {qmk_layer(conditional['then_layer'])});")
@@ -1812,6 +1852,8 @@ def render_draw(model: dict[str, Any], ir: dict[str, Any]) -> str:
     combos = []
     for combo in ir["combos"]:
         drawing = combo.get("draw", {})
+        if drawing is False:
+            continue
         draw_layers = [layer for layer in drawing.get("layers", combo["layers"]) if layer in layers]
         if not draw_layers:
             continue

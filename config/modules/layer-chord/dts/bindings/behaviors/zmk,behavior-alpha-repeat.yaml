@@ -1,0 +1,5 @@
+description: Repeat last unmodified or shifted alphabetic key
+
+compatible: "zmk,behavior-alpha-repeat"
+
+include: zero_param.yaml

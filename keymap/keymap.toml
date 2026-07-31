@@ -22,7 +22,8 @@ undo = { key = "Z", mods = ["LCTRL"] }
 redo = { key = "Z", mods = ["LCTRL", "LSHIFT"] }
 cut = { key = "X", mods = ["LCTRL"] }
 copy = { key = "INS", mods = ["LCTRL"] }
-paste = { key = "INS", mods = ["LSHIFT"] }
+paste = { key = "V", mods = ["LCTRL"] }
+select_all = { key = "A", mods = ["LCTRL"] }
 screenshot_full = { key = "P", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }
 
@@ -36,6 +37,7 @@ redo = { key = "Z", mods = ["LGUI", "LSHIFT"] }
 cut = { key = "X", mods = ["LGUI"] }
 copy = { key = "C", mods = ["LGUI"] }
 paste = { key = "V", mods = ["LGUI"] }
+select_all = { key = "A", mods = ["LGUI"] }
 screenshot_full = { key = "N3", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "N4", mods = ["LGUI", "LSHIFT"] }
 
@@ -49,5 +51,6 @@ redo = { key = "Y", mods = ["LCTRL"] }
 cut = { key = "X", mods = ["LCTRL"] }
 copy = { key = "INS", mods = ["LCTRL"] }
 paste = { key = "INS", mods = ["LSHIFT"] }
+select_all = { key = "A", mods = ["LCTRL"] }
 screenshot_full = { key = "S", mods = ["LGUI", "LSHIFT"] }
 screenshot_area = { key = "S", mods = ["LGUI", "LSHIFT"] }

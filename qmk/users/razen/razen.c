@@ -4,6 +4,7 @@
 #include "repeat_key.h"
 
 static uint16_t history[6];
+static uint8_t history_mods[6];
 static uint8_t history_len;
 static uint32_t history_timer;
 static uint16_t suppressed_keycode = KC_NO;
@@ -44,12 +45,14 @@ static void clear_history(void) {
     history_timer = 0;
 }
 
-static void append_history(uint16_t keycode) {
+static void append_history(uint16_t keycode, uint8_t mods) {
     if (history_len == 6) {
         memmove(history, history + 1, sizeof(history[0]) * 5);
+        memmove(history_mods, history_mods + 1, sizeof(history_mods[0]) * 5);
         history_len = 5;
     }
     history[history_len++] = keycode;
+    history_mods[history_len - 1] = mods;
     history_timer = timer_read32();
 }
 
@@ -58,6 +61,16 @@ static void pop_history(void) {
         history_len--;
     }
     history_timer = timer_read32();
+    for (uint8_t index = history_len; index > 0; index--) {
+        if (history[index - 1] >= KC_A && history[index - 1] <= KC_Z) {
+            set_last_keycode(history[index - 1]);
+            set_last_mods(history_mods[index - 1]);
+            repeat_timer = history_timer;
+            return;
+        }
+    }
+    set_last_keycode(KC_NO);
+    repeat_timer = 0;
 }
 
 static bool text_key(uint16_t keycode) {
@@ -124,7 +137,7 @@ static bool process_adaptive(uint16_t keycode, keyrecord_t *record) {
             if (rule->emit[output] == KC_BSPC) {
                 pop_history();
             } else {
-                append_history(rule->emit[output]);
+                append_history(rule->emit[output], 0);
             }
         }
         if (rule->emit_len) {
@@ -134,8 +147,8 @@ static bool process_adaptive(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (text_key(basic) && !mods) {
-        append_history(basic);
+    if (text_key(basic) && (!mods || (basic >= KC_A && basic <= KC_Z && !(mods & ~MOD_MASK_SHIFT)))) {
+        append_history(basic, mods & MOD_MASK_SHIFT);
     } else {
         clear_history();
     }
@@ -165,6 +178,9 @@ static void execute_tap(razen_tap_dance_t *data) {
             break;
         case RAZEN_TAP_MAGIC:
             repeat_magic();
+            break;
+        case RAZEN_TAP_ONESHOT_MOD:
+            add_oneshot_mods(data->tap);
             break;
         case RAZEN_TAP_ONESHOT_LAYER:
             set_oneshot_layer(data->tap, ONESHOT_START);
@@ -288,6 +304,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             continue;
         }
         if (record->event.pressed) {
+            razen_layer_chords[index].parent_pressed = true;
+            razen_layer_chords[index].child_pressed = true;
             layer_on(razen_layer_chords[index].parent_layer);
             layer_on(razen_layer_chords[index].child_layer);
             clear_history();
@@ -339,7 +357,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (output == KC_BSPC) {
             pop_history();
         } else if (text_key(output)) {
-            append_history(output);
+            append_history(output, 0);
         } else {
             clear_history();
         }
@@ -371,11 +389,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *remembered_mods) {
-    (void)remembered_mods;
     uint16_t basic = tap_keycode(keycode, record);
-    bool remember = keycode != razen_magic_keycode && !IS_QK_TAP_DANCE(keycode) && !custom_keycode(keycode) && basic != KC_NO;
-    if (remember && record->event.pressed) {
-        repeat_timer = basic >= KC_A && basic <= KC_Z ? timer_read32() : 0;
+    bool remember = keycode != razen_magic_keycode && !IS_QK_TAP_DANCE(keycode) &&
+                    !custom_keycode(keycode) && basic >= KC_A && basic <= KC_Z &&
+                    !(*remembered_mods & ~MOD_MASK_SHIFT);
+    if (remember) {
+        repeat_timer = timer_read32();
     }
     return remember;
 }
@@ -466,13 +485,15 @@ bool process_combo_key_release(uint16_t combo_index, combo_t *combo, uint8_t key
     (void)combo_index;
     (void)key_index;
     for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
-        const razen_layer_chord_t *chord = &razen_layer_chords[index];
+        razen_layer_chord_t *chord = &razen_layer_chords[index];
         if (combo->keycode != chord->trigger) {
             continue;
         }
         if (keycode == chord->parent_position) {
+            chord->parent_pressed = false;
             layer_off(chord->parent_layer);
         } else if (keycode == chord->child_position) {
+            chord->child_pressed = false;
             layer_off(chord->child_layer);
         }
         break;
@@ -484,13 +505,15 @@ bool process_combo_key_repress(uint16_t combo_index, combo_t *combo, uint8_t key
     (void)combo_index;
     (void)key_index;
     for (uint8_t index = 0; index < razen_layer_chord_count; index++) {
-        const razen_layer_chord_t *chord = &razen_layer_chords[index];
+        razen_layer_chord_t *chord = &razen_layer_chords[index];
         if (combo->keycode != chord->trigger) {
             continue;
         }
         if (keycode == chord->parent_position) {
+            chord->parent_pressed = true;
             layer_on(chord->parent_layer);
         } else if (keycode == chord->child_position) {
+            chord->child_pressed = true;
             layer_on(chord->child_layer);
         } else {
             return false;

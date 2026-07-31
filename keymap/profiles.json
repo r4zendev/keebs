@@ -114,6 +114,16 @@
       "binding_positions": 30,
       "draw_notation": "23332+2 2+23332",
       "position_set": "core_30",
+      "combo_overrides": {
+        "backspace": {"term_ms": 32},
+        "delete": {"term_ms": 32},
+        "escape": {"term_ms": 32},
+        "tab": {"term_ms": 32},
+        "enter": {"term_ms": 32},
+        "cut": {"term_ms": 32},
+        "copy": {"term_ms": 32},
+        "paste": {"term_ms": 32}
+      },
       "zmk_transform": "config/keyboards/luna/shields/luna/luna.dtsi",
       "zmk": {"keyboard": "luna", "board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
       "alpha_capacity": 30

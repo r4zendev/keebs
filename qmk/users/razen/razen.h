@@ -5,6 +5,7 @@
 enum razen_tap_kind {
     RAZEN_TAP_KEY,
     RAZEN_TAP_MAGIC,
+    RAZEN_TAP_ONESHOT_MOD,
     RAZEN_TAP_ONESHOT_LAYER,
 };
 
@@ -69,6 +70,8 @@ typedef struct {
     uint8_t child_layer;
     uint16_t parent_position;
     uint16_t child_position;
+    bool parent_pressed;
+    bool child_pressed;
 } razen_layer_chord_t;
 
 extern const razen_morph_t razen_morphs[];
@@ -100,7 +103,7 @@ extern const uint8_t razen_hold_preferred_key_count;
 extern const razen_oneshot_layer_t razen_oneshot_layers[];
 extern const uint8_t razen_oneshot_layer_count;
 #ifdef RAZEN_LAYER_CHORD_ENABLE
-extern const razen_layer_chord_t razen_layer_chords[];
+extern razen_layer_chord_t razen_layer_chords[];
 extern const uint8_t razen_layer_chord_count;
 #endif
 
