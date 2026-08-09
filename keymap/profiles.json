@@ -114,16 +114,6 @@
       "binding_positions": 30,
       "draw_notation": "23332+2 2+23332",
       "position_set": "core_30",
-      "combo_overrides": {
-        "backspace": {"term_ms": 32},
-        "delete": {"term_ms": 32},
-        "escape": {"term_ms": 32},
-        "tab": {"term_ms": 32},
-        "enter": {"term_ms": 32},
-        "cut": {"term_ms": 32},
-        "copy": {"term_ms": 32},
-        "paste": {"term_ms": 32}
-      },
       "zmk_transform": "config/keyboards/luna/shields/luna/luna.dtsi",
       "zmk": {"keyboard": "luna", "board": "nice_nano/nrf52840/zmk", "shields": ["luna_left", "luna_right"]},
       "alpha_capacity": 30
@@ -245,6 +235,12 @@
           [3, 1], [3, 2], [3, 3], [3, 8], [3, 9], [3, 10]
         ]
       },
+      "zmk_slots": [
+        "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
+        "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME",
+        "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "ENC_L_PRESS", "ENC_R_PRESS", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM",
+        "L_THUMB_A", "L_THUMB_B", "L_THUMB_OPTIONAL", "R_THUMB_OPTIONAL", "R_THUMB_A", "R_THUMB_B"
+      ],
       "alpha_capacity": 34
     },
     "klor_polydactyl_42": {

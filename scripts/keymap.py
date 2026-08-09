@@ -320,7 +320,7 @@ def validate(model: dict[str, Any]) -> None:
     behavior_identifiers = [ident(name) for name in behaviors]
     if len(behavior_identifiers) != len(set(behavior_identifiers)):
         fail("behavior names produce duplicate identifiers")
-    allowed_recipes = {"shift_morph", "sequence", "repeat_magic", "tap_hold", "leader", "macro", "layer_action", "layer_chord", "smart_layer", "sticky_key", "platform"}
+    allowed_recipes = {"shift_morph", "sequence", "repeat_magic", "tap_hold", "leader", "macro", "layer_action", "layer_chord", "layer_sticky_mod", "smart_layer", "sticky_key", "platform"}
     for name, behavior in behaviors.items():
         if behavior.get("recipe") not in allowed_recipes:
             fail(f"behavior {name}: unknown recipe {behavior.get('recipe')!r}")
@@ -360,6 +360,14 @@ def validate(model: dict[str, Any]) -> None:
                 fail(f"behavior {name}: layer_chord needs two unique layers")
             if declared_layers.index(layers[1]) <= declared_layers.index(layers[0]):
                 fail(f"behavior {name}: child layer must be above parent layer")
+        if behavior["recipe"] == "layer_sticky_mod":
+            modifier_behavior = behaviors.get(behavior.get("modifier_behavior"))
+            if behavior.get("targets") != ["zmk"]:
+                fail(f"behavior {name}: layer_sticky_mod must be ZMK-only")
+            if behavior.get("layer") not in declared_layers:
+                fail(f"behavior {name}: unknown layer")
+            if modifier_behavior is None or modifier_behavior.get("recipe") != "sticky_key":
+                fail(f"behavior {name}: modifier_behavior must reference a sticky key")
         if behavior["recipe"] == "smart_layer":
             if "zmk" in behavior.get("targets", ["zmk", "qmk"]):
                 fail(f"behavior {name}: smart_layer is QMK-only")
@@ -456,6 +464,10 @@ def validate(model: dict[str, Any]) -> None:
             positions = {item.get("parent_position"), item.get("child_position")}
             if len(positions) != 2 or not positions.issubset(core34):
                 fail(f"behavior {name}: layer_chord needs two unique core positions")
+        if item["recipe"] == "layer_sticky_mod":
+            positions = {item.get("layer_position"), item.get("modifier_position")}
+            if len(positions) != 2 or not positions.issubset(core34):
+                fail(f"behavior {name}: layer_sticky_mod needs two unique core positions")
     profiles = profile_source.get("profiles", {})
     if not profiles:
         fail("profiles.json has no profiles")
@@ -656,6 +668,8 @@ def compile_profile(model: dict[str, Any], profile_name: str, backend: str, os_n
             continue
         if not set(combo["positions"]).issubset(slot_index):
             continue
+        if isinstance(combo["action"], dict) and "use" in combo["action"] and not behavior_available(behavior(model, combo["action"]["use"]), backend):
+            continue
         item = dict(combo)
         item.update(profile.get("combo_overrides", {}).get(combo["name"], {}))
         item["indices"] = [slot_index[position] for position in combo["positions"]]
@@ -843,7 +857,7 @@ def zmk_action(model: dict[str, Any], ir: dict[str, Any], value: Any, adaptive_n
         if not behavior_available(item, "zmk"):
             return "&none"
         recipe = item["recipe"]
-        if recipe in {"shift_morph", "sequence", "macro", "leader"}:
+        if recipe in {"shift_morph", "sequence", "macro", "layer_sticky_mod", "leader"}:
             return f"&{name}"
         if recipe == "layer_action":
             return zmk_layer_action(item["layer"], item["mode"])
@@ -920,6 +934,7 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
         f'ZMK_HOLD_TAP(hmr, bindings = <&kp>, <&kp>; flavor = "{h["flavor"]}"; tapping-term-ms = <{h["tapping_term_ms"]}>; quick-tap-ms = <{h["quick_tap_ms"]}>; require-prior-idle-ms = <{h["prior_idle_ms"]}>{right_trigger};)',
     ]
     layer_chords = []
+    layer_sticky_mods = []
     for name, timing_name in (("thumb_ht", "thumb"), ("thumb_tp", "thumb_tap_preferred")):
         timing = timings[timing_name]
         lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&kp>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; quick-tap-ms = <{timing["quick_tap_ms"]}>;)')
@@ -941,6 +956,8 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
         elif recipe == "macro":
             bindings = ", ".join(f"<{zmk_action(model, ir, step)}>" for step in item["steps"])
             lines.append(f"ZMK_MACRO({name}, bindings = {bindings};)")
+        elif recipe == "layer_sticky_mod":
+            layer_sticky_mods.append((name, item))
         elif recipe == "layer_chord":
             layer_chords.append((name, item))
         elif recipe == "platform" and item["action"] == "bt_select":
@@ -969,7 +986,7 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
             timing = timings[item["timing"]]
             lines.append("ZMK_MACRO(rgb_status, bindings = <&rgb_ug RGB_STATUS>;)")
             lines.append(f'ZMK_HOLD_TAP({name}, bindings = <&mo>, <&rgb_status>; flavor = "{timing["flavor"]}"; tapping-term-ms = <{timing["tapping_term_ms"]}>; quick-tap-ms = <{timing["quick_tap_ms"]}>;)')
-    if layer_chords:
+    if layer_chords or layer_sticky_mods:
         lines.extend(["", "/ {", "    behaviors {"])
         for name, item in layer_chords:
             lines.extend([
@@ -980,6 +997,19 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
                 f'            child-layer = <LAYER_{item["child_layer"]}>;',
                 f'            parent-position = <{slot_indices[item["parent_position"]]}>;',
                 f'            child-position = <{slot_indices[item["child_position"]]}>;',
+                "        };",
+            ])
+        for name, item in layer_sticky_mods:
+            modifier_behavior = item["modifier_behavior"]
+            modifier = zmk_key(model, behavior(model, modifier_behavior)["key"])
+            lines.extend([
+                f"        {name}: {name} {{",
+                '            compatible = "zmk,behavior-layer-mod-chord";',
+                "            #binding-cells = <0>;",
+                f'            layer = <LAYER_{item["layer"]}>;',
+                f'            layer-position = <{slot_indices[item["layer_position"]]}>;',
+                f'            modifier-position = <{slot_indices[item["modifier_position"]]}>;',
+                f"            bindings = <&{modifier_behavior} {modifier} {modifier}>;",
                 "        };",
             ])
         lines.extend(["    };", "};", ""])
@@ -1694,6 +1724,9 @@ def label_action(model: dict[str, Any], ir: dict[str, Any], value: Any) -> Any:
             return {"t": item["layer"], "type": "layer-activator"}
         if item["recipe"] == "layer_chord":
             return {"t": item["child_layer"], "type": "layer-activator"}
+        if item["recipe"] == "layer_sticky_mod":
+            modifier = behavior(model, item["modifier_behavior"])["key"]
+            return {"t": label_key(model, modifier), "type": "mod"}
         if item["recipe"] == "sticky_key":
             return {"t": label_key(model, item["key"]), "type": "mod"}
         if item["recipe"] == "repeat_magic":

@@ -122,60 +122,40 @@ recipe = "shift_morph"
 tap = "COMMA"
 shifted = "EXCL"
 
-[behaviors.not_equal]
-recipe = "sequence"
-keys = ["EXCL", "EQUAL"]
-label = "!="
+[behaviors.colon_semi]
+recipe = "shift_morph"
+tap = "COLON"
+shifted = "SEMI"
 
-[behaviors.less_equal]
-recipe = "sequence"
-keys = ["LT", "EQUAL"]
-label = "<="
+[behaviors.bslh_qmark]
+recipe = "shift_morph"
+tap = "BSLH"
+shifted = "QMARK"
 
-[behaviors.greater_equal]
-recipe = "sequence"
-keys = ["GT", "EQUAL"]
-label = ">="
+[behaviors.slash_excl]
+recipe = "shift_morph"
+tap = "FSLH"
+shifted = "EXCL"
 
-[behaviors.thin_arrow]
-recipe = "sequence"
-keys = ["MINUS", "GT"]
-label = "->"
+[behaviors.paren]
+recipe = "shift_morph"
+tap = "LPAR"
+shifted = "RPAR"
 
-[behaviors.fat_arrow]
-recipe = "sequence"
-keys = ["EQUAL", "GT"]
-label = "=>"
+[behaviors.brace]
+recipe = "shift_morph"
+tap = "LBRC"
+shifted = "RBRC"
 
-[behaviors.dot_brace]
-recipe = "sequence"
-keys = ["DOT", "LBRC"]
-label = ".{"
+[behaviors.square]
+recipe = "shift_morph"
+tap = "LBKT"
+shifted = "RBKT"
 
-[behaviors.dot_slash]
-recipe = "sequence"
-keys = ["DOT", "FSLH"]
-label = "./"
-
-[behaviors.pair_paren]
-recipe = "sequence"
-keys = ["LPAR", "RPAR", "LEFT"]
-label = "()←"
-
-[behaviors.pair_brace]
-recipe = "sequence"
-keys = ["LBRC", "RBRC", "LEFT"]
-label = "{}←"
-
-[behaviors.pair_square]
-recipe = "sequence"
-keys = ["LBKT", "RBKT", "LEFT"]
-label = "[]←"
-
-[behaviors.pair_angle]
-recipe = "sequence"
-keys = ["LT", "GT", "LEFT"]
-label = "<>←"
+[behaviors.angle]
+recipe = "shift_morph"
+tap = "LT"
+shifted = "GT"
 
 [behaviors.bspc_word]
 recipe = "shift_morph"
@@ -191,16 +171,6 @@ shifted = { os = "delete_word_right" }
 recipe = "shift_morph"
 tap = { os = "undo" }
 shifted = { os = "redo" }
-
-[behaviors.v_comma_excl]
-recipe = "shift_morph"
-tap = "RU_COMMA"
-shifted = "RU_EXCL"
-
-[behaviors.v_dot_qmark]
-recipe = "shift_morph"
-tap = "RU_DOT"
-shifted = "RU_QMARK"
 
 [behaviors.thumb_magic]
 recipe = "repeat_magic"
@@ -266,6 +236,22 @@ timing = "layer_modifier"
 recipe = "sticky_key"
 key = "LCTRL"
 timing = "layer_modifier"
+
+[behaviors.nav_shift_chord]
+recipe = "layer_sticky_mod"
+targets = ["zmk"]
+layer = "Nav"
+modifier_behavior = "osm_shift"
+layer_position = "L_THUMB_A"
+modifier_position = "L_INDEX_HOME"
+
+[behaviors.sym_shift_chord]
+recipe = "layer_sticky_mod"
+targets = ["zmk"]
+layer = "Sym"
+modifier_behavior = "osm_shift"
+layer_position = "R_THUMB_B"
+modifier_position = "R_INDEX_HOME"
 
 [behaviors.vestnik2_nav]
 recipe = "tap_hold"
@@ -359,7 +345,7 @@ action = "bt_clear_all"
 enabled = true
 timeout_ms = 1000
 strict_modifiers = true
-swaps_enabled = true
+swaps_enabled = false
 swaps = [
   ["S", "C", "D"],
   ["P", "H", "N"],
@@ -399,24 +385,6 @@ term_ms = 25
 prior_idle_ms = 0
 
 [[combos]]
-name = "select_all_core30"
-positions = ["L_INDEX_BOTTOM", "L_INNER_BOTTOM"]
-layers = ["Graphite"]
-variants = ["core30"]
-action = { os = "select_all" }
-term_ms = 25
-prior_idle_ms = 120
-
-[[combos]]
-name = "select_all_core34"
-positions = ["L_INDEX_BOTTOM", "L_INNER_BOTTOM"]
-layers = ["Graphite"]
-variants = ["core34"]
-action = { os = "select_all" }
-term_ms = 25
-prior_idle_ms = 120
-
-[[combos]]
 name = "core30_z"
 positions = ["L_INDEX_TOP", "L_INDEX_HOME"]
 layers = ["Graphite"]
@@ -432,73 +400,6 @@ layers = ["Graphite"]
 variants = ["core30"]
 action = "J"
 term_ms = 25
-prior_idle_ms = 0
-
-[[combos]]
-name = "undo_redo_core30"
-positions = ["L_PINKY_HOME", "L_RING_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-variants = ["core30"]
-action = { use = "undo_redo" }
-term_ms = 35
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "undo_redo_core34"
-positions = ["L_PINKY_BOTTOM", "L_RING_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-variants = ["core34"]
-action = { use = "undo_redo" }
-term_ms = 35
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "core30_minus"
-positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
-layers = ["Graphite"]
-variants = ["core30"]
-action = "MINUS"
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "slash"
-positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
-layers = ["Graphite"]
-variants = ["core30"]
-action = "FSLH"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-
-[[combos]]
-name = "semicolon_core30"
-positions = ["R_PINKY_HOME", "R_RING_BOTTOM"]
-layers = ["Graphite"]
-variants = ["core30"]
-action = "SEMI"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-
-[[combos]]
-name = "vestnik_minus_core30"
-positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
-layers = ["VestnikDm"]
-variants = ["core30"]
-action = "MINUS"
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "vestnik_minus_core34"
-positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
-layers = ["VestnikDm"]
-variants = ["core34"]
-action = "MINUS"
-term_ms = 35
 prior_idle_ms = 0
 
 [[combos]]
@@ -533,6 +434,24 @@ name = "mouse"
 positions = ["L_THUMB_A", "L_THUMB_B"]
 layers = ["Graphite", "VestnikDm"]
 action = { use = "mouse_chord" }
+term_ms = 60
+prior_idle_ms = 0
+slow_release = true
+
+[[combos]]
+name = "nav_shift_chord"
+positions = ["L_THUMB_A", "L_INDEX_HOME"]
+layers = ["Graphite", "VestnikDm"]
+action = { use = "nav_shift_chord" }
+term_ms = 60
+prior_idle_ms = 0
+slow_release = true
+
+[[combos]]
+name = "sym_shift_chord"
+positions = ["R_INDEX_HOME", "R_THUMB_B"]
+layers = ["Graphite", "VestnikDm"]
+action = { use = "sym_shift_chord" }
 term_ms = 60
 prior_idle_ms = 0
 slow_release = true
@@ -585,42 +504,6 @@ prior_idle_ms = 0
 draw = { layers = ["Game"] }
 
 [[combos]]
-name = "backspace"
-positions = ["R_MIDDLE_TOP", "R_RING_TOP"]
-layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
-action = { use = "bspc_word" }
-term_ms = 25
-prior_idle_ms = 120
-draw = { action = "BSPC", layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "delete"
-positions = ["R_RING_TOP", "R_PINKY_TOP"]
-layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
-action = { use = "del_word" }
-term_ms = 25
-prior_idle_ms = 120
-draw = { action = "DEL", layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "escape"
-positions = ["L_RING_TOP", "L_MIDDLE_TOP"]
-layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num"]
-action = "ESC"
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "tab"
-positions = ["L_RING_HOME", "L_MIDDLE_HOME"]
-layers = ["Graphite", "VestnikDm", "Sym", "Num"]
-action = "TAB"
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
 name = "nav_tab"
 positions = ["L_RING_HOME", "L_MIDDLE_HOME"]
 layers = ["Nav"]
@@ -630,13 +513,12 @@ prior_idle_ms = 0
 draw = false
 
 [[combos]]
-name = "enter"
-positions = ["R_MIDDLE_HOME", "R_RING_HOME"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-action = "RET"
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
+name = "nav_cut"
+positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
+layers = ["Nav"]
+action = { os = "cut" }
+term_ms = 35
+prior_idle_ms = 0
 
 [[combos]]
 name = "layer_alt_ctrl"
@@ -646,208 +528,3 @@ action = { key = "LCTRL", mods = ["LALT"] }
 term_ms = 25
 prior_idle_ms = 0
 draw = false
-
-[[combos]]
-name = "cut"
-positions = ["L_RING_BOTTOM", "L_INDEX_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-action = { os = "cut" }
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"], align = "bottom", offset = -0.15 }
-
-[[combos]]
-name = "copy"
-positions = ["L_RING_BOTTOM", "L_MIDDLE_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-action = { os = "copy" }
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "paste"
-positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
-layers = ["Graphite", "VestnikDm", "Nav"]
-action = { os = "paste" }
-term_ms = 25
-prior_idle_ms = 120
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "open_square"
-positions = ["L_PINKY_TOP", "L_PINKY_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-action = "LBKT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "open_paren"
-positions = ["L_MIDDLE_TOP", "L_MIDDLE_HOME"]
-layers = ["Graphite", "VestnikDm", "Sym", "Num"]
-action = "LPAR"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "open_brace"
-positions = ["L_RING_TOP", "L_RING_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-action = "LBRC"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "open_angle_core30"
-positions = ["L_INNER_HOME", "L_INNER_BOTTOM"]
-layers = ["Graphite", "Sym", "Num"]
-variants = ["core30"]
-action = "LT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "open_angle_core34"
-positions = ["L_INDEX_TOP", "L_INDEX_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-variants = ["core34"]
-action = "LT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "close_angle_core30"
-positions = ["R_INNER_HOME", "R_INNER_BOTTOM"]
-layers = ["Graphite", "Sym", "Num"]
-variants = ["core30"]
-action = "GT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "close_angle_core34"
-positions = ["R_INDEX_TOP", "R_INDEX_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-variants = ["core34"]
-action = "GT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "close_brace"
-positions = ["R_RING_TOP", "R_RING_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-action = "RBRC"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "close_paren"
-positions = ["R_MIDDLE_TOP", "R_MIDDLE_HOME"]
-layers = ["Graphite", "VestnikDm", "Sym", "Num"]
-action = "RPAR"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite", "VestnikDm"] }
-
-[[combos]]
-name = "close_square"
-positions = ["R_PINKY_TOP", "R_PINKY_HOME"]
-layers = ["Graphite", "Sym", "Num"]
-action = "RBKT"
-term_ms = 18
-prior_idle_ms = 0
-slow_release = true
-draw = { layers = ["Graphite"] }
-
-[[combos]]
-name = "not_equal"
-positions = ["L_MIDDLE_HOME", "L_INDEX_HOME"]
-layers = ["Sym"]
-action = { use = "not_equal" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "less_equal"
-positions = ["L_RING_BOTTOM", "L_MIDDLE_BOTTOM"]
-layers = ["Sym"]
-action = { use = "less_equal" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "greater_equal"
-positions = ["L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM"]
-layers = ["Sym"]
-action = { use = "greater_equal" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "thin_arrow"
-positions = ["R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM"]
-layers = ["Sym"]
-action = { use = "thin_arrow" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "fat_arrow"
-positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
-layers = ["Sym"]
-action = { use = "fat_arrow" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "dot_brace"
-positions = ["R_INDEX_TOP", "R_MIDDLE_TOP"]
-layers = ["Sym"]
-action = { use = "dot_brace" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "dot_slash"
-positions = ["L_MIDDLE_TOP", "L_INDEX_TOP"]
-layers = ["Sym"]
-action = { use = "dot_slash" }
-term_ms = 35
-prior_idle_ms = 0
-
-[[combos]]
-name = "vestnik_comma"
-positions = ["R_MIDDLE_BOTTOM", "R_RING_BOTTOM"]
-layers = ["VestnikDm"]
-variants = ["core34"]
-action = { use = "v_comma_excl" }
-term_ms = 50
-prior_idle_ms = 0
-
-[[combos]]
-name = "vestnik_dot"
-positions = ["R_RING_BOTTOM", "R_PINKY_BOTTOM"]
-layers = ["VestnikDm"]
-variants = ["core34"]
-action = { use = "v_dot_qmark" }
-term_ms = 50
-prior_idle_ms = 0

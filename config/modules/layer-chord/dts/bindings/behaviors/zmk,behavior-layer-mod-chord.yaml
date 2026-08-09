@@ -1,0 +1,19 @@
+description: Momentary layer and modifier chord with independent releases
+
+compatible: "zmk,behavior-layer-mod-chord"
+
+include: zero_param.yaml
+
+properties:
+  bindings:
+    type: phandle-array
+    required: true
+  layer:
+    type: int
+    required: true
+  layer-position:
+    type: int
+    required: true
+  modifier-position:
+    type: int
+    required: true
