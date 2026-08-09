@@ -22,7 +22,6 @@
 
 
 
-
 </defs>/* end glyphs */
 <style>/* inherit to force styles through use tags */
 svg path {
@@ -355,7 +354,19 @@ text.gameextra-activator { font-size: 12px; }
 <a href="#Mouse">
 <text x="250" y="233" class="combo layer-activator tap layer-activator">Mouse</text>
 </a></g>
-<g class="combo layer-activator combopos-1">
+<g class="combo mod combopos-1">
+<path d="M209,160 l9,42" class="combo"/>
+<path d="M209,160 l-9,-42" class="combo"/>
+<rect rx="6" ry="6" x="195" y="147" width="28" height="26" class="combo mod"/>
+<svg x="202" y="153" height="14" width="14.0" class="combo mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+</g>
+<g class="combo mod combopos-2">
+<path d="M463,160 l9,-42" class="combo"/>
+<path d="M463,160 l-9,42" class="combo"/>
+<rect rx="6" ry="6" x="449" y="147" width="28" height="26" class="combo mod"/>
+<svg x="456" y="153" height="14" width="14.0" class="combo mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+</g>
+<g class="combo layer-activator combopos-3">
 <rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo layer-activator"/>
 <a href="#Fn">
 <text x="422" y="233" class="combo layer-activator tap layer-activator">Fn</text>
@@ -529,7 +540,19 @@ text.gameextra-activator { font-size: 12px; }
 <a href="#Mouse">
 <text x="250" y="233" class="combo layer-activator tap layer-activator">Mouse</text>
 </a></g>
-<g class="combo layer-activator combopos-4">
+<g class="combo mod combopos-4">
+<path d="M209,160 l9,42" class="combo"/>
+<path d="M209,160 l-9,-42" class="combo"/>
+<rect rx="6" ry="6" x="195" y="147" width="28" height="26" class="combo mod"/>
+<svg x="202" y="153" height="14" width="14.0" class="combo mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+</g>
+<g class="combo mod combopos-5">
+<path d="M463,160 l9,-42" class="combo"/>
+<path d="M463,160 l-9,42" class="combo"/>
+<rect rx="6" ry="6" x="449" y="147" width="28" height="26" class="combo mod"/>
+<svg x="456" y="153" height="14" width="14.0" class="combo mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+</g>
+<g class="combo layer-activator combopos-6">
 <rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo layer-activator"/>
 <a href="#Fn">
 <text x="422" y="233" class="combo layer-activator tap layer-activator">Fn</text>
@@ -595,9 +618,8 @@ text.gameextra-activator { font-size: 12px; }
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key mod"/>
 <text x="0" y="0" class="key mod tap">⌃</text>
 </g>
-<g transform="translate(196, 100)" class="key mod keypos-13">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key mod"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+<g transform="translate(196, 100)" class="key held keypos-13">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
 </g>
 <g transform="translate(252, 108)" class="key keypos-14">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -608,9 +630,8 @@ text.gameextra-activator { font-size: 12px; }
 <tspan x="0" dy="-0.6em">Scroll</tspan><tspan x="0" dy="1.2em">↓</tspan>
 </text>
 </g>
-<g transform="translate(476, 100)" class="key keypos-16">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:arrow-left" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+<g transform="translate(476, 100)" class="key num-activator keypos-16">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key num-activator"/>
 </g>
 <g transform="translate(532, 84)" class="key keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -744,9 +765,8 @@ text.gameextra-activator { font-size: 12px; }
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">:</text>
 </g>
-<g transform="translate(196, 100)" class="key keypos-13">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">=</text>
+<g transform="translate(196, 100)" class="key num-activator keypos-13">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key num-activator"/>
 </g>
 <g transform="translate(252, 108)" class="key keypos-14">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -756,9 +776,8 @@ text.gameextra-activator { font-size: 12px; }
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="0" class="key tap">@</text>
 </g>
-<g transform="translate(476, 100)" class="key mod keypos-16">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key mod"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key mod tap glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+<g transform="translate(476, 100)" class="key held keypos-16">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
 </g>
 <g transform="translate(532, 84)" class="key mod keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key mod"/>

@@ -4,20 +4,31 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 CONFIG_DIR="$REPO_ROOT/config"
 WORKSPACE_BASE="${ZMK_WORKSPACE_BASE:-${XDG_DATA_HOME:-$HOME/.local/share}/zmk-workspaces}"
+ZEPHYR_SDK_VERSION=0.17.0
 
 find_sdk() {
+    local sdk version
     if [[ -n "${ZEPHYR_SDK_INSTALL_DIR:-}" && -d "$ZEPHYR_SDK_INSTALL_DIR" ]]; then
-        echo "$ZEPHYR_SDK_INSTALL_DIR"
-        return
-    fi
-    local search_dirs=("$HOME/.local" "$HOME" "/opt" "/usr/local")
-    for dir in "${search_dirs[@]}"; do
-        for sdk in "$dir"/zephyr-sdk-*; do
-            [[ -d "$sdk" ]] && echo "$sdk" && return
+        sdk="$ZEPHYR_SDK_INSTALL_DIR"
+    else
+        local search_dirs=("$HOME/.local" "$HOME" "/opt" "/usr/local")
+        for dir in "${search_dirs[@]}"; do
+            if [[ -d "$dir/zephyr-sdk-$ZEPHYR_SDK_VERSION" ]]; then
+                sdk="$dir/zephyr-sdk-$ZEPHYR_SDK_VERSION"
+                break
+            fi
         done
-    done
-    echo "Error: Zephyr SDK not found. Install it or set ZEPHYR_SDK_INSTALL_DIR." >&2
-    exit 1
+    fi
+    if [[ -z "${sdk:-}" ]]; then
+        echo "Error: Zephyr SDK $ZEPHYR_SDK_VERSION not found. Install it or set ZEPHYR_SDK_INSTALL_DIR." >&2
+        exit 1
+    fi
+    version="$(tr -d '[:space:]' < "$sdk/sdk_version" 2>/dev/null || true)"
+    if [[ "$version" != "$ZEPHYR_SDK_VERSION" ]]; then
+        echo "Error: Zephyr SDK $ZEPHYR_SDK_VERSION required; found ${version:-unknown} at $sdk." >&2
+        exit 1
+    fi
+    echo "$sdk"
 }
 
 SDK="$(find_sdk)"
@@ -310,6 +321,25 @@ while IFS='|' read -r project project_path; do
 done < <(west list -f '{name}|{abspath}')
 if ((${#missing_projects[@]})); then
     echo "Workspace is missing manifest projects: ${missing_projects[*]}" >&2
+    echo "Run: $0 $KEYBOARD setup" >&2
+    exit 1
+fi
+
+revision_mismatches=()
+while IFS='|' read -r project revision project_path; do
+    [[ -d "$project_path/.git" ]] || continue
+    if [[ "$revision" =~ ^[0-9a-f]{40}$ ]]; then
+        expected="$revision"
+    else
+        expected="$(git -C "$project_path" rev-parse refs/heads/manifest-rev 2>/dev/null || true)"
+    fi
+    actual="$(git -C "$project_path" rev-parse HEAD)"
+    if [[ -z "$expected" || "$actual" != "$expected" ]]; then
+        revision_mismatches+=("$project")
+    fi
+done < <(west list -f '{name}|{revision}|{abspath}')
+if ((${#revision_mismatches[@]})); then
+    echo "Workspace revisions do not match the manifest: ${revision_mismatches[*]}" >&2
     echo "Run: $0 $KEYBOARD setup" >&2
     exit 1
 fi

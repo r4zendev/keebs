@@ -47,17 +47,22 @@ static int layer_mod_chord_pressed(struct zmk_behavior_binding *binding,
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
+static int release_modifier(const struct behavior_layer_mod_chord_config *config,
+                            struct behavior_layer_mod_chord_data *data, int64_t timestamp) {
+    if (!data->modifier_pressed) {
+        return 0;
+    }
+    data->modifier_pressed = false;
+    data->modifier_event.timestamp = timestamp;
+    return zmk_behavior_invoke_binding(&config->modifier, data->modifier_event, false);
+}
+
 static int layer_mod_chord_released(struct zmk_behavior_binding *binding,
                                     struct zmk_behavior_binding_event event) {
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct behavior_layer_mod_chord_config *config = dev->config;
     struct behavior_layer_mod_chord_data *data = dev->data;
-    int ret = 0;
-    if (data->modifier_pressed) {
-        data->modifier_pressed = false;
-        data->modifier_event.timestamp = event.timestamp;
-        ret = zmk_behavior_invoke_binding(&config->modifier, data->modifier_event, false);
-    }
+    int ret = release_modifier(config, data, event.timestamp);
     if (data->layer_pressed) {
         data->layer_pressed = false;
         zmk_keymap_layer_deactivate(config->layer, false);
@@ -91,9 +96,8 @@ static int layer_mod_chord_position_listener(const zmk_event_t *event) {
         if (position_event->position == config->layer_position && data->layer_pressed) {
             data->layer_pressed = false;
             zmk_keymap_layer_deactivate(config->layer, false);
-        } else if (position_event->position == config->modifier_position &&
-                   data->modifier_pressed) {
-            data->modifier_pressed = false;
+        } else if (position_event->position == config->modifier_position) {
+            release_modifier(config, data, position_event->timestamp);
         }
         if (!data->layer_pressed && !data->modifier_pressed) {
             data->active = false;

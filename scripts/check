@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo="$(cd "$(dirname "$0")/.." && pwd)"
+mkdir -p "$repo/.cache"
+temporary="$(mktemp -d "$repo/.cache/check.XXXXXX")"
+trap 'rm -rf "$temporary"' EXIT
+
+cd "$repo"
+./scripts/generate check
+PYTHONPYCACHEPREFIX="$temporary/pycache" python3 -m compileall -q scripts
+
+mapfile -t shell_files < <(git ls-files '*.sh' 'scripts/generate' 'scripts/check' 'scripts/zmk-test')
+for path in "${shell_files[@]}"; do
+    bash -n "$path"
+done
+
+python3 - "$repo" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+
+repo = Path(sys.argv[1])
+json.loads((repo / "flake.lock").read_text())
+for path in sorted(repo.glob("config/**/*.y*ml")):
+    data = yaml.safe_load(path.read_text())
+    if path.name.endswith(".west.yml"):
+        for project in data["manifest"].get("projects", []):
+            revision = project.get("revision", "")
+            if re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+                raise SystemExit(f"{path}: {project['name']} revision is not a full commit SHA")
+PY
+
+for artifact in draw/generated/*.svg; do
+    profile="$(basename "$artifact" .svg)"
+    output="$temporary/$profile"
+    ./scripts/generate draw --profile "$profile" --out "$output" >/dev/null
+    if ! cmp -s "$artifact" "$output/keymap.svg"; then
+        echo "$artifact is stale; run: just draw ${profile%_*}" >&2
+        exit 1
+    fi
+done
+
+git diff --check
+echo "keymap, schema, syntax, and generated-artifact checks passed"

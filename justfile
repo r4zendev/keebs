@@ -45,7 +45,10 @@ render backend profile os='linux':
     @./scripts/generate '{{ backend }}' --profile '{{ profile }}' --os '{{ os }}'
 
 check:
-    @./scripts/generate check
+    @./scripts/check
+
+test-zmk:
+    @./scripts/zmk-test
 
 profiles:
     @./scripts/generate profiles

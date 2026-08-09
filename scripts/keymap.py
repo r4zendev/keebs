@@ -2036,7 +2036,8 @@ def main() -> None:
             print(f"{name}\t{targets}")
         return
     if args.command == "check":
-        check_all(model, repo, os_name)
+        for checked_os in ([args.os_name] if args.os_name else model["root"]["operating_systems"]):
+            check_all(model, repo, checked_os)
         return
     if args.command in {"zmk", "qmk", "draw"}:
         if args.command == "draw" and not args.profile:

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo="$(cd "$(dirname "$0")/.." && pwd)"
+workspace="${1:-${ZMK_TEST_WORKSPACE:-${ZMK_WORKSPACE_BASE:-${XDG_DATA_HOME:-$HOME/.local/share}/zmk-workspaces}/luna}}"
+expected_zmk="$(python3 - "$repo/config/default.west.yml" <<'PY'
+import sys
+import yaml
+
+for project in yaml.safe_load(open(sys.argv[1]))["manifest"]["projects"]:
+    if project["name"] == "zmk":
+        print(project["revision"])
+        break
+PY
+)"
+expected_zephyr=9df4b12b5af3438a8b9d7a33780dc3b3b2f516c1
+expected_sdk=0.17.0
+sdk="${ZEPHYR_SDK_INSTALL_DIR:-$HOME/.local/zephyr-sdk-$expected_sdk}"
+
+for path in "$workspace/zmk" "$workspace/zephyr" "$workspace/.venv/bin/west" "$sdk/sdk_version"; do
+    if [[ ! -e "$path" ]]; then
+        echo "Missing $path" >&2
+        exit 1
+    fi
+done
+
+actual_zmk="$(git -C "$workspace/zmk" rev-parse HEAD)"
+actual_zephyr="$(git -C "$workspace/zephyr" rev-parse HEAD)"
+actual_sdk="$(tr -d '[:space:]' < "$sdk/sdk_version")"
+if [[ "$actual_zmk" != "$expected_zmk" || "$actual_zephyr" != "$expected_zephyr" || "$actual_sdk" != "$expected_sdk" ]]; then
+    printf 'Expected ZMK %s, Zephyr %s, SDK %s; found %s, %s, %s\n' \
+        "$expected_zmk" "$expected_zephyr" "$expected_sdk" \
+        "$actual_zmk" "$actual_zephyr" "$actual_sdk" >&2
+    exit 1
+fi
+
+mkdir -p "$repo/.cache/zmk-tests"
+cd "$workspace"
+PATH="$workspace/.venv/bin:$PATH" \
+ZEPHYR_BASE="$workspace/zephyr" \
+CMAKE_PREFIX_PATH="$workspace/zephyr/share/zephyr-package/cmake" \
+ZEPHYR_SDK_INSTALL_DIR="$sdk" \
+ZEPHYR_TOOLCHAIN_VARIANT=zephyr \
+ZMK_SRC_DIR="$workspace/zmk/app" \
+ZMK_BUILD_DIR="$repo/.cache/zmk-tests" \
+ZMK_EXTRA_MODULES="$repo/config/modules/layer-chord" \
+    "$workspace/zmk/app/run-test.sh" "$repo/config/modules/layer-chord/tests"

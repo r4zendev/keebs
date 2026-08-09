@@ -144,10 +144,12 @@ def clean_generated(repo: Path) -> None:
 
 
 def list_targets(registry: dict[str, Any]) -> None:
+    print(f"{'target':<20} {'supports':<8} {'default':<8} profile")
     for name, target in registry["targets"].items():
         profile = target.get("profile", "standalone")
-        backends = ",".join(target.get("default_backends", available_backends(registry, target)))
-        print(f"{name:<20} {backends:<8} {profile}")
+        available = available_backends(registry, target)
+        defaults = target.get("default_backends", available)
+        print(f"{name:<20} {','.join(available):<8} {','.join(defaults):<8} {profile}")
 
 
 def parser() -> argparse.ArgumentParser:

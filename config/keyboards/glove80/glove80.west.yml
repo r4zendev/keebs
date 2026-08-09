@@ -10,14 +10,14 @@ manifest:
   projects:
     - name: zmk
       remote: moergo-sc
-      revision: main
+      revision: 2f73a230e2fc7b2bd64a9736181e87bf54338131
       import: app/west.yml
     - name: zmk-helpers
       remote: urob
-      revision: main
+      revision: bc114546392b4615ac90a99140eaf21dde31209d
     - name: zmk-adaptive-key
       remote: rzssh
-      revision: skipmagic
+      revision: 540b774f6da9d763e61bc64b694790757ed3bd84
 
   self:
     path: config

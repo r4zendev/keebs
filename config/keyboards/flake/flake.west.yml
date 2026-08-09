@@ -12,17 +12,17 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: main
+      revision: 268b1b1e82150460f00fd701bcd08583d5c75d29
       import: app/west.yml
     - name: zmk-helpers
       remote: urob
-      revision: main
+      revision: bc114546392b4615ac90a99140eaf21dde31209d
     - name: zmk-adaptive-key
       remote: rzssh
-      revision: skipmagic
+      revision: 540b774f6da9d763e61bc64b694790757ed3bd84
     - name: flake-zmk-module
       remote: hailee0710
-      revision: main
+      revision: 37bd0a2650702816a5dbe7a62b90dee56176f245
 
   self:
     path: config
