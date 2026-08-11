@@ -14,6 +14,6 @@ properties:
   layer-position:
     type: int
     required: true
-  modifier-position:
-    type: int
+  modifier-positions:
+    type: array
     required: true

@@ -14,6 +14,22 @@ rows = [
   [{ layer = "Nav", mode = "momentary" }, "SPACE", { use = "thumb_magic" }, { layer = "Sym", mode = "momentary" }],
 ]
 
+[layers.Bunya.core30]
+rows = [
+  ["B", "L", "M", "P", "G", "Y", "F", "O", "U", "J"],
+  [{ tap = "N", hold = "LGUI", hand = "left" }, { tap = "R", hold = "LALT", hand = "left" }, { tap = "T", hold = "LCTRL", hand = "left" }, { tap = "D", hold = "LSHFT", hand = "left" }, "W", { use = "sqt_dqt" }, { tap = "H", hold = "RSHFT", hand = "right" }, { tap = "A", hold = "RCTRL", hand = "right" }, { tap = "E", hold = "RALT", hand = "right" }, { tap = "I", hold = "RGUI", hand = "right" }],
+  ["X", "V", "C", "K", { use = "dot_qmark" }, { use = "comma_excl" }],
+  [{ tap = "BSPC", hold = { layer = "Nav", mode = "momentary" }, timing = "layer_thumb" }, "S", "SPACE", { tap = "RET", hold = { layer = "Sym", mode = "momentary" }, timing = "layer_thumb" }],
+]
+
+[layers.Bunya.core34]
+rows = [
+  ["B", "L", "M", "P", "G", "Y", "F", "O", "U", "J"],
+  [{ tap = "N", hold = "LGUI", hand = "left" }, { tap = "R", hold = "LALT", hand = "left" }, { tap = "T", hold = "LCTRL", hand = "left" }, { tap = "D", hold = "LSHFT", hand = "left" }, "W", { use = "sqt_dqt" }, { tap = "H", hold = "RSHFT", hand = "right" }, { tap = "A", hold = "RCTRL", hand = "right" }, { tap = "E", hold = "RALT", hand = "right" }, { tap = "I", hold = "RGUI", hand = "right" }],
+  ["Q", "X", "V", "C", "Z", { use = "colon_semi" }, "K", { use = "dot_qmark" }, { use = "minus_slash" }, { use = "comma_excl" }],
+  [{ tap = "BSPC", hold = { layer = "Nav", mode = "momentary" }, timing = "layer_thumb" }, "S", "SPACE", { tap = "RET", hold = { layer = "Sym", mode = "momentary" }, timing = "layer_thumb" }],
+]
+
 [layers.VestnikDm.core30]
 rows = [
   ["Ш", "Г", "Р", "Б", "М", "Ь", "П", "А", "Я", "Ю"],

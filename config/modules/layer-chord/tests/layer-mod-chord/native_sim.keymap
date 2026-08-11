@@ -4,22 +4,37 @@
 
 / {
     behaviors {
-        lmc: layer_mod_chord {
+        lmc_shift: layer_mod_shift_chord {
             compatible = "zmk,behavior-layer-mod-chord";
             #binding-cells = <0>;
             layer = <1>;
             layer-position = <0>;
-            modifier-position = <1>;
-            bindings = <&kp LSHFT>;
+            modifier-positions = <2>;
+            bindings = <&sk LSHFT>;
+        };
+
+        lmc_ctrl_shift: layer_mod_ctrl_shift_chord {
+            compatible = "zmk,behavior-layer-mod-chord";
+            #binding-cells = <0>;
+            layer = <1>;
+            layer-position = <0>;
+            modifier-positions = <1 2>;
+            bindings = <&sk LCTRL>, <&sk LSHFT>;
         };
     };
 
     combos {
         compatible = "zmk,combos";
-        layer_mod {
-            timeout-ms = <30>;
-            key-positions = <0 1>;
-            bindings = <&lmc>;
+        layer_shift {
+            timeout-ms = <60>;
+            key-positions = <0 2>;
+            bindings = <&lmc_shift>;
+            slow-release;
+        };
+        layer_ctrl_shift {
+            timeout-ms = <60>;
+            key-positions = <0 1 2>;
+            bindings = <&lmc_ctrl_shift>;
             slow-release;
         };
     };
@@ -40,17 +55,23 @@
 &kscan {
     events = <
         ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_PRESS(1,0,10)
         ZMK_MOCK_PRESS(0,1,10)
         ZMK_MOCK_RELEASE(0,1,10)
-        ZMK_MOCK_PRESS(1,0,10)
         ZMK_MOCK_RELEASE(1,0,10)
         ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
 
-        ZMK_MOCK_PRESS(0,0,10)
-        ZMK_MOCK_PRESS(0,1,10)
-        ZMK_MOCK_RELEASE(0,0,10)
         ZMK_MOCK_PRESS(1,0,10)
-        ZMK_MOCK_RELEASE(1,0,10)
+        ZMK_MOCK_PRESS(0,0,10)
+        ZMK_MOCK_PRESS(0,1,200)
         ZMK_MOCK_RELEASE(0,1,10)
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_RELEASE(0,0,10)
+        ZMK_MOCK_PRESS(1,1,10)
+        ZMK_MOCK_RELEASE(1,1,10)
+        ZMK_MOCK_RELEASE(1,0,10)
     >;
 };

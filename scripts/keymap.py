@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import re
 import shutil
@@ -167,6 +168,55 @@ def stable_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
+def expand_modifier_chords(model: dict[str, Any]) -> None:
+    source = model["behaviors"]
+    behaviors = source.setdefault("behaviors", {})
+    combos = source.setdefault("combos", [])
+    behavior_names = set(behaviors)
+    combo_names = {combo.get("name") for combo in combos if isinstance(combo, dict)}
+    for family in source.get("modifier_chords", []):
+        if not isinstance(family, dict) or not isinstance(family.get("name"), str) or not family["name"]:
+            fail("modifier chord family needs a name")
+        modifiers = family.get("modifiers")
+        if not isinstance(modifiers, list) or not 1 <= len(modifiers) <= 4:
+            fail(f"modifier chord family {family['name']}: needs one through four modifiers")
+        fields = ("name", "behavior", "position")
+        if any(not isinstance(item, dict) or any(not isinstance(item.get(field), str) or not item[field] for field in fields) for item in modifiers):
+            fail(f"modifier chord family {family['name']}: invalid modifier")
+        for field in fields:
+            values = [item[field] for item in modifiers]
+            if len(values) != len(set(values)):
+                fail(f"modifier chord family {family['name']}: duplicate modifier {field}")
+        for count in range(1, len(modifiers) + 1):
+            for selected in itertools.combinations(modifiers, count):
+                name = f"{family['name']}_{'_'.join(item['name'] for item in selected)}_chord"
+                if name in behavior_names or name in combo_names:
+                    fail(f"modifier chord family {family['name']}: generated name {name!r} already exists")
+                behavior_names.add(name)
+                combo_names.add(name)
+                behaviors[name] = {
+                    "recipe": "layer_sticky_mod",
+                    "targets": ["zmk"],
+                    "layer": family["layer"],
+                    "modifier_behaviors": [item["behavior"] for item in selected],
+                    "layer_position": family["layer_position"],
+                    "modifier_positions": [item["position"] for item in selected],
+                }
+                combo = {
+                    "name": name,
+                    "positions": [family["layer_position"], *(item["position"] for item in selected)],
+                    "layers": family["layers"],
+                    "action": {"use": name},
+                    "term_ms": family["term_ms"],
+                    "prior_idle_ms": family.get("prior_idle_ms", 0),
+                    "slow_release": True,
+                    "draw": False,
+                }
+                if "variants" in family:
+                    combo["variants"] = family["variants"]
+                combos.append(combo)
+
+
 def load_sources(repo: Path) -> dict[str, Any]:
     base = repo / "keymap"
     missing = [name for name in ROOT_FILES if not (base / name).is_file()]
@@ -180,6 +230,7 @@ def load_sources(repo: Path) -> dict[str, Any]:
         behaviors = tomllib.load(source)
     profiles = json.loads((base / "profiles.json").read_text())
     model = {"root": root, "layers": layers, "behaviors": behaviors, "profiles": profiles}
+    expand_modifier_chords(model)
     validate(model)
     return model
 
@@ -361,13 +412,18 @@ def validate(model: dict[str, Any]) -> None:
             if declared_layers.index(layers[1]) <= declared_layers.index(layers[0]):
                 fail(f"behavior {name}: child layer must be above parent layer")
         if behavior["recipe"] == "layer_sticky_mod":
-            modifier_behavior = behaviors.get(behavior.get("modifier_behavior"))
+            modifier_behaviors = behavior.get("modifier_behaviors", [])
+            modifier_positions = behavior.get("modifier_positions", [])
             if behavior.get("targets") != ["zmk"]:
                 fail(f"behavior {name}: layer_sticky_mod must be ZMK-only")
             if behavior.get("layer") not in declared_layers:
                 fail(f"behavior {name}: unknown layer")
-            if modifier_behavior is None or modifier_behavior.get("recipe") != "sticky_key":
-                fail(f"behavior {name}: modifier_behavior must reference a sticky key")
+            if not 1 <= len(modifier_behaviors) <= 4 or len(modifier_behaviors) != len(modifier_positions):
+                fail(f"behavior {name}: modifier behaviors and positions must have matching lengths")
+            if len(modifier_behaviors) != len(set(modifier_behaviors)):
+                fail(f"behavior {name}: modifier behaviors must be unique")
+            if any(behaviors.get(modifier, {}).get("recipe") != "sticky_key" for modifier in modifier_behaviors):
+                fail(f"behavior {name}: modifier_behaviors must reference sticky keys")
         if behavior["recipe"] == "smart_layer":
             if "zmk" in behavior.get("targets", ["zmk", "qmk"]):
                 fail(f"behavior {name}: smart_layer is QMK-only")
@@ -465,9 +521,10 @@ def validate(model: dict[str, Any]) -> None:
             if len(positions) != 2 or not positions.issubset(core34):
                 fail(f"behavior {name}: layer_chord needs two unique core positions")
         if item["recipe"] == "layer_sticky_mod":
-            positions = {item.get("layer_position"), item.get("modifier_position")}
-            if len(positions) != 2 or not positions.issubset(core34):
-                fail(f"behavior {name}: layer_sticky_mod needs two unique core positions")
+            modifier_positions = item.get("modifier_positions", [])
+            positions = {item.get("layer_position"), *modifier_positions}
+            if len(positions) != len(modifier_positions) + 1 or not positions.issubset(core34):
+                fail(f"behavior {name}: layer_sticky_mod needs unique core positions")
     profiles = profile_source.get("profiles", {})
     if not profiles:
         fail("profiles.json has no profiles")
@@ -606,6 +663,8 @@ def validate(model: dict[str, Any]) -> None:
             fail(f"combo {combo['name']}: draw must be an object or false")
         if "action" in drawing:
             validate_action(model, drawing["action"], f"combo {combo['name']}.draw")
+        if "type" in drawing and (not isinstance(drawing["type"], str) or re.fullmatch(r"[a-z][a-z0-9-]*", drawing["type"]) is None):
+            fail(f"combo {combo['name']}: invalid draw type")
         draw_layers = drawing.get("layers", combo["layers"])
         if not draw_layers or len(draw_layers) != len(set(draw_layers)) or not set(draw_layers).issubset(combo["layers"]):
             fail(f"combo {combo['name']}: invalid draw layers")
@@ -1000,16 +1059,19 @@ def render_zmk_behaviors(model: dict[str, Any], ir: dict[str, Any]) -> list[str]
                 "        };",
             ])
         for name, item in layer_sticky_mods:
-            modifier_behavior = item["modifier_behavior"]
-            modifier = zmk_key(model, behavior(model, modifier_behavior)["key"])
+            bindings = [
+                f"<&sk {zmk_key(model, behavior(model, modifier_behavior)['key'])}>"
+                for modifier_behavior in item["modifier_behaviors"]
+            ]
+            positions = " ".join(str(slot_indices[position]) for position in item["modifier_positions"])
             lines.extend([
                 f"        {name}: {name} {{",
                 '            compatible = "zmk,behavior-layer-mod-chord";',
                 "            #binding-cells = <0>;",
                 f'            layer = <LAYER_{item["layer"]}>;',
                 f'            layer-position = <{slot_indices[item["layer_position"]]}>;',
-                f'            modifier-position = <{slot_indices[item["modifier_position"]]}>;',
-                f"            bindings = <&{modifier_behavior} {modifier} {modifier}>;",
+                f'            modifier-positions = <{positions}>;',
+                f'            bindings = {", ".join(bindings)};',
                 "        };",
             ])
         lines.extend(["    };", "};", ""])
@@ -1717,8 +1779,8 @@ def label_action(model: dict[str, Any], ir: dict[str, Any], value: Any) -> Any:
         if item["recipe"] == "layer_action":
             layer = item["layer"]
             return {
-                "t": "Vestnik" if layer == "VestnikDm" else layer,
-                "type": f"{ident(layer).lower()}-activator" if layer in model["root"].get("draw_hidden_layers", []) else "layer-activator",
+                "t": {"Graphite": "GRA", "Bunya": "BUN", "VestnikDm": "Vestnik"}.get(layer, layer),
+                "type": f"{ident(layer).lower()}-activator" if layer in {"Graphite", "Bunya", *model["root"].get("draw_hidden_layers", [])} else "layer-activator",
             }
         if item["recipe"] == "smart_layer":
             return {"t": item["layer"], "type": "layer-activator"}
@@ -1869,7 +1931,14 @@ def render_draw(model: dict[str, Any], ir: dict[str, Any]) -> str:
     for combo in ir["combos"]:
         target = held_layer(model, combo["action"])
         if target in layers:
-            held.setdefault(target, set()).update(combo["indices"])
+            indices = combo["indices"]
+            action = combo["action"]
+            if isinstance(action, dict) and "use" in action:
+                item = behavior(model, action["use"])
+                if item["recipe"] == "layer_sticky_mod":
+                    offset = combo["positions"].index(item["layer_position"])
+                    indices = [indices[offset]]
+            held.setdefault(target, set()).update(indices)
     for layer, indices in held.items():
         for index in indices:
             layers[layer][index] = {"type": "held"}
@@ -1890,7 +1959,11 @@ def render_draw(model: dict[str, Any], ir: dict[str, Any]) -> str:
         draw_layers = [layer for layer in drawing.get("layers", combo["layers"]) if layer in layers]
         if not draw_layers:
             continue
-        rendered = {"p": combo["indices"], "k": label_action(model, ir, drawing.get("action", combo["action"])), "l": draw_layers}
+        key = label_action(model, ir, drawing.get("action", combo["action"]))
+        if "type" in drawing:
+            key = dict(key) if isinstance(key, dict) else {"t": key}
+            key["type"] = drawing["type"]
+        rendered = {"p": combo["indices"], "k": key, "l": draw_layers}
         if "align" in drawing:
             rendered["a"] = drawing["align"]
         if "offset" in drawing:

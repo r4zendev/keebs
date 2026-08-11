@@ -12,18 +12,43 @@
 #include <zmk/keymap.h>
 
 struct behavior_layer_mod_chord_config {
-    struct zmk_behavior_binding modifier;
+    const struct zmk_behavior_binding *modifiers;
+    const uint32_t *modifier_positions;
+    uint8_t modifier_count;
     zmk_keymap_layer_id_t layer;
     uint32_t layer_position;
-    uint32_t modifier_position;
 };
 
 struct behavior_layer_mod_chord_data {
-    struct zmk_behavior_binding_event modifier_event;
+    struct zmk_behavior_binding_event modifier_events[4];
+    uint8_t modifiers_pressed;
     bool active;
     bool layer_pressed;
-    bool modifier_pressed;
 };
+
+static int release_modifier(const struct behavior_layer_mod_chord_config *config,
+                            struct behavior_layer_mod_chord_data *data, uint8_t index,
+                            int64_t timestamp) {
+    if (!(data->modifiers_pressed & BIT(index))) {
+        return 0;
+    }
+    data->modifiers_pressed &= ~BIT(index);
+    data->modifier_events[index].timestamp = timestamp;
+    return zmk_behavior_invoke_binding(&config->modifiers[index], data->modifier_events[index],
+                                       false);
+}
+
+static int release_modifiers(const struct behavior_layer_mod_chord_config *config,
+                             struct behavior_layer_mod_chord_data *data, int64_t timestamp) {
+    int ret = 0;
+    for (uint8_t index = 0; index < config->modifier_count; index++) {
+        int current = release_modifier(config, data, index, timestamp);
+        if (ret >= 0 && current < 0) {
+            ret = current;
+        }
+    }
+    return ret;
+}
 
 static int layer_mod_chord_pressed(struct zmk_behavior_binding *binding,
                                    struct zmk_behavior_binding_event event) {
@@ -34,27 +59,23 @@ static int layer_mod_chord_pressed(struct zmk_behavior_binding *binding,
     if (ret < 0) {
         return ret;
     }
-    event.position = config->modifier_position;
-    ret = zmk_behavior_invoke_binding(&config->modifier, event, true);
-    if (ret < 0) {
-        zmk_keymap_layer_deactivate(config->layer, false);
-        return ret;
-    }
-    data->modifier_event = event;
     data->active = true;
     data->layer_pressed = true;
-    data->modifier_pressed = true;
-    return ZMK_BEHAVIOR_OPAQUE;
-}
-
-static int release_modifier(const struct behavior_layer_mod_chord_config *config,
-                            struct behavior_layer_mod_chord_data *data, int64_t timestamp) {
-    if (!data->modifier_pressed) {
-        return 0;
+    data->modifiers_pressed = 0;
+    for (uint8_t index = 0; index < config->modifier_count; index++) {
+        event.position = config->modifier_positions[index];
+        ret = zmk_behavior_invoke_binding(&config->modifiers[index], event, true);
+        if (ret < 0) {
+            release_modifiers(config, data, event.timestamp);
+            zmk_keymap_layer_deactivate(config->layer, false);
+            data->active = false;
+            data->layer_pressed = false;
+            return ret;
+        }
+        data->modifier_events[index] = event;
+        data->modifiers_pressed |= BIT(index);
     }
-    data->modifier_pressed = false;
-    data->modifier_event.timestamp = timestamp;
-    return zmk_behavior_invoke_binding(&config->modifier, data->modifier_event, false);
+    return ZMK_BEHAVIOR_OPAQUE;
 }
 
 static int layer_mod_chord_released(struct zmk_behavior_binding *binding,
@@ -62,7 +83,7 @@ static int layer_mod_chord_released(struct zmk_behavior_binding *binding,
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     const struct behavior_layer_mod_chord_config *config = dev->config;
     struct behavior_layer_mod_chord_data *data = dev->data;
-    int ret = release_modifier(config, data, event.timestamp);
+    int ret = release_modifiers(config, data, event.timestamp);
     if (data->layer_pressed) {
         data->layer_pressed = false;
         zmk_keymap_layer_deactivate(config->layer, false);
@@ -86,8 +107,9 @@ static int layer_mod_chord_position_listener(const zmk_event_t *event) {
     if (position_event == NULL || position_event->state) {
         return ZMK_EV_EVENT_BUBBLE;
     }
-    for (size_t index = 0; index < ARRAY_SIZE(layer_mod_chord_devices); index++) {
-        const struct device *dev = layer_mod_chord_devices[index];
+    for (size_t device_index = 0; device_index < ARRAY_SIZE(layer_mod_chord_devices);
+         device_index++) {
+        const struct device *dev = layer_mod_chord_devices[device_index];
         const struct behavior_layer_mod_chord_config *config = dev->config;
         struct behavior_layer_mod_chord_data *data = dev->data;
         if (!data->active) {
@@ -96,10 +118,14 @@ static int layer_mod_chord_position_listener(const zmk_event_t *event) {
         if (position_event->position == config->layer_position && data->layer_pressed) {
             data->layer_pressed = false;
             zmk_keymap_layer_deactivate(config->layer, false);
-        } else if (position_event->position == config->modifier_position) {
-            release_modifier(config, data, position_event->timestamp);
         }
-        if (!data->layer_pressed && !data->modifier_pressed) {
+        for (uint8_t modifier_index = 0; modifier_index < config->modifier_count;
+             modifier_index++) {
+            if (position_event->position == config->modifier_positions[modifier_index]) {
+                release_modifier(config, data, modifier_index, position_event->timestamp);
+            }
+        }
+        if (!data->layer_pressed && !data->modifiers_pressed) {
             data->active = false;
         }
     }
@@ -128,16 +154,29 @@ static int layer_mod_chord_layer_listener(const zmk_event_t *event) {
 ZMK_LISTENER(layer_mod_chord_layer, layer_mod_chord_layer_listener);
 ZMK_SUBSCRIPTION(layer_mod_chord_layer, zmk_layer_state_changed);
 
-#define LAYER_MOD_CHORD_INST(inst)                                                                 \
-    static struct behavior_layer_mod_chord_data layer_mod_chord_data_##inst;                       \
-    static const struct behavior_layer_mod_chord_config layer_mod_chord_config_##inst = {          \
-        .modifier = ZMK_KEYMAP_EXTRACT_BINDING(0, DT_DRV_INST(inst)),                              \
-        .layer = DT_INST_PROP(inst, layer),                                                        \
+#define TRANSFORM_BINDING(index, node) ZMK_KEYMAP_EXTRACT_BINDING(index, node)
+#define TRANSFORMED_BINDINGS(inst)                                                                \
+    {LISTIFY(DT_INST_PROP_LEN(inst, bindings), TRANSFORM_BINDING, (, ), DT_DRV_INST(inst))}
+
+#define LAYER_MOD_CHORD_INST(inst)                                                                \
+    BUILD_ASSERT(DT_INST_PROP_LEN(inst, bindings) ==                                              \
+                     DT_INST_PROP_LEN(inst, modifier_positions),                                  \
+                 "modifier bindings and positions must have matching lengths");                  \
+    BUILD_ASSERT(DT_INST_PROP_LEN(inst, bindings) <= 4, "at most four modifiers are supported"); \
+    static const struct zmk_behavior_binding layer_mod_chord_modifiers_##inst[] =                 \
+        TRANSFORMED_BINDINGS(inst);                                                               \
+    static const uint32_t layer_mod_chord_positions_##inst[] =                                    \
+        DT_INST_PROP(inst, modifier_positions);                                                   \
+    static struct behavior_layer_mod_chord_data layer_mod_chord_data_##inst;                      \
+    static const struct behavior_layer_mod_chord_config layer_mod_chord_config_##inst = {         \
+        .modifiers = layer_mod_chord_modifiers_##inst,                                            \
+        .modifier_positions = layer_mod_chord_positions_##inst,                                   \
+        .modifier_count = DT_INST_PROP_LEN(inst, bindings),                                       \
+        .layer = DT_INST_PROP(inst, layer),                                                       \
         .layer_position = DT_INST_PROP(inst, layer_position),                                     \
-        .modifier_position = DT_INST_PROP(inst, modifier_position),                               \
-    };                                                                                             \
-    BEHAVIOR_DT_INST_DEFINE(inst, NULL, NULL, &layer_mod_chord_data_##inst,                        \
-                            &layer_mod_chord_config_##inst, POST_KERNEL,                            \
+    };                                                                                            \
+    BEHAVIOR_DT_INST_DEFINE(inst, NULL, NULL, &layer_mod_chord_data_##inst,                       \
+                            &layer_mod_chord_config_##inst, POST_KERNEL,                           \
                             CONFIG_KERNEL_INIT_PRIORITY_DEFAULT, &layer_mod_chord_driver_api);
 
 DT_INST_FOREACH_STATUS_OKAY(LAYER_MOD_CHORD_INST)

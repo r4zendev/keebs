@@ -1,6 +1,6 @@
 version = 1
-layers = ["Graphite", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Game", "GameExtra", "Magic"]
-alpha_layers = ["Graphite", "VestnikDm", "Game"]
+layers = ["Graphite", "Bunya", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Game", "GameExtra", "Magic"]
+alpha_layers = ["Graphite", "Bunya", "VestnikDm", "Game"]
 default_layer = "Graphite"
 default_os = "linux"
 layer_source = "layers.toml"
