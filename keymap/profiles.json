@@ -3,6 +3,7 @@
   "targets": {
     "luna": {"profile": "luna_30"},
     "rommana": {"profile": "rommana_30"},
+    "hillside": {"profile": "hillside_d50_50"},
     "glove80": {"profile": "glove80_80"},
     "cradio": {"profile": "cradio_34"},
     "aurora": {"profile": "aurora_34"},
@@ -66,6 +67,13 @@
       "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
       "L_THUMB_SPARE_0", "L_THUMB_SPARE_1", "L_THUMB_SPARE_2", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_SPARE_0", "R_THUMB_SPARE_1", "R_THUMB_SPARE_2"
     ],
+    "hillside_d50_50": [
+      "L_TOP_OUTER", "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP", "R_TOP_OUTER",
+      "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
+      "L_BOTTOM_OUTER", "L_PINKY_BOTTOM", "L_RING_BOTTOM", "L_MIDDLE_BOTTOM", "L_INDEX_BOTTOM", "L_INNER_BOTTOM", "R_INNER_BOTTOM", "R_INDEX_BOTTOM", "R_MIDDLE_BOTTOM", "R_RING_BOTTOM", "R_PINKY_BOTTOM", "R_BOTTOM_OUTER",
+      "L_RING_EXTRA", "L_MIDDLE_EXTRA", "L_THUMB_UPPER_OUTER", "L_THUMB_UPPER_INNER", "R_THUMB_UPPER_INNER", "R_THUMB_UPPER_OUTER", "R_MIDDLE_EXTRA", "R_RING_EXTRA",
+      "L_THUMB_OPTIONAL", "L_THUMB_A", "L_THUMB_B", "R_THUMB_A", "R_THUMB_B", "R_THUMB_OPTIONAL"
+    ],
     "klor_konrad_42": [
       "L_PINKY_TOP", "L_RING_TOP", "L_MIDDLE_TOP", "L_INDEX_TOP", "L_INNER_TOP", "R_INNER_TOP", "R_INDEX_TOP", "R_MIDDLE_TOP", "R_RING_TOP", "R_PINKY_TOP",
       "L_MID_OUTER", "L_PINKY_HOME", "L_RING_HOME", "L_MIDDLE_HOME", "L_INDEX_HOME", "L_INNER_HOME", "R_INNER_HOME", "R_INDEX_HOME", "R_MIDDLE_HOME", "R_RING_HOME", "R_PINKY_HOME", "R_MID_OUTER",
@@ -127,6 +135,33 @@
       "zmk": {"keyboard": "rommana", "board": "nice_nano/nrf52840/zmk", "shields": ["rommana_left", "rommana_right"]},
       "alpha_capacity": 30
     },
+    "hillside_d50_50": {
+      "physical_keys": 50,
+      "binding_positions": 50,
+      "draw_notation": "334433+5 5+334433",
+      "position_set": "hillside_d50_50",
+      "zmk_transform": "config/keyboards/hillside/shields/hillside/hillside.dtsi",
+      "zmk": {"keyboard": "hillside", "board": "nice_nano/nrf52840/zmk", "shields": ["hillside_left", "hillside_right"]},
+      "defaults": {
+        "L_TOP_OUTER": "ESC",
+        "R_TOP_OUTER": "BSPC",
+        "L_MID_OUTER": "TAB",
+        "R_MID_OUTER": "RET",
+        "L_BOTTOM_OUTER": "LSHFT",
+        "R_BOTTOM_OUTER": "RSHFT",
+        "L_RING_EXTRA": "LEFT",
+        "L_MIDDLE_EXTRA": "RIGHT",
+        "R_MIDDLE_EXTRA": "UP",
+        "R_RING_EXTRA": "DOWN",
+        "L_THUMB_UPPER_OUTER": "LCTRL",
+        "L_THUMB_UPPER_INNER": "LALT",
+        "R_THUMB_UPPER_INNER": "RALT",
+        "R_THUMB_UPPER_OUTER": "RCTRL",
+        "L_THUMB_OPTIONAL": "LGUI",
+        "R_THUMB_OPTIONAL": "RGUI"
+      },
+      "alpha_capacity": 38
+    },
     "cradio_34": {
       "physical_keys": 34,
       "binding_positions": 34,
@@ -172,7 +207,7 @@
       "position_set": "totem_38",
       "zmk_transform": "config/keyboards/totem/shields/totem/totem.dtsi",
       "zmk": {"keyboard": "totem", "board": "xiao_ble/nrf52840/zmk", "shields": ["totem_left", "totem_right"]},
-      "overlays": {"VestnikDm": {"L_BOTTOM_EXTRA": "COMMA", "R_BOTTOM_EXTRA": "DOT"}},
+      "overlays": {"Mantra": {"L_BOTTOM_EXTRA": "COMMA", "R_BOTTOM_EXTRA": "DOT"}},
       "alpha_capacity": 38
     },
     "cantor_ble_42": {
@@ -295,7 +330,7 @@
       "zmk_draw_keyboard": "glove80",
       "position_set": "glove80_80",
       "zmk": {"keyboard": "glove80", "board": "glove80", "shields": ["glove80_lh", "glove80_rh"]},
-      "layers": ["Graphite", "Bunya", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Magic"],
+      "layers": ["Graphite", "Bunya", "Mantra", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Magic"],
       "defaults": {"GLOVE_MAGIC_LEFT": {"use": "glove_magic"}, "GLOVE_MAGIC_RIGHT": {"use": "glove_magic"}},
       "alpha_capacity": 38
     },

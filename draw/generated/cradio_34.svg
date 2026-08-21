@@ -1,6 +1,5 @@
-<svg width="732" height="2766" viewBox="0 0 732 2766" class="keymap" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="732" height="2428" viewBox="0 0 732 2428" class="keymap" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>/* start glyphs */
-
 
 
 
@@ -168,7 +167,7 @@ rect.mod { fill: #181825; }
 text.label { stroke: none; }
 .layer-Graphite text, .layer-Graphite .glyph, .layer-Graphite rect.held { fill: #cdd6f4; }
 .layer-VestnikDm text, .layer-VestnikDm .glyph, .layer-VestnikDm rect.held { fill: #cba6f7; }
-.layer-VestnikDm .key.shifted { fill: #ff6b6b; }
+.layer-VestnikDm .key.shifted, .layer-Mantra .key.shifted { fill: #ff6b6b; }
 .layer-Nav text, .layer-Nav .glyph, .layer-Nav rect.held { fill: #89b4fa; }
 .layer-Sym text, .layer-Sym .glyph, .layer-Sym rect.held { fill: #a6e3a1; }
 .layer-Num text, .layer-Num .glyph, .layer-Num rect.held { fill: #fab387; }
@@ -187,8 +186,8 @@ rect:has(~ a[href="#Game"]) { stroke: #ff4d6d; stroke-width: 2; }
 rect.gameextra-activator { stroke: #c7f464; stroke-width: 2; }
 rect.vestnik2-activator { stroke: #89b4fa; stroke-width: 2; }
 rect.vestnik2-inner { fill: none; stroke: #ff6b6b !important; stroke-width: 2; }
-rect.combo:has(~ a[href="#Mouse"]), rect.combo.mouse-activator { fill: #94e2d5; stroke: #94e2d5; }
-rect.combo:has(~ a[href="#Fn"]), rect.combo.fn-activator { fill: #f9e2af; stroke: #f9e2af; }
+rect.combo.mouse-activator { fill: #94e2d5; stroke: #94e2d5; }
+rect.combo.fn-activator { fill: #f9e2af; stroke: #f9e2af; }
 text.combo.mouse-activator, svg.combo.mouse-activator, text.combo.fn-activator, svg.combo.fn-activator { fill: #1e1e2e; }
 a[href="#Mouse"] text.combo.layer-activator { fill: #94e2d5; font-size: 9px; }
 a[href="#Fn"] text.combo.layer-activator { fill: #f9e2af; }
@@ -197,173 +196,7 @@ text.vestnik2-activator { font-size: 12px; }
 text.gameextra-activator.tap { display: none; }
 text.gameextra-activator { font-size: 12px; }
 </style>
-<g transform="translate(30, 0)" class="layer-Graphite">
-<text x="0" y="28" class="label" id="Graphite">Graphite:</text>
-<g transform="translate(0, 56)">
-<g transform="translate(28, 81)" class="key keypos-0">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">B</text>
-</g>
-<g transform="translate(84, 46)" class="key keypos-1">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">L</text>
-</g>
-<g transform="translate(140, 28)" class="key keypos-2">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">D</text>
-</g>
-<g transform="translate(196, 44)" class="key keypos-3">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">W</text>
-</g>
-<g transform="translate(252, 52)" class="key keypos-4">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Z</text>
-</g>
-<g transform="translate(420, 52)" class="key keypos-5">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">J</text>
-</g>
-<g transform="translate(476, 44)" class="key keypos-6">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">F</text>
-</g>
-<g transform="translate(532, 28)" class="key keypos-7">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">O</text>
-</g>
-<g transform="translate(588, 46)" class="key keypos-8">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">U</text>
-</g>
-<g transform="translate(644, 81)" class="key keypos-9">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">&#x27;</text>
-<text x="0" y="-24" class="key shifted">&quot;</text>
-</g>
-<g transform="translate(28, 137)" class="key keypos-10">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">N</text>
-<text x="0" y="24" class="key hold">❖</text>
-</g>
-<g transform="translate(84, 102)" class="key keypos-11">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">R</text>
-<text x="0" y="24" class="key hold">⌥</text>
-</g>
-<g transform="translate(140, 84)" class="key keypos-12">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">T</text>
-<text x="0" y="24" class="key hold">⌃</text>
-</g>
-<g transform="translate(196, 100)" class="key keypos-13">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">S</text>
-<svg x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
-</g>
-<g transform="translate(252, 108)" class="key keypos-14">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">G</text>
-</g>
-<g transform="translate(420, 108)" class="key keypos-15">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Y</text>
-</g>
-<g transform="translate(476, 100)" class="key keypos-16">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">H</text>
-<svg x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
-</g>
-<g transform="translate(532, 84)" class="key keypos-17">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">A</text>
-<text x="0" y="24" class="key hold">⌃</text>
-</g>
-<g transform="translate(588, 102)" class="key keypos-18">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">E</text>
-<text x="0" y="24" class="key hold">⌥</text>
-</g>
-<g transform="translate(644, 137)" class="key keypos-19">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">I</text>
-<text x="0" y="24" class="key hold">❖</text>
-</g>
-<g transform="translate(28, 193)" class="key keypos-20">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Q</text>
-</g>
-<g transform="translate(84, 158)" class="key keypos-21">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">X</text>
-</g>
-<g transform="translate(140, 140)" class="key keypos-22">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">M</text>
-</g>
-<g transform="translate(196, 156)" class="key keypos-23">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">C</text>
-</g>
-<g transform="translate(252, 164)" class="key keypos-24">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">V</text>
-</g>
-<g transform="translate(420, 164)" class="key keypos-25">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">K</text>
-</g>
-<g transform="translate(476, 156)" class="key keypos-26">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">P</text>
-</g>
-<g transform="translate(532, 140)" class="key keypos-27">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">.</text>
-<text x="0" y="-24" class="key shifted">?</text>
-</g>
-<g transform="translate(588, 158)" class="key keypos-28">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">-</text>
-<text x="0" y="-24" class="key shifted">/</text>
-</g>
-<g transform="translate(644, 193)" class="key keypos-29">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">,</text>
-<text x="0" y="-24" class="key shifted">!</text>
-</g>
-<g transform="translate(221, 221) rotate(15.0)" class="key layer-activator keypos-30">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key layer-activator"/>
-<a href="#Nav">
-<text x="0" y="0" class="key layer-activator tap layer-activator">Nav</text>
-</a></g>
-<g transform="translate(279, 245) rotate(30.0)" class="key keypos-31">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space" viewBox="0 0 24 24"><path d="M3 15H5V19H19V15H21V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15Z" /></svg>
-</g>
-<g transform="translate(393, 245) rotate(-30.0)" class="key keypos-32">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:repeat" viewBox="0 0 24 24"><path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" /></svg>
-<svg x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
-</g>
-<g transform="translate(451, 221) rotate(-15.0)" class="key layer-activator keypos-33">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key layer-activator"/>
-<a href="#Sym">
-<text x="0" y="0" class="key layer-activator tap layer-activator">Sym</text>
-</a></g>
-<g class="combo layer-activator combopos-0">
-<rect rx="6" ry="6" x="236" y="220" width="28" height="26" class="combo layer-activator"/>
-<a href="#Mouse">
-<text x="250" y="233" class="combo layer-activator tap layer-activator">Mouse</text>
-</a></g>
-<g class="combo layer-activator combopos-1">
-<rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo layer-activator"/>
-<a href="#Fn">
-<text x="422" y="233" class="combo layer-activator tap layer-activator">Fn</text>
-</a></g>
-</g>
-</g>
-<g transform="translate(30, 339)" class="layer-Bunya">
+<g transform="translate(30, 0)" class="layer-Bunya">
 <text x="0" y="28" class="label" id="Bunya">Bunya:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
@@ -384,11 +217,12 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(252, 52)" class="key keypos-4">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">G</text>
+<text x="0" y="0" class="key tap">W</text>
 </g>
 <g transform="translate(420, 52)" class="key keypos-5">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Y</text>
+<text x="0" y="0" class="key tap">&#x27;</text>
+<text x="0" y="-24" class="key shifted">&quot;</text>
 </g>
 <g transform="translate(476, 44)" class="key keypos-6">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -428,12 +262,11 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(252, 108)" class="key keypos-14">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">W</text>
+<text x="0" y="0" class="key tap">G</text>
 </g>
 <g transform="translate(420, 108)" class="key keypos-15">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">&#x27;</text>
-<text x="0" y="-24" class="key shifted">&quot;</text>
+<text x="0" y="0" class="key tap">Y</text>
 </g>
 <g transform="translate(476, 100)" class="key keypos-16">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -519,22 +352,69 @@ text.gameextra-activator { font-size: 12px; }
 <a href="#Sym">
 <text x="0" y="24" class="key hold layer-activator">Sym</text>
 </a></g>
-<g class="combo mouse-activator combopos-0">
+<g class="combo combopos-0">
+<rect rx="6" ry="6" x="210" y="147" width="28" height="26" class="combo"/>
+<svg x="217" y="153" height="14" width="14.0" class="combo tap glyph mdi:select-all" viewBox="0 0 24 24"><path d="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" /></svg>
+</g>
+<g class="combo combopos-1">
+<rect rx="6" ry="6" x="42" y="163" width="28" height="26" class="combo"/>
+<svg x="49" y="169" height="14" width="14.0" class="combo tap glyph mdi:undo" viewBox="0 0 24 24"><path d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" /></svg>
+<svg x="51" y="165" height="10" width="10.0" class="combo shifted glyph mdi:redo" viewBox="0 0 24 24"><path d="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z" /></svg>
+</g>
+<g class="combo mouse-activator combopos-2">
 <rect rx="6" ry="6" x="236" y="220" width="28" height="26" class="combo mouse-activator"/>
 <svg x="243" y="226" height="14" width="14.0" class="combo mouse-activator tap glyph mdi:keyboard-esc" viewBox="0 0 24 24"><path d="M1 7H7V9H3V11H7V13H3V15H7V17H1V7M11 7H15V9H11V11H13C14.11 11 15 11.9 15 13V15C15 16.11 14.11 17 13 17H9V15H13V13H11C9.9 13 9 12.11 9 11V9C9 7.9 9.9 7 11 7M19 7H21C22.11 7 23 7.9 23 9V10H21V9H19V15H21V14H23V15C23 16.11 22.11 17 21 17H19C17.9 17 17 16.11 17 15V9C17 7.9 17.9 7 19 7Z" /></svg>
-</g>
-<g class="combo fn-activator combopos-1">
+<a href="#Mouse">
+<text x="250" y="244" class="combo mouse-activator hold layer-activator">Mouse</text>
+</a></g>
+<g class="combo fn-activator combopos-3">
 <rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo fn-activator"/>
 <svg x="415" y="226" height="14" width="14.0" class="combo fn-activator tap glyph mdi:keyboard-tab" viewBox="0 0 24 24"><path d="M20,18H22V6H20M11.59,7.41L15.17,11H1V13H15.17L11.59,16.58L13,18L19,12L13,6L11.59,7.41Z" /></svg>
+<a href="#Fn">
+<text x="422" y="244" class="combo fn-activator hold layer-activator">Fn</text>
+</a></g>
+<g class="combo combopos-4">
+<rect rx="6" ry="6" x="546" y="24" width="28" height="26" class="combo"/>
+<svg x="553" y="30" height="14" width="14.0" class="combo tap glyph mdi:backspace" viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12" /></svg>
+</g>
+<g class="combo combopos-5">
+<rect rx="6" ry="6" x="602" y="51" width="28" height="26" class="combo"/>
+<svg x="609" y="57" height="14" width="14.0" class="combo tap glyph mdi:backspace-reverse" viewBox="0 0 24 24"><path d="M2,21H17C17.7,21 18.2,20.6 18.6,20.1L24,12L18.6,3.9C18.2,3.4 17.7,3 17,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21M5,8.4L6.4,7L10,10.6L13.6,7L15,8.4L11.4,12L15,15.6L13.6,17L10,13.4L6.4,17L5,15.6L8.6,12" /></svg>
+</g>
+<g class="combo combopos-6">
+<rect rx="6" ry="6" x="98" y="24" width="28" height="26" class="combo"/>
+<svg x="105" y="30" height="14" width="14.0" class="combo tap glyph mdi:keyboard-esc" viewBox="0 0 24 24"><path d="M1 7H7V9H3V11H7V13H3V15H7V17H1V7M11 7H15V9H11V11H13C14.11 11 15 11.9 15 13V15C15 16.11 14.11 17 13 17H9V15H13V13H11C9.9 13 9 12.11 9 11V9C9 7.9 9.9 7 11 7M19 7H21C22.11 7 23 7.9 23 9V10H21V9H19V15H21V14H23V15C23 16.11 22.11 17 21 17H19C17.9 17 17 16.11 17 15V9C17 7.9 17.9 7 19 7Z" /></svg>
+</g>
+<g class="combo combopos-7">
+<rect rx="6" ry="6" x="98" y="80" width="28" height="26" class="combo"/>
+<svg x="105" y="86" height="14" width="14.0" class="combo tap glyph mdi:keyboard-tab" viewBox="0 0 24 24"><path d="M20,18H22V6H20M11.59,7.41L15.17,11H1V13H15.17L11.59,16.58L13,18L19,12L13,6L11.59,7.41Z" /></svg>
+</g>
+<g class="combo combopos-8">
+<rect rx="6" ry="6" x="546" y="80" width="28" height="26" class="combo"/>
+<svg x="553" y="86" height="14" width="14.0" class="combo tap glyph mdi:keyboard-return" viewBox="0 0 24 24"><path d="M19,7V11H5.83L9.41,7.41L8,6L2,12L8,18L9.41,16.58L5.83,13H21V7H19Z" /></svg>
+</g>
+<g class="combo combopos-9">
+<path d="M140,179 h-50 a6.0,6.0 0 0 1 -6.0,-6.0 v4" class="combo"/>
+<path d="M140,179 h50 a6.0,6.0 0 0 0 6.0,-6.0 v2" class="combo"/>
+<rect rx="6" ry="6" x="126" y="166" width="28" height="26" class="combo"/>
+<svg x="133" y="172" height="14" width="14.0" class="combo tap glyph mdi:content-cut" viewBox="0 0 24 24"><path d="M19,3L13,9L15,11L22,4V3M12,12.5A0.5,0.5 0 0,1 11.5,12A0.5,0.5 0 0,1 12,11.5A0.5,0.5 0 0,1 12.5,12A0.5,0.5 0 0,1 12,12.5M6,20A2,2 0 0,1 4,18C4,16.89 4.9,16 6,16A2,2 0 0,1 8,18C8,19.11 7.1,20 6,20M6,8A2,2 0 0,1 4,6C4,4.89 4.9,4 6,4A2,2 0 0,1 8,6C8,7.11 7.1,8 6,8M9.64,7.64C9.87,7.14 10,6.59 10,6A4,4 0 0,0 6,2A4,4 0 0,0 2,6A4,4 0 0,0 6,10C6.59,10 7.14,9.87 7.64,9.64L10,12L7.64,14.36C7.14,14.13 6.59,14 6,14A4,4 0 0,0 2,18A4,4 0 0,0 6,22A4,4 0 0,0 10,18C10,17.41 9.87,16.86 9.64,16.36L12,14L19,21H22V20L9.64,7.64Z" /></svg>
+</g>
+<g class="combo combopos-10">
+<rect rx="6" ry="6" x="98" y="136" width="28" height="26" class="combo"/>
+<svg x="105" y="142" height="14" width="14.0" class="combo tap glyph mdi:content-copy" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+</g>
+<g class="combo combopos-11">
+<rect rx="6" ry="6" x="154" y="135" width="28" height="26" class="combo"/>
+<svg x="161" y="141" height="14" width="14.0" class="combo tap glyph mdi:content-paste" viewBox="0 0 24 24"><path d="M19,20H5V4H7V7H17V4H19M12,2A1,1 0 0,1 13,3A1,1 0 0,1 12,4A1,1 0 0,1 11,3A1,1 0 0,1 12,2M19,2H14.82C14.4,0.84 13.3,0 12,0C10.7,0 9.6,0.84 9.18,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2Z" /></svg>
 </g>
 </g>
 </g>
-<g transform="translate(30, 678)" class="layer-VestnikDm">
-<text x="0" y="28" class="label" id="VestnikDm">VestnikDm:</text>
+<g transform="translate(30, 339)" class="layer-Mantra">
+<text x="0" y="28" class="label" id="Mantra">Mantra:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Ц</text>
+<text x="0" y="0" class="key tap">Щ</text>
 </g>
 <g transform="translate(84, 46)" class="key keypos-1">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -542,7 +422,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(140, 28)" class="key keypos-2">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Р</text>
+<text x="0" y="0" class="key tap">Л</text>
 </g>
 <g transform="translate(196, 44)" class="key keypos-3">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -550,7 +430,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(252, 52)" class="key keypos-4">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Х</text>
+<text x="0" y="0" class="key tap">Ц</text>
 </g>
 <g transform="translate(420, 52)" class="key keypos-5">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -558,38 +438,38 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(476, 44)" class="key keypos-6">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">П</text>
+<text x="0" y="0" class="key tap">Й</text>
 </g>
 <g transform="translate(532, 28)" class="key keypos-7">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">А</text>
+<text x="0" y="0" class="key tap">О</text>
 </g>
 <g transform="translate(588, 46)" class="key keypos-8">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Я</text>
+<text x="0" y="0" class="key tap">У</text>
 </g>
 <g transform="translate(644, 81)" class="key keypos-9">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Э</text>
+<text x="0" y="0" class="key tap">Ы</text>
 </g>
 <g transform="translate(28, 137)" class="key keypos-10">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">С</text>
+<text x="0" y="0" class="key tap">К</text>
 <text x="0" y="24" class="key hold">❖</text>
 </g>
 <g transform="translate(84, 102)" class="key keypos-11">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Т</text>
+<text x="0" y="0" class="key tap">С</text>
 <text x="0" y="24" class="key hold">⌥</text>
 </g>
 <g transform="translate(140, 84)" class="key keypos-12">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Н</text>
+<text x="0" y="0" class="key tap">Р</text>
 <text x="0" y="24" class="key hold">⌃</text>
 </g>
 <g transform="translate(196, 100)" class="key keypos-13">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">К</text>
+<text x="0" y="0" class="key tap">Т</text>
 <svg x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
 </g>
 <g transform="translate(252, 108)" class="key keypos-14">
@@ -607,7 +487,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(532, 84)" class="key keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">О</text>
+<text x="0" y="0" class="key tap">А</text>
 <text x="0" y="24" class="key hold">⌃</text>
 </g>
 <g transform="translate(588, 102)" class="key keypos-18">
@@ -622,7 +502,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(28, 193)" class="key keypos-20">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Ш</text>
+<text x="0" y="0" class="key tap">Х</text>
 </g>
 <g transform="translate(84, 158)" class="key keypos-21">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -630,7 +510,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(140, 140)" class="key keypos-22">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Л</text>
+<text x="0" y="0" class="key tap">Ч</text>
 </g>
 <g transform="translate(196, 156)" class="key keypos-23">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -638,7 +518,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(252, 164)" class="key keypos-24">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Ч</text>
+<text x="0" y="0" class="key tap">Ш</text>
 </g>
 <g transform="translate(420, 164)" class="key keypos-25">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -646,64 +526,106 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 <g transform="translate(476, 156)" class="key keypos-26">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Й</text>
+<text x="0" y="0" class="key tap">П</text>
 </g>
 <g transform="translate(532, 140)" class="key keypos-27">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Ы</text>
+<text x="0" y="0" class="key tap">Ю</text>
 </g>
 <g transform="translate(588, 158)" class="key keypos-28">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">У</text>
+<text x="0" y="0" class="key tap">Я</text>
 </g>
 <g transform="translate(644, 193)" class="key keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="0" class="key tap">Ю</text>
+<text x="0" y="0" class="key tap">Э</text>
 </g>
-<g transform="translate(221, 221) rotate(15.0)" class="key layer-activator keypos-30">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key layer-activator"/>
+<g transform="translate(221, 221) rotate(15.0)" class="key keypos-30">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
+<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:backspace" viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12" /></svg>
 <a href="#Nav">
-<text x="0" y="0" class="key layer-activator tap layer-activator">Nav</text>
+<text x="0" y="24" class="key hold layer-activator">Nav</text>
 </a></g>
 <g transform="translate(279, 245) rotate(30.0)" class="key keypos-31">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space" viewBox="0 0 24 24"><path d="M3 15H5V19H19V15H21V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15Z" /></svg>
+<text x="0" y="0" class="key tap">Н</text>
 </g>
 <g transform="translate(393, 245) rotate(-30.0)" class="key keypos-32">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:repeat" viewBox="0 0 24 24"><path d="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z" /></svg>
-<svg x="-6" y="12" height="12" width="12.0" class="key hold glyph mdi:arrow-up-bold" viewBox="0 0 24 24"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-space" viewBox="0 0 24 24"><path d="M3 15H5V19H19V15H21V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15Z" /></svg>
 </g>
-<g transform="translate(451, 221) rotate(-15.0)" class="key layer-activator keypos-33">
-<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key layer-activator"/>
+<g transform="translate(451, 221) rotate(-15.0)" class="key keypos-33">
+<rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
+<svg x="-7" y="-7" height="14" width="14.0" class="key tap glyph mdi:keyboard-return" viewBox="0 0 24 24"><path d="M19,7V11H5.83L9.41,7.41L8,6L2,12L8,18L9.41,16.58L5.83,13H21V7H19Z" /></svg>
 <a href="#Sym">
-<text x="0" y="0" class="key layer-activator tap layer-activator">Sym</text>
+<text x="0" y="24" class="key hold layer-activator">Sym</text>
 </a></g>
 <g class="combo combopos-0">
-<rect rx="6" ry="6" x="14" y="152" width="28" height="26" class="combo"/>
-<text x="28" y="165" class="combo tap">Щ</text>
+<rect rx="6" ry="6" x="210" y="147" width="28" height="26" class="combo"/>
+<svg x="217" y="153" height="14" width="14.0" class="combo tap glyph mdi:select-all" viewBox="0 0 24 24"><path d="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" /></svg>
 </g>
 <g class="combo combopos-1">
+<rect rx="6" ry="6" x="42" y="163" width="28" height="26" class="combo"/>
+<svg x="49" y="169" height="14" width="14.0" class="combo tap glyph mdi:undo" viewBox="0 0 24 24"><path d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" /></svg>
+<svg x="51" y="165" height="10" width="10.0" class="combo shifted glyph mdi:redo" viewBox="0 0 24 24"><path d="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z" /></svg>
+</g>
+<g class="combo combopos-2">
 <rect rx="6" ry="6" x="406" y="123" width="28" height="26" class="combo"/>
 <text x="420" y="136" class="combo tap">Ъ</text>
 </g>
-<g class="combo combopos-2">
+<g class="combo combopos-3">
 <rect rx="6" ry="6" x="574" y="117" width="28" height="26" class="combo"/>
 <text x="588" y="130" class="combo tap">Ё</text>
 </g>
-<g class="combo layer-activator combopos-3">
-<rect rx="6" ry="6" x="236" y="220" width="28" height="26" class="combo layer-activator"/>
+<g class="combo mouse-activator combopos-4">
+<rect rx="6" ry="6" x="236" y="220" width="28" height="26" class="combo mouse-activator"/>
+<svg x="243" y="226" height="14" width="14.0" class="combo mouse-activator tap glyph mdi:keyboard-esc" viewBox="0 0 24 24"><path d="M1 7H7V9H3V11H7V13H3V15H7V17H1V7M11 7H15V9H11V11H13C14.11 11 15 11.9 15 13V15C15 16.11 14.11 17 13 17H9V15H13V13H11C9.9 13 9 12.11 9 11V9C9 7.9 9.9 7 11 7M19 7H21C22.11 7 23 7.9 23 9V10H21V9H19V15H21V14H23V15C23 16.11 22.11 17 21 17H19C17.9 17 17 16.11 17 15V9C17 7.9 17.9 7 19 7Z" /></svg>
 <a href="#Mouse">
-<text x="250" y="233" class="combo layer-activator tap layer-activator">Mouse</text>
+<text x="250" y="244" class="combo mouse-activator hold layer-activator">Mouse</text>
 </a></g>
-<g class="combo layer-activator combopos-4">
-<rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo layer-activator"/>
+<g class="combo fn-activator combopos-5">
+<rect rx="6" ry="6" x="408" y="220" width="28" height="26" class="combo fn-activator"/>
+<svg x="415" y="226" height="14" width="14.0" class="combo fn-activator tap glyph mdi:keyboard-tab" viewBox="0 0 24 24"><path d="M20,18H22V6H20M11.59,7.41L15.17,11H1V13H15.17L11.59,16.58L13,18L19,12L13,6L11.59,7.41Z" /></svg>
 <a href="#Fn">
-<text x="422" y="233" class="combo layer-activator tap layer-activator">Fn</text>
+<text x="422" y="244" class="combo fn-activator hold layer-activator">Fn</text>
 </a></g>
+<g class="combo combopos-6">
+<rect rx="6" ry="6" x="546" y="24" width="28" height="26" class="combo"/>
+<svg x="553" y="30" height="14" width="14.0" class="combo tap glyph mdi:backspace" viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12" /></svg>
+</g>
+<g class="combo combopos-7">
+<rect rx="6" ry="6" x="602" y="51" width="28" height="26" class="combo"/>
+<svg x="609" y="57" height="14" width="14.0" class="combo tap glyph mdi:backspace-reverse" viewBox="0 0 24 24"><path d="M2,21H17C17.7,21 18.2,20.6 18.6,20.1L24,12L18.6,3.9C18.2,3.4 17.7,3 17,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21M5,8.4L6.4,7L10,10.6L13.6,7L15,8.4L11.4,12L15,15.6L13.6,17L10,13.4L6.4,17L5,15.6L8.6,12" /></svg>
+</g>
+<g class="combo combopos-8">
+<rect rx="6" ry="6" x="98" y="24" width="28" height="26" class="combo"/>
+<svg x="105" y="30" height="14" width="14.0" class="combo tap glyph mdi:keyboard-esc" viewBox="0 0 24 24"><path d="M1 7H7V9H3V11H7V13H3V15H7V17H1V7M11 7H15V9H11V11H13C14.11 11 15 11.9 15 13V15C15 16.11 14.11 17 13 17H9V15H13V13H11C9.9 13 9 12.11 9 11V9C9 7.9 9.9 7 11 7M19 7H21C22.11 7 23 7.9 23 9V10H21V9H19V15H21V14H23V15C23 16.11 22.11 17 21 17H19C17.9 17 17 16.11 17 15V9C17 7.9 17.9 7 19 7Z" /></svg>
+</g>
+<g class="combo combopos-9">
+<rect rx="6" ry="6" x="98" y="80" width="28" height="26" class="combo"/>
+<svg x="105" y="86" height="14" width="14.0" class="combo tap glyph mdi:keyboard-tab" viewBox="0 0 24 24"><path d="M20,18H22V6H20M11.59,7.41L15.17,11H1V13H15.17L11.59,16.58L13,18L19,12L13,6L11.59,7.41Z" /></svg>
+</g>
+<g class="combo combopos-10">
+<rect rx="6" ry="6" x="546" y="80" width="28" height="26" class="combo"/>
+<svg x="553" y="86" height="14" width="14.0" class="combo tap glyph mdi:keyboard-return" viewBox="0 0 24 24"><path d="M19,7V11H5.83L9.41,7.41L8,6L2,12L8,18L9.41,16.58L5.83,13H21V7H19Z" /></svg>
+</g>
+<g class="combo combopos-11">
+<path d="M140,179 h-50 a6.0,6.0 0 0 1 -6.0,-6.0 v4" class="combo"/>
+<path d="M140,179 h50 a6.0,6.0 0 0 0 6.0,-6.0 v2" class="combo"/>
+<rect rx="6" ry="6" x="126" y="166" width="28" height="26" class="combo"/>
+<svg x="133" y="172" height="14" width="14.0" class="combo tap glyph mdi:content-cut" viewBox="0 0 24 24"><path d="M19,3L13,9L15,11L22,4V3M12,12.5A0.5,0.5 0 0,1 11.5,12A0.5,0.5 0 0,1 12,11.5A0.5,0.5 0 0,1 12.5,12A0.5,0.5 0 0,1 12,12.5M6,20A2,2 0 0,1 4,18C4,16.89 4.9,16 6,16A2,2 0 0,1 8,18C8,19.11 7.1,20 6,20M6,8A2,2 0 0,1 4,6C4,4.89 4.9,4 6,4A2,2 0 0,1 8,6C8,7.11 7.1,8 6,8M9.64,7.64C9.87,7.14 10,6.59 10,6A4,4 0 0,0 6,2A4,4 0 0,0 2,6A4,4 0 0,0 6,10C6.59,10 7.14,9.87 7.64,9.64L10,12L7.64,14.36C7.14,14.13 6.59,14 6,14A4,4 0 0,0 2,18A4,4 0 0,0 6,22A4,4 0 0,0 10,18C10,17.41 9.87,16.86 9.64,16.36L12,14L19,21H22V20L9.64,7.64Z" /></svg>
+</g>
+<g class="combo combopos-12">
+<rect rx="6" ry="6" x="98" y="136" width="28" height="26" class="combo"/>
+<svg x="105" y="142" height="14" width="14.0" class="combo tap glyph mdi:content-copy" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+</g>
+<g class="combo combopos-13">
+<rect rx="6" ry="6" x="154" y="135" width="28" height="26" class="combo"/>
+<svg x="161" y="141" height="14" width="14.0" class="combo tap glyph mdi:content-paste" viewBox="0 0 24 24"><path d="M19,20H5V4H7V7H17V4H19M12,2A1,1 0 0,1 13,3A1,1 0 0,1 12,4A1,1 0 0,1 11,3A1,1 0 0,1 12,2M19,2H14.82C14.4,0.84 13.3,0 12,0C10.7,0 9.6,0.84 9.18,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2Z" /></svg>
 </g>
 </g>
-<g transform="translate(30, 1016)" class="layer-Nav">
+</g>
+<g transform="translate(30, 678)" class="layer-Nav">
 <text x="0" y="28" class="label" id="Nav">Nav:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
@@ -850,7 +772,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 </g>
 </g>
-<g transform="translate(30, 1355)" class="layer-Sym">
+<g transform="translate(30, 1016)" class="layer-Sym">
 <text x="0" y="28" class="label" id="Sym">Sym:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
@@ -992,7 +914,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 </g>
 </g>
-<g transform="translate(30, 1694)" class="layer-Num">
+<g transform="translate(30, 1355)" class="layer-Num">
 <text x="0" y="28" class="label" id="Num">Num:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
@@ -1125,7 +1047,7 @@ text.gameextra-activator { font-size: 12px; }
 </g>
 </g>
 </g>
-<g transform="translate(30, 2033)" class="layer-Fn">
+<g transform="translate(30, 1694)" class="layer-Fn">
 <text x="0" y="28" class="label" id="Fn">Fn:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
@@ -1268,17 +1190,9 @@ text.gameextra-activator { font-size: 12px; }
 <g transform="translate(451, 221) rotate(-15.0)" class="key held keypos-33">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key held"/>
 </g>
-<g class="combo graphite-activator combopos-0">
-<rect rx="6" ry="6" x="490" y="23" width="28" height="26" class="combo graphite-activator"/>
-<text x="504" y="36" class="combo graphite-activator tap">GRA</text>
-</g>
-<g class="combo bunya-activator combopos-1">
-<rect rx="6" ry="6" x="546" y="24" width="28" height="26" class="combo bunya-activator"/>
-<text x="560" y="37" class="combo bunya-activator tap">BUN</text>
 </g>
 </g>
-</g>
-<g transform="translate(30, 2372)" class="layer-Mouse">
+<g transform="translate(30, 2033)" class="layer-Mouse">
 <text x="0" y="28" class="label" id="Mouse">Mouse:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">

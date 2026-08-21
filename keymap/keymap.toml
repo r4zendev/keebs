@@ -1,7 +1,8 @@
 version = 1
-layers = ["Graphite", "Bunya", "VestnikDm", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Game", "GameExtra", "Magic"]
-alpha_layers = ["Graphite", "Bunya", "VestnikDm", "Game"]
-default_layer = "Graphite"
+layers = ["Bunya", "Graphite", "VestnikDm", "Mantra", "Nav", "Sym", "Num", "Fn", "Vestnik2", "Mouse", "Game", "GameExtra", "Magic"]
+disabled_layers = ["Graphite", "VestnikDm"]
+alpha_layers = ["Graphite", "Bunya", "VestnikDm", "Mantra", "Game"]
+default_layer = "Bunya"
 default_os = "linux"
 layer_source = "layers.toml"
 behavior_source = "behaviors.toml"

@@ -13,6 +13,7 @@ NKRO_ENABLE = no
 OLED_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
 POINTING_DEVICE_DRIVER = cirque_pinnacle_i2c
+SRC += trackpad.c
 # Aurora Sweep models per-key LEDs and underglow LEDs in RGB Matrix.
 RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = yes
